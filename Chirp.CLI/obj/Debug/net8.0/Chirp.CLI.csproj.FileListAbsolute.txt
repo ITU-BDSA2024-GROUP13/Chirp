@@ -1,0 +1,14 @@
+/Users/andrebirk/Chirp.CLI/obj/Debug/net8.0/Chirp.CLI.GeneratedMSBuildEditorConfig.editorconfig
+/Users/andrebirk/Chirp.CLI/obj/Debug/net8.0/Chirp.CLI.AssemblyInfoInputs.cache
+/Users/andrebirk/Chirp.CLI/obj/Debug/net8.0/Chirp.CLI.AssemblyInfo.cs
+/Users/andrebirk/Chirp.CLI/obj/Debug/net8.0/Chirp.CLI.csproj.CoreCompileInputs.cache
+/Users/andrebirk/Chirp.CLI/bin/Debug/net8.0/Chirp.CLI
+/Users/andrebirk/Chirp.CLI/bin/Debug/net8.0/Chirp.CLI.deps.json
+/Users/andrebirk/Chirp.CLI/bin/Debug/net8.0/Chirp.CLI.runtimeconfig.json
+/Users/andrebirk/Chirp.CLI/bin/Debug/net8.0/Chirp.CLI.dll
+/Users/andrebirk/Chirp.CLI/bin/Debug/net8.0/Chirp.CLI.pdb
+/Users/andrebirk/Chirp.CLI/obj/Debug/net8.0/Chirp.CLI.dll
+/Users/andrebirk/Chirp.CLI/obj/Debug/net8.0/refint/Chirp.CLI.dll
+/Users/andrebirk/Chirp.CLI/obj/Debug/net8.0/Chirp.CLI.pdb
+/Users/andrebirk/Chirp.CLI/obj/Debug/net8.0/Chirp.CLI.genruntimeconfig.cache
+/Users/andrebirk/Chirp.CLI/obj/Debug/net8.0/ref/Chirp.CLI.dll
