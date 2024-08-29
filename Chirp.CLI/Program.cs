@@ -5,4 +5,3 @@ Console.WriteLine(unixTime);
 
 DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-DateTimeOffset.UtcNow.
