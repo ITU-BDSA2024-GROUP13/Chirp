@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/peterolufsen/Documents/3rd Sem/BSAND/Chirp/Chirp.CLI/Chirp.CLI.csproj": {}
+    "/Users/andrebirk/Desktop/School/Chirp/Chirp.CLI.csproj": {}
   },
   "projects": {
-    "/Users/peterolufsen/Documents/3rd Sem/BSAND/Chirp/Chirp.CLI/Chirp.CLI.csproj": {
+    "/Users/andrebirk/Desktop/School/Chirp/Chirp.CLI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/peterolufsen/Documents/3rd Sem/BSAND/Chirp/Chirp.CLI/Chirp.CLI.csproj",
+        "projectUniqueName": "/Users/andrebirk/Desktop/School/Chirp/Chirp.CLI.csproj",
         "projectName": "Chirp.CLI",
-        "projectPath": "/Users/peterolufsen/Documents/3rd Sem/BSAND/Chirp/Chirp.CLI/Chirp.CLI.csproj",
-        "packagesPath": "/Users/peterolufsen/.nuget/packages/",
-        "outputPath": "/Users/peterolufsen/Documents/3rd Sem/BSAND/Chirp/Chirp.CLI/obj/",
+        "projectPath": "/Users/andrebirk/Desktop/School/Chirp/Chirp.CLI.csproj",
+        "packagesPath": "/Users/andrebirk/.nuget/packages/",
+        "outputPath": "/Users/andrebirk/Desktop/School/Chirp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/peterolufsen/.nuget/NuGet/NuGet.Config"
+          "/Users/andrebirk/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -58,7 +58,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/Users/peterolufsen/.dotnet/sdk/8.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
