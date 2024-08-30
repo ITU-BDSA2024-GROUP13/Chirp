@@ -21,3 +21,5 @@ obj/Debug/net7.0/Chirp.CLI.AssemblyInfoInputs.cache
 obj/Debug/net7.0/Chirp.CLI.AssemblyInfo.cs
 obj/Chirp.CLI.csproj.nuget.g.props
 obj/Chirp.CLI.csproj.nuget.dgspec.json
+bin/Debug/net7.0/Chirp.CLI.exe
+bin/Debug/net7.0/Chirp.CLI.pdb
