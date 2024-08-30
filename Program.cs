@@ -1,25 +1,27 @@
-﻿// DateTime currentTime = DateTime.UtcNow;
-// long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeSeconds();
-// is a method that converts the current time to Unix time.
-// Unix time is the number of seconds that have elapsed since 00:00:00 Coordinated Universal Time (UTC),
-// Thursday, 1 January 1970.
-
-//Console.WriteLine("Unix time: " + unixTime);
-//Console.WriteLine("Current time: " + currentTime);
-DateTime currentTime = DateTime.UtcNow;
+﻿DateTime currentTime = DateTime.UtcNow;
 long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeSeconds();
-Console.WriteLine(unixTime);
 DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+string username = Environment.UserName;
+
+// switch (args[0])
+// {
+//     case "chirp":
+//         Chirp(args[1], unixTime, username);
+//         break;
+//     default:
+//         Console.WriteLine();
+//         break;
+// }
+
 
 //Call Chirp
-Chirp(args, unixTime, Environment.UserName);
-Console.WriteLine("Hello");
+Chirp(args, unixTime, username);
 
 
 static void Chirp(String[] args, long unixTime, String author){ 
     //Write message with relevant information
     Console.WriteLine(createMessage(author, unixTime, args));
-
+    storeChirp("hello, world!", unixTime);
 }
 
 //Creates the message in the correct format
@@ -43,6 +45,27 @@ static String Date(long unixTime){
     return dateTime.ToString();
 }
 
+static void storeChirp(string message, long unixTime)
+{ // storing input
+    using (StreamWriter sw = File.AppendText("./resources/chirp_cli_db.csv"))
+    {
+        sw.WriteLine("{0},\"{1}\",{2}", Environment.UserName, message, unixTime);
+    }	
+}
+
+static List<string> getChirps()
+{ // reading input
+    using var reader = new StreamReader(File.OpenRead("./resources/chirp_cli_db.csv"));
+
+    List<string> listRows= new List<string>();
+
+    while (!reader.EndOfStream)
+    {
+        listRows.Add(reader.ReadLine());
+    }
+    reader.Close();
+    return listRows;
+}
 
 
 
