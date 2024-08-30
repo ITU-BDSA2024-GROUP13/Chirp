@@ -13,7 +13,7 @@ DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
 //Call Chirp
 Chirp(args, unixTime, Environment.UserName);
-
+Console.WriteLine("Hello");
 
 
 static void Chirp(String[] args, long unixTime, String author){ 
