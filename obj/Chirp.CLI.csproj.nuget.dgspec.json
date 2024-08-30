@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/andrebirk/Desktop/School/Chirp/Chirp.CLI.csproj": {}
+    "C:\\Users\\Andre\\Chirp\\Chirp.CLI.csproj": {}
   },
   "projects": {
-    "/Users/andrebirk/Desktop/School/Chirp/Chirp.CLI.csproj": {
+    "C:\\Users\\Andre\\Chirp\\Chirp.CLI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/andrebirk/Desktop/School/Chirp/Chirp.CLI.csproj",
+        "projectUniqueName": "C:\\Users\\Andre\\Chirp\\Chirp.CLI.csproj",
         "projectName": "Chirp.CLI",
-        "projectPath": "/Users/andrebirk/Desktop/School/Chirp/Chirp.CLI.csproj",
-        "packagesPath": "/Users/andrebirk/.nuget/packages/",
-        "outputPath": "/Users/andrebirk/Desktop/School/Chirp/obj/",
+        "projectPath": "C:\\Users\\Andre\\Chirp\\Chirp.CLI.csproj",
+        "packagesPath": "C:\\Users\\Andre\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Andre\\Chirp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/andrebirk/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Andre\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -53,26 +53,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[7.0.20, 7.0.20]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.osx-x64",
-              "version": "[7.0.20, 7.0.20]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[7.0.20, 7.0.20]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
