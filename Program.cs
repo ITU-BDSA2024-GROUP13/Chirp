@@ -1,40 +1,34 @@
-﻿DateTime currentTime = DateTime.UtcNow;
-long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeSeconds();
-DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+﻿long unixTime = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
 string username = Environment.UserName;
 
-// switch (args[0])
-// {
-//     case "chirp":
-//         Chirp(args[1], unixTime, username);
-//         break;
-//     default:
-//         Console.WriteLine();
-//         break;
-// }
+switch (args[0])
+{
+    case "cheep":
+        while (args[1][0] != '\"' || args[1][args[1].Length - 1] != '\"')
+        {
+            Console.WriteLine("Please write citation quotes between your message!: " + args[1]);
+            args[1] = Console.ReadLine();
+        }
+        
+        Chirp(args[1], unixTime, username);
+        break;
+    case "read":
+        getChirps();
+        break;
+}
 
 
-//Call Chirp
-Chirp(args, unixTime, username);
-
-
-static void Chirp(String[] args, long unixTime, String author){ 
+static void Chirp(string args, long unixTime, String author){ 
     //Write message with relevant information
     Console.WriteLine(createMessage(author, unixTime, args));
-    storeChirp("hello, world!", unixTime);
+    storeChirp(args, unixTime);
 }
 
 //Creates the message in the correct format
-static String createMessage(String author, long unixTime, String[]args){
+static String createMessage(String author, long unixTime, string args){
     //Baseconstruction of message
-    String message;
-    message = author + " @ " + Date(unixTime) + ": ";
-
-
-    //Enters the input into the message
-    foreach(String i in args){
-        message += i + " ";
-    }
+    String message = author + " @ " + Date(unixTime) + ": " + args;
+    
     return message;
 }
 
@@ -49,22 +43,22 @@ static void storeChirp(string message, long unixTime)
 { // storing input
     using (StreamWriter sw = File.AppendText("./resources/chirp_cli_db.csv"))
     {
-        sw.WriteLine("{0},\"{1}\",{2}", Environment.UserName, message, unixTime);
+        sw.WriteLine("{0},{1},{2}", Environment.UserName, message, unixTime);
     }	
 }
 
-static List<string> getChirps()
+static void getChirps()
 { // reading input
     using var reader = new StreamReader(File.OpenRead("./resources/chirp_cli_db.csv"));
 
-    List<string> listRows= new List<string>();
-
+    //List<string> listRows= new List<string>();
+    
     while (!reader.EndOfStream)
     {
-        listRows.Add(reader.ReadLine());
+        //listRows.Add(reader.ReadLine());
+        Console.WriteLine(reader.ReadLine());
     }
     reader.Close();
-    return listRows;
 }
 
 
