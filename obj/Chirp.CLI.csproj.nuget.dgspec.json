@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/andrebirk/Desktop/School/Chirp/Chirp.CLI.csproj": {}
+    "/Users/andrebirk/Desktop/Chirp/Chirp.CLI.csproj": {}
   },
   "projects": {
-    "/Users/andrebirk/Desktop/School/Chirp/Chirp.CLI.csproj": {
+    "/Users/andrebirk/Desktop/Chirp/Chirp.CLI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/andrebirk/Desktop/School/Chirp/Chirp.CLI.csproj",
+        "projectUniqueName": "/Users/andrebirk/Desktop/Chirp/Chirp.CLI.csproj",
         "projectName": "Chirp.CLI",
-        "projectPath": "/Users/andrebirk/Desktop/School/Chirp/Chirp.CLI.csproj",
+        "projectPath": "/Users/andrebirk/Desktop/Chirp/Chirp.CLI.csproj",
         "packagesPath": "/Users/andrebirk/.nuget/packages/",
-        "outputPath": "/Users/andrebirk/Desktop/School/Chirp/obj/",
+        "outputPath": "/Users/andrebirk/Desktop/Chirp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/andrebirk/.nuget/NuGet/NuGet.Config"
