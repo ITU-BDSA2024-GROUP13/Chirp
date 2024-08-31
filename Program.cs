@@ -1,38 +1,46 @@
-﻿long unixTime = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
-string username = Environment.UserName;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
+
+long unixTime = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
 
 switch (args[0])
 {
     case "cheep":
-        while (args[1][0] != '\"' || args[1][args[1].Length - 1] != '\"')
+        if (!args[1].StartsWith("\"") && !args[1].EndsWith("\""))
         {
-            Console.WriteLine("Please write citation quotes between your message!: " + args[1]);
-            args[1] = Console.ReadLine();
-        }
+            args[1] = $"\"{args[1]}\"";
+        } else if (!args[1].StartsWith("\""))
+        {
+            args[1] = $"\"{args[1]}";
+        } else if (!args[1].EndsWith("\""))
+        {
+            args[1] = $"{args[1]}\"";
+        } // there are more edge cases but i cant be bothered rn.
         
-        Chirp(args[1], unixTime, username);
+        Chirp(args[1], unixTime);
+        
         break;
     case "read":
-        getChirps();
+        printChirps();
         break;
 }
 
 
-static void Chirp(string args, long unixTime, String author){ 
+static void Chirp(string message, long unixTime){ 
     //Write message with relevant information
-    Console.WriteLine(createMessage(author, unixTime, args));
-    storeChirp(args, unixTime);
+    Console.WriteLine(createMessage(unixTime, message));
+    storeChirp(message, unixTime);
 }
 
 //Creates the message in the correct format
-static String createMessage(String author, long unixTime, string args){
+static String createMessage(long unixTime, string args){
     //Baseconstruction of message
-    String message = author + " @ " + Date(unixTime) + ": " + args;
+    String message = Environment.UserName + " @ " + Date(unixTime) + ": " + args;
     
     return message;
 }
 
-//Gets the relevant dateinformation from the source
+//Gets the relevant dateinformation from the epoch
 static String Date(long unixTime){
     DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
     dateTime = dateTime.AddSeconds(unixTime).ToLocalTime();
@@ -40,26 +48,43 @@ static String Date(long unixTime){
 }
 
 static void storeChirp(string message, long unixTime)
-{ // storing input
+{ // stores cheep
     using (StreamWriter sw = File.AppendText("./resources/chirp_cli_db.csv"))
     {
         sw.WriteLine("{0},{1},{2}", Environment.UserName, message, unixTime);
     }	
 }
 
-static void getChirps()
-{ // reading input
-    using var reader = new StreamReader(File.OpenRead("./resources/chirp_cli_db.csv"));
-
-    //List<string> listRows= new List<string>();
-    
-    while (!reader.EndOfStream)
+static List<string> getChirps()
+{ // returns list of stored cheeps
+    List<string> cheeps= new List<string>();
+    var chirps = File.ReadLines("./resources/chirp_cli_db.csv").Skip(1);
+    foreach (var chirp in chirps)
     {
-        //listRows.Add(reader.ReadLine());
-        Console.WriteLine(reader.ReadLine());
+        cheeps.Add(chirp);
     }
-    reader.Close();
+    
+    return cheeps;
 }
 
+static void printChirps()
+{ // prints all saved cheeps
+    var chirps = File.ReadLines("./resources/chirp_cli_db.csv").Skip(1);
+    foreach (var chirp in chirps)
+    {
+        if(String.IsNullOrEmpty(chirp))
+            continue;
+        Console.WriteLine(formatFromFiletoConsole(chirp));
+    }
+}
 
-
+static string formatFromFiletoConsole(String line)
+{
+    var regex = new Regex("^(?<author>[æøåa-zÆØÅA-z0-9_-]*),[\"\"](?<message>.*)[\"\"],(?<timeStamp>[0-9]*)$");
+    var match = regex.Match(line);
+    var author = match.Groups["author"];
+    var message = match.Groups["message"];
+    var timestamp = match.Groups["timeStamp"];
+    
+    return String.Format("{0} @ {1}: {2}", author, timestamp, message);
+}
