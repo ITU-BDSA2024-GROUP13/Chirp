@@ -1,4 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;  
 using System.Text.RegularExpressions;
 
 long unixTime = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
@@ -78,7 +81,7 @@ static void printChirps()
     }
 }
 
-static string formatFromFiletoConsole(String line)
+static string formatFromFiletoConsole(string line)
 {
     var regex = new Regex("^(?<author>[æøåa-zÆØÅA-z0-9_-]*),[\"\"](?<message>.*)[\"\"],(?<timeStamp>[0-9]*)$");
     var match = regex.Match(line);
