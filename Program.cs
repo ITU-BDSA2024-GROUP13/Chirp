@@ -87,7 +87,7 @@ static string formatFromFiletoConsole(string line)
     var match = regex.Match(line);
     var author = match.Groups["author"];
     var message = match.Groups["message"];
-    var timestamp = match.Groups["timeStamp"];
+    var timestamp = Date(int.Parse(match.Groups["timeStamp"].Value));
     
     return String.Format("{0} @ {1}: {2}", author, timestamp, message);
 }
