@@ -477,6 +477,9 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+*.json
+!spec/*.json
+
 # Windows shortcuts
 *.lnk
 
@@ -485,4 +488,5 @@ $RECYCLE.BIN/
 /bin/Debug/net7.0
 /bin/Debug
 /bin
+/resources
 /obj
