@@ -477,6 +477,9 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+*.json
+!spec/*.json
+
 # Windows shortcuts
 *.lnk
 
