@@ -1,5 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 
+
+
 long unixTime = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
 const string pathToCSV = "./resources/chirp_cli_db.csv";
 string username = Environment.UserName;
@@ -13,7 +15,6 @@ switch (args[0])
         printChirpsFromFile(pathToCSV);
         break;
 }
-
 
 static void chirp(string username, string message, long unixTime){ 
     //Write message with relevant information
