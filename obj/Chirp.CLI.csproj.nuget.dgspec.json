@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/peterolufsen/Documents/3rd Sem/BSAND/Chirp/Chirp.CLI.csproj": {}
+    "/Users/andrebirk/Desktop/Chirp/Chirp.CLI.csproj": {}
   },
   "projects": {
-    "/Users/peterolufsen/Documents/3rd Sem/BSAND/Chirp/Chirp.CLI.csproj": {
+    "/Users/andrebirk/Desktop/Chirp/Chirp.CLI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/peterolufsen/Documents/3rd Sem/BSAND/Chirp/Chirp.CLI.csproj",
+        "projectUniqueName": "/Users/andrebirk/Desktop/Chirp/Chirp.CLI.csproj",
         "projectName": "Chirp.CLI",
-        "projectPath": "/Users/peterolufsen/Documents/3rd Sem/BSAND/Chirp/Chirp.CLI.csproj",
-        "packagesPath": "/Users/peterolufsen/.nuget/packages/",
-        "outputPath": "/Users/peterolufsen/Documents/3rd Sem/BSAND/Chirp/obj/",
+        "projectPath": "/Users/andrebirk/Desktop/Chirp/Chirp.CLI.csproj",
+        "packagesPath": "/Users/andrebirk/.nuget/packages/",
+        "outputPath": "/Users/andrebirk/Desktop/Chirp/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/peterolufsen/.nuget/NuGet/NuGet.Config"
+          "/Users/andrebirk/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -32,11 +32,22 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "CsvHelper": {
+              "target": "Package",
+              "version": "[33.0.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -48,12 +59,26 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.20, 7.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.osx-x64",
+              "version": "[7.0.20, 7.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.20, 7.0.20]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.410/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/RuntimeIdentifierGraph.json"
         }
       }
     }
