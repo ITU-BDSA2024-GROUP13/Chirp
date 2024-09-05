@@ -13,7 +13,7 @@ switch (args[0])
         chirp(username, args[1], unixTime);
         break;
     case "read":
-        printChirpsFromFile(pathToCSV);
+        UserInterface.printChirpsFromFile(pathToCSV);
         break;
 }
 
@@ -40,25 +40,3 @@ static void storeChirpToFile(string username, string message, long unixTime, Str
 }
 
 
-static void printChirpsFromFile(string path)
-{
-    var chirps = File.ReadLines(path).Skip(1);
-    foreach (var chirp in chirps)
-    {
-        if(String.IsNullOrEmpty(chirp))
-            continue;
-        Console.WriteLine(formatFromFileToConsole(chirp));
-    }
-}
-
-static string formatFromFileToConsole(string line)
-{
-    var regex = new Regex(
-        "^(?<author>[æøåa-zÆØÅA-z0-9_-]*),[\"\"](?<message>.*)[\"\"],(?<timeStamp>[0-9]*)$");
-    var match = regex.Match(line);
-    var author = match.Groups["author"];
-    var message = match.Groups["message"];
-    var timestamp = HelperFunctions.FromUnixTimeToDateTime(int.Parse(match.Groups["timeStamp"].Value));
-    
-    return String.Format("{0} @ {1}: {2}", author, timestamp, message);
-}
