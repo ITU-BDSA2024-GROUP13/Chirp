@@ -1,11 +1,12 @@
 ﻿using System.Text.RegularExpressions;
 using Chirp.CLI;
-
-
+using DocoptNet;
 
 long unixTime = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
 const string pathToCSV = "./resources/chirp_cli_db.csv";
 string username = Environment.UserName;
+
+UserInterface.help(args, true, false);
 
 switch (args[0])
 {
@@ -15,6 +16,11 @@ switch (args[0])
     case "read":
         UserInterface.printChirpsFromFile(pathToCSV);
         break;
+    default:
+        
+        break;
+        
+        
 }
 
 static void chirp(string username, string message, long unixTime){ 
