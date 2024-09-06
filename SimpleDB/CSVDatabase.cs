@@ -24,6 +24,10 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
 
     public void Store(T record)
     {
-        throw new NotImplementedException();
+        using var writer = new StreamWriter(_filePath);
+        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+        {
+            csv.WriteRecord(record);
+        }
     }
 }
