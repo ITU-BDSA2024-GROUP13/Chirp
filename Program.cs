@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Chirp.CLI;
 
 
 
@@ -25,17 +26,12 @@ static void chirp(string username, string message, long unixTime){
 //Creates the message in the correct format
 static String formatMessage(string username, long unixTime, string args){
     //Baseconstruction of message
-    String message = username + " @ " + formatFromUnixTimeToDate(unixTime) + ": " + args;
+    String message = username + " @ " + HelperFunctions.FromUnixTimeToDateTime(unixTime) + ": " + args;
     return message;
 }
 
 //Gets the relevant dateinformation from the epoch
-static String formatFromUnixTimeToDate(long unixTime){
-    DateTime dateTime = new DateTime(
-        1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-    dateTime = dateTime.AddSeconds(unixTime).ToLocalTime();
-    return dateTime.ToString();
-}
+
 
 static void storeChirpToFile(string username, string message, long unixTime, String path)
 {
@@ -62,7 +58,7 @@ static string formatFromFileToConsole(string line)
     var match = regex.Match(line);
     var author = match.Groups["author"];
     var message = match.Groups["message"];
-    var timestamp = formatFromUnixTimeToDate(int.Parse(match.Groups["timeStamp"].Value));
+    var timestamp = HelperFunctions.FromUnixTimeToDateTime(int.Parse(match.Groups["timeStamp"].Value));
     
     return String.Format("{0} @ {1}: {2}", author, timestamp, message);
 }
