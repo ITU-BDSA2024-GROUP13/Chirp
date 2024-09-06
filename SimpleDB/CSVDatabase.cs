@@ -24,7 +24,7 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
 
     public void Store(T record)
     {
-        using var writer = new StreamWriter(_filePath);
+        using var writer = new StreamWriter(_filePath, append:true);
         using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
         {
             csv.WriteRecord(record);
