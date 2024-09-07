@@ -1,48 +1,41 @@
 ﻿using System.Text.RegularExpressions;
 using Chirp.CLI;
-using DocoptNet;
+using SimpleDB;
+
 
 long unixTime = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
 const string pathToCSV = "./resources/chirp_cli_db.csv";
 string username = Environment.UserName;
 
-UserInterface.help(args, true, false);
+IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>(pathToCSV);
 
 switch (args[0])
 {
     case "cheep":
-        chirp(username, args[1], unixTime);
+        chirp(username, args[1], unixTime, database);
         break;
     case "read":
-        UserInterface.printChirpsFromFile(pathToCSV);
+        printFromDatabaseToConsole(database);
         break;
-    default:
-        
-        break;
-        
-        
 }
-
-static void chirp(string username, string message, long unixTime){ 
+static void chirp(string username, string message, long unixTime, IDatabaseRepository<Cheep> database){ 
     //Write message with relevant information
-    Console.WriteLine(formatMessage(username, unixTime, message)); // may be deleted in the future
-    storeChirpToFile(username, message, unixTime, pathToCSV);
+    Cheep cheep = new Cheep(){Author = username, Message = message, Timestamp = unixTime};
+    Console.WriteLine(cheep.ToString()); // may be deleted in the future
+    
+    database.Store(cheep);
+    
 }
 
-//Creates the message in the correct format
-static String formatMessage(string username, long unixTime, string args){
-    //Baseconstruction of message
-    String message = username + " @ " + HelperFunctions.FromUnixTimeToDateTime(unixTime) + ": " + args;
-    return message;
-}
-
-//Gets the relevant dateinformation from the epoch
 
 
-static void storeChirpToFile(string username, string message, long unixTime, String path)
+static void printFromDatabaseToConsole(IDatabaseRepository<Cheep> database)
 {
-    using (StreamWriter sw = File.AppendText("./resources/chirp_cli_db.csv"))
-        sw.WriteLine("{0},{1},{2}", username, message, unixTime);
+    foreach (var cheep in database.Read())
+    {
+        Console.WriteLine(cheep.ToString());
+    }
+    
 }
 
 
