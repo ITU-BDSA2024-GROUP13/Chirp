@@ -11,12 +11,12 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
     {
         _filePath = filePath;
     }
-    public IEnumerable<T> Read(int? limit = null)
+    public List<T> Read(int? limit = null)
     {
         using var reader = new StreamReader(_filePath);
         using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
         {
-            var records = csv.GetRecords<T>();
+            var records = csv.GetRecords<T>().ToList();
             return records;
         }
         
