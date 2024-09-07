@@ -35,8 +35,15 @@ static String formatMessage(string username, long unixTime, string args){
 
 static void storeChirpToFile(string username, string message, long unixTime, String path)
 {
+    
+    var logMessage = $"\"{message}\"";
     using (StreamWriter sw = File.AppendText("./resources/chirp_cli_db.csv"))
-        sw.WriteLine("{0},{1},{2}", username, message, unixTime);
+    {
+        
+        sw.WriteLine("{0},{1},{2}", username, logMessage, unixTime);
+    }
+
+    
 }
 
 
