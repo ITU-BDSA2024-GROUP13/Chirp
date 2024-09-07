@@ -7,33 +7,13 @@ using DocoptNet;
 
 public static class UserInterface
 {
-    public static void Main(String[] args)
+    
+
+    public static void Run(String[] args, string usage, bool help, bool exit)
     {
         
-    }
-    
-    public static string usage = 
-    @"Chirp
-
-    Usage:
-      dotnet run --chirp <message>...
-      dotnet run --read
-      dotnet run (-h|-help)
-      dotnet run --version
-       
-    Options:
-      -h --help     Show this screen.
-      -- version     Show version.
-      -- read        Show chirps.
-      -- chirp       Store cheep.
-
-    ";
-
-
-    public static void Help(String[] args, bool help, bool exit)
-    {
         // this will print in console if help = true
-        var x = new Docopt().Apply(
+        var doc = new Docopt().Apply(
             usage,                              //String doc
             args,                               // IEnumerable`1 argv
             help,                               // Boolean help
@@ -41,9 +21,9 @@ public static class UserInterface
                                                 // Boolean optionsFirst
             exit: exit                         // Boolean exit
         )!;
-        
-        foreach (var (key, value) in x)
-            Console.WriteLine("{0} = {1}", key, value);
+
+        foreach (var (key, value) in doc)
+            Console.WriteLine(key, value);
         
     }
     
