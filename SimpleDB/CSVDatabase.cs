@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using CsvHelper;
+using CsvHelper.Configuration;
 
 namespace SimpleDB;
 
@@ -24,8 +25,14 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
 
     public void Store(T record)
     {
-        using var writer = new StreamWriter(_filePath, append:true);
-        using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            HasHeaderRecord = false,
+        };
+        using var stream = File.Open(_filePath, FileMode.Append);
+        using var writer = new StreamWriter(stream);
+        writer.WriteLine();
+        using (var csv = new CsvWriter(writer, config))
         {
             csv.WriteRecord(record);
         }

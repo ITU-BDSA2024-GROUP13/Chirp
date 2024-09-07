@@ -16,7 +16,6 @@ switch (args[0])
         break;
     case "read":
         printFromDatabaseToConsole(database);
-        //printChirpsFromFile(pathToCSV);
         break;
 }
 static void chirp(string username, string message, long unixTime, IDatabaseRepository<Cheep> database){ 
@@ -25,7 +24,7 @@ static void chirp(string username, string message, long unixTime, IDatabaseRepos
     Console.WriteLine(cheep.ToString()); // may be deleted in the future
     
     database.Store(cheep);
-    // storeChirpToFile(username, message, unixTime, pathToCSV);
+    
 }
 
 
