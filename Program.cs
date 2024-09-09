@@ -1,41 +1,31 @@
-﻿using System.Text.RegularExpressions;
-using Chirp.CLI;
+﻿using Chirp.CLI;
 using SimpleDB;
 
-
-long unixTime = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
-const string pathToCSV = "./resources/chirp_cli_db.csv";
-string username = Environment.UserName;
-
+string pathToCSV = "./resources/chirp_cli_db.csv";
 IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>(pathToCSV);
+long _unixTime = ((DateTimeOffset)DateTime.UtcNow).ToLocalTime().ToUnixTimeSeconds();
+
 
 switch (args[0])
-{
-    case "cheep":
-        chirp(username, args[1], unixTime, database);
+{ // not sure if this should go into the a function in UserInterface or not
+    case "--read":
+        UserInterface.PrintFromDatabaseToConsole(database);
         break;
-    case "read":
-        printFromDatabaseToConsole(database);
+            
+    case "--chirp":
+        UserInterface.Chirp(Environment.UserName, 
+            string.Join(" ", args.Skip(1)), 
+            _unixTime, 
+            database
+        );
+        break;
+    default:
+        Console.WriteLine(UserInterface._usage1);
         break;
 }
-static void chirp(string username, string message, long unixTime, IDatabaseRepository<Cheep> database){ 
-    //Write message with relevant information
-    Cheep cheep = new Cheep(){Author = username, Message = message, Timestamp = unixTime};
-    Console.WriteLine(cheep.ToString()); // may be deleted in the future
-    
-    database.Store(cheep);
-    
-}
 
 
 
-static void printFromDatabaseToConsole(IDatabaseRepository<Cheep> database)
-{
-    foreach (var cheep in database.Read())
-    {
-        Console.WriteLine(cheep.ToString());
-    }
-    
-}
+
 
 

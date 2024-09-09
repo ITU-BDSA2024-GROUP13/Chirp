@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using CsvHelper;
 using CsvHelper.Configuration;
 
@@ -15,12 +17,9 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
     public List<T> Read(int? limit = null)
     {
         using var reader = new StreamReader(_filePath);
-        using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-        {
-            var records = csv.GetRecords<T>().ToList();
-            return records;
-        }
-        
+        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+        var records = csv.GetRecords<T>().ToList();
+        return records;
     }
 
     public void Store(T record)
