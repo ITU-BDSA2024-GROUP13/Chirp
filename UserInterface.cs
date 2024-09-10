@@ -3,9 +3,16 @@ using SimpleDB;
 namespace Chirp.CLI;
 using System;
 
+/**
+ * <summary>
+ * class <c>UserInterface</c> is responsible for everything regarding the user interface,
+ * thus, any method which would directly communicate with the user are managed in this class.
+ * </summary>
+ */
 public static class UserInterface
 {
     
+    //String to print with a 'help' command
     public static readonly string _usage1 = @" Chirp CLI.
                         
     Usage:
