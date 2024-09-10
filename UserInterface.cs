@@ -19,19 +19,6 @@ public static class UserInterface
     
     ";
     
-    [Obsolete("PrintChirpsFromFile is deprecated, " +
-              "please use PrintFromDataBase instead.")]
-    public static void PrintChirpsFromFile(string path)
-    {
-        var chirps = File.ReadLines(path).Skip(1);
-        foreach (var chirp in chirps)
-        {
-            if(String.IsNullOrEmpty(chirp))
-                continue;
-            Console.WriteLine(HelperFunctions.formatFromFileToConsole(chirp));
-        }
-    }
-    
     /**
      * <summary> This method iterates over an entire database for cheeps,
      * and prints each cheep-object with their <c>ToString()</c> method.
