@@ -27,5 +27,9 @@ try
             break;
     }
 }
+// error in filepath from database
 catch (FileNotFoundException e) { Console.WriteLine(e.ToString()); }
-catch (Exception) { Console.WriteLine(UserInterface._usage1); }
+// error in switch statement from terminal input
+catch (IndexOutOfRangeException) { Console.WriteLine(UserInterface._usage1); }
+// unknown error from anywhere in program
+catch (Exception e) { Console.WriteLine($"Unknown Exception:\n{e.Message}"); }
