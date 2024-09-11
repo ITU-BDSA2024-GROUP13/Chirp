@@ -1,7 +1,7 @@
 ﻿using Chirp.CLI;
 using SimpleDB;
 
-string pathToCSV = "./resources/chirp_cli_db.csv";
+string pathToCSV = "./data/chirp_cli_db.csv";
 IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>(pathToCSV);
 long _unixTime = ((DateTimeOffset)DateTime.UtcNow).ToLocalTime().ToUnixTimeSeconds();
 
