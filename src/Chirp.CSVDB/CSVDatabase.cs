@@ -2,7 +2,7 @@
 using CsvHelper;
 using CsvHelper.Configuration;
 
-namespace SimpleDB;
+namespace Chirp.CSVDB;
 
 /**
  * <summary>
