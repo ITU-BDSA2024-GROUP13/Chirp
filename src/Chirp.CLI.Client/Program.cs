@@ -1,33 +1,31 @@
-﻿using Chirp.CLI;
-using Chirp.CLI.Client;
+﻿using Chirp.CLI.Client;
 using Chirp.CSVDB;
 
+var unixTime = ((DateTimeOffset)DateTime.UtcNow).ToLocalTime().ToUnixTimeSeconds();
+var database = CSVDatabase<Cheep>.GetDatabase();
 
-string pathToCSV = "../../data/chirp_cli_db.csv";
-IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>(pathToCSV);
-long _unixTime = ((DateTimeOffset)DateTime.UtcNow).ToLocalTime().ToUnixTimeSeconds();
+try
+{
+    switch (args[0])
+    {
+        case "--read":
+            UserInterface.PrintFromDatabaseToConsole(database);
+            break;
 
-
-switch (args[0])
-{ // not sure if this should go into the a function in UserInterface or not
-    case "--read":
-        UserInterface.PrintFromDatabaseToConsole(database);
-        break;
-            
-    case "--chirp":
-        UserInterface.Chirp(Environment.UserName, 
-            string.Join(" ", args.Skip(1)), 
-            _unixTime, 
-            database
-        );
-        break;
-    default:
-        Console.WriteLine(UserInterface._usage1);
-        break;
+        case "--chirp":
+            UserInterface.Chirp(
+                Environment.UserName,
+                string.Join(" ", args.Skip(1)),
+                unixTime,
+                database
+            );
+            break;
+        case "--cheep": // just in case
+            goto case "--chirp";
+        default:
+            Console.WriteLine(UserInterface._usage1);
+            break;
+    }
 }
-
-
-
-
-
-
+catch (FileNotFoundException e) { Console.WriteLine(e.ToString()); }
+catch (Exception) { Console.WriteLine(UserInterface._usage1); }
