@@ -1,6 +1,5 @@
 using System.Text.RegularExpressions;
-
-namespace Chirp.CLI;
+namespace Chirp.CLI.Client;
 
 
 /**

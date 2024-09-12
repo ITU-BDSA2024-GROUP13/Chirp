@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SimpleDB;
+namespace Chirp.CSVDB;
 
 /**
  * Interface <c>IDatabaseRepository</c> helps ensure that, whatever implements it,

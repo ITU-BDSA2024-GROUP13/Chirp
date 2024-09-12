@@ -1,31 +1,35 @@
-﻿using Chirp.CLI;
-using SimpleDB;
+﻿using Chirp.CLI.Client;
+using Chirp.CSVDB;
 
-string pathToCSV = "./data/chirp_cli_db.csv";
-IDatabaseRepository<Cheep> database = new CSVDatabase<Cheep>(pathToCSV);
-long _unixTime = ((DateTimeOffset)DateTime.UtcNow).ToLocalTime().ToUnixTimeSeconds();
+var unixTime = ((DateTimeOffset)DateTime.UtcNow).ToLocalTime().ToUnixTimeSeconds();
+var database = CSVDatabase<Cheep>.GetDatabase();
 
+try
+{
+    switch (args[0])
+    {
+        case "--read":
+            UserInterface.PrintFromDatabaseToConsole(database);
+            break;
 
-switch (args[0])
-{ // not sure if this should go into the a function in UserInterface or not
-    case "--read":
-        UserInterface.PrintFromDatabaseToConsole(database);
-        break;
-            
-    case "--chirp":
-        UserInterface.Chirp(Environment.UserName, 
-            string.Join(" ", args.Skip(1)), 
-            _unixTime, 
-            database
-        );
-        break;
-    default:
-        Console.WriteLine(UserInterface._usage1);
-        break;
+        case "--chirp":
+            UserInterface.Chirp(
+                Environment.UserName,
+                string.Join(" ", args.Skip(1)),
+                unixTime,
+                database
+            );
+            break;
+        case "--cheep": // just in case
+            goto case "--chirp";
+        default:
+            Console.WriteLine(UserInterface._usage1);
+            break;
+    }
 }
-
-
-
-
-
-
+// error in filepath from database
+catch (FileNotFoundException e) { Console.WriteLine(e.ToString()); }
+// error in switch statement from terminal input
+catch (IndexOutOfRangeException) { Console.WriteLine(UserInterface._usage1); }
+// unknown error from anywhere in program
+catch (Exception e) { Console.WriteLine($"Unknown Exception:\n{e.Message}"); }

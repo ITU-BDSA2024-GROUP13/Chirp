@@ -1,6 +1,6 @@
-using SimpleDB;
+using Chirp.CSVDB;
 
-namespace Chirp.CLI;
+namespace Chirp.CLI.Client;
 using System;
 
 /**
