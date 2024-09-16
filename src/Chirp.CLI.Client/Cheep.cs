@@ -14,6 +14,12 @@ public record Cheep
     public required string Message {get; init; }
     public required long Timestamp { get; init; }
 
+    /**
+        * <summary>
+        * Validates the Cheep object, ensuring that the Author and  Message are not null or empty
+        * and that the Timestamp is not less than 0.
+        * </summary>
+    */
 
     public void Validate()
     {

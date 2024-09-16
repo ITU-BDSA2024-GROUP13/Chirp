@@ -1,3 +1,6 @@
+using System.ComponentModel.Design;
+using System.Net;
+
 namespace UnitTest;
 
 public class CheepTest
@@ -54,5 +57,18 @@ public class CheepTest
         Assert.True(cheep.Author == author);
         Assert.True(cheep.Message == message);
         Assert.True(cheep.Timestamp == timestamp);
+    }
+
+    [Fact]
+
+    public void TestingCheepToString(){
+
+        var author = "polu";
+        var message = "Hello world!";
+        var timestamp = 1726093906;
+
+        var cheep = new Cheep(){ Author = author, Message = message, Timestamp = timestamp };
+
+        Assert.True(cheep.ToString() == "polu @ 9/12/2024 12:31:46AM: Hello world!");
     }
 }
