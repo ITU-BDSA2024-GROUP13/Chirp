@@ -1,8 +1,9 @@
 ﻿using System.Globalization;
+namespace Chirp.CSVDB;
+
 using CsvHelper;
 using CsvHelper.Configuration;
 
-namespace SimpleDB;
 
 /**
  * <summary>
@@ -13,24 +14,36 @@ namespace SimpleDB;
  */
 public class CSVDatabase<T> : IDatabaseRepository<T>
 {
+    private static string filePath = "../../data/chirp_cli_db.csv";
     private readonly string _filePath;
-
+    
+    // Singleton for the database
+    private static readonly IDatabaseRepository<T> Database = new CSVDatabase<T>(filePath);
+    
     /**
-     * <summary>Constructor for <c>CSVDatabase</c>
+     * <summary>
+     * Constructor for <c>CSVDatabase</c>. Set to private to ensure no other instance
      * <param name="filePath">The csv-file to communicate with</param>
      * </summary>
-     * 
      */
-    public CSVDatabase(string filePath)
+    private CSVDatabase(string filePath)
     {
-        _filePath = filePath;
+        _filePath = filePath ?? throw new FileNotFoundException(nameof(filePath));
+    }
+    
+    /**
+     * <summary>
+     * A getter method for the singleton of the Database
+     * </summary>
+     */
+    public static IDatabaseRepository<T> GetDatabase()
+    {
+        return Database;
     }
     
 
     /**
-     * <summary>
      * <returns> A list of all records (limit for records is not implemented) </returns>
-     * </summary>
      */
     public List<T> Read(int? limit = null)
     {
@@ -41,9 +54,11 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
     }
 
     /**
+     * <summary>
      * Stores a record or object, by writing into a csv file.
      * The csvConfiguration is set with <c>CultureInfo.InvariantCulture</c>>
      * in order to provide independency from the user's local settings.
+     * </summary>
      */
     public void Store(T record)
     {
@@ -60,3 +75,4 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
         }
     }
 }
+
