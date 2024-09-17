@@ -14,7 +14,8 @@ using CsvHelper.Configuration;
  */
 public class CSVDatabase<T> : IDatabaseRepository<T>
 {
-    private static string filePath = "./data/chirp_cli_db.csv";
+    private static string alternative = "../../../../../../data/chirp_cli_db.csv";
+    private static string filePath = "../../data/chirp_cli_db.csv";
     private readonly string _filePath;
     
     // Singleton for the database
@@ -28,7 +29,11 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
      */
     private CSVDatabase(string filePath)
     {
+        if(File.Exists(filePath)){
         _filePath = filePath ?? throw new FileNotFoundException(nameof(filePath));
+        } else {
+            _filePath = alternative;
+        }
     }
     
     /**
