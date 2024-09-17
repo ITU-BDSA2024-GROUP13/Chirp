@@ -27,7 +27,6 @@ public class HelperFunctionsTest {
     }
 
     [Fact]
-
     public void TestFromUnixTimeToDateTimeWithTooLargeValues(){
         
         long unixTime = long.MaxValue;

@@ -5,6 +5,7 @@ namespace UnitTest;
 
 public class CheepTest
 {
+
     
     [Fact]
     public void TestingCheepFieldAuthorIfNullable()
@@ -60,7 +61,6 @@ public class CheepTest
     }
 
     [Fact]
-
     public void TestingCheepToString(){
 
         var author = "polu";
