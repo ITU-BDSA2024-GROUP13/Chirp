@@ -26,5 +26,14 @@ public class HelperFunctionsTest {
         Assert.Equal(expected, actual);
     }
 
+    [Fact]
+
+    public void TestFromUnixTimeToDateTimeWithTooLargeValues(){
+        
+        long unixTime = long.MaxValue;
+
+        Assert.Throws<System.ArgumentOutOfRangeException>(() => HelperFunctions.FromUnixTimeToDateTime(unixTime));
+    }
+
 
 }
