@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace E2ETest;
 
-public class UnitTest1
+public class E2ETest
 {
     [Fact]
     public static void Test1()
@@ -33,7 +33,12 @@ public class UnitTest1
 
         
         Assert.StartsWith("ropf", split[0]);
-        Assert.EndsWith("singleton", split[split.Length-2]);
+        foreach (var text in split){
+            Console.WriteLine(text);
+        }
+
+        Assert.Equal("ropf @ 8/1/2023 2:09:20 PM: Hello, BDSA students!", split[0].Trim());
+        Assert.EndsWith("singleton", split[7].Trim());
     
     }
 }
