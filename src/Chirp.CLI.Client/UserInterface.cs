@@ -48,7 +48,8 @@ public static class UserInterface
     public static void Chirp(string username, string message, long unixTime, IDatabaseRepository<Cheep> database)
     { //Write message with relevant information
         Cheep cheep = new Cheep{Author = username, Message = message, Timestamp = unixTime};
-        Console.WriteLine(cheep.ToString()); // may be deleted in the future
+        cheep.Validate();
+        Console.WriteLine(cheep.ToString());
         database.Store(cheep);
     }
     
