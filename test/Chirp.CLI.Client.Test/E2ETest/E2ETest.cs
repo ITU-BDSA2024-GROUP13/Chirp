@@ -37,7 +37,7 @@ public class E2ETest
             Console.WriteLine(text);
         }
 
-        Assert.Equal("ropf @ 8/1/2023 2:09:20 PM: Hello, BDSA students!", split[0].Trim());
+        Assert.Equal("ropf @ 01/08/2023 14:09:20: Hello, BDSA students!", split[0].Trim());
         Assert.EndsWith("singleton", split[7].Trim());
     
     }
