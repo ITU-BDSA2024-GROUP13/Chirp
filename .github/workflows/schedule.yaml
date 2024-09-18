@@ -1,0 +1,25 @@
+name: .NET release
+
+on:
+  schedule: 
+  - cron: "0 20 * * 0"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: running updater
+      run: C# ./src/updates.cs
+    - name: check for changed files
+      run: git status
+    - name: stage changed files
+      run: git add .
+    - name: commit changed files
+      run: git commit -m "Auto updating version number"
+    - name: fetch from master
+      run: git fetch origin master
+    - name: push code to master
+      run: git push origin HEAD:main

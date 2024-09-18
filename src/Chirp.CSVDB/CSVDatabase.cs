@@ -16,6 +16,7 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
 {
     private static string alternative = "../../../../../../data/chirp_cli_db.csv";
     private static string filePath = "../../data/chirp_cli_db.csv";
+
     private readonly string _filePath;
     
     // Singleton for the database
