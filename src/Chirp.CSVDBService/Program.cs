@@ -12,6 +12,6 @@ var cheep = new Cheep
     Message = "Hello, World!",
     Timestamp = 1234567890
 };
-app.MapGet("/", () => cheep.ToString());
+app.MapGet("/cheeps", () => cheep);
 
 app.Run();
