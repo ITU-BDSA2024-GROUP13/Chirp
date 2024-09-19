@@ -1,6 +1,9 @@
 using Chirp.CLI.Client;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<CheepDb>(opt => opt.UseInMemoryDatabase("CheepList"));
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddScoped<ICSVService, CSVService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApiDocument(config =>
@@ -32,6 +35,7 @@ var cheep = new Cheep
     Message = "Hello, World!",
     Timestamp = 1234567890
 };
+app.MapPost("/post", async, Cheep cheep, )
 app.MapGet("/cheeps", () => cheep);
 
 app.Run();
