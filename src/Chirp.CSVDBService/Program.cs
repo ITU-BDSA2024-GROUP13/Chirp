@@ -33,6 +33,7 @@ var app = builder.Build();
 
 var cheep = new Cheep
 {
+    Id = 123,
     Author = "Chirp",
     Message = "Hello, World!",
     Timestamp = 1234567890
@@ -44,14 +45,14 @@ app.MapPost("/cheeps", async (Cheep cheep, CheepDb db) =>
   db.Cheeps.Add(cheep);
     await db.SaveChangesAsync();
 
-    return Results.Created($"/cheeps/{cheep.Author}", cheep);
+    return Results.Created($"/cheeps/{cheep.Id}", cheep);
 });
 
 app.MapGet("/cheeps", async (CheepDb db) =>
     await db.Cheeps.ToListAsync());
 
-app.MapGet("/cheeps/{author}", async (string author, CheepDb db) =>
-    await db.Cheeps.FindAsync(author)
+app.MapGet("/cheeps/{id}", async (int id, CheepDb db) =>
+    await db.Cheeps.FindAsync(id)
         is Cheep cheep
             ? Results.Ok(cheep)
             : Results.NotFound());
