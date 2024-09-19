@@ -6,5 +6,5 @@ class CheepDb : DbContext
     public CheepDb(DbContextOptions<CheepDb> options)
         : base(options) { }
 
-    public DbSet<Cheep> Todos => Set<Cheep>();
+    public DbSet<Cheep> Cheeps => Set<Cheep>();
 }
