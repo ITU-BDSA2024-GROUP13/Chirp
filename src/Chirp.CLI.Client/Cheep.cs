@@ -8,7 +8,7 @@ namespace Chirp.CLI.Client;
  * into a csv file.
  * </summary>
  */
-public class Cheep
+public record Cheep
 {
     public required int Id {get; set; }
 
