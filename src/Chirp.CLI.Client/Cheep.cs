@@ -10,9 +10,11 @@ namespace Chirp.CLI.Client;
  */
 public record Cheep
 {
-    public required string Author {get; init; }
-    public required string Message {get; init; }
-    public required long Timestamp { get; init; }
+    public required int Id {get; set; }
+
+    public required string Author {get; set; }
+    public required string Message {get; set; }
+    public required long Timestamp { get; set; }
 
     /**
         * <summary>

@@ -14,6 +14,7 @@ try
 
         case "--chirp":
             UserInterface.Chirp(
+                1,
                 Environment.UserName,
                 string.Join(" ", args.Skip(1)),
                 unixTime,

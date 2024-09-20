@@ -2,6 +2,7 @@ using Chirp.CSVDB;
 
 namespace Chirp.CLI.Client;
 using System;
+using System.Data.Common;
 
 /**
  * <summary>
@@ -45,9 +46,9 @@ public static class UserInterface
      * <param name="username">Author of the Cheep.</param>
      * </summary>
      */
-    public static void Chirp(string username, string message, long unixTime, IDatabaseRepository<Cheep> database)
+    public static void Chirp(int id, string username, string message, long unixTime, IDatabaseRepository<Cheep> database)
     { //Write message with relevant information
-        Cheep cheep = new Cheep{Author = username, Message = message, Timestamp = unixTime};
+        Cheep cheep = new Cheep{Id = id, Author = username, Message = message, Timestamp = unixTime};
         cheep.Validate();
         Console.WriteLine(cheep.ToString());
         database.Store(cheep);
