@@ -1,5 +1,5 @@
 ﻿using Chirp.CLI.Client;
-using Chirp.CSVDB;
+using Chirp.CSVDB; 
 
 var unixTime = ((DateTimeOffset)DateTime.UtcNow).ToLocalTime().ToUnixTimeSeconds();
 var database = CSVDatabase<Cheep>.GetDatabase();
@@ -14,6 +14,7 @@ try
 
         case "--chirp":
             UserInterface.Chirp(
+                1,
                 Environment.UserName,
                 string.Join(" ", args.Skip(1)),
                 unixTime,
