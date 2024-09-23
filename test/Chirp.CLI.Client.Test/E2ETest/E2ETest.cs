@@ -25,10 +25,10 @@ public class E2ETest
             process.StartInfo.FileName = "../../../../../../src/Chirp.CLI.Client/bin/Debug/net7.0/Chirp.CLI.Client";
             process.StartInfo.Arguments = "--read";
 
-            //
+            //Given the value false, the process will not use the operating system shell.
             process.StartInfo.UseShellExecute = false;
 
-            //
+            //Given the value true, the textual output will be given/written to the process.StandardOutput stream
             process.StartInfo.RedirectStandardOutput = true;
             
             //This starts the process in the filepath with the specified function (argument)
@@ -44,15 +44,11 @@ public class E2ETest
         //Tests that the first word and sentence given by the process and printed
         //matches the expected outcome
         Assert.StartsWith("ropf", split[0]);
-        Assert.Equal("ropf @ 01/08/2023 14:09:20: Hello, BDSA students!", split[0].Trim());
+        Assert.Equal("ropf @ 8/1/2023 2:09:20PM: Hello, BDSA students!", split[0].Trim());
         
-        //Tests that the last word given by the process and printed
+        //Tests that the last word and sentence given by the process and printed
         //matches the expected outcome
         Assert.EndsWith("singleton", split[7].Trim());
-    
+        Assert.Equal("andrebirk @ 9/12/2024 12:31:46AM: Testing singleton", split[7].Trim());
     }
-
-
-
-    
 }
