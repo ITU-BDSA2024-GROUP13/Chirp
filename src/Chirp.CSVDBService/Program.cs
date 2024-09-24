@@ -21,7 +21,6 @@ var app = builder.Build();
     app.UseOpenApi();
     app.UseSwaggerUi(config =>
     {
-        config.SwaggerEndpoint("/swagger/CheepAPI/swagger.json", "CheepAPI v1");
         config.DocumentTitle = "CheepAPI";
         config.Path = "/swagger";
         config.DocumentPath = "/swagger/{documentName}/swagger.json";

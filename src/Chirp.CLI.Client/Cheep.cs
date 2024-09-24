@@ -10,10 +10,10 @@ namespace Chirp.CLI.Client;
  */
 public record Cheep
 {
-    public required int Id {get; set; }
+    public required int Id { get; set; }
 
-    public required string Author {get; set; }
-    public required string Message {get; set; }
+    public required string Author { get; set; }
+    public required string Message { get; set; }
     public required long Timestamp { get; set; }
 
     /**
@@ -25,13 +25,16 @@ public record Cheep
 
     public void Validate()
     {
-        if (string.IsNullOrEmpty(Author)){
+        if (string.IsNullOrEmpty(Author))
+        {
             throw new ArgumentException("Author cannot be null or empty");
         }
-        if (string.IsNullOrEmpty(Message)){
+        if (string.IsNullOrEmpty(Message))
+        {
             throw new ArgumentException("Message cannot be null or empty");
         }
-        if (Timestamp < 0){
+        if (Timestamp < 0)
+        {
             throw new ArgumentException("Timestamp cannot be less than 0");
         }
     }
@@ -43,13 +46,10 @@ public record Cheep
      * <c>Timestamp</c> = 1725801466
      * </example>
      */
-    override 
+    override
     public string ToString()
     {
         var formattedTimeStamp = HelperFunctions.FromUnixTimeToDateTime(Timestamp);
         return $"{Author} @ {formattedTimeStamp}: {Message}";
     }
 }
-
-
-

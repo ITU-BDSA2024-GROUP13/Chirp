@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 namespace Chirp.CSVDB;
 
 using CsvHelper;
@@ -18,10 +18,10 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
     private static string filePath = "./data/chirp_cli_db.csv";
 
     private readonly string _filePath;
-    
+
     // Singleton for the database
     private static readonly IDatabaseRepository<T> Database = new CSVDatabase<T>(filePath);
-    
+
     /**
      * <summary>
      * Constructor for <c>CSVDatabase</c>. Set to private to ensure no other instance
@@ -30,13 +30,16 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
      */
     private CSVDatabase(string filePath)
     {
-        if(File.Exists(filePath)){
-        _filePath = filePath ?? throw new FileNotFoundException(nameof(filePath));
-        } else {
+        if (File.Exists(filePath))
+        {
+            _filePath = filePath ?? throw new FileNotFoundException(nameof(filePath));
+        }
+        else
+        {
             _filePath = alternative;
         }
     }
-    
+
     /**
      * <summary>
      * A getter method for the singleton of the Database
@@ -46,7 +49,7 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
     {
         return Database;
     }
-    
+
 
     /**
      * <returns> A list of all records (limit for records is not implemented) </returns>
@@ -81,4 +84,3 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
         }
     }
 }
-

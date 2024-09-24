@@ -12,7 +12,7 @@ using System.Data.Common;
  */
 public static class UserInterface
 {
-    
+    public static readonly HttpClient _client = new HttpClient();
     //String to print with a 'help' command
     public static readonly string _usage1 = @" Chirp CLI.
                         
@@ -26,7 +26,7 @@ public static class UserInterface
     --version  Show version information.
     
     ";
-    
+
     /**
      * <summary> This method iterates over an entire database for cheeps,
      * and prints each cheep-object with their <c>ToString()</c> method.
@@ -38,7 +38,7 @@ public static class UserInterface
             if (cheep != null)
                 Console.WriteLine(cheep.ToString());
     }
-    
+
     /**
      * <summary> This method creates a new Cheep-object, writes the result in the terminal,
      * and stores the Cheep-object in a database.
@@ -46,12 +46,38 @@ public static class UserInterface
      * <param name="username">Author of the Cheep.</param>
      * </summary>
      */
-    public static void Chirp(int id, string username, string message, long unixTime, IDatabaseRepository<Cheep> database)
-    { //Write message with relevant information
-        Cheep cheep = new Cheep{Id = id, Author = username, Message = message, Timestamp = unixTime};
-        cheep.Validate();
-        Console.WriteLine(cheep.ToString());
-        database.Store(cheep);
+
+    public static async Task Read(int id, string username, string message, long unixTime)
+    {
+        try
+        {
+            using HttpResponseMessage response = await _client.GetAsync("http://localhost:5000/Cheeps");
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+
+            string responseBody1 = await _client.GetStringAsync("http://localhost:5000/Cheeps");
+            Console.WriteLine(responseBody);
+
+        }
+        catch (HttpRequestException e)
+        {
+            if (e.InnerException != null)
+            {
+                Console.WriteLine(e.InnerException.Message);
+            }
+            else
+            {
+                Console.WriteLine("InnerException is null");
+            }
+        }
     }
-    
+
+    // public static void Chirp(int id, string username, string message, long unixTime, IDatabaseRepository<Cheep> database)
+    // { //Write message with relevant information
+    //     Cheep cheep = new Cheep{Id = id, Author = username, Message = message, Timestamp = unixTime};
+    //     cheep.Validate();
+    //     Console.WriteLine(cheep.ToString());
+    //     database.Store(cheep);
+    // }
+
 }
