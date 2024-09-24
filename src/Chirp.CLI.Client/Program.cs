@@ -8,23 +8,18 @@ try
 {
     switch (args[0])
     {
-        case "--chirp??":
-            UserInterface.PrintFromDatabaseToConsole(database);
+        case "--chirp":
+            await UserInterface.Chirp(0, Environment.UserName, args[1], unixTime);
             break;
 
         case "--read":
-        await UserInterface.Read(
-            
-                1,
-                Environment.UserName,
-                string.Join(" ", args.Skip(1)),
-                unixTime
-        
-            
-            );
+            await UserInterface.Read();
             break;
+
+
+
         case "--cheep": // just in case
-            goto case "--chirp??";
+            goto case "--chirp";
         default:
             Console.WriteLine(UserInterface._usage1);
             break;

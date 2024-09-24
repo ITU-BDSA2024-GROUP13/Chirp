@@ -1,4 +1,6 @@
 using Chirp.CSVDB;
+using JsonSerializer = System.Text.Json.JsonSerializer;
+using Encoding = System.Text.Encoding;
 
 namespace Chirp.CLI.Client;
 using System;
@@ -47,7 +49,7 @@ public static class UserInterface
      * </summary>
      */
 
-    public static async Task Read(int id, string username, string message, long unixTime)
+    public static async Task Read()
     {
         try
         {
@@ -56,7 +58,35 @@ public static class UserInterface
             string responseBody = await response.Content.ReadAsStringAsync();
 
             string responseBody1 = await _client.GetStringAsync("http://localhost:5000/Cheeps");
-            Console.WriteLine(responseBody);
+            Console.WriteLine(responseBody1);
+
+        }
+        catch (HttpRequestException e)
+        {
+            if (e.InnerException != null)
+            {
+                Console.WriteLine(e.InnerException.Message);
+            }
+            else
+            {
+                Console.WriteLine("InnerException is null");
+            }
+        }
+    }
+
+    public static async Task Chirp(int id, string username, string message, long unixTime)
+    {
+        try
+        {
+            using var response = await _client.PostAsync(
+                "http://localhost:5000/Cheeps", 
+                new StringContent(
+                    JsonSerializer.Serialize(
+                        new Cheep { Id = id, Author = username, Message = message, Timestamp = unixTime }), 
+                        Encoding.UTF8, 
+                        "application/json"
+                )   
+            );
 
         }
         catch (HttpRequestException e)
