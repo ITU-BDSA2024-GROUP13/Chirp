@@ -2,21 +2,23 @@ using Chirp.CLI.Client;
 using Chirp.CSVDB;
 
 var unixTime = ((DateTimeOffset)DateTime.UtcNow).ToLocalTime().ToUnixTimeSeconds();
-var database = CSVDatabase<Cheep>.GetDatabase();
 
 try
 {
     switch (args[0])
     {
         case "--chirp":
-            await UserInterface.Chirp(0, Environment.UserName, args[1], unixTime);
+            await UserInterface.Chirp(
+                0,
+                Environment.UserName,
+                args[1], 
+                unixTime
+            );
             break;
 
         case "--read":
             await UserInterface.Read();
             break;
-
-
 
         case "--cheep": // just in case
             goto case "--chirp";

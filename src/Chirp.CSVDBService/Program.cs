@@ -18,14 +18,14 @@ builder.Services.AddOpenApiDocument(config =>
 var app = builder.Build();
 //if (app.Environment.IsDevelopment())
 //{
-    app.UseOpenApi();
-    app.UseSwaggerUi(config =>
-    {
-        config.DocumentTitle = "CheepAPI";
-        config.Path = "/swagger";
-        config.DocumentPath = "/swagger/{documentName}/swagger.json";
-        config.DocExpansion = "list";
-    });
+app.UseOpenApi();
+app.UseSwaggerUi(config =>
+{
+    config.DocumentTitle = "CheepAPI";
+    config.Path = "/swagger";
+    config.DocumentPath = "/swagger/{documentName}/swagger.json";
+    config.DocExpansion = "list";
+});
 //}
 
 
@@ -42,7 +42,7 @@ var cheep = new Cheep
 //Posts cheeps into the database context
 app.MapPost("/cheeps", async (Cheep cheep, CheepDb db) =>
 {
-  db.Cheeps.Add(cheep);
+    db.Cheeps.Add(cheep);
     await db.SaveChangesAsync();
 
     return Results.Created($"/cheeps/{cheep.Id}", cheep);

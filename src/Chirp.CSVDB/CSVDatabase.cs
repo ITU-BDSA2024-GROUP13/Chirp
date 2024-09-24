@@ -45,10 +45,7 @@ public class CSVDatabase<T> : IDatabaseRepository<T>
      * A getter method for the singleton of the Database
      * </summary>
      */
-    public static IDatabaseRepository<T> GetDatabase()
-    {
-        return Database;
-    }
+    public static IDatabaseRepository<T> Instance { get { return Database; } }
 
 
     /**
