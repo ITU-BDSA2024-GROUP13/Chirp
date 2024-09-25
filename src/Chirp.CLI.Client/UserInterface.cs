@@ -15,7 +15,7 @@ using System.Data.Common;
 public static class UserInterface
 {
     // Client for HTTP-requests
-    static readonly HttpClient _client = new();
+    static readonly HttpClient _client = new ();
     // Base URL for HTTP-requests
     static readonly string _baseURL = "http://localhost:5000/";
 
@@ -68,7 +68,7 @@ public static class UserInterface
         catch (HttpRequestException e)
         {
             if (e.InnerException != null) { Console.WriteLine(e.InnerException.Message); }
-            else { Console.WriteLine("InnerException is null"); }
+            else { Console.WriteLine(e.Message); }
         }
     }
 
@@ -103,7 +103,7 @@ public static class UserInterface
         catch (HttpRequestException e)
         {
             if (e.InnerException != null) { Console.WriteLine(e.InnerException.Message); }
-            else { Console.WriteLine("InnerException is null"); }
+            else { Console.WriteLine(e.Message); }
         }
     }
 
