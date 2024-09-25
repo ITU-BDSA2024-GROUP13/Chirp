@@ -28,9 +28,6 @@ app.UseSwaggerUi(config =>
 });
 //}
 
-
-
-
 var cheep = new Cheep
 {
     Id = 123,
