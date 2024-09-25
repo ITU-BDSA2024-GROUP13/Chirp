@@ -25,13 +25,16 @@ jobs:
         run: dotnet build src/Chirp.Razor/ --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish src/Chirp.Razor/ -c Release -o ./myapp
+        run: dotnet publish src/Chirp.Razor/ -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ./myapp
+          path: ${{env.DOTNET_ROOT}}/myapp
+
+      - name: List files after publish
+        run: ls -R .
 
   deploy:
     runs-on: ubuntu-latest
@@ -61,4 +64,4 @@ jobs:
         with:
           app-name: 'bdsagroup13chirpremotedb'
           slot-name: 'Production'
-          package: ./myapp
+          package: .
