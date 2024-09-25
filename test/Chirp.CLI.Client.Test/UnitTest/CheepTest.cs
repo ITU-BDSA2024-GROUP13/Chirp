@@ -6,7 +6,7 @@ namespace UnitTest;
 public class CheepTest
 {
 
-    
+
     [Fact]
     public void TestingCheepFieldAuthorIfNullable()
     {
@@ -14,10 +14,12 @@ public class CheepTest
         var message = "Hello";
         var timestamp = 123456789;
 
+
         var cheep = new Cheep{Id =0, Author = author, Message = message, Timestamp = timestamp };
 
+
         Assert.Throws<System.ArgumentException>(() => cheep.Validate());
-        
+
     }
 
     [Fact]
@@ -29,8 +31,9 @@ public class CheepTest
 
         var cheep = new Cheep{Id = 0, Author = author, Message = message, Timestamp = timestamp };
 
+
         Assert.Throws<System.ArgumentException>(() => cheep.Validate());
-        
+
     }
 
     [Fact]
@@ -42,8 +45,9 @@ public class CheepTest
 
         var cheep = new Cheep{Id = 0, Author = author, Message = message, Timestamp = timestamp };
 
+
         Assert.Throws<System.ArgumentException>(() => cheep.Validate());
-        
+
     }
 
     [Theory]
@@ -53,7 +57,9 @@ public class CheepTest
 
     public void TestingCheepFieldCreation(string author, string message, long timestamp)
     {
+
         var cheep = new Cheep{Id = 0, Author = author, Message = message, Timestamp = timestamp };
+
         cheep.Validate();
         Assert.True(cheep.Author == author);
         Assert.True(cheep.Message == message);
@@ -61,13 +67,15 @@ public class CheepTest
     }
 
     [Fact]
-    public void TestingCheepToString(){
+    public void TestingCheepToString()
+    {
 
         var author = "polu";
         var message = "Hello world!";
         var timestamp = 1726093906;
 
         var cheep = new Cheep(){Id = 0, Author = author, Message = message, Timestamp = timestamp };
+
 
         Assert.True(cheep.ToString() == "polu @ 9/12/2024 12:31:46AM: Hello world!");
     }
