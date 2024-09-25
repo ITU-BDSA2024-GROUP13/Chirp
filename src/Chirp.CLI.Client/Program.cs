@@ -16,6 +16,8 @@ try
             );
             break;
 
+            
+
         case "--read":
             await UserInterface.Read();
             break;
