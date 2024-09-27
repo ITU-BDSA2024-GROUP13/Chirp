@@ -17,7 +17,7 @@ public static class UserInterface
     // Client for HTTP-requests
     static readonly HttpClient _client = new ();
     // Base URL for HTTP-requests
-    static readonly string _baseURL = "http://localhost:5000/";
+    static readonly string _baseURL = "http://localhost:5273/";
 
 
     //String to print with a 'help' command
