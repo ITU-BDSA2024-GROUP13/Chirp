@@ -5,6 +5,9 @@ var unixTime = ((DateTimeOffset)DateTime.UtcNow).ToLocalTime().ToUnixTimeSeconds
 
 try
 {
+    if(args.Length > 2)
+        throw new IndexOutOfRangeException();
+
     switch (args[0])
     {
         case "--chirp":

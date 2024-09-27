@@ -12,7 +12,7 @@ public class UserTimelineModel : PageModel
     {
         _service = service;
     }
-
+    
     public ActionResult OnGet(string author)
     {
         Cheeps = _service.GetCheepsFromAuthor(author);

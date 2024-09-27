@@ -1,5 +1,8 @@
 using Chirp.CLI.Client;
+using Chirp.CSVDBService;
 using Microsoft.EntityFrameworkCore;
+
+DBFacade db = new();
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<CheepDb>(opt => opt.UseInMemoryDatabase("CheepList"));
