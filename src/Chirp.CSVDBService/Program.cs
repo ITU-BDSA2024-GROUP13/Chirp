@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 DBFacade db = new();
 
-db.ReadDatabase();
+db.INSERT_USER(0, "andr", "maas@itu.dk", "1232819273123");
+db.ReadDatabase("andr");
 
 
 
