@@ -40,11 +40,10 @@ public class DBFacade
         }
     }
 
-    /*
-    public bool INSERT_message(int user_id, string username, string email, string pw_hash)
+    public bool INSERT_MESSAGE(int message_id, int auther_id, string text, int pub_date)
     {
         
-        var sqlQuery = $"INSERT INTO user VALUES({user_id}, '{username}', '{email}', '{pw_hash}')";
+        var sqlQuery = $"INSERT INTO message VALUES({message_id}, {auther_id}, '{text}', {pub_date})";
 
         try{
             using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
@@ -67,12 +66,11 @@ public class DBFacade
         }
     }
 
-
-    */
-
-    public void ReadDatabase(string username)
+    
+    public void SELECT_MESSAGE_FROM_USER(string username)
     {
-        var sqlQuery = $"SELECT * FROM user WHERE username = '{username}'";
+        
+        var sqlQuery = $"SELECT U.username, M.text FROM user U, message M WHERE U.user_id = M.author_id AND U.username = '{username}';";
 
         try {
             using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
@@ -105,6 +103,7 @@ public class DBFacade
         }
     }
 
+    
     public void ReadDatabase()
     {
         var sqlQuery = @"SELECT * FROM user";
