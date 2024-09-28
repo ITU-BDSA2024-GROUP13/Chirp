@@ -1,5 +1,5 @@
 body {
-  background: #eccaca;
+  background: #D4D4D4;
   font-family: 'Trebuchet MS', sans-serif;
   font-size: 14px;
 }
@@ -48,15 +48,19 @@ div.page {
 }
 
 div.page > h1 {
-  background: #cc6e6e;
+  position: relative;
+  background: #dc722be2;
   margin: 0;
   padding: 10px 14px;
-  color: white;
+  color: #D4D4D4;
   letter-spacing: 1px;
-  text-shadow: 0 0 3px #772424;
-  font-weight: normal;
+  text-shadow: 0 0 3px #000000;
+  font-weight: heavy;
   font-size: 80px;
+  border-width: 1px;
+
 }
+
 
 div.page h1 img {
   height: 1em;
@@ -286,4 +290,40 @@ ul.nav li a {
 
 ul.nav li a:hover {
     background-color: #8b4949;
+}
+
+.Icon{
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+}
+
+.centerbox{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #dededed9;
+  border-width:2px;
+  border-style:solid;
+  border-color:#c11d047c;
+  font-size: 60px;
+  background:
+  linear-gradient(to top, hsla(24, 72%, 52%, 0.886), #c11d04f8);
+  border-radius: 20px;
+  box-shadow: 2px 2px rgba(56, 53, 53, 0.66);
+  margin: 0;
+  padding: 10px 14px;
+  letter-spacing: 1px;
+  text-shadow: 0 0 4px #170f0d98;
+  font-weight: heavy;
+  font-size: 80px;
+
+}
+
+
+.bird{
+  position: absolute;
+  top: 4.3%;
+  left: 50.9%;
+  transform: translate(-50%, -50%);
 }
