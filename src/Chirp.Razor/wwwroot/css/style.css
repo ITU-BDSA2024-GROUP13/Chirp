@@ -294,36 +294,38 @@ ul.nav li a:hover {
 
 .Icon{
   cursor: pointer;
-  width: 40px;
+  width: 45px;
   height: 40px;
 }
 
+.bird{
+  position: absolute;
+  top: 4.5%;
+  left: 50.5%;
+  transform: translate(-50%, -50%);
+}
+
 .centerbox{
+  /*Position for the header*/
   display: flex;
   justify-content: center;
   align-items: center;
+
+  /*Text styling*/
   color: #dededed9;
+  letter-spacing: 10px;
+  font-size: 80px;
+  text-shadow: 0 0 4px #170f0d98;
+  font-weight: heavy;
+  padding: 10px 14px;
+
+  /*Box style*/
   border-width:2px;
   border-style:solid;
   border-color:#c11d047c;
-  font-size: 60px;
   background:
   linear-gradient(to top, hsla(24, 72%, 52%, 0.886), #c11d04f8);
   border-radius: 20px;
   box-shadow: 2px 2px rgba(56, 53, 53, 0.66);
   margin: 0;
-  padding: 10px 14px;
-  letter-spacing: 1px;
-  text-shadow: 0 0 4px #170f0d98;
-  font-weight: heavy;
-  font-size: 80px;
-
-}
-
-
-.bird{
-  position: absolute;
-  top: 4.3%;
-  left: 50.9%;
-  transform: translate(-50%, -50%);
 }
