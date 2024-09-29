@@ -5,11 +5,11 @@ body {
 }
 
 a {
-  color: #26776F;
+  color: #452a238d;
 }
 
 a:hover {
-  color: #333;
+  color: #d4d4d4b3;
 }
 
 input[type="email"],
@@ -105,7 +105,10 @@ div.page h2 {
 }
 
 div.page div.body {
-  padding: 10px;
+  display: flex;
+  justify-content: left;
+  padding: 20px;
+  width: 500px;
 }
 
 div.page div.footer {
@@ -131,15 +134,23 @@ div.page ul.cheeps {
   padding: 0;
 }
 
-div.page ul.cheeps li {
+div.page ul.cheeps li{
+  position: relative;
   margin: 10px 0;
   padding: 5px;
-  background: #F0FAF9;
-  border: 1px solid #DBF3F1;
+  background:
+  linear-gradient(to top, hsla(24, 72%, 52%, 0.886), #c11d04df);
+  border: 2px solid #610101;
   border-radius: 2px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  min-height: 48px;
+  min-height: 60px;
+  min-width: 400px;
+  max-width: 400px;
+  word-wrap: break-word;
+  word-break: break-all;
+  display: flex;
+  flex-direction: column;
 }
 
 div.page ul.cheeps p {
@@ -149,11 +160,6 @@ div.page ul.cheeps p {
 div.page ul.cheeps li img {
   float: left;
   padding: 0 10px 0 0;
-}
-
-div.page ul.cheeps li small {
-  font-size: 0.9em;
-  color: #888;
 }
 
 div.page div.cheepbox {
@@ -328,4 +334,26 @@ ul.nav li a:hover {
   border-radius: 20px;
   box-shadow: 2px 2px rgba(56, 53, 53, 0.66);
   margin: 0;
+}
+
+div.page ul.cheeps li .cheep-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+div.page ul.cheeps li .author {
+  font-weight: bold;
+  margin-bottom: 1px;
+}
+
+div.page ul.cheeps li .message {
+  flex-grow: 1;
+}
+
+div.page ul.cheeps li .date {
+  align-self: flex-end;
+  font-size: 0.9em;
+  color: #ece8e8;
+  margin-top: 11px;
 }
