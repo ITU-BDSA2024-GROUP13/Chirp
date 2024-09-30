@@ -41,9 +41,11 @@ input[type="submit"] {
 }
 
 div.page {
-  background: white;
+  float:right;
+  background: WHITE;
   border: 1px solid #cc6e6e;
-  width: 700px;
+  width: auto;
+  width: 80%;
   margin: 30px auto;
 }
 
@@ -99,16 +101,22 @@ div.page div.navigation form button {
 }
 
 div.page h2 {
+  display: flex;
+  justify-content: center;
   margin: 0 0 15px 0;
   color: #571010;
   text-shadow: 0 1px 2px #ccc;
+  border: 3px solid #610101;
+  border-radius: 2px;
+  border-left: #571010;
+  border-right: #571010;
+  border-top:#571010;
+  border-radius: 0px;
+
 }
 
 div.page div.body {
-  display: flex;
-  justify-content: left;
-  padding: 20px;
-  width: 500px;
+  padding: 10px;
 }
 
 div.page div.footer {
@@ -145,8 +153,8 @@ div.page ul.cheeps li{
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   min-height: 60px;
-  min-width: 400px;
-  max-width: 400px;
+  width: 95%;
+  max-width: 500px;
   word-wrap: break-word;
   word-break: break-all;
   display: flex;
@@ -183,7 +191,7 @@ div.page div.cheepbox p {
 }
 
 div.page div.cheepbox input[type="text"] {
-  width: 585px;
+  width: 485px;
 }
 
 div.page div.cheepbox input[type="submit"] {

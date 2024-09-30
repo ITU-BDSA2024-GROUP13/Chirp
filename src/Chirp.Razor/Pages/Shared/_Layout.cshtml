@@ -6,22 +6,20 @@
     <link rel="icon" type="image/png" href="/favicon/favicon.ico">
 </head>
 <body>
-        <box onclick = "window.location = '/'" class = "bird">
-                <img src="/images/icon1.png" class = "Icon" alt="Icon1"/>
-        </box>
-        <h1 class = "centerbox">
+    <box onclick = "window.location = '/'" class = "bird">
+        <img src="/images/icon1.png" class = "Icon" alt="Icon1"/>
+    </box>
+    <h1 class = "centerbox">
         Chirp
-     </h1>
-     <div class=page>
-
-    <div class=body>
+    </h1>
+    <div class=page>
+        <div class=body>
             @RenderBody()
+        </div>
+        <div class=footer>
+            Chirp &mdash; An ASP.NET Application
+        </div>
     </div>
-    <div class=footer>
-        Chirp &mdash; An ASP.NET Application
-    </div>
-</div>
-
 </body>
 @await RenderSectionAsync("Scripts", required: false)
 </html>
