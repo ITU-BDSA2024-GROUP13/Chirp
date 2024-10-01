@@ -1,4 +1,6 @@
-public record CheepViewModel(string Author, string Message, string Timestamp);
+
+using System.Data.Common;
+using Chirp.CSVDBService;
 
 public interface ICheepService
 {
@@ -8,34 +10,21 @@ public interface ICheepService
 
 public class CheepService : ICheepService
 {
+
+    private DBFacade db = new();
     // These would normally be loaded from a database for example
-    private static readonly List<CheepViewModel> _cheeps = new()
-        {
-            new CheepViewModel("Helge", "Hello, BDSA students!", UnixTimeStampToDateTimeString(1690892208)),
-            new CheepViewModel("Adrian", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-            new CheepViewModel("Alex", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-            new CheepViewModel("Super", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-            new CheepViewModel("Hej", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-            new CheepViewModel("Test", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-            new CheepViewModel("Alex", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-            new CheepViewModel("Super", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-            new CheepViewModel("Hej", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-            new CheepViewModel("Test", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-            new CheepViewModel("Alex", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-            new CheepViewModel("Super", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-            new CheepViewModel("Hej", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-            new CheepViewModel("Test", "Hej, velkommen til kurset.", UnixTimeStampToDateTimeString(1690895308)),
-        };
+    private List<CheepViewModel> _cheeps = new();
+    
 
     public List<CheepViewModel> GetCheeps()
     {
-        return _cheeps;
+        return db.SELECT_ALL_MESSAGES();
     }
 
     public List<CheepViewModel> GetCheepsFromAuthor(string author)
     {
         // filter by the provided author name
-        return _cheeps.Where(x => x.Author == author).ToList();
+        return db.SELECT_MESSAGE_FROM_USER(author);
     }
 
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)

@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 DBFacade db = new();
 
+db.SELECT_MESSAGE_FROM_USER("Andreas");
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<CheepDb>(opt => opt.UseInMemoryDatabase("CheepList"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
