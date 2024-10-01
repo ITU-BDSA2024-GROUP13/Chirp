@@ -27,6 +27,7 @@ public class CheepService : ICheepService
         return db.SELECT_MESSAGE_FROM_USER(author);
     }
 
+    [Obsolete("This method is being replaced by the method from HelperFunctions in Chirp.CLI.Client")]
     private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
     {
         // Unix timestamp is seconds past epoch
