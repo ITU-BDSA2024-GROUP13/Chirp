@@ -3,6 +3,12 @@ namespace Chirp.CSVDBService
     using Chirp.CLI.Client;
     using System.Data;
     using Microsoft.Data.Sqlite;
+    using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+    using YamlDotNet.Core;
+
+    public record CheepViewModel(string Author, string Message, string Timestamp);
+
+
 
     /** 
      * <summary>
@@ -74,6 +80,7 @@ namespace Chirp.CSVDBService
         {
             var sqlQuery = $"INSERT INTO message VALUES({message_id}, {author_id}, '{text}', {pub_date})";
 
+
             try
             {
                 using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
@@ -98,10 +105,16 @@ namespace Chirp.CSVDBService
          * </summary>
          * <param name="username">The username of the user whose messages you want to retrieve.</param>
          */
-        public void SELECT_MESSAGE_FROM_USER(string username)
+        public List<CheepViewModel> SELECT_MESSAGE_FROM_USER(string username)
         {
-            var sqlQuery = $"SELECT U.username, M.text FROM user U, message M WHERE U.user_id = M.author_id AND U.username = '{username}';";
+            List<CheepViewModel> list = new();
 
+            string author = "";
+            string message = "";
+            long timestamp = 0;
+            string name = "";
+
+            var sqlQuery = $"SELECT U.username, M.text, M.pub_date FROM message M, user U WHERE M.author_id = U.user_id AND U.username = '{username}';";
             try
             {
                 using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
@@ -114,13 +127,32 @@ namespace Chirp.CSVDBService
                     while (reader.Read())
                     {
                         var dataRecord = (IDataRecord)reader;
-                        for (int i = 0; i < dataRecord.FieldCount; i++)
-                            Console.WriteLine($"{dataRecord.GetName(i)}: {dataRecord[i]}");
-
                         Object[] values = new Object[reader.FieldCount];
                         int fieldCount = reader.GetValues(values);
-                        for (int i = 0; i < fieldCount; i++)
-                            Console.WriteLine($"{reader.GetName(i)}: {values[i]}");
+                        for (int i = 0; i < fieldCount; i++){
+
+                            name = reader.GetName(i);
+                            //Console.WriteLine($"{reader.GetName(i)}: {values[i]}");
+                            if (values[i] != null){
+                                switch(name){
+                                case "username":
+                                    author =  (String) values[i];
+                                    break;
+
+                                case "text":
+                                    message = (String) values[i];
+                                    break;
+                                case "pub_date":
+                                    
+                                    timestamp = (long) values[i];
+                                    list.Add(new CheepViewModel(author, message, Convert.ToString(HelperFunctions.FromUnixTimeToDateTime(timestamp))));
+                                    break;
+                                }
+                            }
+
+
+                        }
+                            
                     }
                 }
             }
@@ -128,6 +160,64 @@ namespace Chirp.CSVDBService
             {
                 Console.WriteLine(e.Message);
             }
+            return list;
+
+        }
+
+        public List<CheepViewModel> SELECT_ALL_MESSAGES()
+        {
+            List<CheepViewModel> list = new();
+
+            string author = "";
+            string message = "";
+            long timestamp = 0;
+            string name = "";
+
+            var sqlQuery = $"SELECT U.username, M.text, M.pub_date FROM message M, user U WHERE M.author_id = U.user_id;";
+            try
+            {
+                using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = sqlQuery;
+
+                    using var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var dataRecord = (IDataRecord)reader;
+                        Object[] values = new Object[reader.FieldCount];
+                        int fieldCount = reader.GetValues(values);
+                        for (int i = 0; i < fieldCount; i++){
+
+                            name = reader.GetName(i);
+                            if (values[i] != null){
+                                switch(name){
+                                case "username":
+                                    author =  (String) values[i];
+                                    break;
+
+                                case "text":
+                                    message = (String) values[i];
+                                    break;
+                                case "pub_date":
+                                    timestamp = (long) values[i];
+                                    list.Add(new CheepViewModel(author, message, Convert.ToString(HelperFunctions.FromUnixTimeToDateTime(timestamp))));
+                                    break;
+                                }
+                            }
+
+
+                        }
+                            
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return list;
         }
 
         /**
@@ -151,13 +241,13 @@ namespace Chirp.CSVDBService
                     while (reader.Read())
                     {
                         var dataRecord = (IDataRecord)reader;
-                        for (int i = 0; i < dataRecord.FieldCount; i++)
-                            Console.WriteLine($"{dataRecord.GetName(i)}: {dataRecord[i]}");
+                        //for (int i = 0; i < dataRecord.FieldCount; i++)
+                           // Console.WriteLine($"{dataRecord.GetName(i)}: {dataRecord[i]}");
 
                         Object[] values = new Object[reader.FieldCount];
                         int fieldCount = reader.GetValues(values);
-                        for (int i = 0; i < fieldCount; i++)
-                            Console.WriteLine($"{reader.GetName(i)}: {values[i]}");
+                        //for (int i = 0; i < fieldCount; i++)
+                           // Console.WriteLine($"{reader.GetName(i)}: {values[i]}");
                     }
                 }
             }

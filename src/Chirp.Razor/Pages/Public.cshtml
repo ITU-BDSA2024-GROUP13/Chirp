@@ -14,14 +14,18 @@
             @foreach (var cheep in Model.Cheeps)
             {
                 <li>
-                    <p>
-                        <strong>
+                    <div class="cheep-content">
+                        <strong class="author">
                             <a href="/@cheep.Author">@cheep.Author</a>
                         </strong>
-                        @cheep.Message
-                        <small>&mdash; @cheep.Timestamp</small>
-                    </p>
+                        <p class="message">
+                            @cheep.Message
+                        </p>
+                        <span class="date">&mdash; @cheep.Timestamp</span>
+                    </div>
                 </li>
+                
+                
             }
         </ul>
     }

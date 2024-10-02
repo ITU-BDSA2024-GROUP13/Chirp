@@ -1,0 +1,69 @@
+name: Build and Release C# Projects
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Triggers on version tags like v1.0.0
+  release:
+    types: 
+    - published  # Triggers when a release is published
+    - edited     # Trigger when a release is edtied
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        project: 
+          - ./src/Chirp.Razor/Chirp.Razor.csproj
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.x'
+
+      - name: List files
+        run: ls -R
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ matrix.project }}
+
+      - name: Build project
+        run: dotnet publish ${{ matrix.project }} --configuration Release --output ./build/${{ matrix.os }}/$(basename ${{ matrix.project }} .csproj) --self-contained --runtime ${{ matrix.os == 'ubuntu-latest' && 'linux-x64' || matrix.os == 'windows-latest' && 'win-x64' || 'osx-x64' }}
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: executables-${{ matrix.project }}-${{ matrix.os }}
+          path: ./build/${{ matrix.os }}/$(basename ${{ matrix.project }} .csproj)
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      deployments: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: ./build/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./build/linux/*
+            ./build/windows/*
+            ./build/macos/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
