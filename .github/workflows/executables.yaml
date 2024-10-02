@@ -16,9 +16,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         project: 
-          - src/Chirp.CLI.Client/Chirp.CLI.Client.csproj
-          - src/Chirp.CSVDB/Chirp.CSVDB.csproj
-          - src/Chirp.CSVDBService/Chirp.CSVDBService.csproj
           - src/Chirp.Razor/Chirp.Razor.csproj
 
     steps:
@@ -29,6 +26,9 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '7.x'
+
+      - name: List files
+        run: ls -R
 
       - name: Restore dependencies
         run: dotnet restore ${{ matrix.project }}
