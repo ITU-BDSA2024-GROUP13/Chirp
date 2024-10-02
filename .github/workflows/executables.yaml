@@ -6,6 +6,10 @@ on:
       - "main"
     tags:
       - 'v*.*.*'
+  release:
+    types: 
+      - published  # Triggers when a release is published
+      - edited     # Trigger when a release is edtied
 
 jobs:
   release:
