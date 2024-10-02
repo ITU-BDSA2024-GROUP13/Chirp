@@ -127,15 +127,12 @@ namespace Chirp.CSVDBService
                     while (reader.Read())
                     {
                         var dataRecord = (IDataRecord)reader;
-                        /*for (int i = 0; i < dataRecord.FieldCount; i++)
-                            Console.WriteLine($"{dataRecord.GetName(i)}: {dataRecord[i]}");*/
-
                         Object[] values = new Object[reader.FieldCount];
                         int fieldCount = reader.GetValues(values);
                         for (int i = 0; i < fieldCount; i++){
 
                             name = reader.GetName(i);
-                            Console.WriteLine($"{reader.GetName(i)}: {values[i]}");
+                            //Console.WriteLine($"{reader.GetName(i)}: {values[i]}");
                             if (values[i] != null){
                                 switch(name){
                                 case "username":
@@ -189,15 +186,11 @@ namespace Chirp.CSVDBService
                     while (reader.Read())
                     {
                         var dataRecord = (IDataRecord)reader;
-                        /*for (int i = 0; i < dataRecord.FieldCount; i++)
-                            Console.WriteLine($"{dataRecord.GetName(i)}: {dataRecord[i]}");*/
-
                         Object[] values = new Object[reader.FieldCount];
                         int fieldCount = reader.GetValues(values);
                         for (int i = 0; i < fieldCount; i++){
 
                             name = reader.GetName(i);
-                            Console.WriteLine($"{reader.GetName(i)}: {values[i]}");
                             if (values[i] != null){
                                 switch(name){
                                 case "username":
@@ -248,13 +241,13 @@ namespace Chirp.CSVDBService
                     while (reader.Read())
                     {
                         var dataRecord = (IDataRecord)reader;
-                        for (int i = 0; i < dataRecord.FieldCount; i++)
-                            Console.WriteLine($"{dataRecord.GetName(i)}: {dataRecord[i]}");
+                        //for (int i = 0; i < dataRecord.FieldCount; i++)
+                           // Console.WriteLine($"{dataRecord.GetName(i)}: {dataRecord[i]}");
 
                         Object[] values = new Object[reader.FieldCount];
                         int fieldCount = reader.GetValues(values);
-                        for (int i = 0; i < fieldCount; i++)
-                            Console.WriteLine($"{reader.GetName(i)}: {values[i]}");
+                        //for (int i = 0; i < fieldCount; i++)
+                           // Console.WriteLine($"{reader.GetName(i)}: {values[i]}");
                     }
                 }
             }
