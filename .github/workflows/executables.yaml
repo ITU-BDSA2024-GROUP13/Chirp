@@ -12,6 +12,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]  # Build on multiple platforms
+        project: 
+            - Chirp.Razor/Chirp.Razor.csproj # Specify projects
 
     steps:
       - name: Checkout code
