@@ -1,69 +1,101 @@
-name: Build and Release C# Projects
+name: Release
 
 on:
   push:
+    branches: 
+      - "main"
     tags:
-      - 'v*.*.*'  # Triggers on version tags like v1.0.0
-  release:
-    types: 
-    - published  # Triggers when a release is published
-    - edited     # Trigger when a release is edtied
+      - 'v*.*.*'
+
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        project: 
-          - ./src/Chirp.Razor/Chirp.Razor.csproj
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '7.x'
-
-      - name: List files
-        run: ls -R
-
-      - name: Restore dependencies
-        run: dotnet restore ${{ matrix.project }}
-
-      - name: Build project
-        run: dotnet publish ${{ matrix.project }} --configuration Release --output ./build/${{ matrix.os }}/$(basename ${{ matrix.project }} .csproj) --self-contained --runtime ${{ matrix.os == 'ubuntu-latest' && 'linux-x64' || matrix.os == 'windows-latest' && 'win-x64' || 'osx-x64' }}
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: executables-${{ matrix.project }}-${{ matrix.os }}
-          path: ./build/${{ matrix.os }}/$(basename ${{ matrix.project }} .csproj)
-
   release:
-    needs: build
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      deployments: write
+    name: Build, Test, and Release Chirp Executable
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          path: ./build/
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.x
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            ./build/linux/*
-            ./build/windows/*
-            ./build/macos/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # Restore the dependencies
+    - name: Restore dependencies
+      run: dotnet restore
+
+    # Build the solution
+    - name: Build the solution
+      run: dotnet build Chirp.sln --configuration Release --no-restore
+
+    # Run tests
+    - name: Run tests
+      run: dotnet test --configuration Release --verbosity normal
+
+    # Build for Windows (x64) and create single EXE file
+    - name: Build and Publish Single EXE for Windows (x64)
+      run: dotnet publish "Chirp.Razor/Chirp.Razor.csproj" -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/win-x64
+
+    # Build for Windows (ARM) and create single EXE file
+    - name: Build and Publish Single EXE for Windows (ARM)
+      run: dotnet publish "Chirp.Razor/Chirp.Razor.csproj" -c Release -r win-arm64 --self-contained false /p:PublishSingleFile=true --output ./publish/win-arm64
+
+    # Build for MacOS (x64) and create single executable
+    - name: Build and Publish Single Executable for MacOS (x64)
+      run: dotnet publish "Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/osx-x64
+
+    # Build for MacOS (ARM) and create single executable
+    - name: Build and Publish Single Executable for MacOS (ARM)
+      run: dotnet publish "Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-arm64 --self-contained false /p:PublishSingleFile=true --output ./publish/osx-arm64
+
+    # Build for Linux (x64) and create single executable
+    - name: Build and Publish Single Executable for Linux (x64)
+      run: dotnet publish "Chirp.Razor/Chirp.Razor.csproj" -c Release -r linux-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/linux-x64
+
+    # Build for Linux (ARM) and create single executable
+    - name: Build and Publish Single Executable for Linux (ARM)
+      run: dotnet publish "Chirp.Razor/Chirp.Razor.csproj" -c Release -r linux-arm64 --self-contained false /p:PublishSingleFile=true --output ./publish/linux-arm64
+
+    # Create the publish directory if it doesn't already exist
+    - name: Create publish directory
+      run: mkdir -p ./publish
+    
+    # Compress the EXE into a ZIP file (Windows x64)
+    - name: Compress Windows x64 EXE to ZIP
+      run: zip -j ./publish/chirp-win-x64.zip ./publish/win-x64/Chirp.Razor.exe
+
+    # Compress the EXE into a ZIP file (Windows ARM)
+    - name: Compress Windows ARM EXE to ZIP
+      run: zip -j ./publish/chirp-win-arm64.zip ./publish/win-arm64/Chirp.Razor.exe
+
+    # Compress the MacOS x64 executable into a ZIP file
+    - name: Compress MacOS x64 executable to ZIP
+      run: zip -j ./publish/chirp-osx-x64.zip ./publish/osx-x64/Chirp.Razor
+
+    # Compress the MacOS ARM executable into a ZIP file
+    - name: Compress MacOS ARM executable to ZIP
+      run: zip -j ./publish/chirp-osx-arm64.zip ./publish/osx-arm64/Chirp.Razor
+
+    # Compress the Linux x64 executable into a ZIP file
+    - name: Compress Linux x64 executable to ZIP
+      run: zip -j ./publish/chirp-linux-x64.zip ./publish/linux-x64/Chirp.Razor
+
+    # Compress the Linux ARM executable into a ZIP file
+    - name: Compress Linux ARM executable to ZIP
+      run: zip -j ./publish/chirp-linux-arm64.zip ./publish/linux-arm64/Chirp.Razor
+  
+    # Create GitHub Release and attach all ZIP files
+    - name: Create GitHub Release
+      id: create_release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          ./publish/chirp-win-x64.zip
+          ./publish/chirp-win-arm64.zip
+          ./publish/chirp-osx-x64.zip
+          ./publish/chirp-osx-arm64.zip
+          ./publish/chirp-linux-x64.zip
+          ./publish/chirp-linux-arm64.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
