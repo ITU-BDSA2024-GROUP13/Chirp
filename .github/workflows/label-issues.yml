@@ -1,0 +1,16 @@
+name: Auto Label Issues
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  labeler:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label based on issue content
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          BUG_KEYWORDS: "bug,error,failure"
+          FEATURE_KEYWORDS: "feature,request,new, General, testing, documentation, workflow"

@@ -1,15 +1,15 @@
 body {
-  background: #eccaca;
+  background: #D4D4D4;
   font-family: 'Trebuchet MS', sans-serif;
   font-size: 14px;
 }
 
 a {
-  color: #26776F;
+  color: #452a238d;
 }
 
 a:hover {
-  color: #333;
+  color: #d4d4d4b3;
 }
 
 input[type="email"],
@@ -41,22 +41,29 @@ input[type="submit"] {
 }
 
 div.page {
-  background: white;
+  float:center;
+  background: WHITE;
   border: 1px solid #cc6e6e;
-  width: 700px;
+  width: auto;
+  width: 80%;
+  max-width: 700px;
   margin: 30px auto;
 }
 
 div.page > h1 {
-  background: #cc6e6e;
+  position: relative;
+  background: #dc722be2;
   margin: 0;
   padding: 10px 14px;
-  color: white;
+  color: #D4D4D4;
   letter-spacing: 1px;
-  text-shadow: 0 0 3px #772424;
-  font-weight: normal;
+  text-shadow: 0 0 3px #000000;
+  font-weight: heavy;
   font-size: 80px;
+  border-width: 1px;
+
 }
+
 
 div.page h1 img {
   height: 1em;
@@ -95,9 +102,18 @@ div.page div.navigation form button {
 }
 
 div.page h2 {
+  display: flex;
+  justify-content: center;
   margin: 0 0 15px 0;
   color: #571010;
   text-shadow: 0 1px 2px #ccc;
+  border: 3px solid #610101;
+  border-radius: 2px;
+  border-left: #571010;
+  border-right: #571010;
+  border-top:#571010;
+  border-radius: 0px;
+
 }
 
 div.page div.body {
@@ -122,20 +138,32 @@ div.page div.followstatus {
 }
 
 div.page ul.cheeps {
+  display: flex;
+  flex-direction: column;
+  align-items:center;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-div.page ul.cheeps li {
+div.page ul.cheeps li{
+  position: relative;
   margin: 10px 0;
   padding: 5px;
-  background: #F0FAF9;
-  border: 1px solid #DBF3F1;
+  background:
+  linear-gradient(to top, hsla(24, 72%, 52%, 0.886), #c11d04df);
+  border: 2px solid #610101;
   border-radius: 2px;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
-  min-height: 48px;
+  min-height: 60px;
+  width: auto;
+  width: 95%;
+  max-width: 700px;
+  word-wrap: break-word;
+  word-break: break-all;
+  display: flex;
+  flex-direction: column;
 }
 
 div.page ul.cheeps p {
@@ -143,13 +171,7 @@ div.page ul.cheeps p {
 }
 
 div.page ul.cheeps li img {
-  float: left;
   padding: 0 10px 0 0;
-}
-
-div.page ul.cheeps li small {
-  font-size: 0.9em;
-  color: #888;
 }
 
 div.page div.cheepbox {
@@ -173,7 +195,7 @@ div.page div.cheepbox p {
 }
 
 div.page div.cheepbox input[type="text"] {
-  width: 585px;
+  width: 485px;
 }
 
 div.page div.cheepbox input[type="submit"] {
@@ -286,4 +308,64 @@ ul.nav li a {
 
 ul.nav li a:hover {
     background-color: #8b4949;
+}
+
+.Icon{
+  cursor: pointer;
+  width: 45px;
+  height: 40px;
+}
+
+.bird{
+  position: absolute;
+  top: 4.5%;
+  left: 50.5%;
+  transform: translate(-50%, -50%);
+}
+
+.centerbox{
+  /*Position for the header*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /*Text styling*/
+  color: #dededed9;
+  letter-spacing: 10px;
+  font-size: 80px;
+  text-shadow: 0 0 4px #170f0d98;
+  font-weight: heavy;
+  padding: 10px 14px;
+
+  /*Box style*/
+  border-width:2px;
+  border-style:solid;
+  border-color:#c11d047c;
+  background:
+  linear-gradient(to top, hsla(24, 72%, 52%, 0.886), #c11d04f8);
+  border-radius: 20px;
+  box-shadow: 2px 2px rgba(56, 53, 53, 0.66);
+  margin: 0;
+}
+
+div.page ul.cheeps li .cheep-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+div.page ul.cheeps li .author {
+  font-weight: bold;
+  margin-bottom: 1px;
+}
+
+div.page ul.cheeps li .message {
+  flex-grow: 1;
+}
+
+div.page ul.cheeps li .date {
+  align-self: flex-end;
+  font-size: 0.9em;
+  color: #ece8e8;
+  margin-top: 11px;
 }
