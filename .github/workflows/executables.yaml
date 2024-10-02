@@ -1,0 +1,63 @@
+name: Build and Release C# Executables
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Triggers workflow when a version tag is pushed (e.g., v1.0.0)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Use Ubuntu runner for .NET
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]  # Build for multiple platforms
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Setup .NET SDK
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.x'  # Use the version of .NET you're targeting
+
+      # Restore dependencies
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # Build the project (for all platforms)
+      - name: Build
+        run: dotnet publish --configuration Release --output ./build/${{ matrix.os }} --self-contained --runtime ${{ matrix.os == 'ubuntu-latest' && 'linux-x64' || matrix.os == 'windows-latest' && 'win-x64' || 'osx-x64' }}
+      
+      # Upload the built executables as artifacts
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: executables-${{ matrix.os }}
+          path: ./build/${{ matrix.os }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout code again for release step
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Download artifacts from build job
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: executables-${{ matrix.os }}
+
+      # Create a GitHub release and upload the executables
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./build/${{ matrix.os }}/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
