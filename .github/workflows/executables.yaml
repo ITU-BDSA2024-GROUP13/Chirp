@@ -39,27 +39,27 @@ jobs:
 
     # Build for Windows (x64) and create single EXE file
     - name: Build and Publish Single EXE for Windows (x64)
-      run: dotnet publish "Chirp.Razor/Chirp.Razor.csproj" -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/win-x64
+      run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r win-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/win-x64
 
     # Build for Windows (ARM) and create single EXE file
     - name: Build and Publish Single EXE for Windows (ARM)
-      run: dotnet publish "Chirp.Razor/Chirp.Razor.csproj" -c Release -r win-arm64 --self-contained false /p:PublishSingleFile=true --output ./publish/win-arm64
+      run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r win-arm64 --self-contained false /p:PublishSingleFile=true --output ./publish/win-arm64
 
     # Build for MacOS (x64) and create single executable
     - name: Build and Publish Single Executable for MacOS (x64)
-      run: dotnet publish "Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/osx-x64
+      run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/osx-x64
 
     # Build for MacOS (ARM) and create single executable
     - name: Build and Publish Single Executable for MacOS (ARM)
-      run: dotnet publish "Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-arm64 --self-contained false /p:PublishSingleFile=true --output ./publish/osx-arm64
+      run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-arm64 --self-contained false /p:PublishSingleFile=true --output ./publish/osx-arm64
 
     # Build for Linux (x64) and create single executable
     - name: Build and Publish Single Executable for Linux (x64)
-      run: dotnet publish "Chirp.Razor/Chirp.Razor.csproj" -c Release -r linux-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/linux-x64
+      run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r linux-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/linux-x64
 
     # Build for Linux (ARM) and create single executable
     - name: Build and Publish Single Executable for Linux (ARM)
-      run: dotnet publish "Chirp.Razor/Chirp.Razor.csproj" -c Release -r linux-arm64 --self-contained false /p:PublishSingleFile=true --output ./publish/linux-arm64
+      run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r linux-arm64 --self-contained false /p:PublishSingleFile=true --output ./publish/linux-arm64
 
     # Create the publish directory if it doesn't already exist
     - name: Create publish directory
