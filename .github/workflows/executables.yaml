@@ -1,19 +1,25 @@
-name: Build and Release C# Executables
+name: Build and Release C# Projects
 
 on:
   push:
     tags:
-      - 'v*.*.*'  # Triggers on version tags like v1.0.0, v2.0.1, etc.
-
+      - 'v*.*.*'  # Triggers on version tags like v1.0.0
+  release:
+    types: 
+    - published  # Triggers when a release is published
+    - edited     # Trigger when a release is edtied
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    runs-on: ${{ matrix.os }}
+    
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]  # Build on multiple platforms
+        os: [ubuntu-latest, windows-latest, macos-latest]
         project: 
-            - Chirp.Razor/Chirp.Razor.csproj # Specify projects
+          - Chirp.CLI.Client/Chirp.CLI.Client.csproj
+          - Chirp.CSVDB/Chirp.CSVDB.csproj
+          - Chirp.CSVDBService/Chirp.CSVDBService.csproj
+          - Chirp.Razor/Chirp.Razor.csproj
 
     steps:
       - name: Checkout code
@@ -25,46 +31,33 @@ jobs:
           dotnet-version: '7.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore ${{ matrix.project }}
 
       - name: Build project
-        run: dotnet publish --configuration Release --output ./build/${{ matrix.os }} --self-contained --runtime ${{ matrix.os == 'ubuntu-latest' && 'linux-x64' || matrix.os == 'windows-latest' && 'win-x64' || 'osx-x64' }}
+        run: dotnet publish ${{ matrix.project }} --configuration Release --output ./build/${{ matrix.os }}/$(basename ${{ matrix.project }} .csproj) --self-contained --runtime ${{ matrix.os == 'ubuntu-latest' && 'linux-x64' || matrix.os == 'windows-latest' && 'win-x64' || 'osx-x64' }}
 
-      # Upload the built executables as artifacts
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: executables-${{ matrix.os }}  # Artifact name based on OS
-          path: ./build/${{ matrix.os }}
+          name: executables-${{ matrix.project }}-${{ matrix.os }}
+          path: ./build/${{ matrix.os }}/$(basename ${{ matrix.project }} .csproj)
 
   release:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      deployments: write
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Loop through OS to download the correct artifact
-      - name: Download build artifacts (Linux)
+      - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
-          name: executables-ubuntu-latest
-          path: ./build/linux
+          path: ./build/
 
-      - name: Download build artifacts (Windows)
-        uses: actions/download-artifact@v3
-        with:
-          name: executables-windows-latest
-          path: ./build/windows
-
-      - name: Download build artifacts (macOS)
-        uses: actions/download-artifact@v3
-        with:
-          name: executables-macos-latest
-          path: ./build/macos
-
-      # Create a GitHub release and upload the executables
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
