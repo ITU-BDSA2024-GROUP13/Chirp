@@ -19,13 +19,9 @@ public class UserTimelineModel : PageModel
     public ActionResult OnGet(string author, int page = 0)
     {
         var pageQuery = Request.Query["page"];
-        Console.WriteLine(pageQuery);
-        Console.WriteLine("hello");
         if (!pageQuery.Equals("")){
             page = Int32.Parse(pageQuery[0]);
         }
-
-
         Cheeps = _service.GetCheepsFromAuthor(author, page);
         return Page();
     }

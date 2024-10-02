@@ -166,7 +166,7 @@ namespace Chirp.CSVDBService
 
         }
 
-        public List<CheepViewModel> SELECT_ALL_MESSAGES()
+        public List<CheepViewModel> SELECT_ALL_MESSAGES(int page)
         {
             List<CheepViewModel> list = new();
 
@@ -175,7 +175,9 @@ namespace Chirp.CSVDBService
             long timestamp = 0;
             string name = "";
 
-            var sqlQuery = $"SELECT U.username, M.text, M.pub_date FROM message M, user U WHERE M.author_id = U.user_id;";
+            var sqlQuery = $"SELECT U.username, M.text, M.pub_date FROM message M, user U"
+            + " WHERE M.author_id = U.user_id"
+            + $" ORDER BY M.pub_date DESC LIMIT 10 OFFSET {page * 32}";
             try
             {
                 using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
