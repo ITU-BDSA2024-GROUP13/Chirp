@@ -11,6 +11,7 @@
     <TargetFramework>net$(NETCoreAppMaximumVersion)</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <SelfContained>false</SelfContained>
   </PropertyGroup>
 
   <ItemGroup>
