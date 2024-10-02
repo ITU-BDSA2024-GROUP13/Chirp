@@ -5,7 +5,7 @@ using Chirp.CSVDBService;
 public interface ICheepService
 {
     public List<CheepViewModel> GetCheeps();
-    public List<CheepViewModel> GetCheepsFromAuthor(string author);
+    public List<CheepViewModel> GetCheepsFromAuthor(string author, int page);
 }
 
 public class CheepService : ICheepService
@@ -21,10 +21,10 @@ public class CheepService : ICheepService
         return db.SELECT_ALL_MESSAGES();
     }
 
-    public List<CheepViewModel> GetCheepsFromAuthor(string author)
+    public List<CheepViewModel> GetCheepsFromAuthor(string author, int page)
     {
         // filter by the provided author name
-        return db.SELECT_MESSAGE_FROM_USER(author);
+        return db.SELECT_MESSAGE_FROM_USER(author, page);
     }
 
     [Obsolete("This method is being replaced by the method from HelperFunctions in Chirp.CLI.Client")]

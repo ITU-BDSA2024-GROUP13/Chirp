@@ -105,7 +105,7 @@ namespace Chirp.CSVDBService
          * </summary>
          * <param name="username">The username of the user whose messages you want to retrieve.</param>
          */
-        public List<CheepViewModel> SELECT_MESSAGE_FROM_USER(string username)
+        public List<CheepViewModel> SELECT_MESSAGE_FROM_USER(string username, int page)
         {
             List<CheepViewModel> list = new();
 
@@ -114,7 +114,9 @@ namespace Chirp.CSVDBService
             long timestamp = 0;
             string name = "";
 
-            var sqlQuery = $"SELECT U.username, M.text, M.pub_date FROM message M, user U WHERE M.author_id = U.user_id AND U.username = '{username}';";
+            var sqlQuery = $"SELECT U.username, M.text, M.pub_date FROM message M, user U" + 
+            $" WHERE M.author_id = U.user_id AND U.username = '{username}'" + 
+            $" ORDER BY M.pub_date DESC LIMIT 10 OFFSET {page * 32}";
             try
             {
                 using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
