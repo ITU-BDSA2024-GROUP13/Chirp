@@ -16,10 +16,10 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         project: 
-          - Chirp.CLI.Client/Chirp.CLI.Client.csproj
-          - Chirp.CSVDB/Chirp.CSVDB.csproj
-          - Chirp.CSVDBService/Chirp.CSVDBService.csproj
-          - Chirp.Razor/Chirp.Razor.csproj
+          - src/Chirp.CLI.Client/Chirp.CLI.Client.csproj
+          - src/Chirp.CSVDB/Chirp.CSVDB.csproj
+          - src/Chirp.CSVDBService/Chirp.CSVDBService.csproj
+          - src/Chirp.Razor/Chirp.Razor.csproj
 
     steps:
       - name: Checkout code
