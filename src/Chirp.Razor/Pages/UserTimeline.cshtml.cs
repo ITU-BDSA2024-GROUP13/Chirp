@@ -11,6 +11,8 @@ public class UserTimelineModel : PageModel
     private readonly ICheepService _service;
     public List<CheepViewModel> Cheeps { get; set; }
 
+    public int count { get; set; }
+
     public UserTimelineModel(ICheepService service)
     {
         _service = service;
@@ -23,6 +25,7 @@ public class UserTimelineModel : PageModel
             page = Int32.Parse(pageQuery[0]);
         }
         Cheeps = _service.GetCheepsFromAuthor(author, page);
+        count = _service.CountFromAuthor(author);
         return Page();
     }
 }
