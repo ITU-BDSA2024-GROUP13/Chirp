@@ -22,4 +22,9 @@ public class Cheep
     {
         return _dateTime;
     }
+
+    public Author GertAuthor()
+    {
+        return _author;
+    }
 }
