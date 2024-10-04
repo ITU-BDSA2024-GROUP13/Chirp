@@ -4,6 +4,8 @@ public class Author
 {
     private string _name { get; set; }
     private string _email { get; set; }
+    
+    private List<Cheep> _cheeps {get ; set;}
 
     public Author(string name, string email)
     {
@@ -19,6 +21,11 @@ public class Author
     public string GetEmail()
     {
         return _email;
+    }
+
+    public List<Cheep> GetCheeps()
+    {
+        return _cheeps;
     }
 }
 
