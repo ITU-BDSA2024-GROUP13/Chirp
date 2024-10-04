@@ -10,5 +10,14 @@ public class Cheep
         _text = text;
         _dateTime = dateTime;
     }
-    
+
+    public string GetText()
+    {
+        return _text;
+    }
+
+    public DateTime GetDateTime()
+    {
+        return _dateTime;
+    }
 }
