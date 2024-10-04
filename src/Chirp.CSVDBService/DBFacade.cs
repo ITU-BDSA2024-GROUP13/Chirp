@@ -115,7 +115,7 @@ namespace Chirp.CSVDBService
             long timestamp = 0;
             string name = "";
 
-            var sqlQuery = $"SELECT U.username, M.text, M.pub_date FROM message M, user U WHERE M.author_id = U.user_id AND U.username = '{username}';";
+            var sqlQuery = $"SELECT U.username, M.text, M.pub_date FROM message M, user U WHERE M.author_id = U.user_id AND U.username = '{username}' ORDER BY M.pub_date DESC LIMIT 32 OFFSET {32* page};";
             try
             {
                 using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
