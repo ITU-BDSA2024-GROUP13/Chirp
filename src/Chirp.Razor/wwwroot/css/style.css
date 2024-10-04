@@ -348,6 +348,38 @@ ul.nav li a:hover {
   margin: 0;
 }
 
+.PageNavigationButton{
+  width: 100%;
+  display: flex;
+  flex-flow: row no-wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10px 10px 10px;
+}
+
+#button{
+  background:
+  linear-gradient(to top, #797777 -30%, hsla(24, 97%, 40%, 0.886));
+  border-width:2px;
+  border-style:solid;
+  border-color:#610101;;
+  color: #D4D4D4;
+}
+
+.left{
+  float: left;
+  width: 110px;
+}
+.right{
+  justify-self: right;
+  width: 110px;
+}
+
+.center{
+  justify-self: center;
+  width: 110px;
+}
+
 div.page ul.cheeps li .cheep-content {
   display: flex;
   flex-direction: column;

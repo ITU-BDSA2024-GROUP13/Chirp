@@ -24,6 +24,7 @@ namespace Chirp.CSVDBService
          * </summary>
          */ 
         string sqlDBFilePath = "../../data/chirps.db";
+        int page = 0;
 
         /** <summary>
          * Initializes a new instance of the DBFacade class and initializes SQLite batteries.
@@ -173,7 +174,7 @@ namespace Chirp.CSVDBService
             long timestamp = 0;
             string name = "";
 
-            var sqlQuery = $"SELECT U.username, M.text, M.pub_date FROM message M, user U WHERE M.author_id = U.user_id;";
+            var sqlQuery = $"SELECT U.username AS username, M.text AS text, M.pub_date FROM message M INNER JOIN user U ON M.author_id = U.user_id ORDER BY M.pub_date DESC LIMIT 32 OFFSET {32* page}";
             try
             {
                 using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
