@@ -25,9 +25,26 @@
                 </li>
             }
         </ul>
+
+        <ul id="pagelist" class="cheeps">
+            @for(int i = 0; i < 5; i++)
+            {
+                <li>
+                    <p>
+                        <strong>
+                            <a href="/@routeName/?page=@i">@i</a>
+                        </strong>
+                    </p>
+                </li>
+            }
+        </ul>
+
+
     }
     else
     {
         <em>There are no cheeps so far.</em>
     }
+
+    
 </div>
