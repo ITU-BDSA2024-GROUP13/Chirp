@@ -10,4 +10,15 @@ public class Author
         _name = name;
         _email = email;
     }
+
+    public string GetName()
+    {
+        return _name;
+    }
+
+    public string GetEmail()
+    {
+        return _email;
+    }
 }
+
