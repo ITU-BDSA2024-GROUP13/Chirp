@@ -2,7 +2,7 @@ namespace Chirp.Razor;
 
 public interface IMessageRepository
 {
-    public Task CreateMessage(newMessage MessageDTO);
+    public Task CreateMessage(MessageDTO newMessage);
 
     public Task<List<MessageDTO>> ReadMessages(string userName);
 
