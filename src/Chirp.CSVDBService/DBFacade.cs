@@ -260,6 +260,42 @@ namespace Chirp.CSVDBService
             return list;
         }
 
+        public int COUNT_MESSAGE_FROM_ALL(){
+
+            var sqlQuery = $"SELECT Count(*) FROM (SELECT U.username, M.text, M.pub_date FROM message M, user U" + 
+            $" WHERE M.author_id = U.user_id)";
+            int count = 0;
+
+            try
+            {
+                using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = sqlQuery;
+
+                    using var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var dataRecord = (IDataRecord)reader;
+                        Object[] values = new Object[reader.FieldCount];
+                        int fieldCount = reader.GetValues(values);
+                        for (int i = 0; i < fieldCount; i++){
+                            //casting to long to cast to int32
+                            count = (int)(long)values[i];
+                            }
+                    }
+                            
+                }
+            }
+                 catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return count;
+            }
+        
+
         /**
          * <summary>
          * Reads and prints all data from the 'user' table.

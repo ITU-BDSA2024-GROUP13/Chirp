@@ -8,6 +8,8 @@ public class PublicModel : PageModel
 {
     private readonly ICheepService _service;
     public List<CheepViewModel> Cheeps { get; set; }
+    public int count {get; set; }
+
 
     public PublicModel(ICheepService service)
     {
@@ -21,6 +23,7 @@ public class PublicModel : PageModel
             page = Int32.Parse(pageQuery[0]);
         }
         Cheeps = _service.GetCheeps(page);
+        count = _service.CountFromAll();
         return Page();
     }
 }

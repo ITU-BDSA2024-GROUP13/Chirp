@@ -8,6 +8,8 @@ public interface ICheepService
     public List<CheepViewModel> GetCheepsFromAuthor(string author, int page);
 
     public int CountFromAuthor(string author);
+    public int CountFromAll();
+
 
 }
 
@@ -34,6 +36,12 @@ public class CheepService : ICheepService
     {
         // filter by the provided author name
         return db.COUNT_MESSAGE_FROM_USER(author);
+    }
+
+        public int CountFromAll()
+    {
+        // filter by the provided author name
+        return db.COUNT_MESSAGE_FROM_ALL();
     }
 
     [Obsolete("This method is being replaced by the method from HelperFunctions in Chirp.CLI.Client")]
