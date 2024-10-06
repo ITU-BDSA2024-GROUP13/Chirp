@@ -428,6 +428,15 @@ ul.nav li a:hover {
   transform: scaleX(-1);
 }
 
+.pagelist{
+  font-size: 10px;
+  text-align: center;
+}
+
+#current{
+  background-color: rgb(247, 127, 193);
+}
+
 /*MAKES THE STRUCTURE WITHIN THE CHEEPS INTO COLUMN*/
 div.page ul.cheeps li .cheep-content {
   display: flex;

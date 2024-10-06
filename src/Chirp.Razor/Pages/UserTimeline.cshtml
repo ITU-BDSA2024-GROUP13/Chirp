@@ -32,9 +32,26 @@
         <button class = "right" id = "button"> Next page --> </button>
         </div>
         </ul>
+
+        <ul id="pagelist">
+            @for(int i = 0; i <= Model.count / 32; i++)
+            {
+                <li>
+                    <p>
+                        <strong>
+                            <a href="/@routeName/?page=@i">@i</a>
+                        </strong>
+                    </p>
+                </li>
+            }
+        </ul>
+
+
     }
     else
     {
         <em>There are no cheeps so far.</em>
     }
+
+    
 </div>
