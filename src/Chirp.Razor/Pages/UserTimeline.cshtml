@@ -64,9 +64,9 @@
                     {
                         @if(i > Model.currentPage + 3 || i < Model.currentPage -3){
                             @if(i == Model.lastPage){
-                                <a href="/@routeName/?page=@i">- end</a> 
+                                <fill>..</fill> <a href="/@routeName/?page=@i">@i</a> 
                             } else if(i == 0){
-                                 <a href="/@routeName/?page=@i">start -</a> 
+                                 <a href="/@routeName/?page=@i">@i</a> <fill>..</fill>
                             }
                         } else if(Model.currentPage == i){
                              <a href="/@routeName/?page=@i" id = 'current'>@i</a>
