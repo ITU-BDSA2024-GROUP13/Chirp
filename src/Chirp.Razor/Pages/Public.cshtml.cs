@@ -10,7 +10,7 @@ public class PublicModel : PageModel
     public List<CheepViewModel> Cheeps { get; set; }
     public int count {get; set; }
     public int nextPage {get; set;}
-    public int lastPage {get; set;}
+    public int previousPage {get; set;}
     public int currentPage {get; set;}
     public PublicModel(ICheepService service)
     {
@@ -26,9 +26,9 @@ public class PublicModel : PageModel
         currentPage = page;
         nextPage = page+1;
         if(page == 0){
-            lastPage = page;
+            previousPage = page;
         } else{
-            lastPage = page-1;
+            previousPage = page-1;
         }
         Cheeps = _service.GetCheeps(page);
         count = _service.CountFromAll();

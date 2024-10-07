@@ -4,7 +4,7 @@ body {
   font-size: 14px;
 }
 
-a {
+a{
   color: #452a238d;
 }
 
@@ -306,9 +306,6 @@ button {
 }
 
 /*might not be used*/
-button:hover {
-    background-color: #8b4949;
-}
 
 /*might not be used*/
 ul.nav {
@@ -404,7 +401,17 @@ ul.nav li a:hover {
   border-radius: 15px;
   height: 40px;
 }
-
+#limit{
+  height: 55px;
+  color: grey;
+  border-width:2px;
+  border-style:solid;
+  padding: 10px;
+  width: 110px;
+  border-radius: 15px;
+  height: 40px;
+  cursor:initial;
+}
 /*FOR BUTTON LEFT*/
 .left{
   display: flex;
