@@ -416,6 +416,7 @@ ul.nav li a:hover {
 .left{
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 /*FOR BUTTON RIGHT*/
 .right{
@@ -443,7 +444,7 @@ ul.nav li a:hover {
 }
 
 #current{
-  background-color: rgb(247, 127, 193);
+  color:hsl(24, 98%, 40%);
 }
 
 /*MAKES THE STRUCTURE WITHIN THE CHEEPS INTO COLUMN*/
