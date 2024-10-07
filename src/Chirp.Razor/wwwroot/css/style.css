@@ -378,18 +378,18 @@ ul.nav li a:hover {
 
 /*USED FOR THE BUTTONS SIZE AND POSITION*/
 .PageNavigationButton{
-  width: 97%;
+  width: 100%;
   min-width: 362px;
   display: flex;
   flex-flow: row no-wrap;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 10px 10px 10px;
+  padding: 10px 10px 10px 0px;
 }
 
-/*USED FOR THE BUTTONS STYLE*/
+/*USED FOR THE BUTTONS STYLE + CONTENT POSITIONING*/
 #button{
-  height: 55px;
+  justify-content: center;
   background:
   linear-gradient(to top, #797777 -30%, hsla(24, 97%, 40%, 0.886));
   border-width:2px;
@@ -397,9 +397,9 @@ ul.nav li a:hover {
   border-color:#610101;;
   color: #D4D4D4;
   padding: 10px;
-  width: 110px;
+  width: 90px;
   border-radius: 15px;
-  height: 40px;
+  height: 35px;
 }
 #limit{
   height: 55px;
@@ -435,9 +435,11 @@ ul.nav li a:hover {
   transform: scaleX(-1);
 }
 
-.pagelist{
-  font-size: 10px;
-  text-align: center;
+#pagelist{
+  display: inline-block;
+  font-size: 11.5px;
+  justify-content: center;
+  align-items: center;
 }
 
 #current{

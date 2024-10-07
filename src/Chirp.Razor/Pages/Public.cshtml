@@ -28,33 +28,35 @@
         </ul>
         
         <div class = "PageNavigationButton">
-        @if(Model.currentPage != 0){
+         @if(Model.currentPage != 0){
             <a href = "/?page=@Model.previousPage">
             <button class = "left" id = "button"> 
                 <img src="/images/arrow.png" class = "arrowRight"/>
                     Previous 
             </button>
             </a>
-        }else{
+            }else{
                 <button class = "left" id = "limit"> 
                  <img src="/images/arrow.png" class = "arrowRight"/>
                     Previous 
                 </button>
-        }
+            }
 
             <div id="pagelist">
                 @for(int i = 0; i <= Model.count / 32; i++)
                     {
-                            <p>
-                                <div class = "pagelist">
-                                    @if(Model.currentPage == i){
-                                    <a href="/?page=@i" id = 'current'>@i</a>
-                                    } else{
-                                    <a href="/?page=@i">@i</a> 
-                                    }
-                                </div>
-                            </p>
-                    }
+                        @if(i > Model.currentPage + 3 || i < Model.currentPage -3){
+                            @if(i == Model.lastPage){
+                                <a href="/?page=@i">- end</a> 
+                            } else if(i == 0){
+                                 <a href="/?page=@i">start -</a> 
+                            }
+                        } else if(Model.currentPage == i){
+                             <a href="/?page=@i" id = 'current'>@i</a>
+                         } else{
+                            <a href="/?page=@i">@i</a> 
+                     }
+                }
             </div>
             @if(Model.currentPage != Model.lastPage){
             <a href = "/?page=@Model.nextPage">
