@@ -56,12 +56,19 @@
                             </p>
                     }
             </div>
+            @if(Model.currentPage != Model.lastPage){
             <a href = "/?page=@Model.nextPage">
                 <button class = "right" id = "button">
                     Next
                     <img src="/images/arrow.png" class = "arrow"/>
                 </button>
             </a>
+            } else{
+                    <button class = "right" id = "limit">
+                    Next
+                    <img src="/images/arrow.png" class = "arrow"/>
+                </button>
+            }
         </div>
     }
     else

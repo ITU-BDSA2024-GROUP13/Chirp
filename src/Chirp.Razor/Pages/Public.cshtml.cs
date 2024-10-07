@@ -12,9 +12,25 @@ public class PublicModel : PageModel
     public int nextPage {get; set;}
     public int previousPage {get; set;}
     public int currentPage {get; set;}
+
+    public int lastPage {get; set;}
     public PublicModel(ICheepService service)
     {
         _service = service;
+    }
+
+    public int definePreviousPage(int page){
+        if(page == 0){
+            return 0;
+        } else{
+            return page-1;
+        }
+    }
+
+    public int defineLastPage(){
+        double p = count/32;
+        int lastPage = (int) Math.Ceiling(p);
+        return lastPage;
     }
 
     public ActionResult OnGet(int page = 0)
@@ -25,13 +41,10 @@ public class PublicModel : PageModel
         }
         currentPage = page;
         nextPage = page+1;
-        if(page == 0){
-            previousPage = page;
-        } else{
-            previousPage = page-1;
-        }
+        previousPage = definePreviousPage(page);
         Cheeps = _service.GetCheeps(page);
         count = _service.CountFromAll();
+        lastPage = defineLastPage();
         return Page();
     }
 }
