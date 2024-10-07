@@ -402,14 +402,14 @@ ul.nav li a:hover {
   height: 35px;
 }
 #limit{
-  height: 55px;
+  justify-content: center;
+  height: 35px;
   color: grey;
   border-width:2px;
   border-style:solid;
   padding: 10px;
-  width: 110px;
+  width: 95px;
   border-radius: 15px;
-  height: 40px;
   cursor:initial;
 }
 /*FOR BUTTON LEFT*/
@@ -425,12 +425,12 @@ ul.nav li a:hover {
 }
 
 .arrow{
-  width: 40px;
+  width: 35px;
   height: 30px;
 }
 
 .arrowRight{
-  width: 50px;
+  width: 35px;
   height: 30px;
   transform: scaleX(-1);
 }

@@ -26,13 +26,12 @@
                     </div>
                 </li>
             }
-        <div class = "PageNavigationButton">
+         </ul>
+       /* <div class = "PageNavigationButton">
         <button class = "left" id = "button"> -- Last page </button>
         <button class = "center" id = "button"> Top </button>
         <button class = "right" id = "button"> Next page --> </button>
         </div>
-        </ul>
-
         <ul id="pagelist">
             @for(int i = 0; i <= Model.count / 32; i++)
             {
@@ -44,9 +43,52 @@
                     </p>
                 </li>
             }
-        </ul>
+        </ul>*/
+        <div class = "PageNavigationButton">
+         @if(Model.currentPage != 0){
+            <a href = "/@routeName/?page=@Model.previousPage">
+                <button class = "left" id = "button"> 
+                    <img src="/images/arrow.png" class = "arrowRight"/>
+                        Prev
+                </button>
+            </a>
+            }else{
+                <button class = "left" id = "limit"> 
+                    <img src="/images/arrow.png" class = "arrowRight"/>
+                        Prev 
+                </button>
+            }
 
-
+            <div id="pagelist">
+                @for(int i = 0; i <= Model.count / 32; i++)
+                    {
+                        @if(i > Model.currentPage + 3 || i < Model.currentPage -3){
+                            @if(i == Model.lastPage){
+                                <a href="/@routeName/?page=@i">- end</a> 
+                            } else if(i == 0){
+                                 <a href="/@routeName/?page=@i">start -</a> 
+                            }
+                        } else if(Model.currentPage == i){
+                             <a href="/@routeName/?page=@i" id = 'current'>@i</a>
+                         } else{
+                            <a href="/@routeName/?page=@i">@i</a> 
+                     }
+                }
+            </div>
+            @if(Model.currentPage != Model.lastPage){
+            <a href = "/@routeName/?page=@Model.nextPage">
+                <button class = "right" id = "button">
+                    Next
+                    <img src="/images/arrow.png" class = "arrow"/>
+                </button>
+            </a>
+            } else{
+                    <button class = "right" id = "limit">
+                    Next
+                    <img src="/images/arrow.png" class = "arrow"/>
+                </button>
+            }
+        </div>
     }
     else
     {

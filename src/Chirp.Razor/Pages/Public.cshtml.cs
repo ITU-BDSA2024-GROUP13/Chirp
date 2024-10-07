@@ -39,6 +39,7 @@ public class PublicModel : PageModel
         if (!pageQuery.Equals("") && pageQuery.Count() > 0){
             page = Int32.Parse(pageQuery[0]);
         }
+        
         currentPage = page;
         nextPage = page+1;
         previousPage = definePreviousPage(page);
