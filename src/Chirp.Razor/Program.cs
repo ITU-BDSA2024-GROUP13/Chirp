@@ -1,6 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.FileProviders;
-using Chirp.Razor;
+using Chirp.Razor.Model;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +20,7 @@ try{
         
         Console.WriteLine(++i);
         Console.WriteLine(queri);
-        
+
     }
 } catch (FileNotFoundException e){
     Console.WriteLine(e.Message);
