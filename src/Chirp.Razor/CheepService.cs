@@ -4,8 +4,13 @@ using Chirp.CSVDBService;
 
 public interface ICheepService
 {
-    public List<CheepViewModel> GetCheeps();
-    public List<CheepViewModel> GetCheepsFromAuthor(string author);
+    public List<CheepViewModel> GetCheeps(int page);
+    public List<CheepViewModel> GetCheepsFromAuthor(string author, int page);
+
+    public int CountFromAuthor(string author);
+    public int CountFromAll();
+
+
 }
 
 public class CheepService : ICheepService
@@ -16,15 +21,27 @@ public class CheepService : ICheepService
     private List<CheepViewModel> _cheeps = new();
     
 
-    public List<CheepViewModel> GetCheeps()
+    public List<CheepViewModel> GetCheeps(int page)
     {
-        return db.SELECT_ALL_MESSAGES();
+        return db.SELECT_ALL_MESSAGES(page);
     }
 
-    public List<CheepViewModel> GetCheepsFromAuthor(string author)
+    public List<CheepViewModel> GetCheepsFromAuthor(string author, int page)
     {
         // filter by the provided author name
-        return db.SELECT_MESSAGE_FROM_USER(author);
+        return db.SELECT_MESSAGE_FROM_USER(author, page);
+    }
+
+    public int CountFromAuthor(string author)
+    {
+        // filter by the provided author name
+        return db.COUNT_MESSAGE_FROM_USER(author);
+    }
+
+        public int CountFromAll()
+    {
+        // filter by the provided author name
+        return db.COUNT_MESSAGE_FROM_ALL();
     }
 
     [Obsolete("This method is being replaced by the method from HelperFunctions in Chirp.CLI.Client")]
