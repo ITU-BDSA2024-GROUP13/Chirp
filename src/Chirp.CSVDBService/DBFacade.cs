@@ -262,8 +262,7 @@ namespace Chirp.CSVDBService
 
         public int COUNT_MESSAGE_FROM_ALL(){
 
-            var sqlQuery = $"SELECT Count(*) FROM (SELECT U.username, M.text, M.pub_date FROM message M, user U" + 
-            $" WHERE M.author_id = U.user_id)";
+            var sqlQuery = $"SELECT Count(*) FROM (SELECT * from message)";
             int count = 0;
 
             try
