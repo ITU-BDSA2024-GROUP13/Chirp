@@ -2,11 +2,9 @@ namespace Chirp.Razor.Model;
 
 public class MessageDTO
 {
-    public string username;
+    public long timestamp;
 
-    public int timestamp;
-
-    public string message;
+    public string text;
 
     public string author;
 
