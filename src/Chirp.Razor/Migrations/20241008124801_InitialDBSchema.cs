@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -32,7 +31,7 @@ namespace Chirp.Razor.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     text = table.Column<string>(type: "TEXT", nullable: false),
-                    dateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    dateTime = table.Column<long>(type: "INTEGER", nullable: false),
                     authorId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>

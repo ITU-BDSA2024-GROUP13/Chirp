@@ -4,12 +4,12 @@ public class Cheep
 {
     public int Id {get ; set; }
     public string text { get; set; }
-    public DateTime dateTime { get; set; }
+    public long dateTime { get; set; }
     public int authorId {get; set; }
 
     private Author _author { get; set; }
     
-    public Cheep(string text, DateTime dateTime)
+    public Cheep(string text, long dateTime)
     {
         this.text = text;
         this.dateTime = dateTime;
@@ -20,12 +20,12 @@ public class Cheep
         return text;
     }
 
-    public DateTime GetDateTime()
+    public long GetDateTime()
     {
         return dateTime;
     }
 
-    public Author GertAuthor()
+    public Author GetAuthor()
     {
         return _author;
     }
