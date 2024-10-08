@@ -5,7 +5,7 @@ public class Author
     public int Id {get ; set; }
     public string name { get; set; }
     public string email { get; set; }    
-    private List<Cheep> _cheeps {get ; set;}
+    private ICollection<Cheep> _cheeps {get ; set;}
 
     public Author(string name, string email)
     {
