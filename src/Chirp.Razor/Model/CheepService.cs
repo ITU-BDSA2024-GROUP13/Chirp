@@ -1,6 +1,6 @@
 
-using System.Data.Common;
-using Chirp.CSVDBService;
+
+using Chirp.Razor.Model;
 
 public interface ICheepService
 {
