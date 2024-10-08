@@ -1,6 +1,6 @@
 namespace Chirp.Razor;
 
-public interface ICheepRepository
+public interface IMessageRepository
 {
     public Task CreateMessage(MessageDTO newMessage);
 
