@@ -23,7 +23,7 @@ public class Author
         return email;
     }
 
-    public List<Cheep> GetCheeps()
+    public ICollection<Cheep> GetCheeps()
     {
         return _cheeps;
     }
