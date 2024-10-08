@@ -1,8 +1,12 @@
 using System.Reflection;
 using Microsoft.Extensions.FileProviders;
 using Chirp.Razor;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite(connectionString));
 
 try{
     var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly());
