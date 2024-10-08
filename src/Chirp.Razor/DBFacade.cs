@@ -1,10 +1,9 @@
 namespace Chirp.CSVDBService
 {
-    using Chirp.CLI.Client;
     using System.Data;
     using Microsoft.Data.Sqlite;
     using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-    using YamlDotNet.Core;
+    using Chirp.Razor;
 
     public record CheepViewModel(string Author, string Message, string Timestamp);
 
