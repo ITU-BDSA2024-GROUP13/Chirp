@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Razor.Model;
 
@@ -23,14 +25,25 @@ public class CheepRepository : ICheepRepository {
     public async Task<List<MessageDTO>> ReadMessages(string userName){
 
         // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.cheeps.Select(message => new { message.authorId, message.text });
+        var query = _dbContext.cheeps.Select(message => new MessageDTO());
         // Execute the query
         var result = await query.ToListAsync();
+
+        return result;
 
 
     }
 
-    public Task UpdateMessage(MessageDTO alteredMessage){
+    public async Task UpdateMessage(MessageDTO alteredMessage, int id){
+
+        var cheep = _dbContext.cheeps.Single(e => e.Id == id);
+        var entityEntry = _dbContext.Entry(cheep);
+        _dbContext.Entry(cheep).CurrentValues.SetValues(alteredMessage);
+
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;
+
+        
     }
 
 
