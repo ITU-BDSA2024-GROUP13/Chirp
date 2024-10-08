@@ -1,4 +1,4 @@
-namespace Chirp.CSVDBService
+namespace Chirp.Razor.Model
 {
     using System.Data;
     using Microsoft.Data.Sqlite;
