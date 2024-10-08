@@ -5,7 +5,8 @@ namespace Chirp.CLI.Client;
 /**
  * A list of functions which do not match an ideal responsible class
  */
-public static class HelperFunctions
+public static class 
+    HelperFunctions
 {
     /**
      * <summary>
