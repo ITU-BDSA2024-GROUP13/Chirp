@@ -4,7 +4,7 @@ using Chirp.Razor;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-// test
+
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite(connectionString));
 
