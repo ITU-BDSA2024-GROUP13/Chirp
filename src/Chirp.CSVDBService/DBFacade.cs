@@ -105,7 +105,7 @@ namespace Chirp.CSVDBService
          * </summary>
          * <param name="username">The username of the user whose messages you want to retrieve.</param>
          */
-        public List<CheepViewModel> SELECT_MESSAGE_FROM_USER(string username)
+        public List<CheepViewModel> SELECT_MESSAGE_FROM_USER(string username, int page)
         {
             List<CheepViewModel> list = new();
 
@@ -114,7 +114,9 @@ namespace Chirp.CSVDBService
             long timestamp = 0;
             string name = "";
 
-            var sqlQuery = $"SELECT U.username, M.text, M.pub_date FROM message M, user U WHERE M.author_id = U.user_id AND U.username = '{username}';";
+            var sqlQuery = $"SELECT U.username, M.text, M.pub_date FROM message M, user U" + 
+            $" WHERE M.author_id = U.user_id AND U.username = '{username}'" + 
+            $" ORDER BY M.pub_date DESC LIMIT 32 OFFSET {page * 32}";
             try
             {
                 using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
@@ -164,7 +166,43 @@ namespace Chirp.CSVDBService
 
         }
 
-        public List<CheepViewModel> SELECT_ALL_MESSAGES()
+        public int COUNT_MESSAGE_FROM_USER(string username){
+
+            var sqlQuery = $"SELECT Count(*) FROM (SELECT U.username, M.text, M.pub_date FROM message M, user U" + 
+            $" WHERE M.author_id = U.user_id AND U.username = '{username}')";
+            int count = 0;
+
+            try
+            {
+                using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = sqlQuery;
+
+                    using var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var dataRecord = (IDataRecord)reader;
+                        Object[] values = new Object[reader.FieldCount];
+                        int fieldCount = reader.GetValues(values);
+                        for (int i = 0; i < fieldCount; i++){
+                            //casting to long to cast to int32
+                            count = (int)(long)values[i];
+                            }
+                    }
+                            
+                }
+            }
+                 catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return count;
+            }
+           
+
+        public List<CheepViewModel> SELECT_ALL_MESSAGES(int page)
         {
             List<CheepViewModel> list = new();
 
@@ -173,7 +211,9 @@ namespace Chirp.CSVDBService
             long timestamp = 0;
             string name = "";
 
-            var sqlQuery = $"SELECT U.username, M.text, M.pub_date FROM message M, user U WHERE M.author_id = U.user_id;";
+            var sqlQuery = $"SELECT U.username, M.text, M.pub_date FROM message M, user U"
+            + " WHERE M.author_id = U.user_id"
+            + $" ORDER BY M.pub_date DESC LIMIT 32 OFFSET {page * 32}";
             try
             {
                 using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
@@ -219,6 +259,41 @@ namespace Chirp.CSVDBService
             }
             return list;
         }
+
+        public int COUNT_MESSAGE_FROM_ALL(){
+
+            var sqlQuery = $"SELECT Count(*) FROM (SELECT * from message)";
+            int count = 0;
+
+            try
+            {
+                using (var connection = new SqliteConnection($"Data Source={sqlDBFilePath}"))
+                {
+                    connection.Open();
+                    var command = connection.CreateCommand();
+                    command.CommandText = sqlQuery;
+
+                    using var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var dataRecord = (IDataRecord)reader;
+                        Object[] values = new Object[reader.FieldCount];
+                        int fieldCount = reader.GetValues(values);
+                        for (int i = 0; i < fieldCount; i++){
+                            //casting to long to cast to int32
+                            count = (int)(long)values[i];
+                            }
+                    }
+                            
+                }
+            }
+                 catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return count;
+            }
+        
 
         /**
          * <summary>
