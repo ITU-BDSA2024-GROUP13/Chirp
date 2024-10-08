@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Razor.Model;
 
-namespace Chirp.Razor.Pages;
+namespace Chirp.Razor.Model.Pages;
 
 public class PublicModel : PageModel
 {

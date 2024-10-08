@@ -4,7 +4,7 @@ using Chirp.Razor.Model;
 using Microsoft.Extensions.Primitives;
 using System.Numerics;
 
-namespace Chirp.Razor.Pages;
+namespace Chirp.Razor.Model.Pages;
 
 public class UserTimelineModel : PageModel
 {
