@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Chirp.CSVDBService;
+using Chirp.Razor.Model;
 
 namespace Chirp.Razor.Pages;
 

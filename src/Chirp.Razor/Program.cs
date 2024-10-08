@@ -1,6 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.FileProviders;
-using Chirp.Razor;
+using Chirp.Razor.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
