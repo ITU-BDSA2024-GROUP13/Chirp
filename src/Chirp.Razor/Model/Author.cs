@@ -2,25 +2,25 @@ namespace Chirp.Razor.Model;
 
 public class Author
 {
-    private string _name { get; set; }
-    private string _email { get; set; }
-    
+    public int Id {get ; set; }
+    public string name { get; set; }
+    public string email { get; set; }    
     private List<Cheep> _cheeps {get ; set;}
 
     public Author(string name, string email)
     {
-        _name = name;
-        _email = email;
+        this.name = name;
+        this.email = email;
     }
 
     public string GetName()
     {
-        return _name;
+        return name;
     }
 
     public string GetEmail()
     {
-        return _email;
+        return email;
     }
 
     public List<Cheep> GetCheeps()
