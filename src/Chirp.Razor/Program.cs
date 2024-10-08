@@ -1,6 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.FileProviders;
-using Chirp.CSVDBService;
+using Chirp.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +16,7 @@ var content = sr.ReadToEnd();
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ICheepService, CheepService>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
 
 var app = builder.Build();

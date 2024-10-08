@@ -1,8 +1,9 @@
 name: .NET
 
 on:
-    pull_request:
-      branches: [ main ]
+  push:
+    branches-ignore:
+      - master
 
 jobs:
   build:
@@ -21,12 +22,12 @@ jobs:
       run: dotnet build --no-restore
     - name: check if big commit
       if: ${{ !contains(github.event.pull_request.labels.*.name, 'big') }}
-      run: C# ./src/updates.cs 
+      run: C# ./src/updates/UpdateBig.cs 
 
     - name: check if medium commit
       if: ${{ !contains(github.event.pull_request.labels.*.name, 'medium') }}
-      run: C# ./src/updates.cs
+      run: C# ./src/updates/UpdateMedium.cs
 
     - name: check if small commit
       if: ${{ !contains(github.event.pull_request.labels.*.name, 'small') }}
-      run: C# ./src/updates.cs
+      run: C# ./src/updates/UpdateSmall.cs

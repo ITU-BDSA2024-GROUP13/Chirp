@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.CSVDBService;
+using Microsoft.Extensions.Primitives;
+using System.Numerics;
 
 namespace Chirp.Razor.Pages;
 
@@ -9,14 +11,21 @@ public class UserTimelineModel : PageModel
     private readonly ICheepService _service;
     public List<CheepViewModel> Cheeps { get; set; }
 
+    public int count { get; set; }
+
     public UserTimelineModel(ICheepService service)
     {
         _service = service;
     }
     
-    public ActionResult OnGet(string author)
+    public ActionResult OnGet(string author, int page = 0)
     {
-        Cheeps = _service.GetCheepsFromAuthor(author);
+        var pageQuery = Request.Query["page"];
+        if (!pageQuery.Equals("") && pageQuery.Count() > 0){
+            page = Int32.Parse(pageQuery[0]);
+        }
+        Cheeps = _service.GetCheepsFromAuthor(author, page);
+        count = _service.CountFromAuthor(author);
         return Page();
     }
 }
