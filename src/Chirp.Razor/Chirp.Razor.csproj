@@ -14,10 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="..\..\data\**\*">
-    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </None>
+    <EmbeddedResource Include="data\**\*" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="8.0.8" />
   </ItemGroup>
 

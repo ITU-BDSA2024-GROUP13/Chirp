@@ -6,6 +6,7 @@ namespace Chirp.CSVDBService
     using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
     using YamlDotNet.Core;
 
+
     public record CheepViewModel(string Author, string Message, string Timestamp);
 
 
@@ -23,7 +24,7 @@ namespace Chirp.CSVDBService
          * File path to the SQLite database.
          * </summary>
          */ 
-        string sqlDBFilePath = "../../data/chirps.db";
+        string sqlDBFilePath = "../Chirp.Razor/data/chirps.db";
 
         /** <summary>
          * Initializes a new instance of the DBFacade class and initializes SQLite batteries.
