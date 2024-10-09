@@ -54,12 +54,9 @@ jobs:
 
       - name: makedir
         run: mkdir -p ./publish  
-
-      - name: Download build artifacts (macOS)
-        uses: actions/download-artifact@v3
-        with:
-          name: executables-macos-latest
-          path: ./publish/macos
+      
+      - name: make releases
+        run: dotnet publish "Chirp.Razor/" -c Release -r osx-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/
 
       - name: check
         run: ls -a
