@@ -11,15 +11,6 @@ on:
       - edited     # Trigger when a release is edtied
 
 jobs:
-  ls:
-    runs-on: ubuntu-latest
-    name: check dir
-
-    steps:
-      - name: ls
-        run: ls -a
-
-
   build:
     runs-on: ubuntu-latest
 
@@ -56,7 +47,7 @@ jobs:
         run: mkdir -p ./publish  
       
       - name: make releases
-        run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/
+        run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/macos
 
-      - name: check
+      - name: check dir
         run: ls -a
