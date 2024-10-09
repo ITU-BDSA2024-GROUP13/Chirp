@@ -48,18 +48,17 @@ jobs:
       
       - name: make releases
         run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/macos
-      
-      - name: Install tree
-        run: sudo apt-get install tree
     
       - name: Show directory structure
-        run: tree -a ./publish/macos
+        run: |
+          sudo apt-get install tree
+          tree -a ./publish/macos
 
       - name: Zip the published files
-        run: zip -r ./publish/macOS/macos-x64.zip ./publish/macOS/*
+        run: zip -r ./publish/macos-x64.zip ./publish/macos/*
 
       - name: Upload Release Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: myapp
+          name: macos-x64
           path: ./publish/macOS/myapp.zip
