@@ -53,7 +53,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: makedir
-        run: mdkir -p ./publish  
+        run: mkdir -p ./publish  
 
       - name: Download build artifacts (macOS)
         uses: actions/download-artifact@v3
