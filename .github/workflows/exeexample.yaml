@@ -1,0 +1,62 @@
+name: Build and Release C# Executables
+
+on:
+  push:
+    
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]  # Build on multiple platforms
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet publish --configuration Release --output ./build/${{ matrix.os }} --self-contained --runtime ${{ matrix.os == 'ubuntu-latest' && 'linux-x64' || matrix.os == 'windows-latest' && 'win-x64' || 'osx-x64' }}
+
+      # Upload the built executables as artifacts
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: executables-${{ matrix.os }}  # Artifact name based on OS
+          path: ./build/${{ matrix.os }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Loop through OS to download the correct artifact
+
+      - name: Download build artifacts (macOS)
+        uses: actions/download-artifact@v3
+        with:
+          name: executables-macos-latest
+          path: ./build/macos
+
+      # Create a GitHub release and upload the executables
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./build/linux/*
+            ./build/windows/*
+            ./build/macos/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

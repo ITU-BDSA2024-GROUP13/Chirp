@@ -2,8 +2,6 @@ name: Release
 
 on:
   push:
-    branches: 
-      - "main"
     tags:
       - 'v*.*.*'
   release:
@@ -12,55 +10,55 @@ on:
       - edited     # Trigger when a release is edtied
 
 jobs:
-  steps:
-    -name: ls
-          run: 
-
-
-  release:
+  ls:
     runs-on: ubuntu-latest
-    name: Build, Test, and Release Chirp Executable
+    name: check dir
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: ls
+        run: ls
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.x
 
-    # Restore the dependencies
-    - name: Restore dependencies
-      run: dotnet restore
+  build:
+    runs-on: ubuntu-latest
 
-    # Build the solution
-    - name: Build the solution
-      run: dotnet build Chirp.sln --configuration Release --no-restore
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    # Run tests
-    - name: Run tests
-      run: dotnet test --configuration Release --verbosity normal
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
 
-    # Build for MacOS (x64) and create single executable
-    - name: Build and Publish Single Executable for MacOS (x64)
-      run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/osx-x64
+      # Restore the dependencies
+      - name: Restore dependencies
+        run: dotnet restore
 
-    # Create the publish directory if it doesn't already exist
-    - name: Create publish directory
-      run: mkdir -p ./publish
+      # Build the solution
+      - name: Build the solution
+        run: dotnet build Chirp.sln --configuration Release --no-restore
 
-    # Compress the MacOS x64 executable into a ZIP file
-    - name: Compress MacOS x64 executable to ZIP
-      run: zip -j ./publish/chirp-osx-x64.zip ./publish/osx-x64/Chirp.Razor
-  
-    # Create GitHub Release and attach all ZIP files
-    - name: Create GitHub Release
-      id: create_release
-      uses: softprops/action-gh-release@v2
-      with:
-        files: |
-          ./publish/chirp-osx-x64.zip
+      # Run tests
+      - name: Run tests
+        run: dotnet test --configuration Release --verbosity normal
 
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: makedir
+        run: mdkir -p macos
+
+      - name: Download build artifacts (macOS)
+        uses: actions/download-artifact@v3
+        with:
+          name: executables-macos-latest
+          path: ./test/macos
+
+      - name: check
+        run: ls
