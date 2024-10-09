@@ -1,8 +1,8 @@
 ﻿@page "/{author}"
-@model Chirp.Razor.Pages.UserTimelineModel
+@model Chirp.Razor.Model.Pages.UserTimelineModel
 @{
     ViewData["Title"] = "Chirp!";
-    Layout = "Shared/_Layout";
+    Layout = "./Shared/_Layout.cshtml";
     var routeName = HttpContext.GetRouteValue("author");
 }
 
@@ -25,9 +25,26 @@
                 </li>
             }
         </ul>
+
+        <ul id="pagelist">
+            @for(int i = 0; i <= Model.count / 32; i++)
+            {
+                <li>
+                    <p>
+                        <strong>
+                            <a href="/@routeName/?page=@i">@i</a>
+                        </strong>
+                    </p>
+                </li>
+            }
+        </ul>
+
+
     }
     else
     {
         <em>There are no cheeps so far.</em>
     }
+
+    
 </div>
