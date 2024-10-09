@@ -50,7 +50,7 @@ jobs:
         run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/macos
       
       - name: Check published files
-        run: ls -a ./publish/macOS
+        run: ls -a ./publish/macos
 
       - name: Zip the published files
         run: zip -r ./publish/macOS/macos-x64.zip ./publish/macOS/*
