@@ -53,13 +53,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: makedir
-        run: mdkir -p macos
+        run: mdkir -p ./publish  
 
       - name: Download build artifacts (macOS)
         uses: actions/download-artifact@v3
         with:
           name: executables-macos-latest
-          path: ./test/macos
+          path: ./publish/macos
 
       - name: check
         run: ls -a
