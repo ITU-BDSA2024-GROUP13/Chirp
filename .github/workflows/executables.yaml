@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - 'v*.*.*'
+
   release:
     types: 
       - published  # Triggers when a release is published
@@ -16,7 +17,7 @@ jobs:
 
     steps:
       - name: ls
-        run: ls
+        run: ls -a
 
 
   build:
@@ -61,4 +62,4 @@ jobs:
           path: ./test/macos
 
       - name: check
-        run: ls
+        run: ls -a
