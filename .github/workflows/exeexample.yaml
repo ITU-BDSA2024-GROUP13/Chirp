@@ -1,8 +1,9 @@
-name: Build and Release C# Executables
+# name: Build and Release C# Executables
 
 on:
-  push:
-    
+    push:
+    pull_request:
+        branches: [ main ]
 
 jobs:
   build:
