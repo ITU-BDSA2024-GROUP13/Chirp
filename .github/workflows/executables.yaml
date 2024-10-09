@@ -56,7 +56,7 @@ jobs:
         run: mkdir -p ./publish  
       
       - name: make releases
-        run: dotnet publish "Chirp.Razor/" -c Release -r osx-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/
+        run: dotnet publish "Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/
 
       - name: check
         run: ls -a
