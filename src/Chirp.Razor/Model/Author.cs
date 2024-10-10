@@ -2,30 +2,38 @@ namespace Chirp.Razor.Model;
 
 public class Author
 {
-    public int Id {get ; set; }
-    public string name { get; set; }
-    public string email { get; set; }    
-    private ICollection<Cheep> _cheeps {get ; set;}
+    public int AuthorId {get ; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }    
+    public ICollection<Cheep> Cheeps {get ; set;}
 
-    public Author(string name, string email)
+    public Author(int authorId, string name, string email, ICollection<Cheep> cheeps)
     {
-        this.name = name;
-        this.email = email;
+        this.AuthorId = authorId;
+        this.Name = name;
+        this.Email = email;
+        this.Cheeps = cheeps;
     }
+
+    public Author()
+    {
+
+    }
+
 
     public string GetName()
     {
-        return name;
+        return Name;
     }
 
     public string GetEmail()
     {
-        return email;
+        return Email;
     }
 
     public ICollection<Cheep> GetCheeps()
     {
-        return _cheeps;
+        return Cheeps;
     }
 }
 

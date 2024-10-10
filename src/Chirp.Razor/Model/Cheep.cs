@@ -2,31 +2,34 @@ namespace Chirp.Razor.Model;
 
 public class Cheep
 {
-    public int Id {get ; set; }
-    public string text { get; set; }
-    public DateTime dateTime { get; set; }
-    public int authorId {get; set; }
-
-    private Author _author { get; set; }
+    public int CheepId;
+    public string Text { get; set; }
+    public DateTime TimeStamp { get; set; }
+    public int AuthorId {get; set; }
+    public Author Author { get; set; }
     
     public Cheep(string text, DateTime dateTime)
     {
-        this.text = text;
-        this.dateTime = dateTime;
+        this.Text = text;
+        this.TimeStamp = dateTime;
+    }
+
+        public Cheep()
+    {
     }
 
     public string GetText()
     {
-        return text;
+        return Text;
     }
 
     public DateTime GetDateTime()
     {
-        return dateTime;
+        return TimeStamp;
     }
 
     public Author GetAuthor()
     {
-        return _author;
+        return Author;
     }
 }

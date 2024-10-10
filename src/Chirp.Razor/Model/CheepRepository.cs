@@ -16,27 +16,25 @@ public class CheepRepository : ICheepRepository {
     public async Task<int> CreateMessage(CheepDTO message){
 
         Cheep newCheep = new(message.text, HelperFunctions.FromUnixTimeToDateTime(message.timestamp));
-        var queryResult = await _dbContext.cheeps.AddAsync(newCheep); // does not write to the database!
+        var queryResult = await _dbContext.Cheeps.AddAsync(newCheep); // does not write to the database!
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
-        return queryResult.Entity.Id;
+        return queryResult.Entity.CheepId;
     }
 
     public async Task<List<CheepDTO>> ReadMessages(string userName){
 
         // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.cheeps.Select(message => new CheepDTO());
+        var query = _dbContext.Cheeps.Select(message => new CheepDTO());
         // Execute the query
         var result = await query.ToListAsync();
 
         return result;
-
-
     }
 
     public async Task UpdateMessage(CheepDTO alteredMessage, int id){
 
-        var cheep = _dbContext.cheeps.Single(e => e.Id == id);
+        var cheep = _dbContext.Cheeps.Single(e => e.CheepId == id);
         var entityEntry = _dbContext.Entry(cheep);
         _dbContext.Entry(cheep).CurrentValues.SetValues(alteredMessage);
 
