@@ -18,10 +18,7 @@ public class CheepDBContext : DbContext
         .HasKey(c => new { c.CheepId});
         modelBuilder.Entity<Author>()
         .HasKey(a => new { a.AuthorId});
-
-
     }
-
     
 
 }

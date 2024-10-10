@@ -11,6 +11,7 @@ public class CheepRepository : ICheepRepository {
     public CheepRepository(CheepDBContext dbContext)
     {
         _dbContext = dbContext;
+        //DbInitializer.SeedDatabase(_dbContext);
     }
 
     public async Task<int> CreateMessage(CheepDTO message){
@@ -25,9 +26,18 @@ public class CheepRepository : ICheepRepository {
     public async Task<List<CheepDTO>> ReadMessages(string userName){
 
         // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.Cheeps.Select(message => new CheepDTO());
+        var query = _dbContext.Cheeps.Select(message => new CheepDTO{ 
+            authorId = message.AuthorId,
+            author = message.AuthorId.ToString(),
+            text = message.Text,
+            timestamp = message.TimeStamp.Ticks
+            });
         // Execute the query
         var result = await query.ToListAsync();
+        foreach (CheepDTO dto in result){
+            Console.WriteLine(dto.authorId);
+        }
+        Console.WriteLine(result.Count);
 
         return result;
     }
