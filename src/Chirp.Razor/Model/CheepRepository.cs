@@ -30,8 +30,6 @@ public class CheepRepository : ICheepRepository {
         var result = await query.ToListAsync();
 
         return result;
-
-
     }
 
     public async Task UpdateMessage(MessageDTO alteredMessage, int id){
@@ -41,8 +39,6 @@ public class CheepRepository : ICheepRepository {
         _dbContext.Entry(cheep).CurrentValues.SetValues(alteredMessage);
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
-        return;
-
         
     }
 
