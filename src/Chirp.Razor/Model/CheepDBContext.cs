@@ -9,5 +9,19 @@ public class CheepDBContext : DbContext
 
     public CheepDBContext(DbContextOptions<CheepDBContext> options) : base(options)
     {
+        //DbInitializer.SeedDatabase(this);
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder){
+
+        modelBuilder.Entity<Cheep>()
+        .HasKey(c => new { c.CheepId});
+        modelBuilder.Entity<Author>()
+        .HasKey(a => new { a.AuthorId});
+
+
+    }
+
+    
+
 }

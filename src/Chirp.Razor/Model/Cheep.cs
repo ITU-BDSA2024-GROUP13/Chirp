@@ -1,7 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Chirp.Razor.Model;
 
 public class Cheep
 {
+    [Key]
     public int CheepId;
     public string Text { get; set; }
     public DateTime TimeStamp { get; set; }
