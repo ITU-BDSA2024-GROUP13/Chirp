@@ -47,21 +47,21 @@ jobs:
         run: mkdir -p ./publish  
       
       - name: make releases
-        run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-x64 --self-contained false /p:PublishSingleFile=true --output ./publish/macos
+        run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-x64 --output ./publish/macos
       
       - name: Zip the published files
         run: zip -r ./publish/macos-x64.zip ./publish/macos/*
-
-      - name: Show directory structure
-        run: |
-          sudo apt-get install tree
-          tree -a ./publish
 
       - name: Upload Release Artifact
         uses: actions/upload-artifact@v3
         with:
           name: macos-x64
           path: ./publish/macos-x64.zip
+
+      - name: Show directory structure
+        run: |
+          sudo apt-get install tree
+          tree -a ./publish
       
   upload:
     needs: release
@@ -74,5 +74,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files:
-            ./publish/*
+            ./publish/macos-x64.zip
 
