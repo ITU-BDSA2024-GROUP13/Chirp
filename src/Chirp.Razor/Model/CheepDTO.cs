@@ -1,6 +1,6 @@
 namespace Chirp.Razor.Model;
 
-public class MessageDTO
+public class CheepDTO
 {
     public long timestamp {get; set; }
 
