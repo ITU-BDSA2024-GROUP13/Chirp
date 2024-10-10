@@ -64,6 +64,7 @@ jobs:
           path: ./publish/macos-x64.zip
       
   upload:
+    needs: release
     runs-on: ubuntu-latest
 
     steps:
@@ -73,5 +74,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files:
-            ./publish/macos-x64
+            ./publish/*
 
