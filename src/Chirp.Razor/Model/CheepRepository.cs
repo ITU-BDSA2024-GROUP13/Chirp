@@ -34,7 +34,7 @@ public class CheepRepository : ICheepRepository {
 
     }
 
-    public async Task UpdateMessage(MessageDTO alteredMessage, int id){
+    public async Task UpdateMessage(CheepDTO alteredMessage, int id){
 
         var cheep = _dbContext.cheeps.Single(e => e.Id == id);
         var entityEntry = _dbContext.Entry(cheep);
