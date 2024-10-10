@@ -1,8 +1,13 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Chirp.Razor.Model;
 
 public class Cheep
 {
     public int Id {get ; set; }
+    
+    [Required]
+    [StringLength(160)]
     public string text { get; set; }
     public long dateTime { get; set; }
     public int authorId {get; set; }
