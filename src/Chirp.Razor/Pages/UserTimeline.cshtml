@@ -12,18 +12,18 @@
     @if (Model.Cheeps.Any())
     {
         <ul id="messagelist" class="cheeps">
-            @foreach (var cheep in Model.Cheeps)
-            {
-                <li>
-                    <p>
-                        <strong>
-                            <a href="/@cheep.author">@cheep.author</a>
-                        </strong>
-                        @cheep.text
-                        <small>&mdash; @cheep.timestamp</small>
-                    </p>
-                </li>
-            }
+        @foreach (var cheep in Model.Cheeps)
+           {
+            <li>
+                <p>
+                    <strong>
+                        <a href="/@cheep.author">@cheep.author</a>
+                    </strong>
+                    @cheep.text
+                    <small>&mdash; @ToDateTime(cheep.timestamp)</small>
+                </p>
+            </li>
+        }
         </ul>
 
         <ul id="pagelist">
@@ -46,5 +46,13 @@
         <em>There are no cheeps so far.</em>
     }
 
+   
+}
     
 </div>
+
+ @functions{
+        public DateTime ToDateTime(long value){
+            return Chirp.Razor.Model.HelperFunctions.FromUnixTimeToDateTime(value);
+    }
+    }

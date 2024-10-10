@@ -25,18 +25,16 @@ public class CheepRepository : ICheepRepository {
 
     public async Task<List<CheepDTO>> ReadMessages(string userName){
 
+
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps.Select(message => new CheepDTO{ 
             authorId = message.AuthorId,
-            author = message.AuthorId.ToString(),
+            author = message.Author.Name,
             text = message.Text,
             timestamp = message.TimeStamp.Ticks
             });
         // Execute the query
         var result = await query.ToListAsync();
-        foreach (CheepDTO dto in result){
-            Console.WriteLine(dto.authorId);
-        }
         Console.WriteLine(result.Count);
 
         return result;
