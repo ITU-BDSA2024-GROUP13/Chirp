@@ -47,19 +47,19 @@
           uses: actions/checkout@v3
 
         - name: makedir
-          run: mkdir -p ./publish  
+          run: mkdir -p . 
         
         - name: make releases
-          run: dotnet publish -c Release -r ${{ matrix.os }} --self-contained --output ./publish/${{ matrix.os }}
+          run: dotnet publish -c Release -r ${{ matrix.os }} --self-contained --output ./${{ matrix.os }}
         
         - name: Zip the published files
-          run: zip -r ./publish/${{ matrix.os }} ./publish/${{ matrix.os }}
+          run: zip -r ./${{ matrix.os }} ./${{ matrix.os }}
 
         - name: Upload Release Artifact
           uses: actions/upload-artifact@v3
           with:
             name: ${{ matrix.os }}
-            path: ./publish/${{ matrix.os }}.zip
+            path: ./${{ matrix.os }}.zip
 
         - name: Download Release Artifact
           uses: actions/download-artifact@v3
