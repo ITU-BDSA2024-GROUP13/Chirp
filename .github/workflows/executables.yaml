@@ -68,6 +68,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Release with tag
         uses: softprops/action-gh-release@v1
         with:
