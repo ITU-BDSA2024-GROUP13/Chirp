@@ -40,7 +40,7 @@
       runs-on: ubuntu-latest
       strategy:
         matrix:
-          os: [ubuntu-latest, windows-latest, macos-latest]
+          os: [osx-64, linux-64, win-64]
 
       steps:
         - name: Checkout code
