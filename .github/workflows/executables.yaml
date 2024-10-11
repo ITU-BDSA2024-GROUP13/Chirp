@@ -1,80 +1,80 @@
-name: Release
+  name: Release
 
-on:
-  push:
-    tags:
-      - 'v*.*.*'
+  on:
+    push:
+      tags:
+        - 'v*.*.*'
 
-  release:
-    types: 
-      - published  # Triggers when a release is published
-      - edited     # Trigger when a release is edtied
+    release:
+      types: 
+        - published  # Triggers when a release is published
+        - edited     # Trigger when a release is edtied
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+  jobs:
+    build:
+      runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.x
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v4
+          with:
+            dotnet-version: 8.x
 
-      # Restore the dependencies
-      - name: Restore dependencies
-        run: dotnet restore
+        # Restore the dependencies
+        - name: Restore dependencies
+          run: dotnet restore
 
-      # Build the solution
-      - name: Build the solution
-        run: dotnet build Chirp.sln --configuration Release --no-restore
+        # Build the solution
+        - name: Build the solution
+          run: dotnet build Chirp.sln --configuration Release --no-restore
 
-      # Run tests
-      - name: Run tests
-        run: dotnet test --configuration Release --verbosity normal
+        # Run tests
+        - name: Run tests
+          run: dotnet test --configuration Release --verbosity normal
 
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    release:
+      needs: build
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          os: [ubuntu-latest, windows-latest, macos-latest]
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
 
-      - name: makedir
-        run: mkdir -p ./publish  
+        - name: makedir
+          run: mkdir -p ./publish  
+        
+        - name: make releases
+          run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r ${{ matrix.os }} --output ./publish/${{ matrix.os }}
+        
+        - name: Zip the published files
+          run: zip -r ./publish/${{ matrix.os }} ./publish/${{ matrix.os }}
+
+        - name: Upload Release Artifact
+          uses: actions/upload-artifact@v3
+          with:
+            name: ${{ matrix.os }}
+            path: ./publish/${{ matrix.os }}.zip
+
+        - name: Show directory structure
+          run: |
+            sudo apt-get install tree
+            tree -a ./publish
+
+        - name: Download Release Artifact
+          uses: actions/download-artifact@v3
+          with:
+            name: ${{ matrix.os }}
+
+        - name: Release with tag
+          uses: softprops/action-gh-release@v1
+          with:
+            files: |
+              ./${{ matrix.os }}.zip
+
       
-      - name: make releases
-        run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r ${{ matrix.os }} --output ./publish/macos
-      
-      - name: Zip the published files
-        run: zip -r ./publish/${{ matrix.os }} ./publish/${{ matrix.os }}
-
-      - name: Upload Release Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.os }}
-          path: ./publish/${{ matrix.os }}.zip
-
-      - name: Show directory structure
-        run: |
-          sudo apt-get install tree
-          tree -a ./publish
-
-      - name: Download Release Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ matrix.os }}
-
-      - name: Release with tag
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            ./${{ matrix.os }}.zip
-
-    
