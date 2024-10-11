@@ -38,6 +38,9 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - name: Checkout code
@@ -47,56 +50,31 @@ jobs:
         run: mkdir -p ./publish  
       
       - name: make releases
-        run: |
-          dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-x64 --self-contained --output ./publish/macos
-          dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r win-x64 --self-contained --output ./publish/windows
-          dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r linux-x64 --self-contained --output ./publish/linux
-
+        run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r ${{ matrix.os }} --output ./publish/macos
       
       - name: Zip the published files
-        run: |
-          zip -r ./publish/macos-x64.zip ./publish/macos/*
-          zip -r ./publish/win-x64.zip ./publish/win/*
-          zip -r ./publish/win-x64.zip ./publish/linux/*          
+        run: zip -r ./publish/${{ matrix.os }} ./publish/${{ matrix.os }}
 
-      - name: Upload mac Release Artifact
+      - name: Upload Release Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: macos-x64
-          path: ./publish/macos-x64.zip
-
-      - name: Upload win Release Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: macos-x64
-          path: ./publish/windows-x64.zip
-
-      - name: Upload linux Release Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: macos-x64
-          path: ./publish/linux-x64.zip
-      
+          name: ${{ matrix.os }}
+          path: ./publish/${{ matrix.os }}.zip
 
       - name: Show directory structure
         run: |
           sudo apt-get install tree
           tree -a ./publish
-      
-  upload:
-    needs: release
-    runs-on: ubuntu-latest
 
-    steps:
       - name: Download Release Artifact
         uses: actions/download-artifact@v3
         with:
-          name: macos-x64
+          name: ${{ matrix.os }}
 
       - name: Release with tag
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ./macos-x64.zip
-            ./win-x64.zip
-            ./linux-x64.zip
+            ./${{ matrix.os }}.zip
+
+    
