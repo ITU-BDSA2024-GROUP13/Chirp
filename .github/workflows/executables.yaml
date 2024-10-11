@@ -61,11 +61,6 @@
             name: ${{ matrix.os }}
             path: ./publish/${{ matrix.os }}.zip
 
-        - name: Show directory structure
-          run: |
-            sudo apt-get install tree
-            tree -a ./publish
-
         - name: Download Release Artifact
           uses: actions/download-artifact@v3
           with:
