@@ -2,6 +2,7 @@
 
 
   <PropertyGroup>
+    <OutputType>Library</OutputType>
     <TargetFramework>net$(NETCoreAppMaximumVersion)</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
