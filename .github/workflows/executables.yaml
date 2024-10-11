@@ -47,16 +47,36 @@ jobs:
         run: mkdir -p ./publish  
       
       - name: make releases
-        run: dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-x64 --output ./publish/macos
+        run: |
+          dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r osx-x64 --self-contained --output ./publish/macos
+          dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r win-x64 --self-contained --output ./publish/windows
+          dotnet publish "src/Chirp.Razor/Chirp.Razor.csproj" -c Release -r linux-x64 --self-contained --output ./publish/linux
+
       
       - name: Zip the published files
-        run: zip -r ./publish/macos-x64.zip ./publish/macos/*
+        run: |
+          zip -r ./publish/macos-x64.zip ./publish/macos/*
+          zip -r ./publish/win-x64.zip ./publish/win/*
+          zip -r ./publish/win-x64.zip ./publish/linux/*          
 
-      - name: Upload Release Artifact
+      - name: Upload mac Release Artifact
         uses: actions/upload-artifact@v3
         with:
           name: macos-x64
           path: ./publish/macos-x64.zip
+
+      - name: Upload win Release Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos-x64
+          path: ./publish/windows-x64.zip
+
+      - name: Upload linux Release Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: macos-x64
+          path: ./publish/linux-x64.zip
+      
 
       - name: Show directory structure
         run: |
@@ -78,3 +98,5 @@ jobs:
         with:
           files: |
             ./macos-x64.zip
+            ./win-x64.zip
+            ./linux-x64.zip
