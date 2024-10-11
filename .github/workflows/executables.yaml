@@ -68,11 +68,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Create GitHub Release and attach all ZIP files
-      - name: Create GitHub Release
-        id: create_release
-        uses: softprops/action-gh-release@v2
+      - name: Release with tag
+        uses: softprops/action-gh-release@v1
         with:
-          files:
+          files: |
             ./publish/macos-x64.zip
-
