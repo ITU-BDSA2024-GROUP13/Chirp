@@ -68,16 +68,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Show directory structure
-        run: |
-          sudo apt-get install tree
-          tree -a ./publish
+      - name: Download Release Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: macos-x64
 
       - name: Release with tag
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            ./publish/macos-x64.zip
+            ./macos-x64.zip
