@@ -377,7 +377,7 @@ ul.nav li a:hover {
 }
 
 /*USED FOR THE BUTTONS SIZE AND POSITION*/
-.PageNavigationButton{
+.PageNavigation{
   width: 100%;
   min-width: 362px;
   display: flex;
@@ -386,6 +386,12 @@ ul.nav li a:hover {
   justify-content: space-between;
   padding: 10px 10px 10px 0px;
 }
+
+
+.left:hover{
+  color: black;
+}
+
 
 /*USED FOR THE BUTTONS STYLE + CONTENT POSITIONING*/
 #button{
@@ -401,6 +407,12 @@ ul.nav li a:hover {
   border-radius: 15px;
   height: 35px;
 }
+
+#button:hover{
+  background:
+  linear-gradient(to top, #828282 -30%,hsl(24, 88%, 57%));
+}
+
 #limit{
   justify-content: center;
   height: 35px;
