@@ -22,7 +22,7 @@ namespace Chirp.Razor.Model
          * File path to the SQLite database.
          * </summary>
          */ 
-        string sqlDBFilePath = "data";
+        string sqlDBFilePath = "data/chirps.db";
         int page = 0;
 
         /** <summary>
