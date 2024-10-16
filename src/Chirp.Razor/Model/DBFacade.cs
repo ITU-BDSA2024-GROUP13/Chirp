@@ -23,6 +23,7 @@ namespace Chirp.Razor.Model
          * </summary>
          */ 
         string sqlDBFilePath = "../../data/chirps.db";
+        int page = 0;
 
         /** <summary>
          * Initializes a new instance of the DBFacade class and initializes SQLite batteries.
