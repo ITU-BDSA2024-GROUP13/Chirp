@@ -22,7 +22,7 @@ namespace Chirp.Razor.Model
          * File path to the SQLite database.
          * </summary>
          */ 
-        string sqlDBFilePath = "../../data/chirps.db";
+        string sqlDBFilePath = "data";
         int page = 0;
 
         /** <summary>
@@ -134,7 +134,6 @@ namespace Chirp.Razor.Model
                         for (int i = 0; i < fieldCount; i++){
 
                             name = reader.GetName(i);
-                            //Console.WriteLine($"{reader.GetName(i)}: {values[i]}");
                             if (values[i] != null){
                                 switch(name){
                                 case "username":
