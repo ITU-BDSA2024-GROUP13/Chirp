@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch all history and tags
       
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
@@ -68,7 +70,7 @@ jobs:
           git tag "$NEW_VERSION"
           git push origin "$NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_ENV
-          
+
       # Step 3: Update README.md with the new version
       - name: Update README.md
         if: env.version_type != 'none'
