@@ -4,7 +4,7 @@ body {
   font-size: 14px;
 }
 
-a {
+a{
   color: #452a238d;
 }
 
@@ -50,6 +50,7 @@ div.page {
   margin: 30px auto;
 }
 
+/*might not be use*/
 div.page > h1 {
   position: relative;
   background: #dc722be2;
@@ -64,11 +65,12 @@ div.page > h1 {
 
 }
 
-
+/*might not be use*/
 div.page h1 img {
   height: 1em;
 }
 
+/*might not be use*/
 div.page div.navigation {
   background: #DEE9E8;
   padding: 4px 10px;
@@ -79,15 +81,17 @@ div.page div.navigation {
   letter-spacing: 0.5px;
 }
 
+/*might not be use*/
 div.page div.navigation a {
   color: #444;
   font-weight: bold;
 }
-
+/*might not be use*/
 div.page div.navigation form {
     display: contents;
 }
 
+/*might not be use*/
 div.page div.navigation form button {
     padding: unset;
     background: unset;
@@ -101,6 +105,7 @@ div.page div.navigation form button {
     letter-spacing: unset;
 }
 
+/*IS USED FOR THE TITELS - "PUBLIC TIMELINE" ">@USER TIMELINE"*/
 div.page h2 {
   display: flex;
   justify-content: center;
@@ -116,10 +121,12 @@ div.page h2 {
 
 }
 
+/*IS USED FOR PADDING WITHIN THE TIMELINE*/
 div.page div.body {
   padding: 10px;
 }
 
+/*IS USED FOR FOOTER*/
 div.page div.footer {
   background: #eee;
   color: #888;
@@ -127,6 +134,7 @@ div.page div.footer {
   font-size: 12px;
 }
 
+/*might not be used*/
 div.page div.followstatus {
   border: 1px solid #ccc;
   background: #E3EBEA;
@@ -137,6 +145,7 @@ div.page div.followstatus {
   font-size: 13px;
 }
 
+/*USED FOR MAKING CHEEPS FIT "NICELY" IN TIMELINE*/
 div.page ul.cheeps {
   display: flex;
   flex-direction: column;
@@ -146,6 +155,7 @@ div.page ul.cheeps {
   padding: 0;
 }
 
+/*USED MOSTLY FOR COLOR AND STYLE WITHIN A CHEEP - (breaks words as well)*/
 div.page ul.cheeps li{
   position: relative;
   margin: 10px 0;
@@ -161,19 +171,22 @@ div.page ul.cheeps li{
   width: 95%;
   max-width: 700px;
   word-wrap: break-word;
-  word-break: break-all;
+  overflow-wrap: break-word;
   display: flex;
   flex-direction: column;
 }
 
+/*DEFINES MARGINS OF THE DIFFERENT TEXTS WITHIN CHEEP - (between author and message mainly)*/
 div.page ul.cheeps p {
   margin: 0;
 }
 
+/*might not be used*/
 div.page ul.cheeps li img {
   padding: 0 10px 0 0;
 }
 
+/*might not be used*/
 div.page div.cheepbox {
   margin: 10px 0;
   padding: 5px;
@@ -184,25 +197,30 @@ div.page div.cheepbox {
   -webkit-border-radius: 5px;
 }
 
+/*might not be used*/
 div.page div.cheepbox h3 {
   margin: 0;
   font-size: 1em;
   color: #7e2c2c;
 }
 
+/*might not be used*/
 div.page div.cheepbox p {
   margin: 0;
 }
 
+/*might not be used*/
 div.page div.cheepbox input[type="text"] {
   width: 485px;
 }
 
+/*might not be used*/
 div.page div.cheepbox input[type="submit"] {
   width: 70px;
   margin-left: 5px;
 }
 
+/*might not be used*/
 div.message {
   list-style: none;
   margin: 10px 10px 0 10px;
@@ -216,6 +234,7 @@ div.message {
   font-size: 13px;
 }
 
+/*might not be used*/
 ul.message li {
   background: #f3b9b9;
   border: 1px solid #ce8181;
@@ -226,6 +245,7 @@ ul.message li {
   font-size: 13px;
 }
 
+/*might not be used*/
 div.error {
   margin: 10px 0;
   background: #FAE4E4;
@@ -237,6 +257,7 @@ div.error {
   font-size: 13px;
 }
 
+/*might not be used*/
 div.topics {
   width: 180px;
   height: 250px;
@@ -251,12 +272,14 @@ div.topics {
   padding: 10px;
 }
 
+/*might not be used*/
 ul.topic {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
+/*might not be used*/
 li.topic {
   margin: 10px 0;
   padding: 5px;
@@ -268,24 +291,23 @@ li.topic {
   min-height: 20px;
 }
 
+/*might not be used*/
 form * {
     margin: 2px 0;
 }
 
+/*IS USED FOR THE SIZES OF THE BUTTONS AND MORE*/
 button {
-    background-color: #cc6e6e;
     border: none;
-    color: white;
     padding: 8px 16px;
     text-align: center;
     text-decoration: none;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #8b4949;
-}
+/*might not be used*/
 
+/*might not be used*/
 ul.nav {
     list-style-type: none;
     margin: 0;
@@ -294,10 +316,12 @@ ul.nav {
     background-color: #cc6e6e;
 }
 
+/*might not be used*/
 ul.nav li {
     float: left;
 }
 
+/*might not be used*/
 ul.nav li a {
     display: block;
     color: white;
@@ -306,16 +330,19 @@ ul.nav li a {
     text-decoration: none;
 }
 
+/*might not be used*/
 ul.nav li a:hover {
     background-color: #8b4949;
 }
 
+/*USED FOR THE BIRDS SIZE*/
 .Icon{
   cursor: pointer;
   width: 45px;
   height: 40px;
 }
 
+/*USED FOR THE BIRDS LOCATION*/
 .bird{
   position: absolute;
   top: 4.5%;
@@ -323,7 +350,8 @@ ul.nav li a:hover {
   transform: translate(-50%, -50%);
 }
 
-.centerbox{
+/*STYLING AND POSITION FOR THE "CHIRP" HEADER*/
+.header{
   /*Position for the header*/
   display: flex;
   justify-content: center;
@@ -348,24 +376,117 @@ ul.nav li a:hover {
   margin: 0;
 }
 
+/*USED FOR THE BUTTONS SIZE AND POSITION*/
+.PageNavigation{
+  width: 100%;
+  min-width: 362px;
+  display: flex;
+  flex-flow: row no-wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10px 10px 0px;
+}
+
+
+.left:hover{
+  color: black;
+}
+
+
+/*USED FOR THE BUTTONS STYLE + CONTENT POSITIONING*/
+#button{
+  justify-content: center;
+  background:
+  linear-gradient(to top, #797777 -30%, hsla(24, 97%, 40%, 0.886));
+  border-width:2px;
+  border-style:solid;
+  border-color:#610101;;
+  color: #D4D4D4;
+  padding: 10px;
+  width: 90px;
+  border-radius: 15px;
+  height: 35px;
+}
+
+#button:hover{
+  background:
+  linear-gradient(to top, #828282 -30%,hsl(24, 88%, 57%));
+}
+
+#limit{
+  justify-content: center;
+  height: 35px;
+  color: grey;
+  border-width:2px;
+  border-style:solid;
+  padding: 10px;
+  width: 95px;
+  border-radius: 15px;
+  cursor:initial;
+}
+/*FOR BUTTON LEFT*/
+.left{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/*FOR BUTTON RIGHT*/
+.right{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrow{
+  width: 35px;
+  height: 30px;
+}
+
+.arrowRight{
+  width: 35px;
+  height: 30px;
+  transform: scaleX(-1);
+}
+
+fill{
+  color: #452a238d;
+  font-size: 10px;
+}
+
+#pagelist{
+  display: inline-block;
+  font-size: 11.5px;
+  justify-content: center;
+  align-items: center;
+}
+
+#current{
+  color:hsl(24, 98%, 40%);
+}
+
+/*MAKES THE STRUCTURE WITHIN THE CHEEPS INTO COLUMN*/
 div.page ul.cheeps li .cheep-content {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
+/*GIVES A SMALL MARGIN BETWEEN MESSAGE AND AUTHOR*/
 div.page ul.cheeps li .author {
   font-weight: bold;
   margin-bottom: 1px;
 }
 
+/*might not be used "anymore"*/
 div.page ul.cheeps li .message {
   flex-grow: 1;
 }
 
+/*LOCATION AND STYLING FOR THE DATE*/
 div.page ul.cheeps li .date {
   align-self: flex-end;
   font-size: 0.9em;
   color: #ece8e8;
+  /*makes sure message doesn't go over it*/
   margin-top: 11px;
 }

@@ -15,31 +15,76 @@
             @foreach (var cheep in Model.Cheeps)
             {
                 <li>
-                    <p>
-                        <strong>
+                   <div class="cheep-content">
+                        <strong class="author">
                             <a href="/@cheep.Author">@cheep.Author</a>
                         </strong>
-                        @cheep.Message
-                        <small>&mdash; @cheep.Timestamp</small>
-                    </p>
+                        <p class="message">
+                            @cheep.Message
+                        </p>
+                        <span class="date">&mdash; @cheep.Timestamp</span>
+                    </div>
                 </li>
             }
-        </ul>
+         </ul>
 
-        <ul id="pagelist">
-            @for(int i = 0; i <= Model.count / 32; i++)
-            {
-                <li>
-                    <p>
-                        <strong>
-                            <a href="/@routeName/?page=@i">@i</a>
-                        </strong>
-                    </p>
-                </li>
+
+
+        <!-- BOTTOM OF PAGE -->
+
+
+        <!-- Defines the 'prev' button which will function as a way to go to the
+        previous page by clicking on it-->
+        <div class = "PageNavigation">
+         @if(Model.currentPage != 0){
+            <a href = "/@routeName/?page=@Model.previousPage">
+                <button class = "left" id = "button"> 
+                    <img src="/images/arrow.png" class = "arrowRight"/>
+                        Prev
+                </button>
+            </a>
+            }else{
+                <button class = "left" id = "limit"> 
+                    <img src="/images/arrow.png" class = "arrowRight"/>
+                        Prev 
+                </button>
             }
-        </ul>
 
+        <!-- Defines the 'pagelist' which will function as a way to navigate
+        simply by using numbers in the bottom of a page-->
+            <div id="pagelist">
+                @for(int i = 0; i <= Model.count / 32; i++)
+                    {
+                        @if(i > Model.currentPage + 3 || i < Model.currentPage -3){
+                            @if(i == Model.lastPage){
+                                <fill>..</fill> <a href="/@routeName/?page=@i">@i</a> 
+                            } else if(i == 0){
+                                 <a href="/@routeName/?page=@i">@i</a> <fill>..</fill>
+                            }
+                        } else if(Model.currentPage == i){
+                             <a href="/@routeName/?page=@i" id = 'current'>@i</a>
+                         } else{
+                            <a href="/@routeName/?page=@i">@i</a> 
+                     }
+                }
+            </div>
 
+        <!-- Defines the 'next' button which will function as a way to go to the
+        next page by clicking on it-->
+            @if(Model.currentPage != Model.lastPage){
+            <a href = "/@routeName/?page=@Model.nextPage">
+                <button class = "right" id = "button">
+                    Next
+                    <img src="/images/arrow.png" class = "arrow"/>
+                </button>
+            </a>
+            } else{
+                    <button class = "right" id = "limit">
+                    Next
+                    <img src="/images/arrow.png" class = "arrow"/>
+                </button>
+            }
+        </div>
     }
     else
     {
