@@ -1,3 +1,3 @@
 # ChirpChirp
-0.2.6
+Version: v0.2.6
 BDSA2024
