@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - release-yaml
 
 jobs:
   versioning:
@@ -14,15 +13,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 7.0.x
-          
-      - name: Restore dependencies
-        run: dotnet restore
-      - name: Build
-        run: dotnet build --no-restore
+          dotnet-version: '8.x'  # Replace with your required .NET version
 
       # Step 1: Analyze the commit message to determine if we need to bump the version
       - name: Check commit message for keywords
@@ -38,16 +32,41 @@ jobs:
             echo "version_type=none" >> $GITHUB_ENV
           fi
 
-      # Step 2
+      # Step 2: Increment version using Git tags (or modify your .csproj)
       - name: Bump version
         if: env.version_type != 'none'
         run: |
-          npm version ${{ env.version_type }} --no-git-tag-version
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'actions@github.com'
-          VERSION=$(jq -r '.version' < package.json)
-          echo "version=$VERSION" >> $GITHUB_ENV
-          git commit -am "Bump version to $VERSION" 
+          
+          # Get latest version tag or set default
+          LATEST_VERSION=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+          
+          # Extract version parts
+          MAJOR=$(echo "$LATEST_VERSION" | cut -d. -f1 | tr -d 'v')
+          MINOR=$(echo "$LATEST_VERSION" | cut -d. -f2)
+          PATCH=$(echo "$LATEST_VERSION" | cut -d. -f3)
+          
+          # Increment version based on the commit message
+          if [ "${{ env.version_type }}" = "major" ]; then
+            MAJOR=$((MAJOR+1))
+            MINOR=0
+            PATCH=0
+          elif [ "${{ env.version_type }}" = "minor" ]; then
+            MINOR=$((MINOR+1))
+            PATCH=0
+          elif [ "${{ env.version_type }}" = "patch" ]; then
+            PATCH=$((PATCH+1))
+          fi
+
+          # New version tag
+          NEW_VERSION="v$MAJOR.$MINOR.$PATCH"
+          echo "New version: $NEW_VERSION"
+
+          # Tag and commit the version bump
+          git tag "$NEW_VERSION"
+          git push origin "$NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_ENV
 
       # Step 3: Update README.md with the new version
       - name: Update README.md
@@ -56,7 +75,7 @@ jobs:
           sed -i "s/Version: .*/Version: v${{ env.version }}/g" README.md
           git commit -am "Update README.md with version v${{ env.version }}"
 
-      # Step 4: Push the updated version and README.md back to the repo
+      # Step 4: Push the updated README.md back to the repo
       - name: Push changes
         if: env.version_type != 'none'
         run: git push origin HEAD
@@ -69,11 +88,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Get the version from package.json to use for tagging the release
-      - name: Get version from package.json
+      # Get the version from Git tags to use for tagging the release
+      - name: Get version from Git tags
         id: get_version
         run: |
-          VERSION=$(jq -r '.version' < package.json)
+          VERSION=$(git describe --tags --abbrev=0)
           echo "version=$VERSION" >> $GITHUB_ENV
 
       # Step 5: Create a new GitHub Release with the updated version
@@ -83,7 +102,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: "v${{ env.version }}"
-          release_name: "Release v${{ env.version }}"
+          tag_name: "${{ env.version }}"
+          release_name: "Release ${{ env.version }}"
           draft: false
           prerelease: false
