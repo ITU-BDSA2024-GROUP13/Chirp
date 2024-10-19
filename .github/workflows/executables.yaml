@@ -1,6 +1,11 @@
   name: Release
 
   on:
+    workflow_run:
+      workflows: ["Bump Version and Create Release"]  # The name of the workflow you want to depend on
+      types:
+        - completed  # Triggers this workflow when the specified workflow is completed
+        
     push:
       tags:
         - 'v*.*.*'
