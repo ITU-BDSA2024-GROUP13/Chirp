@@ -68,7 +68,7 @@
         - name: make releases
           run: dotnet publish -c Release -r ${{ matrix.os }} --self-contained --output ./${{ matrix.os }}
           env:
-            tag: ${{ env.version_no_v }}
+            DOTNET_BUILD_VERSION: ${{ env.version_no_v }}  # Use the version without the 'v'
 
         - name: Zip the published files
           run: zip -r ./${{ matrix.os }} ./${{ matrix.os }}
