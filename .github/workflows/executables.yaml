@@ -51,13 +51,6 @@
         - name: Checkout repository
           uses: actions/checkout@v3
 
-        # Get the version from Git tags to use for tagging the release
-        - name: Get version from Git tags
-          id: get_version
-          run: |
-            VERSION=$(git describe --tags --abbrev=0)
-            echo "version=$VERSION" >> $GITHUB_ENV
-
         - name: makedir
           run: mkdir -p . 
         
