@@ -51,11 +51,7 @@
         - name: Checkout repository
           uses: actions/checkout@v3
           with:
-            fetch-depth: 1  # Only fetch the latest commit
-
-        # Fetch all tags
-        - name: Fetch all tags
-          run: git fetch --tags
+            fetch-depth: 0  # Only fetch the latest commit
 
         # Get the latest version from Git tags, strip the 'v' prefix
         - name: Get version from Git tags
@@ -71,6 +67,8 @@
 
         - name: make releases
           run: dotnet publish -c Release -r ${{ matrix.os }} --self-contained --output ./${{ matrix.os }}
+          env:
+            tag: ${{ env.version_no_v }}
 
         - name: Zip the published files
           run: zip -r ./${{ matrix.os }} ./${{ matrix.os }}
