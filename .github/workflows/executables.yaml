@@ -70,11 +70,12 @@
           uses: actions/download-artifact@v3
           with: 
             name: ${{ matrix.os }}
-
+        
+        
+        
         - name: Release with tag
           uses: softprops/action-gh-release@v1
           with:
-            tag_name: "${{ env.version }}"
             files: |
               ./${{ matrix.os }}.zip
 
