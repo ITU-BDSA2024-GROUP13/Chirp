@@ -48,8 +48,17 @@
           os: [osx-x64, linux-x64, win-x64]
 
       steps:
-        - name: Checkout code
+        - name: Checkout repository
           uses: actions/checkout@v3
+          with:
+            fetch-depth: 0  # Fetch all history and tags
+
+        # Get the version from Git tags to use for tagging the release
+        - name: Get version from Git tags
+          id: get_version
+          run: |
+            VERSION=$(git describe --tags --abbrev=0)
+            echo "version=$VERSION" >> $GITHUB_ENV
 
         - name: makedir
           run: mkdir -p . 
@@ -68,12 +77,13 @@
 
         - name: Download Release Artifact
           uses: actions/download-artifact@v3
-          with:
+          with: 
             name: ${{ matrix.os }}
 
         - name: Release with tag
           uses: softprops/action-gh-release@v1
           with:
+            tag_name: "${{ env.version }}"
             files: |
               ./${{ matrix.os }}.zip
 
