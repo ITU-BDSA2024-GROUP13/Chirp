@@ -66,9 +66,7 @@
           run: mkdir -p .
 
         - name: make releases
-          run: dotnet publish -c Release -r ${{ matrix.os }} --self-contained --output ./${{ matrix.os }}
-          env:
-            DOTNET_BUILD_VERSION: ${{ env.version_no_v }}  # Use the version without the 'v'
+          run: dotnet publish -c Release -r ${{ matrix.os }} --self-contained --output ./${{ matrix.os }} /p:Version=${{ env.version_no_v }} # Use the version without the 'v'
 
         - name: Zip the published files
           run: zip -r ./${{ matrix.os }} ./${{ matrix.os }}
