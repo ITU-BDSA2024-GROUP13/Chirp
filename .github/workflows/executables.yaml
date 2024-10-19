@@ -51,9 +51,13 @@
         - name: Checkout repository
           uses: actions/checkout@v3
           with:
-            fetch-depth: 0  # Ensure all tags are fetched
+            fetch-depth: 1  # Only fetch the latest commit
 
-        # Get the version from Git tags, strip the 'v' prefix
+        # Fetch all tags
+        - name: Fetch all tags
+          run: git fetch --tags
+
+        # Get the latest version from Git tags, strip the 'v' prefix
         - name: Get version from Git tags
           id: get_version
           run: |
@@ -77,9 +81,8 @@
             name: ${{ matrix.os }}
             path: ./${{ matrix.os }}.zip
 
-        # Now, when releasing, use the `version` with the `v` prefix.
         - name: Release with tag
           uses: softprops/action-gh-release@v1
           with:
-            tag_name: "${{ env.version }}"   # Pass the tag with 'v' prefix
+            tag_name: "${{ env.version }}"   # Use the tag with 'v' prefix
             files: ./${{ matrix.os }}.zip

@@ -13,7 +13,7 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
+		HideSolutionNode = FALSE	
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{74E509A7-3A44-4E6C-BEFC-D22D73A5AC68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
