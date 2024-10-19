@@ -58,6 +58,7 @@
           id: get_version
           run: |
             VERSION=$(git describe --tags --abbrev=0)
+            VERSION_NO_V=$(echo $VERSION | sed 's/^v//')  # Remove the 'v' prefix
             echo "version=$VERSION" >> $GITHUB_ENV
 
         - name: makedir
@@ -65,6 +66,8 @@
         
         - name: make releases
           run: dotnet publish -c Release -r ${{ matrix.os }} --self-contained --output ./${{ matrix.os }}
+          env:
+            version: ${{ env.version }}  # This will now use the version without the 'v'
         
         - name: Zip the published files
           run: zip -r ./${{ matrix.os }} ./${{ matrix.os }}
