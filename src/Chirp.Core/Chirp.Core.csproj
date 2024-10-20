@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <SelfContained>false</SelfContained>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
-    
 </Project>

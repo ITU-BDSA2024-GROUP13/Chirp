@@ -1,4 +1,6 @@
-using Chirp.Razor.Model;
+namespace Chirp.Services;
+
+using Chirp.Repositories;
 
 public class CheepService : ICheepService
 {
@@ -39,5 +41,7 @@ public class CheepService : ICheepService
         dateTime = dateTime.AddSeconds(unixTimeStamp);
         return dateTime.ToString("MM/dd/yy H:mm:ss");
     }
+
+    
 
 }

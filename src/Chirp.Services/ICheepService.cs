@@ -1,3 +1,6 @@
+namespace Chirp.Services;
+
+using Chirp.Repositories;
 
 public interface ICheepService
 {
@@ -6,5 +9,5 @@ public interface ICheepService
 
     public int CountFromAuthor(string author);
     public int CountFromAll();
-    
+
 }
