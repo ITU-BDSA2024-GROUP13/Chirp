@@ -6,6 +6,5 @@ public interface ICheepService
 
     public int CountFromAuthor(string author);
     public int CountFromAll();
-
-
+    
 }
