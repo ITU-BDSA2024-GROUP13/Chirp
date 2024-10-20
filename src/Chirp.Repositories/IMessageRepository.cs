@@ -1,4 +1,6 @@
-namespace Chirp.Razor.Model;
+namespace Chirp.Repositories;
+
+using Chirp.Core;
 
 public interface IMessageRepository
 {

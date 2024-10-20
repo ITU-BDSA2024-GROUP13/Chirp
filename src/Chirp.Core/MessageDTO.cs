@@ -1,4 +1,4 @@
-namespace Chirp.Razor.Model;
+namespace Chirp.Core;
 
 public class MessageDTO
 {
