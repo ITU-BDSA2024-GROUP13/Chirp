@@ -63,7 +63,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'chirp-staging-faawcce7c6f5haeb'
+          app-name: 'Chirp-staging'
           slot-name: 'Production'
           package: .
           
