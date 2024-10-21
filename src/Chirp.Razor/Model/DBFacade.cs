@@ -15,15 +15,15 @@ namespace Chirp.Razor.Model
      * Provides methods to insert and select data from the database.
      * </summary>
      */ 
-    public class DBFacade
+     public class DBFacade
     {
+        static string home = Environment.GetEnvironmentVariable("HOME", EnvironmentVariableTarget.User);
         /** 
          * <summary>
          * File path to the SQLite database.
          * </summary>
          */ 
-        string sqlDBFilePath = "data/chirps.db";
-        int page = 0;
+        string sqlDBFilePath;
 
         /** <summary>
          * Initializes a new instance of the DBFacade class and initializes SQLite batteries.
@@ -32,6 +32,15 @@ namespace Chirp.Razor.Model
         public DBFacade()
         {
             SQLitePCL.Batteries.Init();
+            
+            if(home == null){
+                sqlDBFilePath = "data/chirps.db";
+                Console.WriteLine("home was null: " + "'"+ home + "'");
+            } else {
+                sqlDBFilePath = System.IO.Path.Combine(home, "site", "chirps.db");
+                Console.WriteLine("home was NOT null: " + "'"+ home + "'");
+            }
+
         }
 
         /** 
