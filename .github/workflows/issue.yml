@@ -1,0 +1,21 @@
+name: Automatic issue closing
+
+on:
+    pull_request:
+        types: [closed]
+
+jobs:
+    issue-links:
+      runs-on: ubuntu-latest
+      permissions:
+        pull-requests: write
+
+      steps:
+      - uses: tkt-actions/add-issue-links@v1.8.1
+        with:
+          repo-token: '${{ secrets.GITHUB_TOKEN }}' # required
+          branch-prefix: 'issue-' # required
+          resolve: 'true' # optional (default: "false")
+          link-style: 'comment' # optional (default: "body")
+    
+                
