@@ -3,30 +3,38 @@ using Chirp.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using System.Reflection;
+using Chirp.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite(connectionString));
 
+try{
+    var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly());
+    using var reader = embeddedProvider.GetFileInfo("./data/chirps.db").CreateReadStream();
+    using var sr = new StreamReader(reader);
+    var query = sr.ReadToEnd();
+    
+    var i = 0;
+
+    foreach(var queri in query) {
+        
+        Console.WriteLine(++i);
+        Console.WriteLine(queri);
+
+    }
+} catch (FileNotFoundException e){
+    Console.WriteLine(e.Message);
+}
 
     // Add services to the container.
     builder.Services.AddRazorPages();
     builder.Services.AddSingleton<ICheepService, CheepService>();
-    builder.Services.AddScoped<IMessageRepository, MessageRepository>();
+    builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 
     var app = builder.Build();
 
-    // Create a disposable service scope
-using (var scope = app.Services.CreateScope())
-{
-    // From the scope, get an instance of our database context.
-    // Through the `using` keyword, we make sure to dispose it after we are done.
-    using var context = scope.ServiceProvider.GetService<CheepDBContext>();
-
-    // Execute the migration from code.
-    context.Database.Migrate();
-}
 
     // Configure the HTTP request pipeline.
     if (!app.Environment.IsDevelopment())
