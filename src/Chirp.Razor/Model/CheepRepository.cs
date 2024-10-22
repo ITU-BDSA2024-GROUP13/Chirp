@@ -23,11 +23,30 @@ public class CheepRepository : ICheepRepository {
         return queryResult.Entity.CheepId;
     }
 
-    public async Task<List<CheepDTO>> ReadPublicMessages(string userName){
+    public async Task<List<CheepDTO>> ReadPublicMessages(){
 
 
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps.Select(message => new CheepDTO{ 
+            authorId = message.AuthorId,
+            author = message.Author.Name,
+            text = message.Text,
+            timestamp = message.TimeStamp.Ticks
+            });
+        // Execute the query
+        var result = await query.ToListAsync();
+        Console.WriteLine(result.Count);
+
+        return result;
+    }
+
+        public async Task<List<CheepDTO>> ReadUserMessages(string userName){
+
+
+        // Formulate the query - will be translated to SQL by EF Core
+        var query = _dbContext.Cheeps
+        .Where(message => message.Author.Name == "Helge")
+        .Select(message => new CheepDTO{ 
             authorId = message.AuthorId,
             author = message.Author.Name,
             text = message.Text,
