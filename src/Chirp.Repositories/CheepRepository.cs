@@ -2,7 +2,7 @@ using Chirp.Repositories;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chirp.Web;
+namespace Chirp.Repositories;
 
 
 public class CheepRepository : ICheepRepository {
