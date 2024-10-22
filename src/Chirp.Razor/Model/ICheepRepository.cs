@@ -6,7 +6,7 @@ public interface ICheepRepository
 
     public Task<List<CheepDTO>> ReadPublicMessages();
 
-    public Task<List<CheepDTO>> ReadUserMessages(string userName);
+    public Task<List<CheepDTO>> ReadUserMessages(string userName, int page);
 
     public Task<int> CountUserMessages(string userName);
 

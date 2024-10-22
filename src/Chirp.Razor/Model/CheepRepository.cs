@@ -41,26 +41,38 @@ public class CheepRepository : ICheepRepository {
         return result;
     }
 
-        public async Task<List<CheepDTO>> ReadUserMessages(string userName){
-        // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.Cheeps.OrderByDescending(message => message.TimeStamp)
-        .Where(message => message.Author.Name == userName)
-        .Select(message => new CheepDTO{ 
-            authorId = message.AuthorId,
-            author = message.Author.Name,
-            text = message.Text,
-            timestamp = message.TimeStamp.Ticks
-            });
-        // Execute the query
-        var result = await query.ToListAsync();
-        Console.WriteLine(result.Count);
+        public async Task<List<CheepDTO>> ReadUserMessages(string userName, int page){
+            var takeValue = 32;
+            var skipValue = 32 * page;
+            if (page < 0){
+                takeValue = int.MaxValue;
+                skipValue = 0;
+            }
 
-        return result;
+            // Formulate the query - will be translated to SQL by EF Core
+            var query = _dbContext.Cheeps.OrderByDescending(message => message.TimeStamp)
+            .Where(message => message.Author.Name == userName)
+            .Skip(skipValue)
+            .Take(takeValue)
+            .Select(message => new CheepDTO{ 
+                authorId = message.AuthorId,
+                author = message.Author.Name,
+                text = message.Text,
+                timestamp = message.TimeStamp.Ticks
+                });
+            // Execute the query
+            Console.WriteLine(takeValue);
+            Console.WriteLine(page);
+
+
+            var result = await query.ToListAsync();
+            return result;
     }
 
     public async Task<int> CountUserMessages(string userName){
-        var list = await ReadUserMessages(userName);
+        var list = await ReadUserMessages(userName, -1);
         var result = list.Count;
+
         return result;
     }
 
