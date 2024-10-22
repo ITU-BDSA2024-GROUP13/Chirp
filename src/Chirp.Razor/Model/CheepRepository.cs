@@ -42,7 +42,7 @@ public class CheepRepository : ICheepRepository {
 
         public async Task<List<CheepDTO>> ReadUserMessages(string userName){
         // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.Cheeps
+        var query = _dbContext.Cheeps.OrderByDescending(message => message.TimeStamp)
         .Where(message => message.Author.Name == userName)
         .Select(message => new CheepDTO{ 
             authorId = message.AuthorId,

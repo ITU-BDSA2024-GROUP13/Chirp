@@ -23,7 +23,6 @@ public class Author
 
     }
 
-
     public string GetName()
     {
         return Name;
