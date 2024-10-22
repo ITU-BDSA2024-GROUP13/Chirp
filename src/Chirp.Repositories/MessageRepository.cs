@@ -1,4 +1,6 @@
-namespace Chirp.Razor.Model;
+namespace Chirp.Repositories;
+
+using Chirp.Core;
 
 public class MessageRepository: IMessageRepository
 {
@@ -7,13 +9,16 @@ public class MessageRepository: IMessageRepository
         throw new NotImplementedException();
     }
 
+
     public Task<List<MessageDTO>> ReadMessages(string userName)
     {
         throw new NotImplementedException();
     }
 
+
     public Task UpdateMessage(MessageDTO alteredMessage)
     {
         throw new NotImplementedException();
     }
+
 }
