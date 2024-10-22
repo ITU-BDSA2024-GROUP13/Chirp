@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Chirp.Razor.Model;
+namespace Chirp.Repositories;
 
 public class CheepDBContext : DbContext
 {
@@ -9,7 +9,7 @@ public class CheepDBContext : DbContext
 
     public CheepDBContext(DbContextOptions<CheepDBContext> options) : base(options)
     {
-        //DbInitializer.SeedDatabase(this);
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder){

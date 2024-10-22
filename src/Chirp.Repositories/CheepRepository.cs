@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
-namespace Chirp.Razor.Model;
+namespace Chirp.Repositories;
 
 
 public class CheepRepository : ICheepRepository {
@@ -11,7 +10,7 @@ public class CheepRepository : ICheepRepository {
     public CheepRepository(CheepDBContext dbContext)
     {
         _dbContext = dbContext;
-        //DbInitializer.SeedDatabase(_dbContext);
+        DbInitializer.SeedDatabase(_dbContext);
     }
 
     public async Task<int> CreateMessage(CheepDTO message){
