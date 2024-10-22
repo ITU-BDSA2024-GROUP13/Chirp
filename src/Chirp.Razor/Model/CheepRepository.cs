@@ -27,7 +27,8 @@ public class CheepRepository : ICheepRepository {
 
 
         // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.Cheeps.Select(message => new CheepDTO{ 
+        var query = _dbContext.Cheeps.OrderByDescending(message => message.TimeStamp)
+        .Select(message => new CheepDTO{ 
             authorId = message.AuthorId,
             author = message.Author.Name,
             text = message.Text,
