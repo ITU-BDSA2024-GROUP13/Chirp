@@ -23,11 +23,18 @@ public class CheepRepository : ICheepRepository {
         return queryResult.Entity.CheepId;
     }
 
-    public async Task<List<CheepDTO>> ReadPublicMessages(){
-
+    public async Task<List<CheepDTO>> ReadPublicMessages(int page){
+        var takeValue = 32;
+        var skipValue = 32 * page;
+        if (page < 0){
+            takeValue = int.MaxValue;
+            skipValue = 0;
+        }
 
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps.OrderByDescending(message => message.TimeStamp)
+        .Skip(skipValue)
+        .Take(takeValue)
         .Select(message => new CheepDTO{ 
             authorId = message.AuthorId,
             author = message.Author.Name,
@@ -36,7 +43,6 @@ public class CheepRepository : ICheepRepository {
             });
         // Execute the query
         var result = await query.ToListAsync();
-        Console.WriteLine(result.Count);
 
         return result;
     }
@@ -61,10 +67,6 @@ public class CheepRepository : ICheepRepository {
                 timestamp = message.TimeStamp.Ticks
                 });
             // Execute the query
-            Console.WriteLine(takeValue);
-            Console.WriteLine(page);
-
-
             var result = await query.ToListAsync();
             return result;
     }
@@ -77,7 +79,7 @@ public class CheepRepository : ICheepRepository {
     }
 
     public async Task<int>  CountPublicMessages(){
-        var list = await ReadPublicMessages();
+        var list = await ReadPublicMessages(-1);
         var result = list.Count;
         return result;
     }
