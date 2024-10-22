@@ -45,7 +45,7 @@ public class CheepRepository : ICheepRepository {
 
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps
-        .Where(message => message.Author.Name == "Helge")
+        .Where(message => message.Author.Name == userName)
         .Select(message => new CheepDTO{ 
             authorId = message.AuthorId,
             author = message.Author.Name,
