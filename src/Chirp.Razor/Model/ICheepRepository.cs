@@ -8,6 +8,11 @@ public interface ICheepRepository
 
     public Task<List<CheepDTO>> ReadUserMessages(string userName);
 
+    public Task<int> CountUserMessages(string userName);
+
+    public Task<int>  CountPublicMessages();
+
+
 
     public Task UpdateMessage(CheepDTO alteredMessage, int id);
 

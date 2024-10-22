@@ -41,8 +41,6 @@ public class CheepRepository : ICheepRepository {
     }
 
         public async Task<List<CheepDTO>> ReadUserMessages(string userName){
-
-
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps
         .Where(message => message.Author.Name == userName)
@@ -56,6 +54,18 @@ public class CheepRepository : ICheepRepository {
         var result = await query.ToListAsync();
         Console.WriteLine(result.Count);
 
+        return result;
+    }
+
+    public async Task<int> CountUserMessages(string userName){
+        var list = await ReadUserMessages(userName);
+        var result = list.Count;
+        return result;
+    }
+
+    public async Task<int>  CountPublicMessages(){
+        var list = await ReadPublicMessages();
+        var result = list.Count;
         return result;
     }
 
