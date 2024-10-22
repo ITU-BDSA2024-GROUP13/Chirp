@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+
+  <PropertyGroup>
+    <TargetFramework>net$(NETCoreAppMaximumVersion)</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <SelfContained>false</SelfContained>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="../Chirp.Services/Chirp.Services.csproj" />
+    <ProjectReference Include="../Chirp.Repositories/Chirp.Repositories.csproj" />
+  </ItemGroup>
+    
+</Project>

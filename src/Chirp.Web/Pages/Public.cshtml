@@ -1,0 +1,94 @@
+﻿@page "/"
+@model Chirp.Web.PublicModel
+@{
+    ViewData["Title"] = "Chirp!";
+    Layout = "./Shared/_Layout.cshtml";;
+}
+
+<div>
+    <h2> Public Timeline </h2>
+
+    @if (Model.Cheeps.Any())
+    {
+        <ul id="messagelist" class="cheeps">
+            @foreach (var cheep in Model.Cheeps)
+            {
+                <li>
+                    <div class="cheep-content">
+                        <strong class="author">
+                            <a href="/@cheep.Author">@cheep.Author</a>
+                        </strong>
+                        <p class="message">
+                            @cheep.Message
+                        </p>
+                        <span class="date">&mdash; @cheep.Timestamp</span>
+                    </div>
+                </li>
+            }
+        </ul>
+
+
+
+        <!-- BOTTOM OF PAGE -->
+
+        <div class = "PageNavigation">
+
+        <!-- Defines the 'prev' button which will function as a way to go to the
+        previous page by clicking on it-->
+         @if(Model.currentPage != 0){
+            <a href = "/?page=@Model.previousPage">
+                <button class = "left" id = "button"> 
+                    <img src="/images/arrow.png" class = "arrowRight"/>
+                    Prev
+                </button>
+            </a>
+         }else{
+            <button class = "left" id = "limit"> 
+                <img src="/images/arrow.png" class = "arrowRight"/>
+                    Prev
+            </button>
+         }
+
+
+        <!-- Defines the 'pagelist' which will function as a way to navigate
+        simply by using numbers in the bottom of a page-->
+            <div id="pagelist">
+                @for(int i = 0; i <= Model.count / 32; i++)
+                    {
+                        @if(i > Model.currentPage + 3 || i < Model.currentPage -3){
+                            @if(i == Model.lastPage){
+                               <fill>..</fill>
+                               <a href="/?page=@i">@i</a>
+                            } else if(i == 0){
+                                 <a href="/?page=@i">@i</a> <fill>..</fill>
+                            }
+                        } else if(Model.currentPage == i){
+                             <a href="/?page=@i" id = 'current'>@i</a>
+                         } else{
+                            <a href="/?page=@i">@i</a> 
+                     }
+                }
+            </div>
+
+        <!-- Defines the 'next' button which will function as a way to go to the
+        next page by clicking on it-->
+            @if(Model.currentPage != Model.lastPage){
+                <a href = "/?page=@Model.nextPage">
+                    <button class = "right" id = "button">
+                        Next
+                        <img src="/images/arrow.png" class = "arrow"/>
+                    </button>
+                </a>
+            } else{
+                <button class = "right" id = "limit">
+                    Next
+                    <img src="/images/arrow.png" class = "arrow"/>
+                </button>
+            }
+        </div>
+    }
+    else
+    {
+        <em>There are no cheeps so far.</em>
+    }
+</div>

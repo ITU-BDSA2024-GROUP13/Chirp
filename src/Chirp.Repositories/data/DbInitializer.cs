@@ -1,5 +1,5 @@
 using System;
-using Chirp.Razor.Model;
+using Chirp.Repositories;
 
 
 public static class DbInitializer
