@@ -6,24 +6,24 @@ namespace Chirp.Razor.Model.Pages;
 
 public class PublicModel : PageModel
 {
-    private readonly ICheepService _service;
-    public List<CheepViewModel> Cheeps { get; set; }
+    private readonly ICheepRepository _service;
+    public List<CheepDTO> Cheeps { get; set; }
     public int count {get; set; }
 
 
-    public PublicModel(ICheepService service)
+    public PublicModel(ICheepRepository service)
     {
         _service = service;
     }
 
-    public ActionResult OnGet(int page = 0)
+    public async Task<ActionResult> OnGet(int page = 0)
     {
         var pageQuery = Request.Query["page"];
         if (!pageQuery.Equals("") && pageQuery.Count() > 0){
             page = Int32.Parse(pageQuery[0]);
         }
-        Cheeps = _service.GetCheeps(page);
-        count = _service.CountFromAll();
+        Cheeps = await _service.ReadPublicMessages();
+        count = await _service.CountPublicMessages();
         return Page();
     }
 }

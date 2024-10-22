@@ -25,7 +25,7 @@ public class UserTimelineModel : PageModel
             page = Int32.Parse(pageQuery[0]);
         }
         Cheeps = await _service.ReadUserMessages(author);
-        //count = _service.CountFromAuthor(author);
+        count = await _service.CountUserMessages(author);
         return Page();
     }
 }
