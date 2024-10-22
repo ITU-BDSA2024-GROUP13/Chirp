@@ -23,7 +23,7 @@ public class CheepRepository : ICheepRepository {
         return queryResult.Entity.CheepId;
     }
 
-    public async Task<List<CheepDTO>> ReadMessages(string userName){
+    public async Task<List<CheepDTO>> ReadPublicMessages(string userName){
 
 
         // Formulate the query - will be translated to SQL by EF Core

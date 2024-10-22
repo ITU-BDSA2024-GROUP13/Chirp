@@ -24,7 +24,7 @@ public class UserTimelineModel : PageModel
         if (!pageQuery.Equals("") && pageQuery.Count() > 0){
             page = Int32.Parse(pageQuery[0]);
         }
-        Cheeps = await _service.ReadMessages(author);
+        Cheeps = await _service.ReadPublicMessages(author);
         //count = _service.CountFromAuthor(author);
         return Page();
     }
