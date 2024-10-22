@@ -39,7 +39,7 @@ public class CheepRepository : ICheepRepository {
             authorId = message.AuthorId,
             author = message.Author.Name,
             text = message.Text,
-            timestamp = message.TimeStamp.Ticks
+            timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds()
             });
         // Execute the query
         var result = await query.ToListAsync();
@@ -64,7 +64,7 @@ public class CheepRepository : ICheepRepository {
                 authorId = message.AuthorId,
                 author = message.Author.Name,
                 text = message.Text,
-                timestamp = message.TimeStamp.Ticks
+                timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds()
                 });
             // Execute the query
             var result = await query.ToListAsync();

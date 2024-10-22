@@ -22,7 +22,7 @@
                         <p class="message">
                             @cheep.text
                         </p>
-                        <span class="date">&mdash; @cheep.timestamp</span>
+                        <span class="date">&mdash; @ToDateTime(cheep.timestamp)</span>
                     </div>
                 </li>
             }
@@ -46,3 +46,9 @@
         <em>There are no cheeps so far.</em>
     }
 </div>
+
+ @functions{
+        public DateTime ToDateTime(long value){
+            return Chirp.Razor.Model.HelperFunctions.FromUnixTimeToDateTime(value);
+    }
+    }

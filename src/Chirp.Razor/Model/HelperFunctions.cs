@@ -17,7 +17,7 @@ public static class HelperFunctions
     {
 
         DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-        dateTime = dateTime.AddTicks(unixTime).ToLocalTime();
+        dateTime = dateTime.AddMilliseconds(unixTime).ToLocalTime();
 
         return dateTime;
     }
