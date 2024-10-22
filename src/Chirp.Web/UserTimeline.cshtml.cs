@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Services;
 using Chirp.Repositories;
-
+using System.Threading.Tasks;
 
 public class UserTimelineModel : PageModel
 {
-    private readonly ICheepService _service;
-    public List<CheepViewModel> Cheeps { get; set; }
+    private readonly ICheepRepository _service;
+    public List<CheepDTO> Cheeps { get; set; }
 
     public int count { get; set; }
     
@@ -18,7 +18,7 @@ public class UserTimelineModel : PageModel
     public int currentPage {get; set;}
     public int lastPage {get; set;}
 
-    public UserTimelineModel(ICheepService service)
+    public UserTimelineModel(ICheepRepository service)
     {
         _service = service;
     }
@@ -37,18 +37,17 @@ public class UserTimelineModel : PageModel
         return lastPage;
     }
     
-    public ActionResult OnGet(string author, int page = 0)
+    public async Task<ActionResult> OnGetAsync(string author, int page = 0)
     {
         var pageQuery = Request.Query["page"];
         if (!pageQuery.Equals("") && pageQuery.Count() > 0){
             page = Int32.Parse(pageQuery[0]);
         }
-
+        Cheeps = await _service.ReadUserMessages(author, page);
+        count = await _service.CountUserMessages(author);
         currentPage = page;
         nextPage = page+1;
         previousPage = definePreviousPage(page);
-        Cheeps = _service.GetCheepsFromAuthor(author, page);
-        count = _service.CountFromAuthor(author);
         lastPage = defineLastPage();
         return Page();
     }

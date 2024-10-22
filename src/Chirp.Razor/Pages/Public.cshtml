@@ -1,0 +1,54 @@
+﻿@page "/"
+@model Chirp.Razor.Model.Pages.PublicModel
+@using Chirp.Razor.Model.Pages
+@{
+    ViewData["Title"] = "Chirp!";
+    Layout = "./Shared/_Layout.cshtml";;
+}
+
+<div>
+    <h2> Public Timeline </h2>
+
+    @if (Model.Cheeps.Any())
+    {
+        <ul id="messagelist" class="cheeps">
+            @foreach (var cheep in Model.Cheeps)
+            {
+                <li>
+                    <div class="cheep-content">
+                        <strong class="author">
+                            <a href="/@cheep.author">@cheep.author</a>
+                        </strong>
+                        <p class="message">
+                            @cheep.text
+                        </p>
+                        <span class="date">&mdash; @ToDateTime(cheep.timestamp)</span>
+                    </div>
+                </li>
+            }
+        </ul>
+
+         <ul id="pagelist">
+            @for(int i = 0; i <= Model.count / 32; i++)
+            {
+                <li>
+                    <p>
+                        <strong>
+                            <a href="/?page=@i">@i</a>
+                        </strong>
+                    </p>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <em>There are no cheeps so far.</em>
+    }
+</div>
+
+ @functions{
+        public DateTime ToDateTime(long value){
+            return Chirp.Razor.Model.HelperFunctions.FromUnixTimeToDateTime(value);
+    }
+    }
