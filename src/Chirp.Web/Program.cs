@@ -1,54 +1,64 @@
 using Chirp.Services;
 using Chirp.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
-using System.Reflection;
-using Chirp.Web;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite(connectionString));
 
-    var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly());
-    var filePath = "./data/chirps.db";
-    if (!File.Exists(filePath)){
-        File.Create(filePath);
-    } 
-    using var reader = embeddedProvider.GetFileInfo("./data/chirps.db").CreateReadStream();
+var filePath = "./data/chirps.db";
+
+if (!File.Exists(filePath))
+{
+
+    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+    using (var fs = File.Create(filePath))
+    {
+        fs.Close();
+        Console.WriteLine($"File {filePath} created.");
+    }
+}
+
+
+if (File.Exists(filePath))
+{
+    using var reader = new FileStream(filePath, FileMode.Open, FileAccess.Read);
     using var sr = new StreamReader(reader);
     var query = sr.ReadToEnd();
-    
-    var i = 0;
 
-    foreach(var queri in query) {
-        
+    var i = 0;
+    foreach (var queri in query)
+    {
         Console.WriteLine(++i);
         Console.WriteLine(queri);
-
     }
-
-    // Add services to the container.
-    builder.Services.AddRazorPages();
-    builder.Services.AddSingleton<ICheepService, CheepService>();
-    builder.Services.AddScoped<ICheepRepository, CheepRepository>();
-
-    var app = builder.Build();
+}
+else
+{
+    Console.WriteLine("File not found.");
+}
 
 
-    // Configure the HTTP request pipeline.
-    if (!app.Environment.IsDevelopment())
-    {
-        app.UseExceptionHandler("/Error");
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        app.UseHsts();
-    }
+builder.Services.AddRazorPages();
+builder.Services.AddSingleton<ICheepService, CheepService>();
+builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 
-    app.UseHttpsRedirection();
-    app.UseStaticFiles();
+var app = builder.Build();
 
-    app.UseRouting();
 
-    app.MapRazorPages();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
 
-    app.Run();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.MapRazorPages();
+
+app.Run();
