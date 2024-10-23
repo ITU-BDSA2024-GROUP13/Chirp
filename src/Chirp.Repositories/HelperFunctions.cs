@@ -12,6 +12,7 @@ public static class HelperFunctions
      * <example> 1725801466  ->  9/8/2024 </example>
      * Note that the order is month/day/year.
      * </summary>
+     * <returns> DateTime </returns>
      */
     public static DateTime FromUnixTimeToDateTime(long unixTime)
     {
