@@ -1,69 +1,84 @@
-name: Build and Release C# Projects
+  name: Release
 
-on:
-  push:
-    tags:
-      - 'v*.*.*'  # Triggers on version tags like v1.0.0
-  release:
-    types: 
-    - published  # Triggers when a release is published
-    - edited     # Trigger when a release is edtied
-jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        project: 
-          - ./src/Chirp.Razor/Chirp.Razor.csproj
+  on:
+    workflow_run:
+      workflows: ["Bump Version and Create Release"]  # The name of the workflow you want to depend on
+      types:
+        - completed  # Triggers this workflow when the specified workflow is completed
+        
+    push:
+      tags:
+        - 'v*.*.*'
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    release:
+      types: 
+        - published  # Triggers when a release is published
+        - edited     # Trigger when a release is edtied
 
-      - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '7.x'
+  jobs:
+    build:
+      runs-on: ubuntu-latest
 
-      - name: List files
-        run: ls -R
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
 
-      - name: Restore dependencies
-        run: dotnet restore ${{ matrix.project }}
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v4
+          with:
+            dotnet-version: 8.x
 
-      - name: Build project
-        run: dotnet publish ${{ matrix.project }} --configuration Release --output ./build/${{ matrix.os }}/$(basename ${{ matrix.project }} .csproj) --self-contained --runtime ${{ matrix.os == 'ubuntu-latest' && 'linux-x64' || matrix.os == 'windows-latest' && 'win-x64' || 'osx-x64' }}
+        # Restore the dependencies
+        - name: Restore dependencies
+          run: dotnet restore
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: executables-${{ matrix.project }}-${{ matrix.os }}
-          path: ./build/${{ matrix.os }}/$(basename ${{ matrix.project }} .csproj)
+        # Build the solution
+        - name: Build the solution
+          run: dotnet build Chirp.sln --configuration Release --no-restore
 
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      deployments: write
+        # Run tests
+        - name: Run tests
+          run: dotnet test --configuration Release --verbosity normal
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    release:
+      needs: build
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          os: [osx-x64, linux-x64, win-x64]
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          path: ./build/
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+          with:
+            fetch-depth: 0  # Only fetch the latest commit
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            ./build/linux/*
-            ./build/windows/*
-            ./build/macos/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Get the latest version from Git tags, strip the 'v' prefix
+        - name: Get version from Git tags
+          id: get_version
+          run: |
+            VERSION=$(git describe --tags --abbrev=0)
+            VERSION_NO_V=$(echo $VERSION | sed 's/^v//')  # Remove the 'v' prefix
+            echo "version=$VERSION" >> $GITHUB_ENV
+            echo "version_no_v=$VERSION_NO_V" >> $GITHUB_ENV
+
+        - name: makedir
+          run: mkdir -p .
+
+        - name: make releases
+          run: dotnet publish -c Release -r ${{ matrix.os }} --self-contained --output ./${{ matrix.os }} /p:Version=${{ env.version_no_v }} # Use the version without the 'v'
+
+        - name: Zip the published files
+          run: zip -r ./${{ matrix.os }} ./${{ matrix.os }}
+
+        - name: Upload Release Artifact
+          uses: actions/upload-artifact@v3
+          with:
+            name: ${{ matrix.os }}
+            path: ./${{ matrix.os }}.zip
+
+        - name: Release with tag
+          uses: softprops/action-gh-release@v1
+          with:
+            tag_name: "${{ env.version }}"   # Use the tag with 'v' prefix
+            files: ./${{ matrix.os }}.zip
