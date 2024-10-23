@@ -10,23 +10,29 @@ var builder = WebApplication.CreateBuilder(args);
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite(connectionString));
 
-try{
+// try{
+//     var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly())
+//     using var reader = embeddedProvider.GetFileInfo("./data/chirps.db").CreateReadStream();
+//     using var sr = new StreamReader(reader);
+//     var query = sr.ReadToEnd();
+//     
+//     var i = 0;
+//
+//     foreach(var queri in query) {
+//         
+//         Console.WriteLine(++i);
+//         Console.WriteLine(queri);
+//
+//     }
+// } catch (FileNotFoundException e){
+//     Console.WriteLine(e.Message);
+// }
+
     var embeddedProvider = new EmbeddedFileProvider(Assembly.GetExecutingAssembly());
-    using var reader = embeddedProvider.GetFileInfo("./data/chirps.db").CreateReadStream();
-    using var sr = new StreamReader(reader);
-    var query = sr.ReadToEnd();
-    
-    var i = 0;
-
-    foreach(var queri in query) {
-        
-        Console.WriteLine(++i);
-        Console.WriteLine(queri);
-
-    }
-} catch (FileNotFoundException e){
-    Console.WriteLine(e.Message);
-}
+    var filePath = "./data/chirps.db";
+    if (!File.Exists(filePath)){
+        File.Create(filePath);
+    } 
 
     // Add services to the container.
     builder.Services.AddRazorPages();
