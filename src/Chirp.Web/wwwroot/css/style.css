@@ -6,7 +6,7 @@ body {
 }
 
 a{
-  color: #452a238d;
+  color: #000000;
 }
 
 a:hover {
@@ -42,9 +42,8 @@ input[type="submit"] {
 }
 
 div.page {
-  float:center;
+  float:left;
   background: WHITE;
-  border: 1px solid #cc6e6e;
   width: auto;
   width: 80%;
   max-width: 700px;
@@ -109,11 +108,11 @@ div.page div.navigation form button {
 /*IS USED FOR THE TITELS - "PUBLIC TIMELINE" ">@USER TIMELINE"*/
 div.page h2 {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   margin: 0 0 15px 0;
-  color: #571010;
+  color: #010000a5;
   text-shadow: 0 1px 2px #ccc;
-  border: 3px solid #610101;
+  border: 3px solid #010000a5;
   border-radius: 2px;
   border-left: #571010;
   border-right: #571010;
@@ -367,6 +366,9 @@ ul.nav li a:hover {
 
 .navbar{
   position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   right: 0;
   left: 0;
   border-bottom: 2px solid black;
@@ -374,18 +376,20 @@ ul.nav li a:hover {
   background-color:#D4D4D4;
   height: 30px;
   z-index: 999;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
-
 /*USED FOR THE BUTTONS SIZE AND POSITION*/
+/*
 .PageNavigation{
-  width: 100%;
   min-width: 362px;
   display: flex;
   flex-flow: row no-wrap;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 10px 10px 0px;
-}
+}*/
 
 
 .left:hover{
@@ -396,16 +400,13 @@ ul.nav li a:hover {
 /*USED FOR THE BUTTONS STYLE + CONTENT POSITIONING*/
 #button{
   justify-content: center;
-  background:
-  linear-gradient(to top, #797777 -30%, hsla(24, 97%, 40%, 0.886));
   border-width:2px;
   border-style:solid;
-  border-color:#610101;;
   color: #D4D4D4;
   padding: 10px;
-  width: 90px;
+  width: 30px;
   border-radius: 15px;
-  height: 35px;
+  height: 25px;
 }
 
 #button:hover{
@@ -438,13 +439,13 @@ ul.nav li a:hover {
 }
 
 .arrow{
-  width: 35px;
-  height: 30px;
+  width: 30px;
+  height: 25px;
 }
 
 .arrowRight{
-  width: 35px;
-  height: 30px;
+  width: 30px;
+  height: 25px;
   transform: scaleX(-1);
 }
 
@@ -453,15 +454,40 @@ fill{
   font-size: 10px;
 }
 
-#pagelist{
+.navbar ul li{
   display: inline-block;
+  margin: 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(152, 152, 152, 0.353);
+  text-align: center;
+  font-weight: 500;
+  text-align: center;
+  line-height: 30px;
+  cursor: pointer;
+}
+
+.navbar ul li:hover{
+  background: rgb(240, 212, 212);
+}
+
+.pagelist{
+  position: relative;
+  border: 2px solid rgba(64, 64, 64, 0.748);
+  padding: 7px;
+  left: 40px;
   font-size: 11.5px;
-  justify-content: center;
-  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  border-radius: 5px;
+  width: 350px;
+  background: white;
 }
 
 #current{
-  color:hsl(24, 98%, 40%);
+  background: rgb(240, 212, 212);
 }
 
 /*MAKES THE STRUCTURE WITHIN THE CHEEPS INTO COLUMN*/

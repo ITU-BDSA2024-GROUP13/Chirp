@@ -14,8 +14,61 @@
     </h1>
 
     <div class = "navbar">
-        
+        <!-- Defines the 'pagelist' which will function as a way to navigate
+        simply by using numbers in the bottom of a page-->
+            <ul class="pagelist">
+                @for(int i = 0; i <= Model.count / 32; i++)
+                    {
+                        @if(i > Model.currentPage + 3 || i < Model.currentPage -3){
+                            @if(i == Model.lastPage){
+                                <fill>..</fill>
+                                <li onclick = "location.href = '/?page=@i'" > @i</li>
+                            } else if(i == 0){
+                                <li onclick = "location.href = '/?page=@i'" > @i</li>
+                                <fill>..</fill>
+                            }
+                        } else if(Model.currentPage == i){
+                           <li id = "current" onclick = "location.href = '/?page=@i'" > @i</li>
+                         } else{
+                            <li onclick = "location.href = '/?page=@i'" > @i</li>
+                     }
+                }
+            </ul>
+
+        <div>
+        <!-- Defines the 'prev' button which will function as a way to go to the
+        previous page by clicking on it-->
+         @if(Model.currentPage != 0){
+            <a href = "/?page=@Model.previousPage">
+                <button class = "left" id = "button"> 
+                    <img src="/images/arrow.png" class = "arrowRight"/>
+                </button>
+            </a>
+         }else{
+            <button class = "left" id = "limit"> 
+                <img src="/images/arrow.png" class = "arrowRight"/>
+            </button>
+         }
+
+        <!-- Defines the 'next' button which will function as a way to go to the
+        next page by clicking on it-->
+            @if(Model.currentPage != Model.lastPage){
+                <a href = "/?page=@Model.nextPage">
+                    <button class = "right" id = "button">
+                        <img src="/images/arrow.png" class = "arrow"/>
+                    </button>
+                </a>
+            } else{
+                <button class = "right" id = "limit">
+                    <img src="/images/arrow.png" class = "arrow"/>
+                </button>
+            }
+
+
+        </div>
+            
     </div>
+    
     <div class=page>
         <div class=body>
             @RenderBody()
