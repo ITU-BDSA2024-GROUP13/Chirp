@@ -2,6 +2,7 @@ body {
   background: #D4D4D4;
   font-family: 'Trebuchet MS', sans-serif;
   font-size: 14px;
+  padding-top: 120px;
 }
 
 a{
@@ -338,24 +339,17 @@ ul.nav li a:hover {
 /*USED FOR THE BIRDS SIZE*/
 .Icon{
   cursor: pointer;
-  width: 45px;
-  height: 40px;
+  width: 65px;
+  height: 60px;
 }
-
-/*USED FOR THE BIRDS LOCATION*/
-.bird{
-  position: absolute;
-  top: 4.5%;
-  left: 50.5%;
-  transform: translate(-50%, -50%);
-}
-
 /*STYLING AND POSITION FOR THE "CHIRP" HEADER*/
 .header{
-  /*Position for the header*/
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /*Position for the header --> Fixes position to the top of the page*/
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 999;
 
   /*Text styling*/
   color: #dededed9;
@@ -366,14 +360,8 @@ ul.nav li a:hover {
   padding: 10px 14px;
 
   /*Box style*/
-  border-width:2px;
-  border-style:solid;
-  border-color:#c11d047c;
-  background:
-  linear-gradient(to top, hsla(24, 72%, 52%, 0.886), #c11d04f8);
-  border-radius: 20px;
-  box-shadow: 2px 2px rgba(56, 53, 53, 0.66);
-  margin: 0;
+  border-bottom: 3px solid black;
+  background-color:#D4D4D4;
 }
 
 /*USED FOR THE BUTTONS SIZE AND POSITION*/
