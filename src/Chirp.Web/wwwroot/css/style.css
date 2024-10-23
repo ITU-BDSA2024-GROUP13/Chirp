@@ -1,8 +1,8 @@
 body {
-  background: #D4D4D4;
+  background: #ffffff;
   font-family: 'Trebuchet MS', sans-serif;
   font-size: 14px;
-  padding-top: 120px;
+  padding-top: 92px;
 }
 
 a{
@@ -48,7 +48,7 @@ div.page {
   width: auto;
   width: 80%;
   max-width: 700px;
-  margin: 30px auto;
+  margin: 60px auto;
 }
 
 /*might not be use*/
@@ -152,7 +152,6 @@ div.page ul.cheeps {
   flex-direction: column;
   align-items:center;
   list-style: none;
-  margin: 0;
   padding: 0;
 }
 
@@ -339,8 +338,8 @@ ul.nav li a:hover {
 /*USED FOR THE BIRDS SIZE*/
 .Icon{
   cursor: pointer;
-  width: 65px;
-  height: 60px;
+  width: 60px;
+  height: 55px;
 }
 /*STYLING AND POSITION FOR THE "CHIRP" HEADER*/
 .header{
@@ -350,18 +349,31 @@ ul.nav li a:hover {
   right: 0;
   left: 0;
   z-index: 999;
-
+  margin: 0;
+  
   /*Text styling*/
   color: #dededed9;
   letter-spacing: 10px;
-  font-size: 80px;
+  font-size: 70px;
   text-shadow: 0 0 4px #170f0d98;
   font-weight: heavy;
   padding: 10px 14px;
 
   /*Box style*/
-  border-bottom: 3px solid black;
+  border-bottom: 2px solid black;
   background-color:#D4D4D4;
+  height: 80px;
+}
+
+.navbar{
+  position: fixed;
+  right: 0;
+  left: 0;
+  border-bottom: 2px solid black;
+  border-top: 2px solid black;
+  background-color:#D4D4D4;
+  height: 30px;
+  z-index: 999;
 }
 
 /*USED FOR THE BUTTONS SIZE AND POSITION*/
