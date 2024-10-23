@@ -5,7 +5,6 @@ namespace Chirp.Core;
 /// </summary>
 /// 
 
-
 public class MessageDTO
 {
     public string username;
