@@ -18,24 +18,5 @@ public class Author
         this.Cheeps = cheeps;
     }
 
-    public Author()
-    {
-
-    }
-
-    public string GetName()
-    {
-        return Name;
-    }
-
-    public string GetEmail()
-    {
-        return Email;
-    }
-
-    public ICollection<Cheep> GetCheeps()
-    {
-        return Cheeps;
-    }
 }
 
