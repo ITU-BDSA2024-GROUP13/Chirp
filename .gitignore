@@ -11,8 +11,9 @@
 *.suo
 *.user
 *.userosscache
-*.myapp
-*.db
+**/myapp/
+**/data/
+**/*.db
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -490,3 +491,5 @@ $RECYCLE.BIN/
 /bin
 /obj
 
+/src/Chirp.Web/data
+*.db
