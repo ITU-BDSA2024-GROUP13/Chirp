@@ -2,7 +2,7 @@
 
 
   <PropertyGroup>
-    <TargetFramework>net$(NETCoreAppMaximumVersion)</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <SelfContained>false</SelfContained>
