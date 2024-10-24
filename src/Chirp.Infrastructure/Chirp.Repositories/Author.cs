@@ -5,18 +5,12 @@ namespace Chirp.Repositories;
 public class Author
 {
     [Key]
-    public int AuthorId {get ; set; }
-    public string Name { get; set; }
-    public string Email { get; set; }    
+    public required int AuthorId {get ; set; }
+    public required string Name { get; set; }
+    public required string Email { get; set; }    
     public ICollection<Cheep> Cheeps {get ; set;}
 
-    public Author(int authorId, string name, string email, ICollection<Cheep> cheeps)
-    {
-        this.AuthorId = authorId;
-        this.Name = name;
-        this.Email = email;
-        this.Cheeps = cheeps;
-    }
+
 
 }
 
