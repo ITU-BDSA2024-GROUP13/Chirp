@@ -6,12 +6,12 @@ namespace Chirp.Core;
 
 public class MessageDTO
 {
-    public string username;
+    public required string username;
 
-    public int timestamp;
+    public required int timestamp;
 
-    public string message;
+    public required string message;
 
-    public string author;
+    public required string author;
 
 }

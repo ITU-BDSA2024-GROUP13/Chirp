@@ -10,3 +10,9 @@ end_of_line = crlf
 charset = utf-8
 trim_trailing_whitespace = false
 insert_final_newline = false
+
+# IDE0058: Expression value is never used
+csharp_style_unused_value_expression_statement_preference = unused_local_variable
+
+# CA1305: Specify IFormatProvider
+dotnet_diagnostic.CA1305.severity = none

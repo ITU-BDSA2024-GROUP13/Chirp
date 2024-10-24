@@ -10,21 +10,21 @@ using Microsoft.Data.Sqlite;
 * Facade for database operations related to users and messages in the Chirp application.
 * Provides methods to insert and select data from the database.
 * </summary>
-*/ 
+*/
 public class DBFacade
 {
     /** 
     * <summary>
     * File path to the SQLite database.
     * </summary>
-    */ 
+    */
     string sqlDBFilePath = "data/chirps.db";
     int page = 0;
 
     /** <summary>
     * Initializes a new instance of the DBFacade class and initializes SQLite batteries.
     * </summary>
-    */ 
+    */
     public DBFacade()
     {
         SQLitePCL.Batteries.Init();
@@ -110,8 +110,8 @@ public class DBFacade
         long timestamp = 0;
         string name = "";
 
-        var sqlQuery = $"SELECT U.username, M.text, M.pub_date FROM message M, user U" + 
-        $" WHERE M.author_id = U.user_id AND U.username = '{username}'" + 
+        var sqlQuery = $"SELECT U.username, M.text, M.pub_date FROM message M, user U" +
+        $" WHERE M.author_id = U.user_id AND U.username = '{username}'" +
         $" ORDER BY M.pub_date DESC LIMIT 32 OFFSET {page * 32}";
         try
         {
@@ -127,29 +127,32 @@ public class DBFacade
                     var dataRecord = (IDataRecord)reader;
                     Object[] values = new Object[reader.FieldCount];
                     int fieldCount = reader.GetValues(values);
-                    for (int i = 0; i < fieldCount; i++){
+                    for (int i = 0; i < fieldCount; i++)
+                    {
 
                         name = reader.GetName(i);
-                        if (values[i] != null){
-                            switch(name){
-                            case "username":
-                                author =  (String) values[i];
-                                break;
+                        if (values[i] != null)
+                        {
+                            switch (name)
+                            {
+                                case "username":
+                                    author = (String)values[i];
+                                    break;
 
-                            case "text":
-                                message = (String) values[i];
-                                break;
-                            case "pub_date":
-                                
-                                timestamp = (long) values[i];
-                                list.Add(new CheepViewModel(author, message, Convert.ToString(HelperFunctions.FromUnixTimeToDateTime(timestamp))));
-                                break;
+                                case "text":
+                                    message = (String)values[i];
+                                    break;
+                                case "pub_date":
+
+                                    timestamp = (long)values[i];
+                                    list.Add(new CheepViewModel(author, message, Convert.ToString(HelperFunctions.FromUnixTimeToDateTime(timestamp))));
+                                    break;
                             }
                         }
 
 
                     }
-                        
+
                 }
             }
         }
@@ -161,9 +164,10 @@ public class DBFacade
 
     }
 
-    public int COUNT_MESSAGE_FROM_USER(string username){
+    public int COUNT_MESSAGE_FROM_USER(string username)
+    {
 
-        var sqlQuery = $"SELECT Count(*) FROM (SELECT U.username, M.text, M.pub_date FROM message M, user U" + 
+        var sqlQuery = $"SELECT Count(*) FROM (SELECT U.username, M.text, M.pub_date FROM message M, user U" +
         $" WHERE M.author_id = U.user_id AND U.username = '{username}')";
         int count = 0;
 
@@ -181,21 +185,22 @@ public class DBFacade
                     var dataRecord = (IDataRecord)reader;
                     Object[] values = new Object[reader.FieldCount];
                     int fieldCount = reader.GetValues(values);
-                    for (int i = 0; i < fieldCount; i++){
+                    for (int i = 0; i < fieldCount; i++)
+                    {
                         //casting to long to cast to int32
                         count = (int)(long)values[i];
-                        }
+                    }
                 }
-                        
+
             }
         }
-                catch (Exception e)
+        catch (Exception e)
         {
             Console.WriteLine(e.Message);
         }
         return count;
-        }
-        
+    }
+
 
     public List<CheepViewModel> SELECT_ALL_MESSAGES(int page)
     {
@@ -223,28 +228,31 @@ public class DBFacade
                     var dataRecord = (IDataRecord)reader;
                     Object[] values = new Object[reader.FieldCount];
                     int fieldCount = reader.GetValues(values);
-                    for (int i = 0; i < fieldCount; i++){
+                    for (int i = 0; i < fieldCount; i++)
+                    {
 
                         name = reader.GetName(i);
-                        if (values[i] != null){
-                            switch(name){
-                            case "username":
-                                author =  (String) values[i];
-                                break;
+                        if (values[i] != null)
+                        {
+                            switch (name)
+                            {
+                                case "username":
+                                    author = (String)values[i];
+                                    break;
 
-                            case "text":
-                                message = (String) values[i];
-                                break;
-                            case "pub_date":
-                                timestamp = (long) values[i];
-                                list.Add(new CheepViewModel(author, message, Convert.ToString(HelperFunctions.FromUnixTimeToDateTime(timestamp))));
-                                break;
+                                case "text":
+                                    message = (String)values[i];
+                                    break;
+                                case "pub_date":
+                                    timestamp = (long)values[i];
+                                    list.Add(new CheepViewModel(author, message, Convert.ToString(HelperFunctions.FromUnixTimeToDateTime(timestamp))));
+                                    break;
                             }
                         }
 
 
                     }
-                        
+
                 }
             }
         }
@@ -255,7 +263,8 @@ public class DBFacade
         return list;
     }
 
-    public int COUNT_MESSAGE_FROM_ALL(){
+    public int COUNT_MESSAGE_FROM_ALL()
+    {
 
         var sqlQuery = $"SELECT Count(*) FROM (SELECT * from message)";
         int count = 0;
@@ -274,21 +283,22 @@ public class DBFacade
                     var dataRecord = (IDataRecord)reader;
                     Object[] values = new Object[reader.FieldCount];
                     int fieldCount = reader.GetValues(values);
-                    for (int i = 0; i < fieldCount; i++){
+                    for (int i = 0; i < fieldCount; i++)
+                    {
                         //casting to long to cast to int32
                         count = (int)(long)values[i];
-                        }
+                    }
                 }
-                        
+
             }
         }
-                catch (Exception e)
+        catch (Exception e)
         {
             Console.WriteLine(e.Message);
         }
         return count;
-        }
-    
+    }
+
 
     /**
         * <summary>
@@ -312,12 +322,12 @@ public class DBFacade
                 {
                     var dataRecord = (IDataRecord)reader;
                     //for (int i = 0; i < dataRecord.FieldCount; i++)
-                        // Console.WriteLine($"{dataRecord.GetName(i)}: {dataRecord[i]}");
+                    // Console.WriteLine($"{dataRecord.GetName(i)}: {dataRecord[i]}");
 
                     Object[] values = new Object[reader.FieldCount];
                     int fieldCount = reader.GetValues(values);
                     //for (int i = 0; i < fieldCount; i++)
-                        // Console.WriteLine($"{reader.GetName(i)}: {values[i]}");
+                    // Console.WriteLine($"{reader.GetName(i)}: {values[i]}");
                 }
             }
         }

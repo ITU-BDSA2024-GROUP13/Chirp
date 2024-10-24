@@ -3,8 +3,12 @@ using Chirp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 
-var builder = WebApplication.CreateBuilder(args);
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8604 // Possible null reference argument.
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+
+var builder = WebApplication.CreateBuilder(args);
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 Console.WriteLine(connectionString);
 builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite("Data Source=Chat.db"));
@@ -15,11 +19,8 @@ if (!File.Exists(filePath))
 {
 
     Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-    using (var fs = File.Create(filePath))
-    {
-        fs.Close();
-        Console.WriteLine($"File {filePath} created.");
-    }
+    using var fs = File.Create(filePath);
+    Console.WriteLine($"File {filePath} created.");
 }
 
 
@@ -56,6 +57,7 @@ using (var scope = app.Services.CreateScope())
 
 
     // Execute the migration from code.
+
     context.Database.Migrate();
     DbInitializer.SeedDatabase(context);
 

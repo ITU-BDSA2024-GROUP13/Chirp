@@ -8,7 +8,7 @@ public class CheepService : ICheepService
     private DBFacade db = new();
     // These would normally be loaded from a database for example
     private List<CheepViewModel> _cheeps = new();
-    
+
 
     public List<CheepViewModel> GetCheeps(int page)
     {
@@ -27,7 +27,7 @@ public class CheepService : ICheepService
         return db.COUNT_MESSAGE_FROM_USER(author);
     }
 
-        public int CountFromAll()
+    public int CountFromAll()
     {
         // filter by the provided author name
         return db.COUNT_MESSAGE_FROM_ALL();
@@ -42,6 +42,6 @@ public class CheepService : ICheepService
         return dateTime.ToString("MM/dd/yy H:mm:ss");
     }
 
-    
+
 
 }

@@ -10,7 +10,7 @@ public interface ICheepRepository
 
     public Task<int> CountUserMessages(string userName);
 
-    public Task<int>  CountPublicMessages();
+    public Task<int> CountPublicMessages();
 
 
 
