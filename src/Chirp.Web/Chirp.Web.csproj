@@ -14,8 +14,8 @@
     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
 
-    <ProjectReference Include="../Chirp.Services/Chirp.Services.csproj" />
-    <ProjectReference Include="../Chirp.Repositories/Chirp.Repositories.csproj" />
+    <ProjectReference Include="../Chirp.Infrastructure/Chirp.Services/Chirp.Services.csproj" />
+    <ProjectReference Include="../Chirp.Infrastructure/Chirp.Repositories/Chirp.Repositories.csproj" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.6" />

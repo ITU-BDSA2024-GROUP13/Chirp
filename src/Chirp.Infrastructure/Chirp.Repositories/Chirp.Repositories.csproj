@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Chirp.Core/Chirp.Core.csproj" />
+    <ProjectReference Include="../../Chirp.Core/Chirp.Core.csproj" />
   
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
