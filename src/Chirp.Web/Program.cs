@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite(connectionString));
+Console.WriteLine(connectionString);
+builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite("Data Source=Chat.db"));
 
 var filePath = "./data/chirps.db";
 
