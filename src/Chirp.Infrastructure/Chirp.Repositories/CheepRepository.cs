@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Repositories;
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
 
 
 public class CheepRepository : ICheepRepository
@@ -45,7 +46,7 @@ public class CheepRepository : ICheepRepository
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds()
         });
-        // Execute the query
+                              // Execute the query
         var result = await query.ToListAsync();
 
         return result;

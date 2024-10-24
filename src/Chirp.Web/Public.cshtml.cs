@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Services;
 using Chirp.Repositories;
 using System.Threading.Tasks;
+#pragma warning disable CS8604 // Possible null reference argument.
 
 public class PublicModel(ICheepRepository service) : PageModel
 {
@@ -39,7 +40,7 @@ public class PublicModel(ICheepRepository service) : PageModel
     public async Task<ActionResult> OnGetAsync(int page = 0)
     {
         var pageQuery = Request.Query["page"];
-        if (!pageQuery.Equals("") && pageQuery.Count() > 0)
+        if (!pageQuery.Equals("") && pageQuery.Count > 0)
         {
             page = Int32.Parse(pageQuery[0]);
         }

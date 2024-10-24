@@ -42,7 +42,9 @@ public class UserTimelineModel(ICheepRepository service) : PageModel
         var pageQuery = Request.Query["page"];
         if (!pageQuery.Equals("") && pageQuery.Count() > 0)
         {
+#pragma warning disable CS8604 // Possible null reference argument.
             page = Int32.Parse(pageQuery[0]);
+#pragma warning restore CS8604 // Possible null reference argument.
         }
         Cheeps = await _service.ReadUserMessages(author, page);
         Count = await _service.CountUserMessages(author);
