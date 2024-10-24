@@ -11,7 +11,8 @@
 *.suo
 *.user
 *.userosscache
-
+*.myapp
+*.db
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
