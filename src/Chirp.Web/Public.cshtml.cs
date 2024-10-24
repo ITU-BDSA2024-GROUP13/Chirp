@@ -44,9 +44,9 @@ public class PublicModel : PageModel
         currentPage = page;
         nextPage = page+1;
         previousPage = definePreviousPage(page);
-        lastPage = defineLastPage();
         Cheeps = await _service.ReadPublicMessages(page);
         count = await _service.CountPublicMessages();
+        lastPage = defineLastPage();
         return Page();
     }
 }
