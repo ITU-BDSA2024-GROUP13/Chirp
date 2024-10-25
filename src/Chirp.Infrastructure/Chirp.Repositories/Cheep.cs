@@ -9,7 +9,7 @@ namespace Chirp.Repositories;
 public class Cheep
 {
     [Key]
-    public required int CheepId;
+    public int CheepId;
     public required string Text { get; set; }
     public required DateTime TimeStamp { get; set; }
     public required int AuthorId {get; set; }
