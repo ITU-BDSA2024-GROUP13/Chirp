@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 public class PublicModel : PageModel
 {
-    private readonly ICheepRepository _cheepService;
-    private readonly IAuthorRepository _authorService;
+    private readonly ICheepService _cheepService;
 
     public List<CheepDTO> Cheeps { get; set; }
     public List<AuthorDTO> Authors { get; set; }
@@ -19,10 +18,9 @@ public class PublicModel : PageModel
     public int currentPage {get; set;}
 
     public int lastPage {get; set;}
-    public PublicModel(ICheepRepository cheepService, IAuthorRepository authorRepository)
+    public PublicModel(ICheepService cheepService)
     {
         _cheepService = cheepService;
-        _authorService = authorRepository;
     }
 
     public int definePreviousPage(int page){
@@ -50,16 +48,9 @@ public class PublicModel : PageModel
         previousPage = definePreviousPage(page);
         Cheeps = await _cheepService.ReadPublicMessages(page);
         count = await _cheepService.CountPublicMessages();
-        Authors = await _authorService.FindAuthorByEmail("jacq");
-        AuthorDTO dtoAuthor = new() {name = "Helge2", email = "ilovegroup13@mail.com"};
-        CheepDTO dto = new() {author = "Helge2", authorId = 13, text = "I love group 13!", timestamp = 100};
-
-
-        await _authorService.CreateAuthor(dtoAuthor);
-        await _cheepService.CreateMessage(dto);
-
-
+        
         lastPage = defineLastPage();
         return Page();
     }
+    
 }
