@@ -51,8 +51,14 @@ public class PublicModel : PageModel
         Cheeps = await _cheepService.ReadPublicMessages(page);
         count = await _cheepService.CountPublicMessages();
         Authors = await _authorService.FindAuthorByEmail("jacq");
-        CheepDTO dto = new() {author = "Helge", authorId = 11, text = "I love group 13!", timestamp = 100};
+        AuthorDTO dtoAuthor = new() {name = "Helge2", email = "ilovegroup13@mail.com"};
+        CheepDTO dto = new() {author = "Helge2", authorId = 13, text = "I love group 13!", timestamp = 100};
+
+
+        await _authorService.CreateAuthor(dtoAuthor);
         await _cheepService.CreateMessage(dto);
+
+
         lastPage = defineLastPage();
         return Page();
     }

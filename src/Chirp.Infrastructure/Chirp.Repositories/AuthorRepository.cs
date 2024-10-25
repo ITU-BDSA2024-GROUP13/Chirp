@@ -13,8 +13,13 @@ public class AuthorRepository : IAuthorRepository {
         _dbContext = dbContext;
     }
 
-     public Task<int> CreateAuthor(CheepDTO newMessage){
-        return null;
+     public async Task<int> CreateAuthor(AuthorDTO author){
+        Author newAuthor = new() {Name = author.name, Email = author.email};
+        var queryResult = await _dbContext.Authors.AddAsync(newAuthor); // does not write to the database!
+
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        Console.WriteLine(queryResult.Entity.AuthorId);
+        return queryResult.Entity.AuthorId;
 
      }
 
