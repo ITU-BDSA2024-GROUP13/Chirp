@@ -2,50 +2,17 @@ using Chirp.Services;
 using Chirp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-
-
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
-#pragma warning disable CS8604 // Possible null reference argument.
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
 
 var builder = WebApplication.CreateBuilder(args);
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-Console.WriteLine(connectionString);
+
 builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite("Data Source=Chat.db"));
 
-var filePath = "./data/chirps.db";
-
-if (!File.Exists(filePath))
-{
-
-    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-    using var fs = File.Create(filePath);
-    Console.WriteLine($"File {filePath} created.");
-}
-
-
-if (File.Exists(filePath))
-{
-    using var reader = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-    using var sr = new StreamReader(reader);
-    var query = sr.ReadToEnd();
-
-    var i = 0;
-    foreach (var queri in query)
-    {
-        Console.WriteLine(++i);
-        Console.WriteLine(queri);
-    }
-}
-else
-{
-    Console.WriteLine("File not found.");
-}
-
-
 builder.Services.AddRazorPages();
-builder.Services.AddSingleton<ICheepService, CheepService>();
+
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+builder.Services.AddScoped<ICheepService, CheepService>();
 
 var app = builder.Build();
 
@@ -60,7 +27,6 @@ using (var scope = app.Services.CreateScope())
 
     context.Database.Migrate();
     DbInitializer.SeedDatabase(context);
-
 }
 
 
