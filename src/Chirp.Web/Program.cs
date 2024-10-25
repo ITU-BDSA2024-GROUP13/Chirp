@@ -7,15 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite("Data Source=Chat.db"));
 
-
-
-
-
 builder.Services.AddRazorPages();
-builder.Services.AddSingleton<ICheepService, CheepService>();
 
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+builder.Services.AddScoped<ICheepService, CheepService>();
 
 var app = builder.Build();
 
@@ -29,7 +25,6 @@ using (var scope = app.Services.CreateScope())
     // Execute the migration from code.
     context.Database.Migrate();
     DbInitializer.SeedDatabase(context);
-
 }
 
 

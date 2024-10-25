@@ -2,46 +2,71 @@ namespace Chirp.Services;
 
 using Chirp.Repositories;
 
-public class CheepService : ICheepService
+public class CheepService  : ICheepService
 {
+    private readonly ICheepRepository _cheepRepository;
+    private readonly IAuthorRepository _authorRepository;
 
-    private DBFacade db = new();
-    // These would normally be loaded from a database for example
-    private List<CheepViewModel> _cheeps = new();
+    public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository){
+        _cheepRepository = cheepRepository ?? throw new ArgumentNullException();
+        _authorRepository = authorRepository ?? throw new ArgumentNullException();
+    }
+
+    public Task<List<CheepDTO>> ReadPublicMessages(int page) {
+        return _cheepRepository.ReadPublicMessages(32, 32*page);
+    }
+
+    public Task<List<CheepDTO>> ReadUserMessages(string userName, int page){
+        return _cheepRepository.ReadUserMessages(userName, 32, 32*page);
+    }
+
+    public async Task<int> CreateMessage(CheepDTO message) {
+
+        List<AuthorDTO> authorsList = await FindAuthorByName(message.author);
+
+        if (authorsList.Any() && !authorsList[0].Equals(message.author)){
+            AuthorDTO newAuthor = new() {name = message.author, email = message.author + "@mail.com" };
+            await CreateAuthor(newAuthor);
+        } else{
+            AuthorDTO newAuthor = new() {name = message.author, email = message.author + "@mail.com" };
+            await CreateAuthor(newAuthor);
+        }
+
+        return await _cheepRepository.CreateMessage(message);
+    }
     
-
-    public List<CheepViewModel> GetCheeps(int page)
-    {
-        return db.SELECT_ALL_MESSAGES(page);
+    public async Task<int>  CountPublicMessages(){
+        var list = await _cheepRepository.ReadPublicMessages(int.MaxValue, 0);
+        var result = list.Count;
+        return result;
     }
 
-    public List<CheepViewModel> GetCheepsFromAuthor(string author, int page)
-    {
-        // filter by the provided author name
-        return db.SELECT_MESSAGE_FROM_USER(author, page);
+    public async Task<int> CountUserMessages(string userName){
+        var list = await _cheepRepository.ReadUserMessages(userName, int.MaxValue, 0);
+        var result = list.Count;
+        return result;
     }
 
-    public int CountFromAuthor(string author)
-    {
-        // filter by the provided author name
-        return db.COUNT_MESSAGE_FROM_USER(author);
+    public Task UpdateMessage(CheepDTO alteredMessage, int id){
+        return _cheepRepository.UpdateMessage(alteredMessage, id);
     }
 
-        public int CountFromAll()
-    {
-        // filter by the provided author name
-        return db.COUNT_MESSAGE_FROM_ALL();
+    public async Task<int> CreateAuthor(AuthorDTO author){
+        return await _authorRepository.CreateAuthor(author);
+    }
+    /** 
+    * <summary>
+    * Returns a list of author which starts with the string specified.
+    * If a user types in 'Hel', it would return authors with names such as 'Helge', 'Helge2' etc..
+    * </summary>
+    */
+    public async Task<List<AuthorDTO>> FindAuthorByName(string userName){
+        return await _authorRepository.FindAuthorByName(userName);
     }
 
-    [Obsolete("This method is being replaced by the method from HelperFunctions in Chirp.CLI.Client")]
-    private static string UnixTimeStampToDateTimeString(double unixTimeStamp)
-    {
-        // Unix timestamp is seconds past epoch
-        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-        dateTime = dateTime.AddSeconds(unixTimeStamp);
-        return dateTime.ToString("MM/dd/yy H:mm:ss");
-    }
+    public async Task<List<AuthorDTO>> FindAuthorByEmail(string email){
+        return await _authorRepository.FindAuthorByEmail(email);
 
-    
+    }
 
 }
