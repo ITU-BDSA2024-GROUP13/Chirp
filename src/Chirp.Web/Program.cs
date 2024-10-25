@@ -44,6 +44,8 @@ else
 
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<ICheepService, CheepService>();
+
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 
 var app = builder.Build();

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Chirp.Repositories;
 
 
-public class AuthorRepository : IAuhtorRepository {
+public class AuthorRepository : IAuthorRepository {
 
     private readonly CheepDBContext _dbContext;
     public AuthorRepository(CheepDBContext dbContext)
@@ -31,15 +31,30 @@ public class AuthorRepository : IAuhtorRepository {
         
         for (int i = 0; i < result.Count; i++)
         {
-            Console.WriteLine(result[i]);
+            Console.WriteLine(result[i].name);
         }
 
         return result;
     }
 
-    public Task<List<AuthorDTO>> FindAuthorByEmail(string email){
-        return null;
-    }
+    public async Task<List<AuthorDTO>> FindAuthorByEmail(string email){
+ var query = _dbContext.Authors.OrderByDescending(author => author.Name)
+        .Where(author => author.Email.StartsWith(email))
+        .Select(author => new AuthorDTO{ 
+            Id = author.AuthorId,
+            name = author.Name,
+            email = author.Email,
+            });
+        // Execute the query
+        var result = await query.ToListAsync();
+        
+        for (int i = 0; i < result.Count; i++)
+        {
+            Console.WriteLine(result[i].email);
+        }
+
+        return result;    
+        }
 
 
 

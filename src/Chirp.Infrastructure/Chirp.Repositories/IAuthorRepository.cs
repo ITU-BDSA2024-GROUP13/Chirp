@@ -1,6 +1,6 @@
 namespace Chirp.Repositories;
 
-public interface IAuhtorRepository
+public interface IAuthorRepository
 {
     public Task<int> CreateAuthor(CheepDTO newMessage);
 

@@ -15,7 +15,7 @@ public class CheepRepository : ICheepRepository {
 
     public async Task<int> CreateMessage(CheepDTO message){
 
-        Cheep newCheep = new() {CheepId = 5000, Text = message.text, AuthorId = message.authorId, TimeStamp = HelperFunctions.FromUnixTimeToDateTime(message.timestamp)};
+        Cheep newCheep = new() {Text = message.text, AuthorId = message.authorId, TimeStamp = HelperFunctions.FromUnixTimeToDateTime(message.timestamp)};
         var queryResult = await _dbContext.Cheeps.AddAsync(newCheep); // does not write to the database!
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
