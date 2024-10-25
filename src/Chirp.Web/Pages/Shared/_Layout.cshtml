@@ -29,6 +29,9 @@
                     }else{
                          <li onclick = "location.href = '/?page=@i'" > @i</li>
                     }
+
+
+
                 }else if (Model.currentPage == Model.lastPage){
                      if(i < Model.currentPage - 3){
                         if(i == 0){
@@ -40,7 +43,9 @@
                     }else{
                          <li onclick = "location.href = '/?page=@i'" > @i</li>
                     }
-                    
+
+
+
                 }else{
                     if(i > Model.currentPage + 2 || i < Model.currentPage -2){
                         if(i == Model.lastPage){
@@ -64,6 +69,8 @@
             }
         </ul>
 
+
+        <div class = "buttons">
         <!-- Defines the 'prev' button which will function as a way to go to the
         previous page by clicking on it-->
         @if(Model.currentPage != 0){
@@ -91,6 +98,8 @@
                 <img src="/images/arrow.png" class = "arrow"/>
             </button>
         }
+        </div>
+
     </div>
     
     <div class=page>

@@ -400,29 +400,36 @@ ul.nav li a:hover {
 /*USED FOR THE BUTTONS STYLE + CONTENT POSITIONING*/
 #button{
   justify-content: center;
-  border-width:2px;
+  border-width:1.5px;
   border-style:solid;
+  border-color: rgba(0, 0, 0, 0.522);
   color: #D4D4D4;
+  padding: 10px;
+  width: 30px;
+  border-radius: 50%;
+  height: 30px;
+}
+
+.buttons{
+  display: flex;
+  justify-content: space-between;
+  width: 70px;
+}
+
+#button:hover{
+  background: rgb(207, 207, 207);
+}
+
+#limit{
+  visibility: hidden;
+  justify-content: center;
+  color: #D4D4D4;
+  border-style:solid;
+  border-width:2px;
   padding: 10px;
   width: 30px;
   border-radius: 15px;
   height: 25px;
-}
-
-#button:hover{
-  background:
-  linear-gradient(to top, #828282 -30%,hsl(24, 88%, 57%));
-}
-
-#limit{
-  justify-content: center;
-  height: 35px;
-  color: grey;
-  border-width:2px;
-  border-style:solid;
-  padding: 10px;
-  width: 95px;
-  border-radius: 15px;
   cursor:initial;
 }
 /*FOR BUTTON LEFT*/
@@ -439,13 +446,17 @@ ul.nav li a:hover {
 }
 
 .arrow{
+  position: relative;
+  left: 1px;
   width: 30px;
-  height: 25px;
+  height: 15px;
 }
 
 .arrowRight{
+  position: relative;
+  right: 1px;
   width: 30px;
-  height: 25px;
+  height: 15px;
   transform: scaleX(-1);
 }
 
@@ -457,37 +468,38 @@ fill{
 .navbar ul li{
   display: inline-block;
   margin: 0 auto;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: rgba(152, 152, 152, 0.353);
+  width: 25px;
+  height: 25px;
+  border-style:solid;
+  border-width:1px;
+  border-radius: 2px;
+  border-color: rgba(152, 152, 152, 0.353);
   text-align: center;
   font-weight: 500;
   text-align: center;
-  line-height: 30px;
+  line-height: 25px;
   cursor: pointer;
 }
 
 .navbar ul li:hover{
-  background: rgb(240, 212, 212);
+  background: rgb(64, 144, 205);
 }
 
 .pagelist{
-  position: relative;
-  border: 2px solid rgba(64, 64, 64, 0.748);
+  display: flex;
+  border: 2px solid rgba(175, 175, 175, 0.748);
   padding: 7px;
-  left: 40px;
-  font-size: 11.5px;
+  font-size: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center; 
-  border-radius: 5px;
-  width: 350px;
+  border-radius: 10px;
+  width: 250px;
   background: white;
 }
 
 #current{
-  background: rgb(240, 212, 212);
+  background: rgb(64, 144, 205);
 }
 
 /*MAKES THE STRUCTURE WITHIN THE CHEEPS INTO COLUMN*/
