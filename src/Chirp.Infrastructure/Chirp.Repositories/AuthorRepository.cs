@@ -1,9 +1,8 @@
-using Chirp.Repositories;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Repositories;
-
+using Chirp.Core.DTO;
+using Chirp.Core.Entities;
 
 public class AuthorRepository : IAuthorRepository {
 

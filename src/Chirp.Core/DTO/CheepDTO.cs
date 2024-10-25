@@ -1,4 +1,5 @@
-namespace Chirp.Repositories;
+namespace Chirp.Core.DTO;
+
 
 public class CheepDTO
 {

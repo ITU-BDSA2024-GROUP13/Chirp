@@ -1,6 +1,6 @@
-using Chirp.Repositories;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Chirp.Core.DTO;
+using Chirp.Core.Entities;
 
 namespace Chirp.Repositories;
 

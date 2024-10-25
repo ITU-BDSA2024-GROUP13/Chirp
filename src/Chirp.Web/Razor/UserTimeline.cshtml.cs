@@ -3,8 +3,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Services;
-using Chirp.Repositories;
 using System.Threading.Tasks;
+using Chirp.Core.DTO;
 
 #pragma warning disable CS8604 // Possible null reference argument.
 
