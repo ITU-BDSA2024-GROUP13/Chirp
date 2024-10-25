@@ -14,7 +14,7 @@ public class AuthorRepository : IAuthorRepository {
     }
 
      public async Task<int> CreateAuthor(AuthorDTO author){
-        Author newAuthor = new() {Name = author.name, Email = author.email};
+        Author newAuthor = new() {AuthorId = author.Id, Name = author.Name, Email = author.Email};
         var queryResult = await _dbContext.Authors.AddAsync(newAuthor); // does not write to the database!
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
@@ -28,15 +28,15 @@ public class AuthorRepository : IAuthorRepository {
         .Where(author => author.Name.StartsWith(userName))
         .Select(author => new AuthorDTO{ 
             Id = author.AuthorId,
-            name = author.Name,
-            email = author.Email,
+            Name = author.Name,
+            Email = author.Email,
             });
         // Execute the query
         var result = await query.ToListAsync();
         
         for (int i = 0; i < result.Count; i++)
         {
-            Console.WriteLine(result[i].name);
+            Console.WriteLine(result[i].Name);
         }
 
         return result;
@@ -47,15 +47,15 @@ public class AuthorRepository : IAuthorRepository {
         .Where(author => author.Email.StartsWith(email))
         .Select(author => new AuthorDTO{ 
             Id = author.AuthorId,
-            name = author.Name,
-            email = author.Email,
-            });
+            Name = author.Name,
+            Email = author.Email,
+        });
         // Execute the query
         var result = await query.ToListAsync();
         
         for (int i = 0; i < result.Count; i++)
         {
-            Console.WriteLine(result[i].email);
+            Console.WriteLine(result[i].Email);
         }
 
         return result;    

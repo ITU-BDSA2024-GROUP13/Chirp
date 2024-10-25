@@ -22,13 +22,13 @@ public class CheepService  : ICheepService
 
     public async Task<int> CreateMessage(CheepDTO message) {
 
-        List<AuthorDTO> authorsList = await FindAuthorByName(message.author);
+        List<AuthorDTO> authorsList = await FindAuthorByName(message.Author);
 
-        if (authorsList.Any() && !authorsList[0].Equals(message.author)){
-            AuthorDTO newAuthor = new() {name = message.author, email = message.author + "@mail.com" };
+        if (authorsList.Any() && !authorsList[0].Equals(message.Author)){
+            AuthorDTO newAuthor = new() {Name = message.Author, Email = message.Author + "@mail.com" };
             await CreateAuthor(newAuthor);
         } else{
-            AuthorDTO newAuthor = new() {name = message.author, email = message.author + "@mail.com" };
+            AuthorDTO newAuthor = new() {Name = message.Author, Email = message.Author + "@mail.com" };
             await CreateAuthor(newAuthor);
         }
 

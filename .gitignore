@@ -13,7 +13,7 @@
 *.userosscache
 **/myapp/
 **/data/
-**/*.db
+**/*.db*
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

@@ -5,8 +5,7 @@ namespace Chirp.Repositories;
 /// </summary>
 public class AuthorDTO
 {
-    public required int Id { get; set; }
-    public required string name { get; set; }
-    public required string email { get; set; }
-
+    public int Id { get; set; }
+    public required string Name { get; set; }
+    public required string Email { get; set; }
 }
