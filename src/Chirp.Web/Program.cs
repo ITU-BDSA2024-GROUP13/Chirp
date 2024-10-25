@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite("Data Source=Chat.db"));
 
 
@@ -12,14 +13,13 @@ builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite("Data
 
 
 builder.Services.AddRazorPages();
-builder.Services.AddSingleton<ICheepService, CheepService>();
 
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
+builder.Services.AddScoped<ICheepService, CheepService>();
 
 var app = builder.Build();
-
-using (var scope = app.Services.CreateScope())
+    using (var scope = app.Services.CreateScope())
 {
     // From the scope, get an instance of our database context.
     // Through the `using` keyword, we make sure to dispose it after we are done.
@@ -47,3 +47,7 @@ app.UseRouting();
 app.MapRazorPages();
 
 app.Run();
+
+
+
+

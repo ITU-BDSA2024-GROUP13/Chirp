@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 public class UserTimelineModel : PageModel
 {
-    private readonly ICheepRepository _service;
+    private readonly ICheepService _service;
     public List<CheepDTO> Cheeps { get; set; }
 
     public int count { get; set; }
@@ -18,7 +18,7 @@ public class UserTimelineModel : PageModel
     public int currentPage {get; set;}
     public int lastPage {get; set;}
 
-    public UserTimelineModel(ICheepRepository service)
+    public UserTimelineModel(ICheepService service)
     {
         _service = service;
     }
