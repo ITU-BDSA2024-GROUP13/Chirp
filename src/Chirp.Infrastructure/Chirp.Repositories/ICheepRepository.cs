@@ -12,10 +12,5 @@ public interface ICheepRepository
 
     public Task<int>  CountPublicMessages();
 
-
-
     public Task UpdateMessage(CheepDTO alteredMessage, int id);
-
-
-
 }
