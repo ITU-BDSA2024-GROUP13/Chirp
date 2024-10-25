@@ -2,6 +2,7 @@ using Chirp.Services;
 using Chirp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ using (var scope = app.Services.CreateScope())
 
 
     // Execute the migration from code.
+
     context.Database.Migrate();
     DbInitializer.SeedDatabase(context);
 }

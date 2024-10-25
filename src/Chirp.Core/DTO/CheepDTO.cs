@@ -1,13 +1,14 @@
-namespace Chirp.Repositories;
+namespace Chirp.Core.DTO;
+
 
 public class CheepDTO
 {
-    public long timestamp {get; set; }
+    public long Timestamp { get; set; }
 
-    public string text{get; set; }
+    public required string Text { get; set; }
 
-    public string author {get; set; }
+    public required string Author { get; set; }
 
-    public int authorId {get; set; }
+    public required int AuthorId { get; set; }
 
 }
