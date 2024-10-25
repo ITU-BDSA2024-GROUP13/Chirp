@@ -5,12 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite("Data Source=Chat.db"));
-
-
-
-
 
 builder.Services.AddRazorPages();
 
@@ -19,7 +14,8 @@ builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<ICheepService, CheepService>();
 
 var app = builder.Build();
-    using (var scope = app.Services.CreateScope())
+
+using (var scope = app.Services.CreateScope())
 {
     // From the scope, get an instance of our database context.
     // Through the `using` keyword, we make sure to dispose it after we are done.
@@ -29,7 +25,6 @@ var app = builder.Build();
     // Execute the migration from code.
     context.Database.Migrate();
     DbInitializer.SeedDatabase(context);
-
 }
 
 
@@ -47,7 +42,3 @@ app.UseRouting();
 app.MapRazorPages();
 
 app.Run();
-
-
-
-
