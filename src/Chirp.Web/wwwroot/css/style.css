@@ -6,11 +6,11 @@ body {
 }
 
 a{
-  color: #000000;
+  color: #4b1515;
 }
 
 a:hover {
-  color: #424242;
+  color: rgb(64, 144, 205);
 }
 
 input[type="email"],
@@ -45,9 +45,9 @@ div.page {
   float:left;
   background: WHITE;
   width: auto;
-  width: 80%;
-  max-width: 700px;
-  margin: 60px auto;
+  width: 90%;
+  min-width: 500px;
+  margin: 70px auto;
 }
 
 /*might not be use*/
@@ -149,7 +149,7 @@ div.page div.followstatus {
 div.page ul.cheeps {
   display: flex;
   flex-direction: column;
-  align-items:center;
+  align-items:left;
   list-style: none;
   padding: 0;
 }
@@ -158,21 +158,38 @@ div.page ul.cheeps {
 div.page ul.cheeps li{
   position: relative;
   margin: 10px 0;
-  padding: 5px;
-  background:
-  linear-gradient(to top, hsla(24, 72%, 52%, 0.886), #c11d04df);
-  border: 2px solid #610101;
-  border-radius: 2px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
+  padding: 6px 9px 6px;
   min-height: 60px;
   width: auto;
   width: 95%;
-  max-width: 700px;
+  max-width: 1000px;
   word-wrap: break-word;
   overflow-wrap: break-word;
   display: flex;
   flex-direction: column;
+  background-color: rgba(187, 187, 187, 0.195);
+}
+
+div.page ul.cheeps li::before{
+content : "";
+border-top: 2px solid rgba(255, 0, 0, 0.500);
+border-left: 2px solid rgba(0, 0, 0, 0.500);
+height: 12px;
+width: 12px;
+position: absolute;
+left: -1px;
+top: -1px;
+}
+
+div.page ul.cheeps li::after{
+content : "";
+border-bottom: 2px solid rgba(255, 0, 0, 0.500);
+border-right: 2px solid rgba(0, 0, 0, 0.560);
+height: 12px;
+width: 12px;
+position: absolute;
+right: -1px;
+bottom: -1px;
 }
 
 /*DEFINES MARGINS OF THE DIFFERENT TEXTS WITHIN CHEEP - (between author and message mainly)*/
@@ -338,12 +355,14 @@ ul.nav li a:hover {
 .Icon{
   cursor: pointer;
   width: 60px;
-  height: 55px;
+  height: 50px;
 }
 /*STYLING AND POSITION FOR THE "CHIRP" HEADER*/
 .header{
   /*Position for the header --> Fixes position to the top of the page*/
   position: fixed;
+  display: flex;
+  align-items: center;
   top: 0;
   right: 0;
   left: 0;
@@ -357,11 +376,12 @@ ul.nav li a:hover {
   text-shadow: 0 0 4px #170f0d98;
   font-weight: heavy;
   padding: 10px 14px;
+  align-items: center;
 
   /*Box style*/
   border-bottom: 2px solid black;
   background-color:#D4D4D4;
-  height: 80px;
+  height: 70px;
 }
 
 .navbar{
@@ -373,23 +393,13 @@ ul.nav li a:hover {
   justify-items: center;
   right: 0;
   left: 0;
-  top: 100px;
-  border-bottom: 2px solid black;
-  border-top: 2px solid black;
+  top: 90px;
+  border-bottom: 1.5px solid black;
+  border-top: 1.5px solid black;
   background-color:#D4D4D4;
   z-index: 999;
   align-items: center
 }
-/*USED FOR THE BUTTONS SIZE AND POSITION*/
-/*
-.PageNavigation{
-  min-width: 362px;
-  display: flex;
-  flex-flow: row no-wrap;
-  align-items: center;
-  justify-content: space-between;
-}*/
-
 
 .left:hover{
   color: black;
@@ -533,7 +543,7 @@ div.page ul.cheeps li .message {
 div.page ul.cheeps li .date {
   align-self: flex-end;
   font-size: 0.9em;
-  color: #ece8e8;
+  color: #00000084;
   /*makes sure message doesn't go over it*/
   margin-top: 11px;
 }
