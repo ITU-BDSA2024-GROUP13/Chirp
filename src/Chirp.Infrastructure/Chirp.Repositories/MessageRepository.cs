@@ -2,7 +2,7 @@ namespace Chirp.Repositories;
 
 using Chirp.Core;
 
-public class MessageRepository: IMessageRepository
+public class MessageRepository : IMessageRepository
 {
     public Task CreateMessage(MessageDTO newMessage)
     {

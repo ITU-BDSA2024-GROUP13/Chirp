@@ -47,6 +47,7 @@ public class PublicModel : PageModel
         Cheeps = await _service.ReadPublicMessages(page);
         count = await _service.CountPublicMessages();
         lastPage = defineLastPage();
+        lastPage = defineLastPage();
         return Page();
     }
 }

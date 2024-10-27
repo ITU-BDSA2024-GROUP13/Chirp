@@ -13,8 +13,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: ${{ always() }}
+      
 
     steps:
+      - name: Disable GitHub Actions email notifications
+        run: echo "No notifications"
+        env:
+          CI: true
       - uses: actions/checkout@v4
 
       - name: Set up .NET Core

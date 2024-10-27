@@ -1,6 +1,8 @@
-namespace Chirp.Repositories;
+namespace Chirp.Services;
 
-public interface ICheepRepository
+using Chirp.Core.DTO;
+
+public interface ICheepService
 {
     public Task<int> CreateMessage(CheepDTO newMessage);
 
@@ -12,10 +14,11 @@ public interface ICheepRepository
 
     public Task<int>  CountPublicMessages();
 
-
-
     public Task UpdateMessage(CheepDTO alteredMessage, int id);
 
+    public Task<int> CreateAuthor(AuthorDTO newMessage);
 
+    public Task<List<AuthorDTO>> FindAuthorByName(string userName);
 
+    public Task<List<AuthorDTO>> FindAuthorByEmail(string email);
 }

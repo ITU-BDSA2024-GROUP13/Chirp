@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Chirp.Web.Migrations
+namespace Chirp.Repositories.Migrations
 {
     /// <inheritdoc />
-    public partial class NewMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -50,6 +50,8 @@ namespace Chirp.Web.Migrations
                 name: "IX_Cheeps_AuthorId",
                 table: "Cheeps",
                 column: "AuthorId");
+
+
         }
 
         /// <inheritdoc />
