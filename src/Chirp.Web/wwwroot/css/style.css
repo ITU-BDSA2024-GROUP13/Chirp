@@ -569,8 +569,7 @@ fill{
   padding: 7px;
   font-size: 10px;
   justify-content: space-between;
-  align-items: center;
-  align-self: center;  
+  align-items: center; 
   border-radius: 10px;
   width: 200px;
   background: white;
