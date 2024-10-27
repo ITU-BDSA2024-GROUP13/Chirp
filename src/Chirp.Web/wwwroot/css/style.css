@@ -353,16 +353,19 @@ ul.nav li a:hover {
 
 /*USED FOR THE BIRDS SIZE*/
 .Icon{
+  display: flex;
   cursor: pointer;
   width: 60px;
-  height: 50px;
+  height: 55px;
+  justify-self: left;
 }
 /*STYLING AND POSITION FOR THE "CHIRP" HEADER*/
 .header{
   /*Position for the header --> Fixes position to the top of the page*/
   position: fixed;
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr;
+  justify-items: center;
   top: 0;
   right: 0;
   left: 0;
@@ -391,14 +394,14 @@ ul.nav li a:hover {
   grid-template-rows: 50px;
   padding: 0 15px;
   justify-items: center;
+  align-items: center;
   right: 0;
   left: 0;
   top: 90px;
   border-bottom: 1.5px solid black;
   border-top: 1.5px solid black;
   background-color:#D4D4D4;
-  z-index: 999;
-  align-items: center
+  z-index: 998;
 }
 
 .left:hover{
@@ -467,6 +470,57 @@ fill{
   font-size: 10px;
 }
 
+.searchbar{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  width: 300px;
+}
+
+.searchbar img{
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  padding-left: 5px;
+  left: 100%;
+  cursor: pointer;
+}
+
+.searchbar input:focus + .search-menu{
+  display:block;
+}
+
+.search-menu{
+  display: none;
+  width: 80%;
+  padding: 20px 30px;
+  color: #000000;
+  background-color: #ffffff;
+  border-radius: 4px;
+  font-size: 14px;
+  box-shadow: 0 0 10px rgba(0, 0, 0,0.3);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 999;
+}
+
+.search-input{
+  height: 30px;
+  border-radius: 5px;
+  width: 100%
+}
+
+.filter{
+  position: absolute;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  right: 200px;
+}
+
 .navbar ul li{
   display: inline-block;
   margin: 0 auto;
@@ -492,8 +546,7 @@ fill{
   padding: 7px;
   font-size: 10px;
   justify-content: space-between;
-  align-items: center;
-  align-self: center;  
+  align-items: center; 
   border-radius: 10px;
   width: 200px;
   background: white;
