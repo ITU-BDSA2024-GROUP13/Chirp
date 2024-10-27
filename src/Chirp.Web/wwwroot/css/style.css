@@ -373,10 +373,8 @@ ul.nav li a:hover {
   margin: 0;
   
   /*Text styling*/
-  color: #dededed9;
-  letter-spacing: 10px;
+  letter-spacing: 2px;
   font-size: 70px;
-  text-shadow: 0 0 4px #170f0d98;
   font-weight: heavy;
   padding: 10px 14px;
   align-items: center;
@@ -494,8 +492,8 @@ fill{
 
 .search-menu{
   display: none;
-  width: 80%;
-  padding: 20px 30px;
+  width: 93.5%;
+  padding: 5px 10px;
   color: #000000;
   background-color: #ffffff;
   border-radius: 4px;
@@ -511,6 +509,16 @@ fill{
   height: 30px;
   border-radius: 5px;
   width: 100%
+}
+
+.search-items a{
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-items span{
+  font-size: 12px;
+  background: unset;
 }
 
 .filter{
