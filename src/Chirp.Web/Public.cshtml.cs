@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Services;
 using Chirp.Repositories;
 using System.Threading.Tasks;
+using Chirp.Core.DTO;
+
 
 public class PublicModel : PageModel
 {
-    private readonly ICheepRepository _service;
+    private readonly CheepService _service;
     public List<CheepDTO> Cheeps { get; set; }
     public int count {get; set; }
     public int nextPage {get; set;}
@@ -16,7 +18,7 @@ public class PublicModel : PageModel
     public int currentPage {get; set;}
 
     public int lastPage {get; set;}
-    public PublicModel(ICheepRepository service)
+    public PublicModel(CheepService service)
     {
         _service = service;
     }
