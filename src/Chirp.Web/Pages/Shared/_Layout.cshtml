@@ -10,34 +10,22 @@
             <img src="/images/icon1.png" onclick = "window.location = '/?page=0'" class = "Icon" alt="Icon1"/>
         <form>
             <div class = "searchbar">
-                <input class = "search-input" type="search" placeholder = "Search">
+                <input class = "search-input" name = "SearchName" type="search" placeholder = "Search">
                 <div class = "search-menu">
+                    @if(Model.Authors != null){
                     <div class = "search-items">
-                        <a>
-                            <span>sup</span>
-                            <span>gang gang</span>
+                        @foreach(var author in @Model.Authors){
+                        <a href = "/@author.Name">
+                            <span>@author.Name</span>
                         </a>
-                        
-                        <a>
-                            <span>sup</span>
-                            <span>sup</span>
-                        </a>
-                        <a>
-                            <span>sup</span>
-                            <span>sup</span>
-                        </a>
-
+                        }                    
                     </div>
+                    }
                 </div>
                 <img src="/images/filter.png">
             </div>
         </form>
     </h1>
-    
-    @if(true){
-
-    }
-
     <div class=page>
         <div class=body>
             @RenderBody()

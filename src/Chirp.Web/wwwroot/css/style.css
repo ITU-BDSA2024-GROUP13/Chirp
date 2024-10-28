@@ -503,6 +503,12 @@ fill{
   top: 100%;
   left: 0;
   z-index: 999;
+  min-height: 25px;
+
+}
+
+.search-menu:hover{
+  display:block;
 }
 
 .search-input{

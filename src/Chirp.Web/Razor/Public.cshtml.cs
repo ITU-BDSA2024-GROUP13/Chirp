@@ -20,6 +20,10 @@ public class PublicModel(ICheepService cheepService) : PageModel
 
     public int LastPage {get; set;}
 
+
+    [BindProperty(SupportsGet = true)]
+     public string SearchName{get; set;}
+
     public int DefinePreviousPage(int page){
         if(page == 0){
             return 0;
@@ -45,7 +49,10 @@ public class PublicModel(ICheepService cheepService) : PageModel
         PreviousPage = DefinePreviousPage(page);
         Cheeps = await _cheepService.ReadPublicMessages(page);
         Count = await _cheepService.CountPublicMessages();
-        
+        if(!string.IsNullOrEmpty(SearchName)){
+            Authors = await _cheepService.FindAuthorByName(SearchName);
+        }
+
         LastPage = DefineLastPage();
         return Page();
     }

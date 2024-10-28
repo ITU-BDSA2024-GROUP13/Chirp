@@ -13,6 +13,7 @@ public class UserTimelineModel(ICheepService service) : PageModel
 {
     private readonly ICheepService _service = service;
     public required List<CheepDTO> Cheeps { get; set; }
+    public required List<AuthorDTO> Authors { get; set; }
 
     public int Count { get; set; }
     
