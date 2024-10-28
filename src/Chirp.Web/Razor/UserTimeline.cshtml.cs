@@ -22,6 +22,9 @@ public class UserTimelineModel(ICheepService service) : PageModel
     public int CurrentPage {get; set;}
     public int LastPage {get; set;}
 
+    [BindProperty(SupportsGet = true)]
+     public string SearchName{get; set;}
+
     public int DefinePreviousPage(int page){
         if(page == 0){
             return 0;
@@ -48,6 +51,9 @@ public class UserTimelineModel(ICheepService service) : PageModel
         NextPage = page+1;
         PreviousPage = DefinePreviousPage(page);
         LastPage = DefineLastPage();
+        if(!string.IsNullOrEmpty(SearchName)){
+            Authors = await _service.FindAuthorByName(SearchName);
+        }
         return Page();
     }
 }

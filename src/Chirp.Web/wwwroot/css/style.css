@@ -488,10 +488,13 @@ fill{
 
 .searchbar input:focus + .search-menu{
   display:block;
+  opacity: 1;
+  visibility: visible;
 }
 
 .search-menu{
-  display: none;
+  opacity: 0;
+  visibility: hidden;
   width: 93.5%;
   padding: 5px 10px;
   color: #000000;
@@ -504,7 +507,7 @@ fill{
   left: 0;
   z-index: 999;
   min-height: 25px;
-
+  transition: 0.4s all ease;
 }
 
 .search-menu:hover{
