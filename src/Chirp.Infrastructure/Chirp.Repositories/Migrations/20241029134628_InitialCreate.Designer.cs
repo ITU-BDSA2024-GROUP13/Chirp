@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Repositories.Migrations
 {
     [DbContext(typeof(CheepDBContext))]
-    [Migration("20241024072024_InitialCreate")]
+    [Migration("20241029134628_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Chirp.Repositories.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
-            modelBuilder.Entity("Chirp.Repositories.Author", b =>
+            modelBuilder.Entity("Chirp.Core.Entities.Author", b =>
                 {
                     b.Property<int>("AuthorId")
                         .ValueGeneratedOnAdd()
@@ -39,7 +39,7 @@ namespace Chirp.Repositories.Migrations
                     b.ToTable("Authors");
                 });
 
-            modelBuilder.Entity("Chirp.Repositories.Cheep", b =>
+            modelBuilder.Entity("Chirp.Core.Entities.Cheep", b =>
                 {
                     b.Property<int>("CheepId")
                         .ValueGeneratedOnAdd()
@@ -50,6 +50,7 @@ namespace Chirp.Repositories.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
+                        .HasMaxLength(160)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("TimeStamp")
@@ -62,9 +63,9 @@ namespace Chirp.Repositories.Migrations
                     b.ToTable("Cheeps");
                 });
 
-            modelBuilder.Entity("Chirp.Repositories.Cheep", b =>
+            modelBuilder.Entity("Chirp.Core.Entities.Cheep", b =>
                 {
-                    b.HasOne("Chirp.Repositories.Author", "Author")
+                    b.HasOne("Chirp.Core.Entities.Author", "Author")
                         .WithMany("Cheeps")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -73,7 +74,7 @@ namespace Chirp.Repositories.Migrations
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("Chirp.Repositories.Author", b =>
+            modelBuilder.Entity("Chirp.Core.Entities.Author", b =>
                 {
                     b.Navigation("Cheeps");
                 });
