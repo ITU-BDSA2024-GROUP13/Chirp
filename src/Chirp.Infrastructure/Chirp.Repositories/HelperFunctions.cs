@@ -30,9 +30,7 @@ public static class HelperFunctions
     }
 
     public static long FromDateTimetoUnixTime(DateTime dateTime){
-
-
-    long unixTime = ((DateTimeOffset)dateTime).ToUnixTimeSeconds();
+    long unixTime = ((DateTimeOffset)dateTime).ToUnixTimeMilliseconds();
 
     return unixTime;
 
