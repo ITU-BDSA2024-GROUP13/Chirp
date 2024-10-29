@@ -45,10 +45,6 @@ public class PublicModel(ICheepService cheepService) : PageModel
         PreviousPage = DefinePreviousPage(page);
         Cheeps = await _cheepService.ReadPublicMessages(page);
         Count = await _cheepService.CountPublicMessages();
-
-        CheepDTO dto = new() {Text = "Hello with you", Timestamp = 12345, AuthorId = 13, Author = "Helge2"};
-
-        await _cheepService.CreateMessage(dto);
         
         LastPage = DefineLastPage();
         return Page();

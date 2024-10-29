@@ -24,6 +24,11 @@ public class CheepService  : ICheepService
 
     public async Task<int> CreateMessage(CheepDTO message) {
 
+       if (message.Text.Count() > 160){
+            Console.WriteLine("Message is too long!");
+            return 0;
+        }
+
         List<AuthorDTO> authorsList = await FindAuthorByName(message.Author);
 
         if (authorsList.Any() && !authorsList[0].Equals(message.Author)){
