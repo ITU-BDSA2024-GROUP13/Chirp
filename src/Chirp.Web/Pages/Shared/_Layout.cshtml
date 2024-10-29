@@ -14,9 +14,9 @@
                 <div class = "search-menu">
                     @if(Model.Authors != null){
                     <div class = "search-items">
-                        @foreach(var author in @Model.Authors){
-                        <a href = "/@author.Name">
-                            <span>@author.Name</span>
+                        @for(int i = 0; i <= 10 && i < @Model.Authors.Count; i++){
+                        <a href = "/@Model.Authors[i].Name">
+                            <span>@Model.Authors[i].Name</span>
                         </a>
                         }                    
                     </div>
