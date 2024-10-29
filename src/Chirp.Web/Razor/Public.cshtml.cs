@@ -46,7 +46,7 @@ public class PublicModel(ICheepService cheepService) : PageModel
         Cheeps = await _cheepService.ReadPublicMessages(page);
         Count = await _cheepService.CountPublicMessages();
 
-        CheepDTO dto = new() {Text = "Hello with you", Timestamp = 12345, AuthorId = 14, Author = "Helge2"};
+        CheepDTO dto = new() {Text = "Hello with you", Timestamp = 12345, AuthorId = 13, Author = "Helge2"};
 
         await _cheepService.CreateMessage(dto);
         

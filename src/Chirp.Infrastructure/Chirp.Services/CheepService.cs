@@ -29,11 +29,10 @@ public class CheepService  : ICheepService
         if (authorsList.Any() && !authorsList[0].Equals(message.Author)){
             AuthorDTO newAuthor = new() {Name = message.Author, Email = message.Author + "@mail.com" };
             await CreateAuthor(newAuthor);
-        } else{
+        } else if (!authorsList.Any()){
             AuthorDTO newAuthor = new() {Name = message.Author, Email = message.Author + "@mail.com" };
             await CreateAuthor(newAuthor);
         }
-
         return await _cheepRepository.CreateMessage(message);
     }
     
