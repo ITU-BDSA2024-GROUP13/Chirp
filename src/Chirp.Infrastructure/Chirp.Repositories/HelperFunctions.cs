@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Chirp.Repositories;
 
 
@@ -21,6 +23,11 @@ public static class HelperFunctions
         return dateTime;
     }
 
+    public static string ReformatDateTimetoDanishFormat(DateTime dateTime){
+        CultureInfo danish = new CultureInfo("da");
+        String danishFormat = dateTime.ToString("G", danish);
+        return danishFormat;
+    }
 
     public static long FromDateTimetoUnixTime(DateTime dateTime){
 
