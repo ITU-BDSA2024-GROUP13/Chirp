@@ -22,7 +22,7 @@ public class PublicModel(ICheepService cheepService) : PageModel
 
 
     [BindProperty(SupportsGet = true)]
-     public string SearchName{get; set;}
+     public string? SearchName {get; set;}
 
     public int DefinePreviousPage(int page){
         if(page == 0){
