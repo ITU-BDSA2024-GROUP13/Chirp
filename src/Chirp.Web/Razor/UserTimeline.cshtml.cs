@@ -13,6 +13,7 @@ public class UserTimelineModel(ICheepService service) : PageModel
 {
     private readonly ICheepService _service = service;
     public required List<CheepDTO> Cheeps { get; set; }
+    public required List<AuthorDTO> Authors { get; set; }
 
     public int Count { get; set; }
     
@@ -20,6 +21,9 @@ public class UserTimelineModel(ICheepService service) : PageModel
     public int PreviousPage {get; set;}
     public int CurrentPage {get; set;}
     public int LastPage {get; set;}
+
+    [BindProperty(SupportsGet = true)]
+     public string? SearchName {get; set;}
 
     public int DefinePreviousPage(int page){
         if(page == 0){
@@ -47,6 +51,9 @@ public class UserTimelineModel(ICheepService service) : PageModel
         NextPage = page+1;
         PreviousPage = DefinePreviousPage(page);
         LastPage = DefineLastPage();
+        if(!string.IsNullOrEmpty(SearchName)){
+            Authors = await _service.FindAuthorByName(SearchName);
+        }
         return Page();
     }
 }

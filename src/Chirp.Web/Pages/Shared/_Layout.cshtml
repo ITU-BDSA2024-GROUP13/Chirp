@@ -6,12 +6,45 @@
     <link rel="icon" type="image/png" href="/favicon/favicon.ico">
 </head>
 <body>
-    <box onclick = "window.location = '/?page=0'" class = "bird">
-        <img src="/images/icon1.png" class = "Icon" alt="Icon1"/>
-    </box>
-    <h1 class = "header">
-        Chirp
+     <h1 class = "header">
+            <img src="/images/icon1.png" onclick = "window.location = '/?page=0'" class = "Icon" alt="Icon1"/>
+        <form>
+            <div class = "searchbar">
+                <input class = "search-input" name = "SearchName" type="search" placeholder = "Search">
+                <div class = "search-menu">
+                    @if(Model.Authors != null){
+                    <div class = "search-items">
+                        @for(int i = 0; i <= 10 && i < @Model.Authors.Count; i++){
+                        <a href = "/@Model.Authors[i].Name">
+                            <span>@Model.Authors[i].Name</span>
+                        </a>
+                        }                    
+                    </div>
+                    }
+                </div>
+                <div class = "filter">
+                    <button type = "button" id = "filterimage">
+                        <img src="/images/filter.png">
+                    </button>
+                    <div class = "filter-options">
+                        <button>Author</button>
+                        <button>Email</button>
+                        <button>Cheep</button>
+
+                    </div>
+                </div>
+
+                
+            </div>
+        </form>
+
+        <div class = "login"> Log in</div>
     </h1>
+    
+    @if(true){
+
+    }
+
     <div class=page>
         <div class=body>
             @RenderBody()

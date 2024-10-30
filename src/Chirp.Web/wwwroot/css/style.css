@@ -1,15 +1,16 @@
 body {
-  background: #D4D4D4;
+  background: #ffffff;
   font-family: 'Trebuchet MS', sans-serif;
   font-size: 14px;
+  padding-top: 92px;
 }
 
 a{
-  color: #452a238d;
+  color: #4b1515;
 }
 
 a:hover {
-  color: #d4d4d4b3;
+  color: rgb(64, 144, 205);
 }
 
 input[type="email"],
@@ -41,13 +42,12 @@ input[type="submit"] {
 }
 
 div.page {
-  float:center;
+  float:left;
   background: WHITE;
-  border: 1px solid #cc6e6e;
   width: auto;
-  width: 80%;
-  max-width: 700px;
-  margin: 30px auto;
+  width: 90%;
+  min-width: 500px;
+  margin: 70px auto;
 }
 
 /*might not be use*/
@@ -108,11 +108,11 @@ div.page div.navigation form button {
 /*IS USED FOR THE TITELS - "PUBLIC TIMELINE" ">@USER TIMELINE"*/
 div.page h2 {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   margin: 0 0 15px 0;
-  color: #571010;
+  color: #010000a5;
   text-shadow: 0 1px 2px #ccc;
-  border: 3px solid #610101;
+  border: 3px solid #010000a5;
   border-radius: 2px;
   border-left: #571010;
   border-right: #571010;
@@ -149,9 +149,8 @@ div.page div.followstatus {
 div.page ul.cheeps {
   display: flex;
   flex-direction: column;
-  align-items:center;
+  align-items:left;
   list-style: none;
-  margin: 0;
   padding: 0;
 }
 
@@ -159,21 +158,38 @@ div.page ul.cheeps {
 div.page ul.cheeps li{
   position: relative;
   margin: 10px 0;
-  padding: 5px;
-  background:
-  linear-gradient(to top, hsla(24, 72%, 52%, 0.886), #c11d04df);
-  border: 2px solid #610101;
-  border-radius: 2px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
+  padding: 6px 9px 6px;
   min-height: 60px;
   width: auto;
   width: 95%;
-  max-width: 700px;
+  max-width: 1500px;
   word-wrap: break-word;
   overflow-wrap: break-word;
   display: flex;
   flex-direction: column;
+  background-color: rgba(187, 187, 187, 0.195);
+}
+
+div.page ul.cheeps li::before{
+content : "";
+border-top: 2px solid rgba(255, 0, 0, 0.500);
+border-left: 2px solid rgba(0, 0, 0, 0.500);
+height: 12px;
+width: 12px;
+position: absolute;
+left: -1px;
+top: -1px;
+}
+
+div.page ul.cheeps li::after{
+content : "";
+border-bottom: 2px solid rgba(255, 0, 0, 0.500);
+border-right: 2px solid rgba(0, 0, 0, 0.560);
+height: 12px;
+width: 12px;
+position: absolute;
+right: -1px;
+bottom: -1px;
 }
 
 /*DEFINES MARGINS OF THE DIFFERENT TEXTS WITHIN CHEEP - (between author and message mainly)*/
@@ -337,56 +353,54 @@ ul.nav li a:hover {
 
 /*USED FOR THE BIRDS SIZE*/
 .Icon{
+  display: flex;
   cursor: pointer;
-  width: 45px;
-  height: 40px;
+  width: 60px;
+  height: 55px;
+  justify-self: left;
 }
-
-/*USED FOR THE BIRDS LOCATION*/
-.bird{
-  position: absolute;
-  top: 4.5%;
-  left: 50.5%;
-  transform: translate(-50%, -50%);
-}
-
 /*STYLING AND POSITION FOR THE "CHIRP" HEADER*/
 .header{
-  /*Position for the header*/
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
+  /*Position for the header --> Fixes position to the top of the page*/
+  position: fixed;
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr;
+  justify-items: center;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 999;
+  margin: 0;
+  
   /*Text styling*/
-  color: #dededed9;
-  letter-spacing: 10px;
-  font-size: 80px;
-  text-shadow: 0 0 4px #170f0d98;
+  letter-spacing: 2px;
+  font-size: 70px;
   font-weight: heavy;
   padding: 10px 14px;
+  align-items: center;
 
   /*Box style*/
-  border-width:2px;
-  border-style:solid;
-  border-color:#c11d047c;
-  background:
-  linear-gradient(to top, hsla(24, 72%, 52%, 0.886), #c11d04f8);
-  border-radius: 20px;
-  box-shadow: 2px 2px rgba(56, 53, 53, 0.66);
-  margin: 0;
+  border-bottom: 2px solid black;
+  background-color:#D4D4D4;
+  height: 70px;
 }
 
-/*USED FOR THE BUTTONS SIZE AND POSITION*/
-.PageNavigation{
-  width: 100%;
-  min-width: 362px;
-  display: flex;
-  flex-flow: row no-wrap;
+.navbar{
+  position: fixed;
+  display: grid;
+  grid-template-columns:1fr 1fr 1fr;
+  grid-template-rows: 50px;
+  padding: 0 15px;
+  justify-items: center;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px 10px 10px 0px;
+  right: 0;
+  left: 0;
+  top: 90px;
+  border-bottom: 1.5px solid black;
+  border-top: 1.5px solid black;
+  background-color:#D4D4D4;
+  z-index: 998;
 }
-
 
 .left:hover{
   color: black;
@@ -396,55 +410,55 @@ ul.nav li a:hover {
 /*USED FOR THE BUTTONS STYLE + CONTENT POSITIONING*/
 #button{
   justify-content: center;
-  background:
-  linear-gradient(to top, #797777 -30%, hsla(24, 97%, 40%, 0.886));
-  border-width:2px;
+  border-width:1.5px;
   border-style:solid;
-  border-color:#610101;;
+  border-color: rgba(0, 0, 0, 0.522);
   color: #D4D4D4;
   padding: 10px;
-  width: 90px;
-  border-radius: 15px;
-  height: 35px;
+  width: 30px;
+  border-radius: 50%;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.buttons{
+  display: flex;
+  justify-content: space-between;
+  justify-self: end;
+  width: 70px;
 }
 
 #button:hover{
-  background:
-  linear-gradient(to top, #828282 -30%,hsl(24, 88%, 57%));
+  background: rgb(207, 207, 207);
 }
 
 #limit{
+  visibility: hidden;
   justify-content: center;
-  height: 35px;
-  color: grey;
-  border-width:2px;
+  color: #D4D4D4;
   border-style:solid;
+  border-width:2px;
   padding: 10px;
-  width: 95px;
+  width: 30px;
   border-radius: 15px;
+  height: 25px;
   cursor:initial;
 }
-/*FOR BUTTON LEFT*/
-.left{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-/*FOR BUTTON RIGHT*/
-.right{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 
 .arrow{
-  width: 35px;
-  height: 30px;
+  position: relative;
+  left: 1px;
+  width: 30px;
+  height: 15px;
 }
 
 .arrowRight{
-  width: 35px;
-  height: 30px;
+  position: relative;
+  right: 1px;
+  width: 30px;
+  height: 15px;
   transform: scaleX(-1);
 }
 
@@ -453,15 +467,179 @@ fill{
   font-size: 10px;
 }
 
-#pagelist{
-  display: inline-block;
-  font-size: 11.5px;
-  justify-content: center;
+.searchbar{
+  position: relative;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  justify-self: center;
+  width: 300px;
 }
 
+.filter{
+  position: absolute;
+  display: flex;
+  width: 30px;
+  height: 30px;
+  left: 100%;
+  justify-content:center;
+  align-items: center;
+  padding: 0px;
+}
+
+.filter #filterimage{
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  cursor: pointer;
+  width: 40px;
+  height: 30px;
+}
+
+.filter button img{
+  position: relative;
+  width: 17px;
+  height: 17px;
+}
+
+.filter-options{
+  opacity: 0;
+  position: absolute;
+  visibility: hidden;
+  background-color:rgb(148, 149, 148);
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+  width: 100px;
+  padding: 0px;
+  top: 100%;
+}
+
+.filter-options button{
+  display: flex;
+  justify-content: flex-start;
+  background: none;
+  cursor: pointer;
+  width: 100px;
+  height: 30px;
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+
+}
+
+.filter button:focus + .filter-options{
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.searchbar input:focus + .search-menu{
+  display:block;
+  opacity: 1;
+  visibility: visible;
+}
+
+.search-menu{
+  opacity: 0;
+  visibility: hidden;
+  width: 93.5%;
+  padding: 5px 10px;
+  color: #000000;
+  background-color: #ffffff;
+  border-radius: 4px;
+  font-size: 14px;
+  box-shadow: 0 0 10px rgba(0, 0, 0,0.3);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 999;
+  min-height: 25px;
+  transition: 0.4s all ease;
+}
+
+.search-menu:hover{
+  display:block;
+}
+
+.search-input{
+  height: 30px;
+  border-radius: 5px;
+  width: 100%
+}
+
+.search-items a{
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-items span{
+  font-size: 12px;
+  background: unset;
+}
+
+.login{
+  position: relative;
+  display:flex;
+  font-size: 20px;
+  justify-self: right;
+  letter-spacing: 0px;
+  cursor: pointer;
+}
+
+.navbar ul li{
+  display: inline-block;
+  margin: 0 auto;
+  width: 20px;
+  height: 20px;
+  border-style:solid;
+  border-width:1px;
+  border-radius: 2px;
+  border-color: rgba(152, 152, 152, 0.353);
+  text-align: center;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.navbar ul li:hover{
+  background: rgb(64, 144, 205);
+}
+
+.pagelist{
+  display: flex;
+  border: 1.5px solid rgba(175, 175, 175, 0.748);
+  padding: 7px;
+  font-size: 10px;
+  justify-content: space-between;
+  align-items: center; 
+  border-radius: 10px;
+  width: 200px;
+  background: white;
+  justify-self: center;
+}
+
+.pages{
+  justify-self: left;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.pages a{
+  color: rgb(67, 67, 67);
+  font-weight: bolder;
+}
+
+.pages a:hover{
+  color: rgb(64, 144, 205);
+}
+
+
+
 #current{
-  color:hsl(24, 98%, 40%);
+  background: rgb(64, 144, 205);
 }
 
 /*MAKES THE STRUCTURE WITHIN THE CHEEPS INTO COLUMN*/
@@ -486,7 +664,7 @@ div.page ul.cheeps li .message {
 div.page ul.cheeps li .date {
   align-self: flex-end;
   font-size: 0.9em;
-  color: #ece8e8;
+  color: #00000084;
   /*makes sure message doesn't go over it*/
   margin-top: 11px;
 }
