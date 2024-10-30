@@ -11,6 +11,9 @@ namespace Chirp.Repositories.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
+            Down(migrationBuilder);
+
             migrationBuilder.CreateTable(
                 name: "Authors",
                 columns: table => new
