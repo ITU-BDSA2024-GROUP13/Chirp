@@ -63,6 +63,10 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository {
         return;
     }
 
+    public async Task<List<AuthorDTO>> GetUsersOfSearch(string searchVAlue, int amount){
 
+        throw new Exception("Not implemented");
+
+    }
 
 }
