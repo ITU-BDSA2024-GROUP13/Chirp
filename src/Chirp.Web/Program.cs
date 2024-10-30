@@ -25,7 +25,14 @@ using (var scope = app.Services.CreateScope())
 
     // Execute the migration from code.
 
-    context.Database.Migrate();
+    try
+    {
+        context.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
     DbInitializer.SeedDatabase(context);
 }
 
