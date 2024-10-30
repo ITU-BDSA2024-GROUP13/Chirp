@@ -65,8 +65,17 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository {
 
     public async Task<List<AuthorDTO>> GetUsersOfSearch(string searchVAlue, int amount){
 
-        throw new Exception("Not implemented");
+        var query = _dbContext.Authors.Where(author => author.Name.Contains(searchVAlue))
+        .Take(amount)
+        .Select(author => new AuthorDTO
+        {
+            Name = author.Name,
+            Email = author.Email
+        });
 
+        var result = await query.ToListAsync();
+
+        return result;
     }
 
 }
