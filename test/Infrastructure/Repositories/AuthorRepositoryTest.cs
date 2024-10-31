@@ -75,9 +75,7 @@ public class AuthorRepositoryTest : IDisposable
 
                 List<AuthorDTO> authors = await repo.FindAuthorByName("Helge");
 
-                // Should not be larger than the take value
                 Assert.False(authors.Count > 1);
-                // The most recent message in the test db
                 Assert.Equal("Helge", authors[0].Name);
             }
         }
@@ -93,7 +91,6 @@ public class AuthorRepositoryTest : IDisposable
 
                 List<AuthorDTO> authors = await repo.FindAuthorByName("J");
 
-                // The most recent message in the test db
                 Assert.Equal("Jacqualine Gilcoine", authors[0].Name);
                 Assert.Equal("Johnnie Calixto", authors[1].Name);
             }
@@ -110,15 +107,13 @@ public class AuthorRepositoryTest : IDisposable
 
                 List<AuthorDTO> authors = await repo.FindAuthorByEmail("ropf@itu.dk");
 
-                // Should not be larger than the take value
                 Assert.False(authors.Count > 1);
-                // The most recent message in the test db
                 Assert.Equal("Helge", authors[0].Name);
             }
         }
     }
 
-       [Fact]
+    [Fact]
     public async void FindMultipleAuthorsByEmail()
     {
         using (var scope = _serviceProvider.CreateScope()){
@@ -128,9 +123,26 @@ public class AuthorRepositoryTest : IDisposable
 
                 List<AuthorDTO> authors = await repo.FindAuthorByEmail("J");
 
-                // The most recent message in the test db
                 Assert.Equal("Jacqualine Gilcoine", authors[0].Name);
                 Assert.Equal("Johnnie Calixto", authors[1].Name);
+            }
+        }
+    }
+
+    [Fact]
+    public async void CreateAuthor()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+                var repo = new AuthorRepository(context);
+
+                AuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com"};
+                    await repo.CreateAuthor(newAuthor);
+
+                List<AuthorDTO> authors = await repo.FindAuthorByName("Helge");
+                Assert.Equal("Helge", authors[0].Name);
+                Assert.Equal("Helge Helgesen", authors[1].Name);
             }
         }
     }
