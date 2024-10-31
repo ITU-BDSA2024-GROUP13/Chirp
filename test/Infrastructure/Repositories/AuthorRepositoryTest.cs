@@ -118,6 +118,23 @@ public class AuthorRepositoryTest : IDisposable
         }
     }
 
+       [Fact]
+    public async void FindMultipleAuthorsByEmail()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+                var repo = new AuthorRepository(context);
+
+                List<AuthorDTO> authors = await repo.FindAuthorByEmail("J");
+
+                // The most recent message in the test db
+                Assert.Equal("Jacqualine Gilcoine", authors[0].Name);
+                Assert.Equal("Johnnie Calixto", authors[1].Name);
+            }
+        }
+    }
+
    
 
 }

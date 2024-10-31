@@ -42,7 +42,7 @@ public class AuthorRepository : IAuthorRepository {
     }
 
     public async Task<List<AuthorDTO>> FindAuthorByEmail(string email){
- var query = _dbContext.Authors.OrderByDescending(author => author.Name)
+ var query = _dbContext.Authors.OrderBy(author => author.Name)
         .Where(author => author.Email.StartsWith(email))
         .Select(author => new AuthorDTO{ 
             Id = author.AuthorId,
