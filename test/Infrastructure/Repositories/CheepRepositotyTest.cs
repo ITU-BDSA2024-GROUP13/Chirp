@@ -60,9 +60,67 @@ public class CheepRepositoryTest : IDisposable
 
                 List<CheepDTO> list = await repo.ReadPublicMessages(32, 0);
                 Assert.True(list.Count > 3);
-
             }
         }
     }
+
+    [Fact]
+    public async void ReadPublicMessages()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+                var repo = new CheepRepository(context);
+
+                List<CheepDTO> list = await repo.ReadPublicMessages(32, 0);
+                string authorName = list[0].Author;
+                Boolean otherAuthor = false;
+
+
+                foreach (CheepDTO item in list)
+                {
+                    if(!item.Author.Equals(authorName)){
+                        otherAuthor = true;
+                    }
+                }
+                // Should not be larger than the take value
+                Assert.False(list.Count > 32);
+                // The most recent message in the test db
+                Assert.Equal("Starbuck now is what we hear the worst.", list[0].Text);
+                Assert.True(otherAuthor);
+            }
+        }
+    }
+
+       [Fact]
+    public async void ReadUserMessages()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+                var repo = new CheepRepository(context);
+
+                List<CheepDTO> list = await repo.ReadUserMessages("Helge", 32, 0);
+                string authorName = list[0].Author;
+                Boolean otherAuthor = false;
+
+
+                foreach (CheepDTO item in list)
+                {
+                    if(!item.Author.Equals(authorName)){
+                        otherAuthor = true;
+                    }
+                }
+                // Should not be larger than the take value
+                Assert.False(list.Count > 32);
+                // The most recent message in the test db
+                Assert.False(otherAuthor);
+                // The authors timeline should not be empty
+                Assert.True(list.Count > 0);
+            }
+        }
+    }
+
+
 
 }
