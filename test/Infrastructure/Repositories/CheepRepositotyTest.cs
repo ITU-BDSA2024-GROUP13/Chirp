@@ -92,7 +92,7 @@ public class CheepRepositoryTest : IDisposable
         }
     }
 
-       [Fact]
+    [Fact]
     public async void ReadUserMessages()
     {
         using (var scope = _serviceProvider.CreateScope()){
@@ -118,6 +118,40 @@ public class CheepRepositoryTest : IDisposable
                 // The authors timeline should not be empty
                 Assert.True(list.Count > 0);
                 Assert.Equal("Helge", authorName);
+            }
+        }
+    }
+
+       [Fact]
+    public async void CreateMessage()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+                var repo = new CheepRepository(context);
+                bool messageCreated = false;
+
+
+                CheepDTO newMessage = new() { Author = "Helge", AuthorId = 11, Text = "I love group 13!", Timestamp = 12345};
+                List<CheepDTO> prevList = await repo.ReadUserMessages("Helge", 32, 0);
+
+
+                await repo.CreateMessage(newMessage);
+                List<CheepDTO> newList = await repo.ReadUserMessages("Helge", 32, 0);
+
+
+                 foreach (CheepDTO item in newList)
+                {
+                    if(item.Text.Equals(newMessage.Text)){
+                        messageCreated = true;
+                    }
+                }
+
+            
+                Assert.True(newList.Count > prevList.Count);
+                Assert.True(messageCreated);
+
+        
             }
         }
     }
