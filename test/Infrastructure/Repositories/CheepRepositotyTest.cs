@@ -109,6 +109,7 @@ public class CheepRepositoryTest : IDisposable
                 {
                     if(!item.Author.Equals(authorName)){
                         otherAuthor = true;
+                        break;
                     }
                 }
                 // Should not be larger than the take value
@@ -122,7 +123,7 @@ public class CheepRepositoryTest : IDisposable
         }
     }
 
-       [Fact]
+    [Fact]
     public async void CreateMessage()
     {
         using (var scope = _serviceProvider.CreateScope()){
@@ -144,14 +145,44 @@ public class CheepRepositoryTest : IDisposable
                 {
                     if(item.Text.Equals(newMessage.Text)){
                         messageCreated = true;
+                        break;
                     }
                 }
-
-            
                 Assert.True(newList.Count > prevList.Count);
                 Assert.True(messageCreated);
+            }
+        }
+    }
 
-        
+    [Fact]
+    public async void UpdateMessage()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+                var repo = new CheepRepository(context);
+                bool messageCreated = false;
+
+
+                CheepDTO newMessage = new() { Author = "Helge", AuthorId = 11, Text = "I love group 13!", Timestamp = 12345};
+                List<CheepDTO> prevList = await repo.ReadUserMessages("Helge", 32, 0);
+
+
+                await repo.UpdateMessage(newMessage, 656);
+                List<CheepDTO> newList = await repo.ReadUserMessages("Helge", 32, 0);
+
+
+                foreach (CheepDTO item in newList)
+                {
+                    if(item.Text.Equals(newMessage.Text)){
+                        messageCreated = true;
+                        break;
+                    }
+
+                }
+
+                Assert.True(newList.Count == prevList.Count);
+                Assert.True(messageCreated);
             }
         }
     }
