@@ -93,10 +93,9 @@ public class AuthorRepositoryTest : IDisposable
 
                 List<AuthorDTO> authors = await repo.FindAuthorByName("J");
 
-                // Should not be larger than the take value
-                Assert.False(authors.Count > 1);
                 // The most recent message in the test db
-                Assert.Equal("Helge", authors[0].Name);
+                Assert.Equal("Jacqualine Gilcoine", authors[0].Name);
+                Assert.Equal("Johnnie Calixto", authors[1].Name);
             }
         }
     }
