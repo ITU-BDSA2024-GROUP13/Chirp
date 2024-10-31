@@ -117,6 +117,7 @@ public class CheepRepositoryTest : IDisposable
                 Assert.False(otherAuthor);
                 // The authors timeline should not be empty
                 Assert.True(list.Count > 0);
+                Assert.Equal("Helge", authorName);
             }
         }
     }
