@@ -78,6 +78,37 @@ public class CheepServiceTest : IDisposable
      
     }
 
+        [Fact]
+    public async void ReadPublicMessages()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+
+            List<CheepDTO> list = await _cheepService.ReadPublicMessages(0);
+            string authorName = list[0].Author;
+            Boolean otherAuthor = false;
+            
+            foreach (CheepDTO item in list)
+            {
+                if(!item.Author.Equals(authorName)){
+                    otherAuthor = true;
+                }
+            }
+            // Should not be larger than the take value
+            Assert.False(list.Count > 32);
+            // The most recent message in the test db
+            Assert.Equal("Starbuck now is what we hear the worst.", list[0].Text);
+            Assert.True(otherAuthor);
+
+        }
+     
+    }
+
    
 
 }
