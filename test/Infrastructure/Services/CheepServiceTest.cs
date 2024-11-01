@@ -109,6 +109,41 @@ public class CheepServiceTest : IDisposable
      
     }
 
+            [Fact]
+    public async void ReadUserMessages()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+
+            List<CheepDTO> list = await _cheepService.ReadUserMessages("Helge", 0);
+            string authorName = list[0].Author;
+            Boolean otherAuthor = false;
+
+
+            foreach (CheepDTO item in list)
+            {
+                if(!item.Author.Equals(authorName)){
+                    otherAuthor = true;
+                    break;
+                }
+            }
+            // Should not be larger than the take value
+            Assert.False(list.Count > 32);
+            // Should not show other authors on the timeline
+            Assert.False(otherAuthor);
+            // The authors timeline should not be empty
+            Assert.True(list.Count > 0);
+            Assert.Equal("Helge", authorName);
+
+        }
+     
+    }
+
    
 
 }
