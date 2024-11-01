@@ -25,7 +25,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Chirp.Core\Chirp.Core.csproj" />
+    <ProjectReference Include="..\src\Chirp.Core\Chirp.Core.csproj" />
+    <ProjectReference Include="..\src\Chirp.Infrastructure\Chirp.Repositories\Chirp.Repositories.csproj" />
+    <ProjectReference Include="..\src\Chirp.Infrastructure\Chirp.Services\Chirp.Services.csproj" />
+    <ProjectReference Include="..\src\Chirp.Web\Chirp.Web.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.10" />
+
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8" />
   </ItemGroup>
 
 </Project>

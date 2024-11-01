@@ -3,7 +3,6 @@ using Chirp.Core.Entities;
 using Chirp.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Moq;
 using Xunit.Sdk;
 
 namespace Repositories;
