@@ -325,7 +325,7 @@ public class CheepServiceTest : IDisposable
     }
 
 
-             [Fact]
+    [Fact]
     public async void FindAuthorByEmail()
     {
         using (var scope = _serviceProvider.CreateScope()){
@@ -340,9 +340,43 @@ public class CheepServiceTest : IDisposable
             string authorName = list[0].Name;
 
             Assert.Equal("Helge", authorName);
-
         }
-     
+    }
+
+    
+    [Fact]
+    public async void UpdateMessage()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+            bool messageCreated = false;
+
+
+            CheepDTO newMessage = new() { Author = "Helge", AuthorId = 11, Text = "I love group 13!", Timestamp = 12345};
+            List<CheepDTO> prevList = await _cheepService.ReadUserMessages("Helge", 0);
+
+
+            await _cheepService.UpdateMessage(newMessage, 656);
+            List<CheepDTO> newList = await _cheepService.ReadUserMessages("Helge", 0);
+
+
+            foreach (CheepDTO item in newList)
+            {
+                if(item.Text.Equals(newMessage.Text)){
+                    messageCreated = true;
+                    break;
+                }
+
+            }
+
+            Assert.True(newList.Count == prevList.Count);
+            Assert.True(messageCreated);
+        }
     }
 
  
