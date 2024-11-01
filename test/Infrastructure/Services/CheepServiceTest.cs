@@ -215,6 +215,78 @@ public class CheepServiceTest : IDisposable
      
     }
 
+     [Fact]
+    public async void CreateAuthorFromNewMessage()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+            bool messageCreated = false;
+
+            List<CheepDTO> prevList = await _cheepService.ReadUserMessages("Helge2", 0);
+
+            CheepDTO newMessage = new() { Author = "Helge2", AuthorId = 13, Text = "I love group 13!", Timestamp = 12345};
+            
+            await _cheepService.CreateMessage(newMessage);
+
+            List<CheepDTO> newList = await _cheepService.ReadUserMessages("Helge2", 0);
+
+
+            foreach (CheepDTO item in newList)
+            {
+                if(item.Text.Equals(newMessage.Text)){
+                    messageCreated = true;
+                    break;
+                }
+            }
+
+            Assert.True(newList.Count > prevList.Count);
+            Assert.True(messageCreated);
+
+        }
+     
+    }
+
+     [Fact]
+    public async void CreateAuthorFromNewMessageAlternative()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+            bool messageCreated = false;
+
+            List<CheepDTO> prevList = await _cheepService.ReadUserMessages("Helg", 0);
+
+            CheepDTO newMessage = new() { Author = "Helg", AuthorId = 13, Text = "I love group 13!", Timestamp = 12345};
+            
+            await _cheepService.CreateMessage(newMessage);
+
+            List<CheepDTO> newList = await _cheepService.ReadUserMessages("Helg", 0);
+
+
+            foreach (CheepDTO item in newList)
+            {
+                if(item.Text.Equals(newMessage.Text)){
+                    messageCreated = true;
+                    break;
+                }
+            }
+
+            Assert.True(newList.Count > prevList.Count);
+            Assert.True(messageCreated);
+
+        }
+     
+    }
+
    
 
 }
