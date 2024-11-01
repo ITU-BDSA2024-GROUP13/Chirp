@@ -3,6 +3,9 @@ body {
   font-family: 'Trebuchet MS', sans-serif;
   font-size: 14px;
   padding-top: 92px;
+  display: flex;
+  justify-content: center;
+  margin-inline: 2rem;
 }
 
 a{
@@ -50,61 +53,6 @@ div.page {
   margin: 70px auto;
 }
 
-/*might not be use*/
-div.page > h1 {
-  position: relative;
-  background: #dc722be2;
-  margin: 0;
-  padding: 10px 14px;
-  color: #D4D4D4;
-  letter-spacing: 1px;
-  text-shadow: 0 0 3px #000000;
-  font-weight: heavy;
-  font-size: 80px;
-  border-width: 1px;
-
-}
-
-/*might not be use*/
-div.page h1 img {
-  height: 1em;
-}
-
-/*might not be use*/
-div.page div.navigation {
-  background: #DEE9E8;
-  padding: 4px 10px;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #eee;
-  color: #888;
-  font-size: 12px;
-  letter-spacing: 0.5px;
-}
-
-/*might not be use*/
-div.page div.navigation a {
-  color: #444;
-  font-weight: bold;
-}
-/*might not be use*/
-div.page div.navigation form {
-    display: contents;
-}
-
-/*might not be use*/
-div.page div.navigation form button {
-    padding: unset;
-    background: unset;
-    color: #444;
-    font-weight: bold;
-    display: inline-block;
-    font-size: unset;
-    cursor: pointer;
-    text-decoration: underline;
-    font-family: unset;
-    letter-spacing: unset;
-}
-
 /*IS USED FOR THE TITELS - "PUBLIC TIMELINE" ">@USER TIMELINE"*/
 div.page h2 {
   display: flex;
@@ -132,17 +80,6 @@ div.page div.footer {
   color: #888;
   padding: 5px 10px;
   font-size: 12px;
-}
-
-/*might not be used*/
-div.page div.followstatus {
-  border: 1px solid #ccc;
-  background: #E3EBEA;
-  border-radius: 2px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  padding: 3px;
-  font-size: 13px;
 }
 
 /*USED FOR MAKING CHEEPS FIT "NICELY" IN TIMELINE*/
@@ -197,121 +134,6 @@ div.page ul.cheeps p {
   margin: 0;
 }
 
-/*might not be used*/
-div.page ul.cheeps li img {
-  padding: 0 10px 0 0;
-}
-
-/*might not be used*/
-div.page div.cheepbox {
-  margin: 10px 0;
-  padding: 5px;
-  background: #F0FAF9;
-  border: 1px solid #e29494;
-  border-radius: 2px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-}
-
-/*might not be used*/
-div.page div.cheepbox h3 {
-  margin: 0;
-  font-size: 1em;
-  color: #7e2c2c;
-}
-
-/*might not be used*/
-div.page div.cheepbox p {
-  margin: 0;
-}
-
-/*might not be used*/
-div.page div.cheepbox input[type="text"] {
-  width: 485px;
-}
-
-/*might not be used*/
-div.page div.cheepbox input[type="submit"] {
-  width: 70px;
-  margin-left: 5px;
-}
-
-/*might not be used*/
-div.message {
-  list-style: none;
-  margin: 10px 10px 0 10px;
-
-  background: #f3b9b9;
-  border: 1px solid #ce8181;
-  border-radius: 2px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  padding: 4px;
-  font-size: 13px;
-}
-
-/*might not be used*/
-ul.message li {
-  background: #f3b9b9;
-  border: 1px solid #ce8181;
-  border-radius: 2px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  padding: 4px;
-  font-size: 13px;
-}
-
-/*might not be used*/
-div.error {
-  margin: 10px 0;
-  background: #FAE4E4;
-  border: 1px solid #DD6F6F;
-  border-radius: 2px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  padding: 4px;
-  font-size: 13px;
-}
-
-/*might not be used*/
-div.topics {
-  width: 180px;
-  height: 250px;
-  background: #ffffff;
-  border: 1px solid #e29494;
-  border-radius: 2px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin-left: 460px;
-  padding: 10px;
-}
-
-/*might not be used*/
-ul.topic {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-/*might not be used*/
-li.topic {
-  margin: 10px 0;
-  padding: 5px;
-  background: #F0FAF9;
-  border: 1px solid #DBF3F1;
-  border-radius: 2px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  min-height: 20px;
-}
-
-/*might not be used*/
-form * {
-    margin: 2px 0;
-}
-
 /*IS USED FOR THE SIZES OF THE BUTTONS AND MORE*/
 button {
     border: none;
@@ -319,36 +141,6 @@ button {
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-}
-
-/*might not be used*/
-
-/*might not be used*/
-ul.nav {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #cc6e6e;
-}
-
-/*might not be used*/
-ul.nav li {
-    float: left;
-}
-
-/*might not be used*/
-ul.nav li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 8px 8px;
-    text-decoration: none;
-}
-
-/*might not be used*/
-ul.nav li a:hover {
-    background-color: #8b4949;
 }
 
 /*USED FOR THE BIRDS SIZE*/
@@ -653,11 +445,6 @@ div.page ul.cheeps li .cheep-content {
 div.page ul.cheeps li .author {
   font-weight: bold;
   margin-bottom: 1px;
-}
-
-/*might not be used "anymore"*/
-div.page ul.cheeps li .message {
-  flex-grow: 1;
 }
 
 /*LOCATION AND STYLING FOR THE DATE*/
