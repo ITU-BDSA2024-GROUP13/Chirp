@@ -284,8 +284,69 @@ public class CheepServiceTest : IDisposable
             Assert.True(messageCreated);
 
         }
+    }
+
+          [Fact]
+    public async void CountPublicMessages()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+
+            int count = await _cheepService.CountPublicMessages();
+
+            // Should be exactly 657
+            Assert.Equal(657, count);
+        }
      
     }
+
+             [Fact]
+    public async void CountUserMessages()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+
+            int count = await _cheepService.CountUserMessages("Helge");
+
+            // Should be exactly 1
+            Assert.Equal(1, count);
+        }
+     
+    }
+
+
+             [Fact]
+    public async void FindAuthorByEmail()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+
+            List<AuthorDTO> list = await _cheepService.FindAuthorByEmail("ropf@itu");
+            string authorName = list[0].Name;
+
+            Assert.Equal("Helge", authorName);
+
+        }
+     
+    }
+
+ 
+
 
    
 
