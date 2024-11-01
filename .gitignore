@@ -70,6 +70,9 @@ artifacts/
 # Tye
 .tye/
 
+# Info
+*.info
+
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
 

@@ -36,6 +36,7 @@ public class CheepRepositoryTest : IDisposable
             // Execute the migration from code.
             try
             {
+
                 context.Database.Migrate();
             }
             catch (Exception ex)
@@ -48,8 +49,8 @@ public class CheepRepositoryTest : IDisposable
 
     public void Dispose()
     {
-        var dbContext = _serviceProvider.GetService<CheepDBContext>();
-        dbContext.Database.EnsureDeleted();
+       var dbContext = _serviceProvider.GetService<CheepDBContext>();
+       dbContext.Database.EnsureDeleted();
     }
 
     [Fact]
