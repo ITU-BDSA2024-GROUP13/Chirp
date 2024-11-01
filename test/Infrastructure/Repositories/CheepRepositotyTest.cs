@@ -143,7 +143,7 @@ public class CheepRepositoryTest : IDisposable
                 List<CheepDTO> newList = await repo.ReadUserMessages("Helge", 32, 0);
 
 
-                 foreach (CheepDTO item in newList)
+                foreach (CheepDTO item in newList)
                 {
                     if(item.Text.Equals(newMessage.Text)){
                         messageCreated = true;
