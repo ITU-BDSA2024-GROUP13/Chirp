@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
-
 namespace Chirp.Repositories.Migrations
 {
     /// <inheritdoc />
