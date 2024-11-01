@@ -2,6 +2,16 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Generate coverage stats",
+            "command": "reportgenerator",
+            "type": "shell",
+            "args": [
+                "-reports:${workspaceFolder}/test/lcov.info",
+                "-targetdir:${workspaceFolder}/test/covstats"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "build",
             "command": "dotnet",
             "type": "process",

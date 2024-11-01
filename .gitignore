@@ -70,6 +70,12 @@ artifacts/
 # Tye
 .tye/
 
+#covstats
+test/covstats
+
+# Info
+*.info
+
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt
 
