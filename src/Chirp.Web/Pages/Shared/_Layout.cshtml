@@ -1,59 +1,43 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Html
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>@ViewData["Title"]</title>
-    <link href="/css/style.css" rel="stylesheet" type="text/css" />
-    <link href="/css/index.css" rel=stylesheet" type="text/css"/>
-    <link rel="icon" type="image/png" href="/favicon/favicon.ico">
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/index.css" rel="stylesheet" />
 </head>
 <body>
-     <h1 class = "header">
-            <img src="/images/icon1.png" onclick = "window.location = '/?page=0'" class = "Icon" alt="Icon1"/>
-        <form>
-            <div class = "searchbar">
-                <input class = "search-input" name = "SearchName" type="search" placeholder = "Search">
-                <div class = "search-menu">
-                    @if(Model.Authors != null){
-                    <div class = "search-items">
-                        @for(int i = 0; i <= 10 && i < @Model.Authors.Count; i++){
-                        <a href = "/@Model.Authors[i].Name">
-                            <span>@Model.Authors[i].Name</span>
-                        </a>
-                        }                    
-                    </div>
-                    }
-                </div>
-                <div class = "filter">
-                    <button type = "button" id = "filterimage">
-                        <img src="/images/filter.png">
-                    </button>
-                    <div class = "filter-options">
-                        <button>Author</button>
-                        <button>Email</button>
-                        <button>Cheep</button>
-
-                    </div>
-                </div>
-
-                
+    <div class="title">
+        <header>
+            <div class="brand">
+                <img src="/assets/icon1.png" onclick = "window.location = '/?page=0'" class = "brand" id="icon" alt="Icon1" />
+                <h1 class="brand" id="name">Chirp!</h1>
             </div>
-        </form>
-
-        <div class = "login"> Log in</div>
-    </h1>
-    
-    @if(true){
-
-    }
-
-    <div class=page>
-        <div class=body>
-            @RenderBody()
-        </div>
-        <div class=footer>
-            Chirp &mdash; An ASP.NET Application
-        </div>
+        </header>
+        <nav>
+            @tag("Public timeline","/assets/home.png","/")
+            @tag("My timeline","./assets/user.png","")
+        </nav>
     </div>
+
+
+@RenderBody()
+
 </body>
 @await RenderSectionAsync("Scripts", required: false)
 </html>
+
+@functions {
+    public HtmlString tag(string name, string imageUrl, string targetPage){
+        return new HtmlString( $@"
+            <div class=""tag"" onClick=""window.location = '{targetPage}'"">
+                <img 
+                    src = ""{imageUrl}""
+                    alt=""{name}"" 
+                    id=""icon""
+                />
+                {name}
+            </div>
+        ");
+    }
+}

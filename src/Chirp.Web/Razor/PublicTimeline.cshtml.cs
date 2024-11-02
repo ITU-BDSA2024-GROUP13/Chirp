@@ -29,5 +29,4 @@ public class PublicTimeLine(ICheepService cheepService) : TimeLine(cheepService)
         return Page();
     }
     
-    
 }

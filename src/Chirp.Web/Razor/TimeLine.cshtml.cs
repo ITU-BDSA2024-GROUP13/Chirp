@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Services;
 using Chirp.Core.DTO;
+using Microsoft.AspNetCore.Html;
+using Chirp.Core.Entities;
 
-public abstract class TimeLine(ICheepService cheepService) : PageModel {
-    
+public abstract class TimeLine(ICheepService cheepService) : PageModel 
+{    
     protected readonly ICheepService _cheepService = cheepService;
     public required List<CheepDTO> Cheeps { get; set; }
     public required List<AuthorDTO> Authors { get; set; }
@@ -25,11 +27,14 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel {
             return page-1;
         }
     }
+
     public int DefineLastPage(){
         double p = Count/32;
         int LastPage = (int) Math.Ceiling(p);
         return LastPage;
     }
 
-    
+    public DateTime ToDateTime(long value){
+        return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
+    }
 }

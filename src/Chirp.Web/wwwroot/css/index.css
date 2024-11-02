@@ -1,0 +1,43 @@
+body {
+    position: relative;
+    background: #ffffff;
+    font-family: 'Trebuchet MS', sans-serif;
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    font-size: x-large;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+header {
+    display: flex; 
+    width: 100%;
+    flex-direction: row;
+    margin: 0;
+    top: 0;
+}
+
+a {
+    font-weight: 500;
+    color: #4b1515;
+
+    text-decoration: inherit;
+}
+
+a:hover {
+    color: rgb(64, 144, 205);
+}
+
+/*IS USED FOR THE SIZES OF THE BUTTONS AND MORE*/
+button {
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
