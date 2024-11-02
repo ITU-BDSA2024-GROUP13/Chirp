@@ -1,4 +1,4 @@
-namespace Chirp.Web.Razor;
+namespace Chirp.Web.models;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

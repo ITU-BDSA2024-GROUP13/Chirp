@@ -6,6 +6,7 @@
     <link href="/css/style.css" rel="stylesheet" />
     <link href="/css/index.css" rel="stylesheet" />
 </head>
+
 <body>
     <div class="title">
         <header>
@@ -20,11 +21,12 @@
         </nav>
     </div>
 
-    <main class="cheep-container"">
+    <main class="cheep-container">
         @RenderBody()
     </main>
 
 </body>
+
 @await RenderSectionAsync("Scripts", required: false)
 </html>
 

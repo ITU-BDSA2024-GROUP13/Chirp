@@ -1,5 +1,6 @@
 ﻿@page "/{author}"
-@model Chirp.Web.Razor.UserTimelineModel
+@using Chirp.Web.models
+@model Chirp.Web.models.UserTimelineModel
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "./Shared/_Layout.cshtml";
@@ -9,22 +10,18 @@
 
 <h2> @routeName's Timeline </h2>
 
-    @if (Model.Cheeps.Any())
+@if (Model.Cheeps.Any())
+{
+    @foreach (var cheep in Model.Cheeps)
     {
-        @foreach (var cheep in Model.Cheeps)
-        {
-            <div>
-                <div class="cheep-item">
-                    <strong class="cheep-author">  <a href="/@cheep.Author">@cheep.Author</a> </strong>
-
-                    <p class="cheep-body"> @cheep.Text </p>
-
-                    <span class="cheep-date"> &mdash; @Model.ToDateTime(cheep.Timestamp) </span>
-                </div>
-            </div>
-        }
+        @await Html.PartialAsync("_Cheep", new CheepPartialView {
+            Author= cheep.Author,
+            Body= cheep.Text,
+            Date= cheep.Timestamp
+        })
     }
-    else
-    {
-        <em>There are no cheeps so far.</em>
-    }
+}
+else
+{
+    <em>There are no cheeps so far.</em>
+}

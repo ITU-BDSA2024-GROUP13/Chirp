@@ -1,11 +1,11 @@
-@model Chirp.Web.Razor.TimeLine
+@model Chirp.Web.models.CheepPartialView
 
 <div>
     <div class="cheep-item">
-        <strong class="cheep-author">  <a href="/@cheep.Author">@cheep.Author</a> </strong>
+        <strong class="cheep-author">  <a href="/@Model.Author">@Model.Author</a> </strong>
 
-        <p class="cheep-body"> @cheep.Text </p>
+        <p class="cheep-body"> @Model.Body </p>
 
-        <span class="cheep-date"> &mdash; @Model.ToDateTime(cheep.Timestamp) </span>
+        <span class="cheep-date"> &mdash; @Model.ToDateTime(Model.Date) </span>
     </div>
 </div>
