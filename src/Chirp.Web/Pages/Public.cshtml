@@ -5,14 +5,15 @@
     Layout = "./Shared/_Layout.cshtml";
 }
 
-<div>
-    <h2> Public Timeline </h2>
 
-    @if (Model.Cheeps.Any())
-    {   
+<h2> Public Timeline </h2>
 
-        @foreach (var cheep in Model.Cheeps)
-        {
+@if (Model.Cheeps.Any())
+{   
+
+    @foreach (var cheep in Model.Cheeps)
+    {
+        <div>
             <div class="cheep-item">
                 <strong class="cheep-author">  <a href="/@cheep.Author">@cheep.Author</a> </strong>
 
@@ -20,10 +21,10 @@
 
                 <span class="cheep-date"> &mdash; @Model.ToDateTime(cheep.Timestamp) </span>
             </div>
-        }
-
-    } else
-    {
-        <em>There are no cheeps so far.</em>
+        </div>
     }
-</div>
+
+} else
+{
+    <em>There are no cheeps so far.</em>
+}

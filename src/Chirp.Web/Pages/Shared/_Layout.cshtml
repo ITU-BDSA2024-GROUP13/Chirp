@@ -20,8 +20,9 @@
         </nav>
     </div>
 
-
-@RenderBody()
+    <main class="cheep-container"">
+        @RenderBody()
+    </main>
 
 </body>
 @await RenderSectionAsync("Scripts", required: false)

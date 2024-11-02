@@ -5,32 +5,26 @@
     Layout = "./Shared/_Layout.cshtml";
     var routeName = HttpContext.GetRouteValue("author");
 }
-<div>
-    <h2> @routeName's Timeline </h2>
+
+
+<h2> @routeName's Timeline </h2>
 
     @if (Model.Cheeps.Any())
     {
-        <ul class="cheep-container">
-            @foreach (var cheep in Model.Cheeps)
-            {
-                <li>
-                   <div class="cheep-content">
-                        <strong class="author">
-                            <a href="/@cheep.Author">@cheep.Author</a>
-                        </strong>
-                        <p class="message">
-                            @cheep.Text
-                        </p>
-                        <span class="date">&mdash; @Model.ToDateTime(cheep.Timestamp)</span>
-                    </div>
-                </li>
-            }
-         </ul>
+        @foreach (var cheep in Model.Cheeps)
+        {
+            <div>
+                <div class="cheep-item">
+                    <strong class="cheep-author">  <a href="/@cheep.Author">@cheep.Author</a> </strong>
+
+                    <p class="cheep-body"> @cheep.Text </p>
+
+                    <span class="cheep-date"> &mdash; @Model.ToDateTime(cheep.Timestamp) </span>
+                </div>
+            </div>
+        }
     }
     else
     {
         <em>There are no cheeps so far.</em>
     }
-
-    
-</div>

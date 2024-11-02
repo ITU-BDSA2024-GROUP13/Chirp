@@ -1,0 +1,11 @@
+@model Chirp.Web.Razor.TimeLine
+
+<div>
+    <div class="cheep-item">
+        <strong class="cheep-author">  <a href="/@cheep.Author">@cheep.Author</a> </strong>
+
+        <p class="cheep-body"> @cheep.Text </p>
+
+        <span class="cheep-date"> &mdash; @Model.ToDateTime(cheep.Timestamp) </span>
+    </div>
+</div>

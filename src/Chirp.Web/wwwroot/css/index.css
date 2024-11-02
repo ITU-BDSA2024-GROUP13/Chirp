@@ -1,17 +1,16 @@
 body {
-    position: relative;
     background: #ffffff;
     font-family: 'Trebuchet MS', sans-serif;
     display: flex;
     flex-direction: column;
     place-items: center;
-    font-size: x-large;
 }
 
 nav {
     display: flex;
     flex-direction: row;
     gap: 20px;
+    margin-top: 10px;
 }
 
 header {
