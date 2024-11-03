@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace Chirp.Web.models;
 
 public class NavBarPartialView {
-    
     public int Count { get; set; }
     public int NextPage { get; set; }
     public int PreviousPage { get; set; }

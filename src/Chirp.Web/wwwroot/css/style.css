@@ -1,3 +1,8 @@
+h2, .name-timeline {
+  padding-bottom: 5px;
+  border-bottom: 2px solid #4b1515;
+}
+
 .tag {
   display: flex;
   flex-direction: row;
