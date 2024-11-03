@@ -25,15 +25,22 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+
     try
     {
         var context = services.GetRequiredService<CheepDBContext>();
-        context.Database.EnsureCreated();
+
+        // Apply any pending migrations
+        context.Database.Migrate();
+
+        // Seed the database
+        DbInitializer.SeedDatabase(context);
     }
     catch (Exception ex)
     {
+        // Log any errors during seeding
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while creating the DB context.");
+        logger.LogError(ex, "An error occurred while seeding the database.");
     }
 }
 
