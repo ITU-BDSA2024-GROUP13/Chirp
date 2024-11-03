@@ -75,6 +75,35 @@
                     }
                 }
             </ul>
+            <div class = "buttons">
+        <!-- Defines the 'prev' button which will function as a way to go to the
+        previous page by clicking on it-->
+        @if(Model.CurrentPage != 0){
+            <a href = "?page=@Model.PreviousPage">
+                <button class = "left" id = "button"> 
+                    <img src="/images/arrow.png" class = "arrowRight"/>
+                </button>
+            </a>
+        }else{
+            <button class = "left" id = "limit"> 
+                <img src="/images/arrow.png" class = "arrowRight"/>
+            </button>
+        }
+
+        <!-- Defines the 'next' button which will function as a way to go to the
+        next page by clicking on it-->
+        @if(Model.CurrentPage != Model.LastPage){
+            <a href = "?page=@Model.NextPage">
+                <button class = "right" id = "button">
+                    <img src="/images/arrow.png" class = "arrow"/>
+                </button>
+            </a>
+        } else{
+            <button class = "right" id = "limit">
+                <img src="/images/arrow.png" class = "arrow"/>
+            </button>
+        }
+        </div>
         </nav>
     </div>
 
