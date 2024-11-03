@@ -21,11 +21,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     public string? SearchName { get; set; }
 
     public int DefinePreviousPage(int page){
-        if(page == 0){
-            return 0;
-        } else{
-            return page-1;
-        }
+        return page == 0 ? 0 : page-1;
     }
 
     public int DefineLastPage(){
