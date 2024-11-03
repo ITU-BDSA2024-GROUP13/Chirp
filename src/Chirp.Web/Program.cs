@@ -1,6 +1,9 @@
 using Chirp.Services;
 using Chirp.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity;
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8604 // Dereference of a possibly null reference.
@@ -8,8 +11,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite("Data Source=Chat.db"));
-
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite(connectionString));
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<CheepDBContext>();
 builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
@@ -20,26 +24,25 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    // From the scope, get an instance of our database context.
-    // Through the `using` keyword, we make sure to dispose it after we are done.
-    using var context = scope.ServiceProvider.GetService<CheepDBContext>();
-
-
-    // Execute the migration from code.
-
+    var services = scope.ServiceProvider;
     try
     {
-        context.Database.Migrate();
+        var context = services.GetRequiredService<CheepDBContext>();
+        context.Database.EnsureCreated();
     }
     catch (Exception ex)
     {
-        Console.WriteLine(ex.Message);
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while creating the DB context.");
     }
-    DbInitializer.SeedDatabase(context);
 }
 
 
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
 {
     app.UseExceptionHandler("/Error");
     app.UseHsts();
@@ -50,6 +53,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();

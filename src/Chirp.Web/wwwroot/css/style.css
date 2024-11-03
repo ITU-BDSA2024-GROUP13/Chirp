@@ -587,6 +587,7 @@ fill{
   justify-self: right;
   letter-spacing: 0px;
   cursor: pointer;
+  z-index: 999;
 }
 
 .navbar ul li{
