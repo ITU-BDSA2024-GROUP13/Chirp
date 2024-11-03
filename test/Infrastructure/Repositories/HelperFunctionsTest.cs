@@ -25,4 +25,6 @@ public class HelperFunctionsTest
         Assert.Equal("29.10.2024 15.48.20", danishFormat);
     }
 
+    
+
 }
