@@ -15,32 +15,77 @@
                 <h1 class="brand" id="name">Chirp!</h1>
             </div>
         </header>
+        
         <nav>
-            @tag("Public timeline","/assets/home.png","/")
-            @tag("My timeline","./assets/user.png","")
+
+            @Model.tag("Public timeline","/assets/home.png","/")
+            @Model.tag("My timeline","./assets/user.png","")
+
+            <!-- Defines the 'pagelist' which will function as a way to navigate
+            simply by using numbers in the bottom of a page-->
+            <ul class="pagelist">
+                @for(int i = 0; i <= Model.Count / 32; i++){
+                    if(Model.CurrentPage == 0){
+                        if(i > Model.CurrentPage + 3){
+                            if(i == Model.LastPage){
+                                <fill>..</fill>
+                                <li onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                            }
+                        } else if(Model.CurrentPage == i){
+                            <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                        }else{
+                            <li onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                        }
+
+
+
+                    }else if (Model.CurrentPage == Model.LastPage){
+                        if(i < Model.CurrentPage - 3){
+                            if(i == 0){
+                                <li onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                                <fill>..</fill>
+                            }
+                        } else if(Model.CurrentPage == i){
+                            <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                        }else{
+                            <li onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                        }
+
+
+
+                    }else{
+                        if(i > Model.CurrentPage + 2 || i < Model.CurrentPage -2){
+                            if(i == Model.LastPage){
+                                if(Model.CurrentPage + 3 < Model.LastPage){
+                                    <fill>..</fill>
+                                }
+                                <li onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+
+                            } else if(i == 0){
+                                <li onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                                if(Model.CurrentPage - 3 > 0){
+                                    <fill>..</fill>
+                                }
+                            }
+                        } else if(Model.CurrentPage == i){
+                            <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                        } else{
+                            <li onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                        }
+                    }
+                }
+            </ul>
         </nav>
     </div>
 
+    
     <main class="cheep-container">
         @RenderBody()
     </main>
+
+    
 
 </body>
 
 @await RenderSectionAsync("Scripts", required: false)
 </html>
-
-@functions {
-    public HtmlString tag(string name, string imageUrl, string targetPage){
-        return new HtmlString( $@"
-            <div class=""tag"" onClick=""window.location = '{targetPage}'"">
-                <img 
-                    src = ""{imageUrl}""
-                    alt=""{name}"" 
-                    id=""icon""
-                />
-                {name}
-            </div>
-        ");
-    }
-}

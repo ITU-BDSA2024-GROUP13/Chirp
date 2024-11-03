@@ -5,10 +5,13 @@
     ViewData["Title"] = "Chirp!";
     Layout = "./Shared/_Layout.cshtml";
     var routeName = HttpContext.GetRouteValue("author");
+    ViewData["Location"] = $@"{routeName}";
 }
 
 
 <h2> @routeName's Timeline </h2>
+
+
 
 @if (Model.Cheeps.Any())
 {
