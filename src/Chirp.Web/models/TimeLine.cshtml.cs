@@ -38,7 +38,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
     }
 
-    public HtmlString tag(string name, string imageUrl, string targetPage){
+    public HtmlString Tag(string name, string imageUrl, string targetPage){
         return new HtmlString( $@"
             <div class=""tag"" onClick=""window.location = '{targetPage}'"">
                 <img 
