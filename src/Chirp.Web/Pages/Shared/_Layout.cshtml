@@ -5,7 +5,7 @@
     <body>
         <div class="title">
             <header>
-                <div class="brand">
+                <div class="brand-container">
                     <img src="/assets/icon1.png" onclick = "window.location = '/?page=0'" class = "brand" id="icon" alt="Icon1" />
                     <h1 class="brand" id="name">Chirp!</h1>
                 </div>
@@ -101,6 +101,22 @@
             @RenderBody()
         </main>
 
+        <footer>
+            <div class="coffee">
+                Buy us a coffee :D
+            </div>
+
+            <button class="post" onclick=rotate()>
+                <img src="assets/post.png" class="post" id="post-button"/>
+            </button>
+        </footer>
+        <script>
+            function rotate(){
+                var img = document.getElementById("post-button")
+                img.style.transform = img.style.transform == "rotate(45deg)" ? "rotate(0deg)" : "rotate(45deg)";
+            }
+        </script>
+        
     </body>
-    @await RenderSectionAsync("Scripts", required: false)
 </html>
+
