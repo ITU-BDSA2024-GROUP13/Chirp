@@ -110,10 +110,24 @@
                 <img src="assets/post.png" class="post" id="post-button"/>
             </button>
         </footer>
+
+        <form class="cheep-post-form" id="post">
+            <label class="cheep-post-label">
+                <strong>Cheep</strong>
+                <input type="text" name="cheep" placeholder="What is on your mind?" />
+            </label>
+        </form>
+
         <script>
             function rotate(){
                 var img = document.getElementById("post-button")
-                img.style.transform = img.style.transform == "rotate(45deg)" ? "rotate(0deg)" : "rotate(45deg)";
+                img.style.transform = img.style.transform == "rotate(45deg)" ? "rotate(0deg)" : "rotate(45deg)"
+                toggleVisibility()
+            }
+
+            function toggleVisibility(){
+                var form = document.getElementById("post")
+                form.style.visibility = form.style.visibility == "visible" ? "hidden" : "visible";
             }
         </script>
         
