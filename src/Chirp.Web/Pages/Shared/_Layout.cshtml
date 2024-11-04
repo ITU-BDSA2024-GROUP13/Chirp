@@ -1,58 +1,106 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>@ViewData["Title"]</title>
-    <link href="/css/style.css" rel="stylesheet" type="text/css" />
-    <link rel="icon" type="image/png" href="/favicon/favicon.ico">
-</head>
-<body>
-     <h1 class = "header">
-            <img src="/images/icon1.png" onclick = "window.location = '/?page=0'" class = "Icon" alt="Icon1"/>
-        <form>
-            <div class = "searchbar">
-                <input class = "search-input" name = "SearchName" type="search" placeholder = "Search">
-                <div class = "search-menu">
-                    @if(Model.Authors != null){
-                    <div class = "search-items">
-                        @for(int i = 0; i <= 10 && i < @Model.Authors.Count; i++){
-                        <a href = "/@Model.Authors[i].Name">
-                            <span>@Model.Authors[i].Name</span>
+    @await Html.PartialAsync("_Imports")
+
+    <body>
+        <div class="title">
+            <header>
+                <div class="brand">
+                    <img src="/assets/icon1.png" onclick = "window.location = '/?page=0'" class = "brand" id="icon" alt="Icon1" />
+                    <h1 class="brand" id="name">Chirp!</h1>
+                </div>
+            </header>
+            
+            <nav>
+                
+                <div class="nav-tags">
+                    @Model.Tag("Public timeline","/assets/home.png","/")
+                    @Model.Tag("My timeline","./assets/user.png","")
+                </div>
+
+                <div class="navigation">
+                    <!-- Defines the 'prev' button which will function as a way to go to the
+                    previous page by clicking on it-->
+                    @if(Model.CurrentPage != 0){
+                        <a href="?page=@Model.PreviousPage">
+                            <button class="nav-arrow">
+                                <img src="/assets/arrow.png" class="arrow" id="left" />
+                            </button>
                         </a>
-                        }                    
-                    </div>
+                    }
+
+                    <!-- Defines the 'pagelist' which will function as a way to navigate
+                    simply by using numbers in the bottom of a page-->
+                    <ul class="pagelist">
+                        @for(int i = 0; i <= Model.Count / 32; i++){
+                            if(Model.CurrentPage == 0){
+                                if(i > Model.CurrentPage + 3){
+                                    if(i == Model.LastPage){
+                                        <fill>..</fill>
+                                        <li onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                                    }
+                                } else if(Model.CurrentPage == i){
+                                    <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                                }else{
+                                    <li onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                                }
+
+
+
+                            }else if (Model.CurrentPage == Model.LastPage){
+                                if(i < Model.CurrentPage - 3){
+                                    if(i == 0){
+                                        <li onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                                        <fill>..</fill>
+                                    }
+                                } else if(Model.CurrentPage == i){
+                                    <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                                }else{
+                                    <li onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                                }
+
+
+
+                            }else{
+                                if(i > Model.CurrentPage + 2 || i < Model.CurrentPage -2){
+                                    if(i == Model.LastPage){
+                                        if(Model.CurrentPage + 3 < Model.LastPage){
+                                            <fill>..</fill>
+                                        }
+                                        <li onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+
+                                    } else if(i == 0){
+                                        <li onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                                        if(Model.CurrentPage - 3 > 0){
+                                            <fill>..</fill>
+                                        }
+                                    }
+                                } else if(Model.CurrentPage == i){
+                                    <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                                } else{
+                                    <li onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                                }
+                            }
+                        }
+                    </ul>
+                    
+                    <!-- Defines the 'next' button which will function as a way to go to the
+                    next page by clicking on it-->
+                    @if(Model.CurrentPage != Model.LastPage){
+                        <a href="?page=@Model.NextPage">
+                            <button class="nav-arrow">
+                                <img src="/assets/arrow.png" class="arrow" id="right" />
+                            </button>
+                        </a>
                     }
                 </div>
-                <div class = "filter">
-                    <button type = "button" id = "filterimage">
-                        <img src="/images/filter.png">
-                    </button>
-                    <div class = "filter-options">
-                        <button>Author</button>
-                        <button>Email</button>
-                        <button>Cheep</button>
-
-                    </div>
-                </div>
-
-                
-            </div>
-        </form>
-
-        <div class = "login"> Log in</div>
-    </h1>
-    
-    @if(true){
-
-    }
-
-    <div class=page>
-        <div class=body>
+            </nav>
+        </div>
+        
+        <main class="cheep-container">
             @RenderBody()
-        </div>
-        <div class=footer>
-            Chirp &mdash; An ASP.NET Application
-        </div>
-    </div>
-</body>
-@await RenderSectionAsync("Scripts", required: false)
+        </main>
+
+    </body>
+    @await RenderSectionAsync("Scripts", required: false)
 </html>

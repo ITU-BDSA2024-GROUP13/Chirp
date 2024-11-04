@@ -12,7 +12,7 @@ namespace Chirp.Repositories.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
 
-            Down(migrationBuilder);
+            //Down(migrationBuilder);
 
             migrationBuilder.CreateTable(
                 name: "Authors",

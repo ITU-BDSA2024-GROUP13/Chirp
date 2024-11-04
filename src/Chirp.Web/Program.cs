@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite("Data Source=Chat.db"));
 
 builder.Services.AddRazorPages();
@@ -24,18 +25,19 @@ using (var scope = app.Services.CreateScope())
     // Through the `using` keyword, we make sure to dispose it after we are done.
     using var context = scope.ServiceProvider.GetService<CheepDBContext>();
 
+    if ( context != null ) {
+        // Execute the migration from code.
 
-    // Execute the migration from code.
-
-    try
-    {
-        context.Database.Migrate();
+        try
+        {
+            context.Database.Migrate();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        DbInitializer.SeedDatabase(context);
     }
-    catch (Exception ex)
-    {
-        Console.WriteLine(ex.Message);
-    }
-    DbInitializer.SeedDatabase(context);
 }
 
 
