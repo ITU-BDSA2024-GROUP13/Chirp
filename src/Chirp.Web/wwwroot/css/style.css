@@ -89,3 +89,21 @@ nav {
 #left {
   transform: rotate(180deg);
 }
+
+.list-item:hover {
+  cursor: pointer;
+}
+
+
+.pagelist{
+  display: flex;
+  border: 1.5px solid rgba(175, 175, 175, 0.748);
+  padding: 7px;
+  font-size: 10px;
+  justify-content: space-between;
+  align-items: center; 
+  border-radius: 10px;
+  width: 200px;
+  background: white;
+  list-style-type: none;
+}

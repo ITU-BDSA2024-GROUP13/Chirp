@@ -41,26 +41,24 @@
                     if(i > Model.CurrentPage + 3){
                         if(i == Model.LastPage){
                             <fill>..</fill>
-                            <li onclick = "location.href = 'users/@ViewData["Location"]?page=@i'" > @i</li>
+                            <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
                         }
                     } else if(Model.CurrentPage == i){
-                        <li id = "current" onclick = "location.href = 'users/@ViewData["Location"]?page=@i'" > @i</li>
+                        <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
                     }else{
-                        <li onclick = "location.href = 'users/@ViewData["Location"]?page=@i'" > @i</li>
+                        <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
                     }
-
-
 
                 }else if (Model.CurrentPage == Model.LastPage){
                     if(i < Model.CurrentPage - 3){
                         if(i == 0){
-                            <li onclick = "location.href = 'users/@ViewData["Location"]?page=@i'" > @i</li>
+                            <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
                             <fill>..</fill>
                         }
                     } else if(Model.CurrentPage == i){
-                        <li id = "current" onclick = "location.href = 'users/@ViewData["Location"]?page=@i'" > @i</li>
+                        <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
                     }else{
-                        <li onclick = "location.href = 'users/@ViewData["Location"]?page=@i'" > @i</li>
+                        <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
                     }
 
 
@@ -71,18 +69,18 @@
                             if(Model.CurrentPage + 3 < Model.LastPage){
                                 <fill>..</fill>
                             }
-                            <li onclick = "location.href = 'users/@ViewData["Location"]?page=@i'" > @i</li>
+                            <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
 
                         } else if(i == 0){
-                            <li onclick = "location.href = 'users/@ViewData["Location"]?page=@i'" > @i</li>
+                            <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
                             if(Model.CurrentPage - 3 > 0){
                                 <fill>..</fill>
                             }
                         }
                     } else if(Model.CurrentPage == i){
-                        <li id = "current" onclick = "location.href = 'users/@ViewData["Location"]?page=@i'" > @i</li>
+                        <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
                     } else{
-                        <li onclick = "location.href = 'users/@ViewData["Location"]?page=@i'" > @i</li>
+                        <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
                     }
                 }
             }

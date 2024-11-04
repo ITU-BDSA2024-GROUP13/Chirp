@@ -60,19 +60,6 @@ header, .brand-container {
     margin-inline: 0;
 }
 
-.pagelist{
-    display: flex;
-    border: 1.5px solid rgba(175, 175, 175, 0.748);
-    padding: 7px;
-    font-size: 10px;
-    justify-content: space-between;
-    align-items: center; 
-    border-radius: 10px;
-    width: 200px;
-    background: white;
-
-}
-
 #current{
     background: rgb(64, 144, 205);
 }
