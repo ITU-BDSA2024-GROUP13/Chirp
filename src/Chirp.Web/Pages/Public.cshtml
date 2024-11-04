@@ -7,6 +7,15 @@
     ViewData["Location"] = "";
 }
 
+@await Html.PartialAsync("_Nav", new NavPartialView {
+    Count = @Model.Count,
+    NextPage = @Model.NextPage,
+    PreviousPage = @Model.PreviousPage,
+    CurrentPage = @Model.CurrentPage,
+    LastPage = @Model.LastPage,
+    SearchName = @Model.SearchName
+})
+
 <h2 class="name-timeline"> Public Timeline </h2>
 
 @if (Model.Cheeps.Any())

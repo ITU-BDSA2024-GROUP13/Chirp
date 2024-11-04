@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Services;
 using Chirp.Core.DTO;
-using Microsoft.AspNetCore.Html;
-using Chirp.Core.Entities;
 
 public abstract class TimeLine(ICheepService cheepService) : PageModel 
 {    
@@ -32,18 +30,5 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
     public DateTime ToDateTime(long value){
         return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
-    }
-
-    public HtmlString Tag(string name, string imageUrl, string targetPage){
-        return new HtmlString( $@"
-            <div class=""tag"" onClick=""window.location = '{targetPage}'"">
-                <img 
-                    src = ""{imageUrl}""
-                    alt=""{name}"" 
-                    id=""icon""
-                />
-                {name}
-            </div>
-        ");
     }
 }
