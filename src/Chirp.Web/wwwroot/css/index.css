@@ -14,7 +14,7 @@ html {
 
 a {
     font-weight: 500;
-    color: #4b1515;
+    color: black;
 
     text-decoration: inherit;
 }
@@ -43,6 +43,7 @@ header {
     font-size: 20px;
     margin-left: 20px;
     margin-right: 20px;
+
 }
 
 a:hover {
@@ -68,6 +69,7 @@ header, .brand-container {
     justify-content: center;
     margin-inline: 0;
 }
+
 
 #current{
     background: rgb(64, 144, 205);

@@ -1,31 +1,40 @@
-using Chirp.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Chirp.Core.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 namespace Chirp.Repositories;
-using Chirp.Core.Entities;
-
-
-public class CheepDBContext(DbContextOptions<CheepDBContext> options) : DbContext(options)
+public class CheepDBContext : IdentityDbContext<ApplicationUser>
 {
+
+    public CheepDBContext(DbContextOptions<CheepDBContext> options) : base(options) {}
+
     public DbSet<Author> Authors { get; set; }
     public DbSet<Cheep> Cheeps { get; set; }
-
+    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+       base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Cheep>()
-        .HasKey(a => new { a.CheepId });
-        
+    // Your custom configurations for the Cheep entity
+    modelBuilder.Entity<Cheep>()
+        .HasKey(c => c.CheepId);
 
-        modelBuilder.Entity<Cheep>()
-        .Property(t => t.Text)
+    modelBuilder.Entity<Cheep>()
+        .Property(c => c.Text)
         .IsRequired()
         .HasMaxLength(160);
 
-        modelBuilder.Entity<Author>()
-        .HasKey(a => new { a.AuthorId });
-    }
+    // Your custom configurations for the Author entity
+    modelBuilder.Entity<Author>()
+        .HasKey(a => a.AuthorId);
 
+    // Define the relationship between Cheep and Author
+    modelBuilder.Entity<Cheep>()
+        .HasOne(c => c.Author)
+        .WithMany(a => a.Cheeps)
+        .HasForeignKey(c => c.AuthorId);
+    }
 
 }
