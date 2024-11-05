@@ -1,0 +1,114 @@
+
+<nav>
+                
+    <div class="nav-tags">
+        <div class="tag" onClick="window.location = '/'">
+            <img 
+                src = "/assets/home.png"
+                alt="Public timeline" 
+                id="icon"
+            />
+            Public timeline
+        </div>
+
+        <div class="tag" onClick="window.location = '/'">
+            <img 
+                src = "/assets/user.png"
+                alt="My timeline" 
+                id="icon"
+            />
+            My timeline
+        </div>
+    </div>
+
+    <form class="searchbar" name="search"">
+        <input id="search" type="search" />
+        <div class="results">
+            
+        </div>
+    </form>
+
+    <div class="navigation">
+        <!-- Defines the 'prev' button which will function as a way to go to the
+        previous page by clicking on it-->
+        @if(Model.CurrentPage != 0){
+            <a href="?page=@Model.PreviousPage">
+                <button class="nav-arrow">
+                    <img src="/assets/arrow.png" class="arrow" id="left" />
+                </button>
+            </a>
+        }
+
+        <!-- Defines the 'pagelist' which will function as a way to navigate
+        simply by using numbers in the bottom of a page-->
+        <ul class="pagelist">
+            @for(int i = 0; i <= Model.Count / 32; i++){
+                if(Model.CurrentPage == 0){
+                    if(i > Model.CurrentPage + 3){
+                        if(i == Model.LastPage){
+                            <fill>..</fill>
+                            <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
+                        }
+                    } else if(Model.CurrentPage == i){
+                        <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                    }else{
+                        <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
+                    }
+
+                }else if (Model.CurrentPage == Model.LastPage){
+                    if(i < Model.CurrentPage - 3){
+                        if(i == 0){
+                            <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
+                            <fill>..</fill>
+                        }
+                    } else if(Model.CurrentPage == i){
+                        <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                    }else{
+                        <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
+                    }
+
+
+
+                }else{
+                    if(i > Model.CurrentPage + 2 || i < Model.CurrentPage -2){
+                        if(i == Model.LastPage){
+                            if(Model.CurrentPage + 3 < Model.LastPage){
+                                <fill>..</fill>
+                            }
+                            <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
+
+                        } else if(i == 0){
+                            <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
+                            if(Model.CurrentPage - 3 > 0){
+                                <fill>..</fill>
+                            }
+                        }
+                    } else if(Model.CurrentPage == i){
+                        <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                    } else{
+                        <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
+                    }
+                }
+            }
+        </ul>
+        
+        
+
+        <!-- Defines the 'next' button which will function as a way to go to the
+        next page by clicking on it-->
+        @if(Model.CurrentPage != Model.LastPage){
+            
+            <a href="?page=@Model.NextPage">
+                <button class="nav-arrow">
+                    <img src="/assets/arrow.png" class="arrow" id="right" />
+                </button>
+            </a>
+        }
+    </div>
+</nav>
+
+<script>
+    function debug(){
+        console.log("im working")
+    }
+</script>
