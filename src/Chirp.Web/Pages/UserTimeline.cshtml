@@ -1,136 +1,30 @@
 ﻿@page "/{author}"
-@model Chirp.Web.Razor.UserTimelineModel
+@using Chirp.Web.models
+@model Chirp.Web.models.UserTimelineModel
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "./Shared/_Layout.cshtml";
     var routeName = HttpContext.GetRouteValue("author");
+    ViewData["Location"] = $@"{routeName}";
 }
 
-<div>
-    <div class = "navbar">
-        <div class = "pages">
-            <a href = "/">public timeline</a>
-        </div>
-        <!-- Defines the 'pagelist' which will function as a way to navigate
-        simply by using numbers in the bottom of a page-->
-        <ul class="pagelist">
-            @for(int i = 0; i <= Model.Count / 32; i++){
-                if(Model.CurrentPage == 0){
-                    if(i > Model.CurrentPage + 3){
-                        if(i == Model.LastPage){
-                            <fill>..</fill>
-                            <li onclick = "location.href = '/@routeName/?page=@i'" > @i</li>
-                        }
-                    } else if(Model.CurrentPage == i){
-                        <li id = "current" onclick = "location.href = '/@routeName/?page=@i'" > @i</li>
-                    }else{
-                         <li onclick = "location.href = '/@routeName/?page=@i'" > @i</li>
-                    }
+
+<h2 class="name-timeline"> @routeName's Timeline </h2>
 
 
 
-                }else if (Model.CurrentPage == Model.LastPage){
-                     if(i < Model.CurrentPage - 3){
-                        if(i == 0){
-                            <li onclick = "location.href = '/@routeName/?page=@i'" > @i</li>
-                            <fill>..</fill>
-                        }
-                    } else if(Model.CurrentPage == i){
-                        <li id = "current" onclick = "location.href = '/@routeName/?page=@i'" > @i</li>
-                    }else{
-                         <li onclick = "location.href = '/@routeName/?page=@i'" > @i</li>
-                    }
-
-
-
-                }else{
-                    if(i > Model.CurrentPage + 2 || i < Model.CurrentPage -2){
-                        if(i == Model.LastPage){
-                            if(Model.CurrentPage + 3 < Model.LastPage){
-                                <fill>..</fill>
-                            }
-                            <li onclick = "location.href = '/@routeName/?page=@i'" > @i</li>
-
-                        } else if(i == 0){
-                            <li onclick = "location.href = '/@routeName/?page=@i'" > @i</li>
-                            if(Model.CurrentPage - 3 > 0){
-                                <fill>..</fill>
-                            }
-                        }
-                    } else if(Model.CurrentPage == i){
-                        <li id = "current" onclick = "location.href = '/@routeName/?page=@i'" > @i</li>
-                    } else{
-                        <li onclick = "location.href = '/@routeName/?page=@i'" > @i</li>
-                    }
-                }
-            }
-        </ul>
-
-
-        <div class = "buttons">
-        <!-- Defines the 'prev' button which will function as a way to go to the
-        previous page by clicking on it-->
-        @if(Model.CurrentPage != 0){
-            <a href = "/@routeName/?page=@Model.PreviousPage">
-                <button class = "left" id = "button"> 
-                    <img src="/images/arrow.png" class = "arrowRight"/>
-                </button>
-            </a>
-        }else{
-            <button class = "left" id = "limit"> 
-                <img src="/images/arrow.png" class = "arrowRight"/>
-            </button>
-        }
-
-        <!-- Defines the 'next' button which will function as a way to go to the
-        next page by clicking on it-->
-        @if(Model.CurrentPage != Model.LastPage){
-            <a href = "/@routeName/?page=@Model.NextPage">
-                <button class = "right" id = "button">
-                    <img src="/images/arrow.png" class = "arrow"/>
-                </button>
-            </a>
-        } else{
-            <button class = "right" id = "limit">
-                <img src="/images/arrow.png" class = "arrow"/>
-            </button>
-        }
-        </div>
-
-    </div>
-
-
-    <h2> @routeName's Timeline </h2>
-
-    @if (Model.Cheeps.Any())
+@if (Model.Cheeps.Any())
+{
+    @foreach (var cheep in Model.Cheeps)
     {
-        <ul id="messagelist" class="cheeps">
-            @foreach (var cheep in Model.Cheeps)
-            {
-                <li>
-                   <div class="cheep-content">
-                        <strong class="author">
-                            <a href="/@cheep.Author">@cheep.Author</a>
-                        </strong>
-                        <p class="message">
-                            @cheep.Text
-                        </p>
-                        <span class="date">&mdash; @ToDateTime(cheep.Timestamp)</span>
-                    </div>
-                </li>
-            }
-         </ul>
+        @await Html.PartialAsync("_Cheep", new CheepPartialView {
+            Author= cheep.Author,
+            Body= cheep.Text,
+            Date= cheep.Timestamp
+        })
     }
-    else
-    {
-        <em>There are no cheeps so far.</em>
-    }
-
-    
-</div>
-
- @functions{
-        public DateTime ToDateTime(long value){
-            return Chirp.Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
-    }
-    }
+}
+else
+{
+    <em>There are no cheeps so far.</em>
+}
