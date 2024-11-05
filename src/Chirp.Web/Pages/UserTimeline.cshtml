@@ -8,14 +8,7 @@
     ViewData["Location"] = $@"{routeName}";
 }
 
-@await Html.PartialAsync("_Nav", new NavPartialView {
-    Count = @Model.Count,
-    NextPage = @Model.NextPage,
-    PreviousPage = @Model.PreviousPage,
-    CurrentPage = @Model.CurrentPage,
-    LastPage = @Model.LastPage,
-    SearchName = @Model.SearchName
-})
+@await Html.PartialAsync("_Nav")
 
 <h2 class="name-timeline"> @routeName's Timeline </h2>
 @if (Model.Cheeps.Any())
