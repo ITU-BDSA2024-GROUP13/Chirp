@@ -30,11 +30,9 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<CheepDBContext>();
-
-        // Apply any pending migrations
         context.Database.Migrate();
 
-        // Seed the database
+        // Ensures "default" data from DbInitializer is shown on website.
         DbInitializer.SeedDatabase(context);
     }
     catch (Exception ex)

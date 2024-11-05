@@ -19,6 +19,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.8" />
+    <PackageReference Version="8.0.0" Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
+    <PackageReference Version="8.0.0" Include="Microsoft.EntityFrameworkCore.Tools" />
   </ItemGroup>
     
 </Project>
