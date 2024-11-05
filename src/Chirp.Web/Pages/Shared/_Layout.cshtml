@@ -16,11 +16,15 @@
                 <div class="nav-tags">
                     @Model.Tag("Public timeline","/assets/home.png","/")
                     @Model.Tag("My timeline","./assets/user.png","")
+                    <div class = "login">
+                        @await Html.PartialAsync("_LoginPartial")
+                    </div>
                 </div>
 
                 <div class="navigation">
                     <!-- Defines the 'prev' button which will function as a way to go to the
                     previous page by clicking on it-->
+
                     @if(Model.CurrentPage != 0){
                         <a href="?page=@Model.PreviousPage">
                             <button class="nav-arrow">
@@ -94,40 +98,10 @@
                         </a>
                     }
                 </div>
-<<<<<<< HEAD
-                <div class = "filter">
-                    <button type = "button" id = "filterimage">
-                        <img src="/images/filter.png">
-                    </button>
-                    <div class = "filter-options">
-                        <button>Author</button>
-                        <button>Email</button>
-                        <button>Cheep</button>
-
-                    </div>
-                </div>
-
-                
-            </div>
-        </form>
-
-        <div class = "login">
-           @await Html.PartialAsync("_LoginPartial")
-        </div>
-
-    </h1>
-    
-    @if(true){
-    }
-
-    <div class=page>
-        <div class=body>
-=======
             </nav>
         </div>
         
         <main class="cheep-container">
->>>>>>> main
             @RenderBody()
         </main>
 
