@@ -4,6 +4,12 @@ body {
     display: flex;
     flex-direction: column;
     place-items: center;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+html {
+    overflow-x: hidden;
 }
 
 a {
@@ -15,64 +21,43 @@ a {
 
 header {
     display: flex; 
+    justify-content: space-between;
     width: 100%;
     flex-direction: row;
-    margin: 0;
-    margin-left: 0;
     border-bottom: 2px solid #4b1515;
-    padding: 20px;
 }
 
-nav {
+.searchbar {
     display: flex;
-    flex-direction: row;
-    margin-top: 10px;
-    align-items: center;
-    justify-content: center;
-    justify-content: space-between;
 }
 
-.navigation {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 5px;
-    margin-right: 20px;
+#search {
+    width: 200px;
 }
 
 .title {
     width: 100%;
-    display: flex;
     top: 0;
     background-color: gray;
     position: fixed;
     font-size: 20px;
-    flex-direction: column;
     margin-left: 20px;
     margin-right: 20px;
-    border-bottom: 2px solid #4b1515;
-}
 
-.nav-tags {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    margin-left: 20px;
-    cursor: pointer;
 }
 
 a:hover {
     color: rgb(64, 144, 205);
 }
 
-header, .brand {
+header, .brand-container {
+    margin-right: auto;
     display: flex;
     flex-direction: row;
     align-items: center;
     left: 0;
     gap: 20px;
-    margin-left: 10px;
-    margin-block: 0;
+    padding-left: 20px;
 }
 
 /*USED FOR THE BIRDS SIZE*/
@@ -85,22 +70,6 @@ header, .brand {
     margin-inline: 0;
 }
 
-.nav-item{
-    color: black;
-}
-
-.pagelist{
-    display: flex;
-    border: 1.5px solid rgba(175, 175, 175, 0.748);
-    padding: 7px;
-    font-size: 10px;
-    justify-content: space-between;
-    align-items: center; 
-    border-radius: 10px;
-    width: 200px;
-    background: white;
-
-}
 
 #current{
     background: rgb(64, 144, 205);
@@ -115,17 +84,75 @@ button {
     cursor: pointer;
 }
 
-.nav-arrow {
-    border-radius: 100px;
+footer {
+    display: flex;
+    position: fixed;
     flex-direction: row;
+    width: 100%;
+    bottom: 0;
+    justify-items: center;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.post {
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    padding: 2.5px;
+    background-color: gray;
+    margin: 10px;
+    border-radius: 100%;
+    border: #4b151541 solid;
 }
 
-#left, #right {
-    height: 10px;
-    width: 10px;
+.post:hover {
+    cursor: pointer;
 }
 
-#left {
-    transform: rotate(180deg);
+.post #post-button {
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+    height: 20px;
+    width: 20px;
+    border: unset;
+}
+
+#post {
+    visibility: hidden;
+}
+
+.cheep-post-form {
+    bottom: 80px;   
+    right: 10px;
+    position: fixed;
+    background-color: whitesmoke;
+    border: 1px solid #4b1515;
+    visibility: hidden;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    height: 100px;
+    width: 400px;
+    border-radius: 20px;
+}
+
+#post-input {
+    height: 100%;
+    text-align:left;
+    align-items: flex-start;
+    border-radius: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+.post-placeholder {
+    position: absolute;
+    top: 60px;
+    left: 40px;
+    color: #4b15155e;
+    transition: top 0.3s ease, opacity 0.3s ease; /* Thank you ChatGPT */
 }

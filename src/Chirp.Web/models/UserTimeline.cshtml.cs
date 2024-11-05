@@ -11,19 +11,15 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
 {
     public async Task<ActionResult> OnGetAsync(string author, int page = 0)
     {
-        var pageQuery = Request.Query["page"];
-        if (!pageQuery.Equals("") && pageQuery.Count > 0){
-            page = Int32.Parse(pageQuery[0]);
-        }
+
         Cheeps = await _cheepService.ReadUserMessages(author, page);
         Count = await _cheepService.CountUserMessages(author);
-        CurrentPage = page;
-        NextPage = page+1;
-        PreviousPage = DefinePreviousPage(page);
-        LastPage = DefineLastPage();
         if(!string.IsNullOrEmpty(SearchName)){
             Authors = await _cheepService.FindAuthorByName(SearchName);
         }
+
+        UpdatePage(page);
+
         return Page();
     }
 }

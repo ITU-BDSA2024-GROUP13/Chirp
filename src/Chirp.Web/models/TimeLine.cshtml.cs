@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Services;
 using Chirp.Core.DTO;
-using Microsoft.AspNetCore.Html;
-using Chirp.Core.Entities;
+using Microsoft.Extensions.Primitives;
+
 
 public abstract class TimeLine(ICheepService cheepService) : PageModel 
 {    
@@ -29,21 +29,21 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         int LastPage = (int) Math.Ceiling(p);
         return LastPage;
     }
+    
+    protected void UpdatePage(int page)
+    {
+        var pageQuery = Request.Query["page"];
+        if (!pageQuery.Equals("") && pageQuery.Count > 0){
+            page = Int32.Parse(pageQuery[0]);
+        }
+        
+        CurrentPage = page;
+        NextPage = page+1;
+        PreviousPage = DefinePreviousPage(page);
+        LastPage = DefineLastPage();
+    }
 
     public DateTime ToDateTime(long value){
         return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
-    }
-
-    public HtmlString Tag(string name, string imageUrl, string targetPage){
-        return new HtmlString( $@"
-            <div class=""tag"" onClick=""window.location = '{targetPage}'"">
-                <img 
-                    src = ""{imageUrl}""
-                    alt=""{name}"" 
-                    id=""icon""
-                />
-                {name}
-            </div>
-        ");
     }
 }
