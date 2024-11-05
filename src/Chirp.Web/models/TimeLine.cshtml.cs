@@ -31,4 +31,9 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     public DateTime ToDateTime(long value){
         return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
     }
+
+    public async void Post(){
+        
+        
+    }
 }

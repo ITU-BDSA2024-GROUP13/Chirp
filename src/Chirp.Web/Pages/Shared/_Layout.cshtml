@@ -27,13 +27,29 @@
         </footer>
 
         <form class="cheep-post-form" id="post">
-            <label class="cheep-post-label">
-                <strong>Cheep</strong>
-                <input type="text" name="cheep" placeholder="What is on your mind?" />
-            </label>
+            <input type="text" id="post-input">
+                <div class="post-placeholder" id="post-placeholder"> What's on your mind? </div> 
+            </input>
         </form>
 
         <script>
+            
+            document.addEventListener("DOMContentLoaded", () => {
+                var postInput = document.getElementById("post-input")
+                postInput.addEventListener("focus", () => movePlaceholder())
+                postInput.addEventListener("blur", () => movePlaceholder())
+
+                postInput.addEventListener("keydown", function(event) {
+                    if (event.key === "Enter") {
+                        event.preventDefault();
+                        console.log(postInput.value)
+                        // TODO create POST method in model
+                        toggleVisibility()
+                    }
+                })
+                
+            })
+
             function rotate(){
                 var img = document.getElementById("post-button")
                 img.style.transform = img.style.transform == "rotate(45deg)" ? "rotate(0deg)" : "rotate(45deg)"
@@ -43,6 +59,23 @@
             function toggleVisibility(){
                 var form = document.getElementById("post")
                 form.style.visibility = form.style.visibility == "visible" ? "hidden" : "visible";
+            }
+
+            function movePlaceholder(){
+                var div = document.getElementById("post-placeholder")
+                var style = window.getComputedStyle(div)
+
+                if(style.top == "60px") {
+                    div.style.top = "4px"
+                    div.style.color = "rgb(75, 21, 21)"
+                } else {
+                    div.style.top = "60px"
+                    div.style.color = "rgba(75, 21, 21, 0.37)"
+                    document.getElementById("post-input").value = "";
+                }
+
+                // "rgba(75, 21, 21, 0.37)"
+                
             }
         </script>
         
