@@ -63,6 +63,27 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository {
         return;
     }
 
+    /// <summary>
+    /// This is a method which is a query to get all the users of a given search. 
+    /// It will only return the amount of users specified.
+    /// </summary>
+    /// <param name="searchValue"></param>
+    /// <param name="amount"></param>
+    /// <returns></returns>
 
+    public async Task<List<AuthorDTO>> GetUsersOfSearch(string searchValue, int amount){
+
+        var query = _dbContext.Authors.Where(author => author.Name.Contains(searchValue))
+        .Take(amount)
+        .Select(author => new AuthorDTO
+        {
+            Name = author.Name,
+            Email = author.Email
+        });
+
+        var result = await query.ToListAsync();
+
+        return result;
+    }
 
 }
