@@ -27,6 +27,10 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
+    if (File.Exists(@"Chat.db")){
+        File.Delete(@"Chat.db");
+    }
+
     try
     {
         var context = services.GetRequiredService<CheepDBContext>();
