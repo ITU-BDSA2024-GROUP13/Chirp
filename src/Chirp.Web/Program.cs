@@ -11,18 +11,42 @@ using Microsoft.AspNetCore.Identity;
 if (File.Exists(@"Chat.db")){
     File.Delete(@"Chat.db");
 }
+
+var allowOrigins = "_allowOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options => 
+{
+    options.AddPolicy(name: allowOrigins,
+    policy =>
+    {
+        policy.WithOrigins("https://bdsagroup013chirprazor.azurewebsites.net",
+        "http://localhost:5273/",
+        "http://localhost:5000/");
+    }
+    );
+});
 
 builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite("Data Source=Chat.db"));
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<CheepDBContext>();
 builder.Services.AddRazorPages();
+builder.Services.AddMvc();
 
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<ICheepService, CheepService>();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+
+builder.Services.AddHsts( options => options.MaxAge = TimeSpan.FromHours(1));
+
 var app = builder.Build();
+
+if(app.Environment.IsProduction())
+{
+    app.UseHsts(); // Send HSTS headers, but only in production
+}
 
 using (var scope = app.Services.CreateScope())
 {
@@ -61,7 +85,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseCors(allowOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();
