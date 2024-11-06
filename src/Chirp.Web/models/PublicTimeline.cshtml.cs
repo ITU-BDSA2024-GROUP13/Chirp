@@ -10,8 +10,10 @@ using System.Threading.Tasks;
 public class PublicTimeLine(ICheepService cheepService) : TimeLine(cheepService)
 {
 
-    public async Task<ActionResult> OnGetAsync(int page = 0)
-    {        
+    public async Task<ActionResult> OnGetAsync()
+    {    
+        int page = UpdatePage();
+    
         Cheeps = await _cheepService.ReadPublicMessages(page);
         Count = await _cheepService.CountPublicMessages();
         if(!string.IsNullOrEmpty(SearchName))
