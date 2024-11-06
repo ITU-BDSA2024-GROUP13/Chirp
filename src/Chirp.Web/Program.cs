@@ -8,11 +8,12 @@ using Microsoft.AspNetCore.Identity;
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8604 // Dereference of a possibly null reference.
 
-
+if (File.Exists(@"Chat.db")){
+    File.Delete(@"Chat.db");
+}
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite(connectionString));
+builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite("Data Source=Chat.db"));
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<CheepDBContext>();
 builder.Services.AddRazorPages();
 
@@ -26,6 +27,8 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+
+
 
     try
     {

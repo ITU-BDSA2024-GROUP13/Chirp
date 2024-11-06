@@ -30,7 +30,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         return LastPage;
     }
     
-    protected void UpdatePage(int page)
+    protected int UpdatePage(int page = 0)
     {
         var pageQuery = Request.Query["page"];
         if (!pageQuery.Equals("") && pageQuery.Count > 0){
@@ -41,6 +41,8 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         NextPage = page+1;
         PreviousPage = DefinePreviousPage(page);
         LastPage = DefineLastPage();
+
+        return page;
     }
 
     public DateTime ToDateTime(long value){

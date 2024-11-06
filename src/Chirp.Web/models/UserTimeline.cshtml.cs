@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepService)
 {
-    public async Task<ActionResult> OnGetAsync(string author, int page = 0)
+    public async Task<ActionResult> OnGetAsync(string author)
     {
+        int page = UpdatePage();
 
         Cheeps = await _cheepService.ReadUserMessages(author, page);
         Count = await _cheepService.CountUserMessages(author);
