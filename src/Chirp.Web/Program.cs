@@ -21,7 +21,9 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: allowOrigins,
     policy =>
     {
-        policy.WithOrigins("https://bdsagroup013chirprazor.azurewebsites.net");
+        policy.WithOrigins("https://bdsagroup013chirprazor.azurewebsites.net",
+        "http://localhost:5273/",
+        "http://localhost:5000/");
     }
     );
 });
@@ -36,7 +38,15 @@ builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<ICheepService, CheepService>();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+
+builder.Services.AddHsts( options => options.MaxAge = TimeSpan.FromHours(1));
+
 var app = builder.Build();
+
+if(app.Environment.IsProduction())
+{
+    app.UseHsts(); // Send HSTS headers, but only in production
+}
 
 using (var scope = app.Services.CreateScope())
 {
