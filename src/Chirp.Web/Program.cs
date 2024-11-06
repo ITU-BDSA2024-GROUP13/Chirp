@@ -11,7 +11,20 @@ using Microsoft.AspNetCore.Identity;
 if (File.Exists(@"Chat.db")){
     File.Delete(@"Chat.db");
 }
+
+var allowOrigins = "_allowOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options => 
+{
+    options.AddPolicy(name: allowOrigins,
+    policy =>
+    {
+        policy.WithOrigins("https://bdsagroup013chirprazor.azurewebsites.net");
+    }
+    );
+});
 
 builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite("Data Source=Chat.db"));
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<CheepDBContext>();
@@ -62,7 +75,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseCors(allowOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();
