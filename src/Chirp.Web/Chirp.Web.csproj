@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 
   <PropertyGroup>
@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <SelfContained>false</SelfContained>
+    <UserSecretsId>fd0ec35c-3c54-4309-8ea1-06b5d150f629</UserSecretsId>
   </PropertyGroup>
 
  <ItemGroup>
@@ -13,6 +14,7 @@
     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </None>
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="8.2.0" />
 
     <ProjectReference Include="../Chirp.Infrastructure/Chirp.Services/Chirp.Services.csproj" />
     <ProjectReference Include="../Chirp.Infrastructure/Chirp.Repositories/Chirp.Repositories.csproj" />

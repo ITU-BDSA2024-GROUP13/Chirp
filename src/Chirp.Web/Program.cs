@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using AspNet.Security.OAuth.GitHub;
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8604 // Dereference of a possibly null reference.
@@ -41,6 +43,20 @@ builder.Logging.AddConsole();
 
 builder.Services.AddHsts( options => options.MaxAge = TimeSpan.FromHours(1));
 
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = "GitHub";
+    })
+    .AddCookie()
+    .AddGitHub(o =>
+    {
+        o.ClientId = builder.Configuration["authentication:github:clientId"] ?? string.Empty;
+        o.ClientSecret = builder.Configuration["authentication:github:clientSecret"] ?? string.Empty;
+        o.CallbackPath = "/signin-github";
+    });
+    
 var app = builder.Build();
 
 if(app.Environment.IsProduction())
