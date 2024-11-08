@@ -12,7 +12,13 @@ public class CheepDBContext : IdentityDbContext<ApplicationUser>
     public DbSet<Author> Authors { get; set; }
     public DbSet<Cheep> Cheeps { get; set; }
     
-
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+{
+    if (!optionsBuilder.IsConfigured)
+    {
+        optionsBuilder.UseSqlite("Data Source=Chat.db");
+    }
+}
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
        base.OnModelCreating(modelBuilder);
