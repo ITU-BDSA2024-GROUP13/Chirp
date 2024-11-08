@@ -1,8 +1,6 @@
 using Chirp.Services;
 using Chirp.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using AspNet.Security.OAuth.GitHub;
@@ -52,13 +50,7 @@ builder.Logging.AddConsole();
 
 builder.Services.AddHsts( options => options.MaxAge = TimeSpan.FromHours(1));
 
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = "GitHub";
-    })
-    .AddCookie()
+builder.Services.AddAuthentication()
     .AddGitHub(o =>
     {
         o.ClientId = builder.Configuration["authentication:github:clientId"] ?? string.Empty;
@@ -76,8 +68,6 @@ if(app.Environment.IsProduction())
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-
-
 
     try
     {
