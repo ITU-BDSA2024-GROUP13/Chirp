@@ -53,8 +53,8 @@ builder.Services.AddHsts( options => options.MaxAge = TimeSpan.FromHours(1));
 builder.Services.AddAuthentication()
     .AddGitHub(o =>
     {
-        o.ClientId = builder.Configuration["authentication:github:clientId"] ?? string.Empty;
-        o.ClientSecret = builder.Configuration["authentication:github:clientSecret"] ?? string.Empty;
+        o.ClientId = "Ov23liXdZEY87yaZCSlR";
+        o.ClientSecret = "ddc835be6e70422f6172d53a52d6bd008a210c61";
         o.CallbackPath = "/signin-github";
     });
     
