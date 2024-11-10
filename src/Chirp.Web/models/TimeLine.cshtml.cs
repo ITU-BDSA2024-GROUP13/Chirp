@@ -53,14 +53,15 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
     public IActionResult OnPost([FromBody] PostRequest postRequest)
     {
-        if (postRequest?.PostString == null)
+        
+        if (postRequest?.PostString == null || postRequest?.PostString.Length < 1 )
         {
             Console.WriteLine("Error: PostString was null.");
             return BadRequest("PostString cannot be null.");
         }
 
         Console.WriteLine("Received PostString: " + postRequest.PostString);
-
+        
         // Process payload as needed
         return new JsonResult(new { success = true, message = "PostString successfully processed" });
     }
