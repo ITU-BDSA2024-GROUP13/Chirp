@@ -19,6 +19,8 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     public int LastPage { get; set; }
     [BindProperty( SupportsGet = true )]
     public string? SearchName { get; set; }
+    [BindProperty( SupportsGet = true )]
+    public string? PostString { get; set; }
 
     public int DefinePreviousPage(int page){
         return page == 0 ? 0 : page-1;
@@ -48,4 +50,25 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     public DateTime ToDateTime(long value){
         return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
     }
+
+    public IActionResult OnPost([FromBody] PostRequest postRequest)
+    {
+        if (postRequest?.PostString == null)
+        {
+            Console.WriteLine("Error: PostString was null.");
+            return BadRequest("PostString cannot be null.");
+        }
+
+        Console.WriteLine("Received PostString: " + postRequest.PostString);
+
+        // Process payload as needed
+        return new JsonResult(new { success = true, message = "PostString successfully processed" });
+    }
+
+
+    public class PostRequest
+    {
+        public string? PostString { get; set; }
+    }
+    
 }
