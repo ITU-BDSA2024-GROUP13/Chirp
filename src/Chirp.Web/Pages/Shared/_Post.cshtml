@@ -1,4 +1,4 @@
-<form class="cheep-post-form" id="post">
+<form class="cheep-post-form" id="post" asp-page-handler="Save">
     <input type="text" id="post-input">
     @Html.AntiForgeryToken()
     <div class="post-placeholder" id="post-placeholder"> What's on your mind? </div> 
@@ -19,9 +19,9 @@
             if (event.key === "Enter") {
                 event.preventDefault();
 
-                const antiforgeryToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
-
-                fetch(window.location.href, {
+                const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                // TODO: add name of account in json
+                fetch(window.location.href + "?handler=Save", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -33,9 +33,9 @@
                     })
                 })
                 .then(response => response.json())
-                .then(
-                    postInput.value = `${postInput.value} [succes]`
-                )
+                .then(data => {
+                    console.log(data)
+                })
                 .catch(error => {
                     console.error("Error:", error);
                     postInput.value = `${postInput.value} [failure]`

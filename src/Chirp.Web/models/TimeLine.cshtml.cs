@@ -50,9 +50,9 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
     }
 
-    public async Task<IActionResult> OnPost([FromBody] PostRequest postRequest)
+    public async Task<IActionResult> OnPostSave([FromBody] PostRequest postRequest)
     {
-        if (postRequest?.PostString == null || postRequest?.PostString.Length < 1 )
+        if (String.IsNullOrWhiteSpace(postRequest?.PostString))
         {
             Console.WriteLine("Error: PostString was null.");
             return BadRequest("PostString cannot be null.");
@@ -67,6 +67,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
             Timestamp = unixTime,
             AuthorId = 1
         });
+        
         Console.WriteLine($"Received PostString:\nAuthor: {postRequest?.PostName}\nBody: {postRequest?.PostString}");
 
         return new JsonResult(new { success = true, message = "PostString successfully processed" });
