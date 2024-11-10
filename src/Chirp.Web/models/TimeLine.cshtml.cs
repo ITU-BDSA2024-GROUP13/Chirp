@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Services;
 using Chirp.Core.DTO;
-using Microsoft.Extensions.Primitives;
-
+using Chirp.Repositories;
 
 public abstract class TimeLine(ICheepService cheepService) : PageModel 
 {    
@@ -51,25 +50,33 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
     }
 
-    public IActionResult OnPost([FromBody] PostRequest postRequest)
+    public async Task<IActionResult> OnPost([FromBody] PostRequest postRequest)
     {
-        
         if (postRequest?.PostString == null || postRequest?.PostString.Length < 1 )
         {
             Console.WriteLine("Error: PostString was null.");
             return BadRequest("PostString cannot be null.");
         }
 
-        Console.WriteLine("Received PostString: " + postRequest.PostString);
-        
-        // Process payload as needed
+        DateTime currentTime = DateTime.UtcNow;
+        long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeSeconds();
+
+        await _cheepService.CreateMessage(new CheepDTO{
+            Author = postRequest.PostName,
+            Text = postRequest.PostString,
+            Timestamp = unixTime,
+            AuthorId = 1
+        });
+        Console.WriteLine($"Received PostString:\nAuthor: {postRequest?.PostName}\nBody: {postRequest?.PostString}");
+
         return new JsonResult(new { success = true, message = "PostString successfully processed" });
     }
 
 
     public class PostRequest
     {
-        public string? PostString { get; set; }
+        public required string PostString { get; set; }
+        public required string PostName { get; set; }
     }
     
 }

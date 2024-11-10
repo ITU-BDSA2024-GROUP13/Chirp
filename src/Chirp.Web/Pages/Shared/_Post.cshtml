@@ -27,15 +27,18 @@
                         "Content-Type": "application/json",
                         "RequestVerificationToken": antiforgeryToken
                     },
-                    body: JSON.stringify({ postString: postInput.value })
+                    body: JSON.stringify({ 
+                        postName: "Helge",
+                        postString: postInput.value 
+                    })
                 })
                 .then(response => response.json())
-                .then(data => {
-                    console.log("Response from server:", data);
-                    toggleVisibility();
-                })
+                .then(
+                    postInput.value = `${postInput.value} [succes]`
+                )
                 .catch(error => {
                     console.error("Error:", error);
+                    postInput.value = `${postInput.value} [failure]`
                 });
             }
         });
