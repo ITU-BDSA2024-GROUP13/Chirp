@@ -12,8 +12,8 @@
     document.addEventListener("DOMContentLoaded", () => {
         const postInput = document.getElementById("post-input");
 
-        postInput.addEventListener("focus", () => movePlaceholder());
-        postInput.addEventListener("blur", () => movePlaceholder());
+        postInput.addEventListener("focus", () => movePostPlaceholder());
+        postInput.addEventListener("blur", () => movePostPlaceholder());
 
         postInput.addEventListener("keydown", function(event) {
             if (event.key === "Enter") {
@@ -47,15 +47,10 @@
     function rotate(){
         const img = document.getElementById("post-button");
         img.style.transform = img.style.transform === "rotate(45deg)" ? "rotate(0deg)" : "rotate(45deg)";
-        toggleVisibility();
+        toggleVisibilityById("post");
     }
 
-    function toggleVisibility(){
-        const form = document.getElementById("post");
-        form.style.visibility = form.style.visibility === "visible" ? "hidden" : "visible";
-    }
-
-    function movePlaceholder(){
+    function movePostPlaceholder(){
         const div = document.getElementById("post-placeholder");
         const input = document.getElementById("post-input");
 

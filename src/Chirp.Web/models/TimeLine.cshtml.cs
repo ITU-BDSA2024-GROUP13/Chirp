@@ -18,8 +18,6 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     public int LastPage { get; set; }
     [BindProperty( SupportsGet = true )]
     public string? SearchName { get; set; }
-    [BindProperty( SupportsGet = true )]
-    public string? PostString { get; set; }
 
     public int DefinePreviousPage(int page){
         return page == 0 ? 0 : page-1;
@@ -48,6 +46,19 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
     public DateTime ToDateTime(long value){
         return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
+    }
+
+    public async Task<IActionResult> OnPostSearch([FromBody] PostRequest postRequest)
+    {
+        if (String.IsNullOrWhiteSpace(postRequest?.PostString))
+        {
+            Console.WriteLine("Error: PostString was null.");
+            return BadRequest("PostString cannot be null.");
+        }
+
+        Console.WriteLine("ahsdjka\n\n\n\n\n\n\n\n");
+
+        return null;
     }
 
     public async Task<IActionResult> OnPostSave([FromBody] PostRequest postRequest)
@@ -80,4 +91,8 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         public required string PostName { get; set; }
     }
     
+    public class SearchRequst
+    {
+        public required string SearchString { get; set; }
+    }
 }

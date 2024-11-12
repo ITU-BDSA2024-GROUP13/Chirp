@@ -1,0 +1,33 @@
+<form class="search-form" id="search" asp-page-handler="Search">
+    <input type="text" id="search-input">
+    <div class="search-placeholder">What are you looking for?</div>
+</form>
+
+<button class="footer-button" onclick=toggleVisibilityById("search") >
+    <img src="/assets/search.png" class="footer-button-image" id="search-button" />
+</button>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const searchInput = document.getElementById("search-input")
+
+        searchInput.addEventListener("focus", () => moveSearchPlaceHolder())
+        searchInput.addEventListener("blur", () => moveSearchPlaceHolder())
+
+    });
+
+    function moveSearchPlaceHolder(){
+        const div = document.getElementById("search-placeholder");
+        const input = document.getElementById("search-input");
+        
+        if (input === document.activeElement) {  // When input is focused
+            console.log(div.style.top)
+            
+        } else {  // When input loses focus
+            input.value = "";
+        }
+    }
+
+    
+
+</script>
