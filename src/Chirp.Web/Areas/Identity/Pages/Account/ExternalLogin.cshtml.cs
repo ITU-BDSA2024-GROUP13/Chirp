@@ -85,6 +85,10 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+            [Required]
+            [MaxLength(20)]
+            public string Name { get; set; }
         }
         
         public IActionResult OnGet() => RedirectToPage("./Login");
@@ -154,7 +158,14 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                var existingUser = await _userManager.FindByEmailAsync(Input.Email);
+                if(existingUser != null){
+                    ModelState.AddModelError(string.Empty, "Email is already used");
+                    ProviderDisplayName = info.ProviderDisplayName;
+                    return Page();
+                }
+
+                await _userStore.SetUserNameAsync(user, Input.Name, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
                 var result = await _userManager.CreateAsync(user);
