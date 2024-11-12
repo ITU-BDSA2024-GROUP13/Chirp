@@ -1,7 +1,7 @@
 <form class="cheep-post-form" id="post" asp-page-handler="Save">
     <input type="text" id="post-input">
     @Html.AntiForgeryToken()
-    <div class="post-placeholder" id="post-placeholder"> What's on your mind? </div> 
+    <div class="post-placeholder" id="post-placeholder"> What's on your mind? </div>
 </form>
 
 <button class="footer-button" onclick="rotate()">
@@ -29,16 +29,16 @@
                     },
                     body: JSON.stringify({ 
                         postName: "Helge",
-                        postString: postInput.value 
+                        postString: postInput.value,
                     })
                 })
                 .then(response => response.json())
                 .then(data => {
                     console.log(data)
+                    location.reload()
                 })
                 .catch(error => {
                     console.error("Error:", error);
-                    postInput.value = `${postInput.value} [failure]`
                 });
             }
         });

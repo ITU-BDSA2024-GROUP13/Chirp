@@ -59,15 +59,15 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         }
 
         DateTime currentTime = DateTime.UtcNow;
-        long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeSeconds();
+        long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeMilliseconds();
 
         await _cheepService.CreateMessage(new CheepDTO{
             Author = postRequest.PostName,
             Text = postRequest.PostString,
             Timestamp = unixTime,
-            AuthorId = 1
+            AuthorId = 11
         });
-        
+
         Console.WriteLine($"Received PostString:\nAuthor: {postRequest?.PostName}\nBody: {postRequest?.PostString}");
 
         return new JsonResult(new { success = true, message = "PostString successfully processed" });
