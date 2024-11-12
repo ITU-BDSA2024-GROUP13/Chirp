@@ -57,6 +57,7 @@ builder.Services.AddAuthentication()
         o.ClientId = "Ov23liXdZEY87yaZCSlR";
         o.ClientSecret = "ddc835be6e70422f6172d53a52d6bd008a210c61";
         o.CallbackPath = "/signin-github";
+        o.Scope.Add("user:email");
     });
     
 var app = builder.Build();
