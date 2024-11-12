@@ -130,7 +130,11 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-                
+                var existingUser = await _userManager.FindByEmailAsync(Input.Email);
+                if(existingUser != null){
+                    ModelState.AddModelError(string.Empty, "Email is already used");
+                    return Page();
+                }
                 await _userStore.SetUserNameAsync(user, Input.Name, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
