@@ -181,4 +181,7 @@ footer {
     top: 22px;
     transition: top 0.3s ease, opacity 0.3s ease; /* Thank you ChatGPT */
     color: #4b15155e;
+    user-select: none;
+    pointer-events: none;
+    font-size: small;
   }

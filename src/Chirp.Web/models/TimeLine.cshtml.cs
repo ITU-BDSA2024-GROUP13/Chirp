@@ -48,17 +48,17 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
     }
 
-    public async Task<IActionResult> OnPostSearch([FromBody] PostRequest postRequest)
+    public async Task<IActionResult> OnPostSearch([FromBody] SearchRequest searchRequest)
     {
-        if (String.IsNullOrWhiteSpace(postRequest?.PostString))
+        if (String.IsNullOrWhiteSpace(searchRequest?.SearchString))
         {
             Console.WriteLine("Error: PostString was null.");
             return BadRequest("PostString cannot be null.");
         }
 
-        Console.WriteLine("ahsdjka\n\n\n\n\n\n\n\n");
+        Console.WriteLine(searchRequest.SearchString);
 
-        return null;
+        return new JsonResult(new { success = true, message = "PostString successfully processed" });;
     }
 
     public async Task<IActionResult> OnPostSave([FromBody] PostRequest postRequest)
@@ -91,7 +91,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         public required string PostName { get; set; }
     }
     
-    public class SearchRequst
+    public class SearchRequest
     {
         public required string SearchString { get; set; }
     }

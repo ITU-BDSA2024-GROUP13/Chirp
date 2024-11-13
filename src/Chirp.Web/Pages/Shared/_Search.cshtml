@@ -1,6 +1,7 @@
 <form class="search-form" id="search" asp-page-handler="Search">
     <input type="text" id="search-input">
-    <div class="search-placeholder">What are you looking for?</div>
+    @Html.AntiForgeryToken()
+    <div class="search-placeholder" id="search-placeholder">What are you looking for?</div>
 </form>
 
 <button class="footer-button" onclick=toggleVisibilityById("search") >
@@ -14,16 +15,47 @@
         searchInput.addEventListener("focus", () => moveSearchPlaceHolder())
         searchInput.addEventListener("blur", () => moveSearchPlaceHolder())
 
+        searchInput.addEventListener("input", () => searchQuery(searchInput.value))
     });
+
+
+    function searchQuery(input) {
+        const payload = {
+            SearchString: input // Ensure this matches your server-side model
+        };
+
+        console.log(payload)
+        const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
+        // TODO: add name of account in json
+        fetch(window.location.href + "?handler=Search", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "RequestVerificationToken": antiforgeryToken
+            },
+            body: JSON.stringify({ 
+                SearchString: input
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    }
 
     function moveSearchPlaceHolder(){
         const div = document.getElementById("search-placeholder");
         const input = document.getElementById("search-input");
         
         if (input === document.activeElement) {  // When input is focused
-            console.log(div.style.top)
-            
+            div.style.top = "0px"
+            div.style.color = "rgb(75, 21, 21)";            
         } else {  // When input loses focus
+            div.style.top = "22px"
+            div.style.color = "rgba(75, 21, 21, 0.37)";
             input.value = "";
         }
     }
