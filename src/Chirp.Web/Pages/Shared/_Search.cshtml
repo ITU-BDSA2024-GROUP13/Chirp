@@ -3,13 +3,7 @@
     <input type="text" id="search-input">
     @Html.AntiForgeryToken()
     <div class="search-placeholder" id="search-placeholder">What are you looking for?</div>
-    @foreach(var author in Model.SearchQuery){
-        @await Html.PartialAsync("_Cheep", new CheepPartialView {
-            Author= author.Author,
-            Body= author.Text,
-            Date= author.Timestamp
-        })
-    }
+    <div id="results"></div>
 </form>
 
 <button class="footer-button" onclick=toggleVisibilityById("search") >
@@ -38,6 +32,9 @@
             body: JSON.stringify({ SearchString: input })
         })
         .then(response => response.json())
+        .then(data => {
+            data.list.forEach(e => console.log(e));
+        })
         .catch(error => {
             console.error("Error:", error);
         });
