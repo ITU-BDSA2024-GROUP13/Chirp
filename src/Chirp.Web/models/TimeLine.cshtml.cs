@@ -18,7 +18,8 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     public int LastPage { get; set; }
     [BindProperty( SupportsGet = true )]
     public string? SearchName { get; set; }
-
+    [BindProperty( SupportsGet = true )]
+    public List<AuthorDTO>? SearchQuery { get; set; }
     public int DefinePreviousPage(int page){
         return page == 0 ? 0 : page-1;
     }
@@ -56,7 +57,12 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
             return BadRequest("PostString cannot be null.");
         }
 
-        Console.WriteLine(searchRequest.SearchString);
+        SearchQuery = await _cheepService.GetUsersOfSearch(searchRequest.SearchString);
+
+        foreach(var author in SearchQuery){
+            Console.WriteLine(author.Email);
+
+        }
 
         return new JsonResult(new { success = true, message = "PostString successfully processed" });;
     }
@@ -83,7 +89,6 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
         return new JsonResult(new { success = true, message = "PostString successfully processed" });
     }
-
 
     public class PostRequest
     {

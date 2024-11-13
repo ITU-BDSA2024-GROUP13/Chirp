@@ -11,4 +11,6 @@ public interface ICheepRepository
     public Task<List<CheepDTO>> ReadUserMessages(string userName, int takeValue, int skipValue);
 
     public Task UpdateMessage(CheepDTO alteredMessage, int id);
+
+    public Task<List<AuthorDTO>> GetUsersOfSearch(string searchValue, int amount);
 }

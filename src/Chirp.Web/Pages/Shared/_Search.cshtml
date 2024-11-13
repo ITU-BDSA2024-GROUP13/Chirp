@@ -1,7 +1,15 @@
+@using Chirp.Web.models
 <form class="search-form" id="search" asp-page-handler="Search">
     <input type="text" id="search-input">
     @Html.AntiForgeryToken()
     <div class="search-placeholder" id="search-placeholder">What are you looking for?</div>
+    @foreach(var author in Model.SearchQuery){
+        @await Html.PartialAsync("_Cheep", new CheepPartialView {
+            Author= author.Author,
+            Body= author.Text,
+            Date= author.Timestamp
+        })
+    }
 </form>
 
 <button class="footer-button" onclick=toggleVisibilityById("search") >
@@ -14,17 +22,11 @@
 
         searchInput.addEventListener("focus", () => moveSearchPlaceHolder())
         searchInput.addEventListener("blur", () => moveSearchPlaceHolder())
-
         searchInput.addEventListener("input", () => searchQuery(searchInput.value))
     });
 
 
     function searchQuery(input) {
-        const payload = {
-            SearchString: input // Ensure this matches your server-side model
-        };
-
-        console.log(payload)
         const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
         // TODO: add name of account in json
         fetch(window.location.href + "?handler=Search", {
@@ -33,14 +35,9 @@
                 "Content-Type": "application/json",
                 "RequestVerificationToken": antiforgeryToken
             },
-            body: JSON.stringify({ 
-                SearchString: input
-            })
+            body: JSON.stringify({ SearchString: input })
         })
         .then(response => response.json())
-        .then(data => {
-            console.log(data)
-        })
         .catch(error => {
             console.error("Error:", error);
         });
@@ -59,7 +56,4 @@
             input.value = "";
         }
     }
-
-    
-
 </script>
