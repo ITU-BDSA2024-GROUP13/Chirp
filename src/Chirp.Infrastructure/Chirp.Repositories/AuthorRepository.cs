@@ -66,6 +66,7 @@ public class AuthorRepository : IAuthorRepository {
         .Select(author => author.Followers);
         // Execute the query
         var result = await query.ToListAsync();
+        Console.WriteLine("Following: " + result[0].Count);
     
         return result[0].Select(i => new AuthorDTO(){ Id = i.AuthorId, Email = i.Email, Name = i.Name}).ToList();
     }
@@ -75,8 +76,32 @@ public class AuthorRepository : IAuthorRepository {
         Author author = _dbContext.Authors.Single(e => e.AuthorId == id);
         var follower = _dbContext.Authors.Single(e => e.AuthorId == followerId);
 
+        if (author.Followers == null){
+            author.Followers = new List<Author>();
+        }
         author.Followers.Add(follower);
 
+        var entityEntry = _dbContext.Entry(author);
+        _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);
+
+
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;
+    }
+
+        public async Task RemoveFollower(int id, int followerId){
+
+        Author author = _dbContext.Authors.Single(e => e.AuthorId == id);
+        var follower = _dbContext.Authors.Single(e => e.AuthorId == followerId);
+
+        if (author.Followers == null){
+            author.Followers = new List<Author>();
+        }
+        if (author.Followers.Contains(follower)){
+                author.Followers.Remove(follower);
+        }else {
+            throw new InvalidDataException("Cannot unfollow an author you don't already follow");
+        }
         var entityEntry = _dbContext.Entry(author);
         _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);
 

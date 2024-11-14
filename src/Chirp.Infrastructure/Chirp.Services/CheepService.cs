@@ -79,4 +79,18 @@ public class CheepService  : ICheepService
         return (List<AuthorDTO>)await _authorRepository.GetFollowers(userName);
     }
 
+    ///<summary>
+    /// Adds a single author, which this author will follow
+    ///</summary>
+    ///<param name="id"> The author who follows the followerId</param>
+    ///<param name="followerId"> The author who will be followed</param>
+    public async Task AddFollower(int id, int followerId)
+    {
+        await _authorRepository.AddFollower(id, followerId);
+    }
+
+    public async Task RemoveFollower(int id, int followerId)
+    {
+        await _authorRepository.RemoveFollower(id, followerId);
+    }
 }

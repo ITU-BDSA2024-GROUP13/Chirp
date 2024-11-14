@@ -24,5 +24,11 @@ public interface ICheepService
 
     public Task<List<AuthorDTO>> GetFollowers(string userName);
 
+    public Task AddFollower(int id, int followerId);
     
+    public Task RemoveFollower(int id, int followerId);
+
+
+
+
 }
