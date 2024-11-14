@@ -41,6 +41,20 @@ public class AuthorRepository : IAuthorRepository {
         return result;
     }
 
+    public async Task<AuthorDTO> FindSpecificAuthorByName(string userName){
+        var query = _dbContext.Authors.OrderBy(author => author.Name)
+        .Where(author => author.Name.Equals(userName))
+        .Select(author => new AuthorDTO{ 
+            Id = author.AuthorId,
+            Name = author.Name,
+            Email = author.Email,
+            });
+        // Execute the query
+        var result = await query.ToListAsync();
+
+        return result[0];
+    }
+
     public async Task<List<AuthorDTO>> FindAuthorByEmail(string email){
  var query = _dbContext.Authors.OrderBy(author => author.Name)
         .Where(author => author.Email.StartsWith(email))
