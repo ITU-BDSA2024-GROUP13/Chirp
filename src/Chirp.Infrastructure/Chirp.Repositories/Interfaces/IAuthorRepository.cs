@@ -9,4 +9,10 @@ public interface IAuthorRepository
 
     public Task<List<AuthorDTO>> FindAuthorByEmail(string email);
 
+    public Task<AuthorDTO> FindSpecificAuthorByName(string userName);
+
+    public Task<ICollection<AuthorDTO>> GetFollowers(string userName);
+
+
+
 }

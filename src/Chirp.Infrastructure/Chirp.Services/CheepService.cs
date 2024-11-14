@@ -75,4 +75,8 @@ public class CheepService  : ICheepService
 
     }
 
+    public async Task<List<AuthorDTO>> GetFollowers(string userName){
+        return (List<AuthorDTO>)await _authorRepository.GetFollowers(userName);
+    }
+
 }
