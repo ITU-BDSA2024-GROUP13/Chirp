@@ -13,6 +13,8 @@ public class PublicTimeLine(ICheepService cheepService) : TimeLine(cheepService)
     public async Task<ActionResult> OnGetAsync()
     {    
         int page = UpdatePage();
+
+        await _cheepService.FindAuthorByName("Helge");
     
         Cheeps = await _cheepService.ReadPublicMessages(page);
         Count = await _cheepService.CountPublicMessages();

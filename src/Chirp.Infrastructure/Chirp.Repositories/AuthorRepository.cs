@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace Chirp.Repositories;
+
+using System.ComponentModel;
 using Chirp.Core.DTO;
 using Chirp.Core.Entities;
 
@@ -29,6 +31,7 @@ public class AuthorRepository : IAuthorRepository {
             Id = author.AuthorId,
             Name = author.Name,
             Email = author.Email,
+            count = author.Cheeps.Count,
             });
         // Execute the query
         var result = await query.ToListAsync();
@@ -36,6 +39,8 @@ public class AuthorRepository : IAuthorRepository {
         for (int i = 0; i < result.Count; i++)
         {
             Console.WriteLine(result[i].Name);
+            Console.WriteLine(result[i].count);
+
         }
 
         return result;
@@ -51,12 +56,22 @@ public class AuthorRepository : IAuthorRepository {
             });
         // Execute the query
         var result = await query.ToListAsync();
-
+        
         return result[0];
+    }
+    
+      public async Task<ICollection<AuthorDTO>> GetFollowers(string userName){
+        var query = _dbContext.Authors.OrderBy(author => author.Name)
+        .Where(author => author.Name.Equals(userName))
+        .Select(author => author.Followers);
+        // Execute the query
+        var result = await query.ToListAsync();
+    
+        return result[0].Select(i => new AuthorDTO(){ Id = i.AuthorId, Email = i.Email, Name = i.Name}).ToList();
     }
 
     public async Task<List<AuthorDTO>> FindAuthorByEmail(string email){
- var query = _dbContext.Authors.OrderBy(author => author.Name)
+    var query = _dbContext.Authors.OrderBy(author => author.Name)
         .Where(author => author.Email.StartsWith(email))
         .Select(author => new AuthorDTO{ 
             Id = author.AuthorId,
