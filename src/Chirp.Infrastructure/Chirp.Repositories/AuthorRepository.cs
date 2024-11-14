@@ -70,6 +70,21 @@ public class AuthorRepository : IAuthorRepository {
         return result[0].Select(i => new AuthorDTO(){ Id = i.AuthorId, Email = i.Email, Name = i.Name}).ToList();
     }
 
+    public async Task AddFollower(int id, int followerId){
+
+        Author author = _dbContext.Authors.Single(e => e.AuthorId == id);
+        var follower = _dbContext.Authors.Single(e => e.AuthorId == followerId);
+
+        author.Followers.Add(follower);
+
+        var entityEntry = _dbContext.Entry(author);
+        _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);
+
+
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;
+    }
+
     public async Task<List<AuthorDTO>> FindAuthorByEmail(string email){
     var query = _dbContext.Authors.OrderBy(author => author.Name)
         .Where(author => author.Email.StartsWith(email))
