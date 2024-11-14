@@ -60,7 +60,7 @@ public class AuthorRepository : IAuthorRepository {
         return result[0];
     }
     
-      public async Task<ICollection<AuthorDTO>> GetFollowers(string userName){
+      public async Task<List<AuthorDTO>> GetFollowers(string userName){
         var query = _dbContext.Authors.OrderBy(author => author.Name)
         .Where(author => author.Name.Equals(userName))
         .Select(author => author.Followers);

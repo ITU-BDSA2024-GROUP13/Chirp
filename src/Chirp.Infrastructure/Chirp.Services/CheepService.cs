@@ -22,8 +22,15 @@ public class CheepService  : ICheepService
         return _cheepRepository.ReadUserMessages(userName, 32, 32*page);
     }
 
-    public Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, int page){
-        return _cheepRepository.ReadUserAndFollowerMessages(userName, 32, 32*page);
+    public async Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, int page){
+        List<string> followers = AuthorToString(await _authorRepository.GetFollowers(userName));
+        return await _cheepRepository.ReadUserAndFollowerMessages(userName, followers, 32, 32 * page);
+    }
+
+    private List<string> AuthorToString(List<AuthorDTO> authors){
+
+        return authors.Select(a => a.Name).ToList();
+
     }
 
     public async Task<int> CreateMessage(CheepDTO message) {

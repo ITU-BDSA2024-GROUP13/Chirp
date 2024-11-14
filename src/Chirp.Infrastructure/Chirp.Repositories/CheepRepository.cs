@@ -52,10 +52,10 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository {
         return result;
     }
 
-    public async Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, int takeValue, int skipValue){
+    public async Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, List<string> followers, int takeValue, int skipValue){
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps.OrderByDescending(message => message.TimeStamp)
-        .Where(message => message.Author.Name == userName && message.Author.Followers.Contains(message.Author))
+        .Where(message => message.Author.Name == userName ||  followers.Contains(message.Author.Name))
         .Skip(skipValue)
         .Take(takeValue)
         .Select(message => new CheepDTO{ 
