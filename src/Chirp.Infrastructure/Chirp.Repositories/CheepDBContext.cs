@@ -30,6 +30,13 @@ public class CheepDBContext : IdentityDbContext<ApplicationUser>
     modelBuilder.Entity<Author>()
         .HasKey(a => a.AuthorId);
 
+    //Define the relationship betwwen Author and itself (followers)
+
+    modelBuilder.Entity<Author>()
+        .HasMany(a => a.Followers)
+        .WithMany(a => a.FollowedBy);
+    
+
     // Define the relationship between Cheep and Author
     modelBuilder.Entity<Cheep>()
         .HasOne(c => c.Author)

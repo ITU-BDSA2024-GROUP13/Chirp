@@ -171,6 +171,30 @@ namespace Chirp.Repositories.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AuthorAuthor",
+                columns: table => new
+                {
+                    FollowedByAuthorId = table.Column<int>(type: "INTEGER", nullable: false),
+                    FollowersAuthorId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuthorAuthor", x => new { x.FollowedByAuthorId, x.FollowersAuthorId });
+                    table.ForeignKey(
+                        name: "FK_AuthorAuthor_Authors_FollowedByAuthorId",
+                        column: x => x.FollowedByAuthorId,
+                        principalTable: "Authors",
+                        principalColumn: "AuthorId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AuthorAuthor_Authors_FollowersAuthorId",
+                        column: x => x.FollowersAuthorId,
+                        principalTable: "Authors",
+                        principalColumn: "AuthorId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cheeps",
                 columns: table => new
                 {
@@ -229,6 +253,11 @@ namespace Chirp.Repositories.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_AuthorAuthor_FollowersAuthorId",
+                table: "AuthorAuthor",
+                column: "FollowersAuthorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Cheeps_AuthorId",
                 table: "Cheeps",
                 column: "AuthorId");
@@ -251,6 +280,9 @@ namespace Chirp.Repositories.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "AuthorAuthor");
 
             migrationBuilder.DropTable(
                 name: "Cheeps");
