@@ -12,5 +12,7 @@ public interface ICheepRepository
 
     public Task UpdateMessage(CheepDTO alteredMessage, int id);
 
+    public Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, int takeValue, int skipValue);
+
 
 }

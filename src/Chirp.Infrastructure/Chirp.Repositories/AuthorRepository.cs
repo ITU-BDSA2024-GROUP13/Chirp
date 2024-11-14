@@ -48,7 +48,7 @@ public class AuthorRepository : IAuthorRepository {
 
     public async Task<AuthorDTO> FindSpecificAuthorByName(string userName){
         var query = _dbContext.Authors.OrderBy(author => author.Name)
-        .Where(author => author.Name.Equals(userName))
+        .Where(author => author.Name == userName)
         .Select(author => new AuthorDTO{ 
             Id = author.AuthorId,
             Name = author.Name,

@@ -52,6 +52,25 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository {
         return result;
     }
 
+    public async Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, int takeValue, int skipValue){
+        // Formulate the query - will be translated to SQL by EF Core
+        var query = _dbContext.Cheeps.OrderByDescending(message => message.TimeStamp)
+        .Where(message => message.Author.Name == userName && message.Author.Followers.Contains(message.Author))
+        .Skip(skipValue)
+        .Take(takeValue)
+        .Select(message => new CheepDTO{ 
+            AuthorId = message.AuthorId,
+            Author = message.Author.Name,
+            Text = message.Text,
+            Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds()
+            });
+        // Execute the query
+        var result = await query.ToListAsync();
+        return result;
+    }
+
+    
+
 
     public async Task UpdateMessage(CheepDTO alteredMessage, int id){
 

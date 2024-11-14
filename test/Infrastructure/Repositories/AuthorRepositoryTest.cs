@@ -208,11 +208,7 @@ public class AuthorRepositoryTest : IDisposable
 
             using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
                 var repo = new AuthorRepository(context);
-
-                
                 await Assert.ThrowsAsync<InvalidDataException>(async () => await repo.RemoveFollower(1, 12));
-    
-
             }
         }
     }

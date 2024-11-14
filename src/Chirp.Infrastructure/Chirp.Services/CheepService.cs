@@ -22,6 +22,10 @@ public class CheepService  : ICheepService
         return _cheepRepository.ReadUserMessages(userName, 32, 32*page);
     }
 
+    public Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, int page){
+        return _cheepRepository.ReadUserAndFollowerMessages(userName, 32, 32*page);
+    }
+
     public async Task<int> CreateMessage(CheepDTO message) {
 
        if (message.Text.Count() > 160){
