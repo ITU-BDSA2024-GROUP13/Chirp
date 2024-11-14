@@ -15,9 +15,9 @@ public class PublicTimeLine(ICheepService cheepService) : TimeLine(cheepService)
         int page = UpdatePage();
 
         await _cheepService.FindAuthorByName("Helge");
-        await _cheepService.AddFollower(11, 11);
+        await _cheepService.Follow(11, 11);
         await _cheepService.GetFollowers("Helge");
-        await _cheepService.RemoveFollower(11, 11);
+        await _cheepService.Unfollow(11, 11);
         await _cheepService.GetFollowers("Helge");
 
 

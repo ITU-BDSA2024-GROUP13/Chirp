@@ -84,12 +84,12 @@ public class CheepService  : ICheepService
     ///</summary>
     ///<param name="id"> The author who follows the followerId</param>
     ///<param name="followerId"> The author who will be followed</param>
-    public async Task AddFollower(int id, int followerId)
+    public async Task Follow(int id, int followerId)
     {
         await _authorRepository.AddFollower(id, followerId);
     }
 
-    public async Task RemoveFollower(int id, int followerId)
+    public async Task Unfollow(int id, int followerId)
     {
         await _authorRepository.RemoveFollower(id, followerId);
     }
