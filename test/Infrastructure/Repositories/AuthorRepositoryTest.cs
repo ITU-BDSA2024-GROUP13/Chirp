@@ -200,6 +200,23 @@ public class AuthorRepositoryTest : IDisposable
         }
     }
 
+     [Fact]
+
+    public async void RemoveFollowerException()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+                var repo = new AuthorRepository(context);
+
+                
+                await Assert.ThrowsAsync<InvalidDataException>(async () => await repo.RemoveFollower(1, 12));
+    
+
+            }
+        }
+    }
+
    
 
 }
