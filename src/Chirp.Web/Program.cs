@@ -15,6 +15,7 @@ if (File.Exists(@"Chat.db")){
 var allowOrigins = "_allowOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddAntiforgery(options => options.HeaderName = "RequestVerificationToken");
 
 builder.Services.AddCors(options => 
 {

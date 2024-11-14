@@ -87,17 +87,12 @@ button {
 footer {
     display: flex;
     position: fixed;
-    flex-direction: row;
+    flex-direction: row-reverse;
     width: 100%;
     bottom: 0;
-    justify-items: center;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-left: 20px;
-    margin-right: 20px;
 }
 
-.post {
+.footer-button {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -108,16 +103,18 @@ footer {
     border: #4b151541 solid;
 }
 
-.post:hover {
+.footer-button-image {
+    width: 30px;
+    padding: 10px;
+}
+
+.footer-button:hover {
     cursor: pointer;
 }
 
-.post #post-button {
+.footer-button #post-button {
     transform: rotate(0deg);
     transition: transform 0.3s ease;
-    height: 20px;
-    width: 20px;
-    border: unset;
 }
 
 #post {
@@ -156,3 +153,43 @@ footer {
     color: #4b15155e;
     transition: top 0.3s ease, opacity 0.3s ease; /* Thank you ChatGPT */
 }
+
+.search-form {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 20px;
+    background-color: rgba(245, 245, 245, 0.629);
+    backdrop-filter: blur(5px);
+    visibility: hidden;
+    gap: 10px;
+    z-index: 1000;
+}
+  
+  #search-input {
+    border-radius: 20px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  .search-placeholder{
+    position: absolute;
+    top: 22px;
+    transition: top 0.3s ease, opacity 0.3s ease; /* Thank you ChatGPT */
+    color: #4b15155e;
+    user-select: none;
+    pointer-events: none;
+    font-size: small;
+  }
+
+  #results {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+  }
