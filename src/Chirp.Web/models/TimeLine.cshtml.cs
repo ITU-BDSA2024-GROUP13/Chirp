@@ -64,7 +64,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         }
 
         //return new JsonResult(new { success = true, message = "PostString successfully processed" });
-
+        
         return new JsonResult(new { list = new[]{
             await _cheepService.GetUsersOfSearch(searchRequest.SearchString)
         }});

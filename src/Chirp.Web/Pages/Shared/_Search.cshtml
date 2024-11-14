@@ -2,7 +2,7 @@
 <form class="search-form" id="search" asp-page-handler="Search">
     <input type="text" id="search-input">
     @Html.AntiForgeryToken()
-    <div class="search-placeholder" id="search-placeholder">What are you looking for?</div>
+    <div class="search-placeholder" id="search-placeholder">Who are you looking for?</div>
     <div id="results"></div>
 </form>
 
@@ -11,12 +11,19 @@
 </button>
 
 <script>
+
+
     document.addEventListener("DOMContentLoaded", () => {
         const searchInput = document.getElementById("search-input")
 
         searchInput.addEventListener("focus", () => moveSearchPlaceHolder())
         searchInput.addEventListener("blur", () => moveSearchPlaceHolder())
         searchInput.addEventListener("input", () => searchQuery(searchInput.value))
+        searchInput.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+            }
+        });
     });
 
 
@@ -33,11 +40,31 @@
         })
         .then(response => response.json())
         .then(data => {
-            data.list.forEach(e => console.log(e));
+            data.list.forEach(list => showResults(list));
         })
         .catch(error => {
             console.error("Error:", error);
+            const results = document.getElementById("results")
+            results.innerHTML = ""
         });
+    }
+    
+    function showResults(DTO){
+        const results = document.getElementById("results")
+        results.innerHTML = ""
+
+        
+        DTO.forEach(DTO => {
+            var newDiv = document.createElement("div")
+            newDiv.classList.add("result-item")
+            newDiv.textContent = DTO.name;
+
+            var anchor = document.createElement("a")
+            anchor.href = `/users/${DTO.name}`
+
+            anchor.appendChild(newDiv)
+            results.appendChild(anchor)
+        })
     }
 
     function moveSearchPlaceHolder(){
