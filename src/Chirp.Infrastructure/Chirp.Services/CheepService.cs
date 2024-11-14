@@ -76,7 +76,7 @@ public class CheepService  : ICheepService
     }
 
     public async Task<List<AuthorDTO>> GetUsersOfSearch(string searchValue){
-        return await _cheepRepository.GetUsersOfSearch(searchValue, 3);
+        return await _cheepRepository.GetUsersOfSearch(searchValue, 5);
     }
     
 

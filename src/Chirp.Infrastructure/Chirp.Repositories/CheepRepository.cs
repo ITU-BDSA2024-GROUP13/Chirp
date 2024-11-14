@@ -74,7 +74,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository {
     public async Task<List<AuthorDTO>> GetUsersOfSearch(string searchValue, int amount)
     {
 
-        var query = _dbContext.Authors.Where(author => author.Name.Contains(searchValue))
+        var query = _dbContext.Authors.
+        Where(author => author.Name.ToLower().Contains(searchValue.ToLower()))
         .Take(amount)
         .Select(author => new AuthorDTO
         {

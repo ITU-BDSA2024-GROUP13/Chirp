@@ -168,7 +168,9 @@ footer {
     background-color: rgba(245, 245, 245, 0.629);
     backdrop-filter: blur(5px);
     visibility: hidden;
-  }
+    gap: 10px;
+    z-index: 1000;
+}
   
   #search-input {
     border-radius: 20px;
@@ -184,4 +186,10 @@ footer {
     user-select: none;
     pointer-events: none;
     font-size: small;
+  }
+
+  #results {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
   }
