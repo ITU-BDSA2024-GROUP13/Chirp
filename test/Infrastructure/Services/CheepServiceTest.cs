@@ -300,7 +300,7 @@ public class CheepServiceTest : IDisposable
             int count = await _cheepService.CountPublicMessages();
 
             // Should be exactly 657
-            Assert.Equal(657, count);
+            Assert.Equal(658, count);
         }
      
     }

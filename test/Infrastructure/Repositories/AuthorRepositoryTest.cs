@@ -146,6 +146,23 @@ public class AuthorRepositoryTest : IDisposable
         }
     }
 
+        [Fact]
+    public async void FindSpecificAuthorByName()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+                var repo = new AuthorRepository(context);
+
+                AuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com"};
+                    await repo.CreateAuthor(newAuthor);
+
+                AuthorDTO author = await repo.FindSpecificAuthorByName("Helge");
+                Assert.Equal("Helge", author.Name);
+            }
+        }
+    }
+
    
 
 }
