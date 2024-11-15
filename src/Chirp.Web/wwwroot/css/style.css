@@ -16,6 +16,22 @@ h2, .name-timeline {
   height: 20px;
 }
 
+#Log{
+  width: 20px;
+  height: 20px;
+  padding-right: 5px;
+}
+
+#navbutton{
+  padding: 0;
+  display: flex;
+  flex-direction:row;
+  justify-content: flex-start;
+  align-items:center;
+  background-color:transparent;
+  font-size: 15px;
+}
+
 .cheep-container {
   display: flex;
   flex-direction: column;
