@@ -31,6 +31,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
 
+        public string email;
+
         public ExternalLoginModel(
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
@@ -82,9 +84,6 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
-            public string Email { get; set; }
 
             [Required]
             [MaxLength(20)]
@@ -132,13 +131,6 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                 // If the user does not have an account, then ask the user to create an account.
                 ReturnUrl = returnUrl;
                 ProviderDisplayName = info.ProviderDisplayName;
-                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
-                {
-                    Input = new InputModel
-                    {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-                    };
-                }
                 return Page();
             }
         }
@@ -154,19 +146,27 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
+
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
 
-                var existingUser = await _userManager.FindByEmailAsync(Input.Email);
+                var user = CreateUser();
+                
+                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                {
+                    email =  info.Principal.FindFirstValue(ClaimTypes.Email);
+                }
+
+                var existingUser = await _userManager.FindByEmailAsync(email);
                 if(existingUser != null){
                     ModelState.AddModelError(string.Empty, "Email is already used");
                     ProviderDisplayName = info.ProviderDisplayName;
                     return Page();
                 }
 
+
                 await _userStore.SetUserNameAsync(user, Input.Name, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, email, CancellationToken.None);
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -185,13 +185,13 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                             values: new { area = "Identity", userId = userId, code = code },
                             protocol: Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        await _emailSender.SendEmailAsync(email, "Confirm your email",
                             $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)
                         {
-                            return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
+                            return RedirectToPage("./RegisterConfirmation", new { Email = email });
                         }
 
                         await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);

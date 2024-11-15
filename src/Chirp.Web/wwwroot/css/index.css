@@ -95,6 +95,7 @@ footer {
     align-items: baseline;
     margin-left: 20px;
     margin-right: 20px;
+    pointer-events:none;
 }
 
 .post {
@@ -106,6 +107,7 @@ footer {
     margin: 10px;
     border-radius: 100%;
     border: #4b151541 solid;
+    pointer-events: auto;
 }
 
 .post:hover {
