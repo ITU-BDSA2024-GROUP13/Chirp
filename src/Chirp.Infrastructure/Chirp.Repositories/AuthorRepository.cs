@@ -45,12 +45,12 @@ public class AuthorRepository : IAuthorRepository {
     public async Task<List<AuthorDTO>> FindAuthors(string userName, int amount){
         var query = _dbContext.Authors.OrderBy(author => author.Name)
         .Take(amount)
-        .Where(author => author.Name.StartsWith(userName))
+        .Where(author => author.Name.ToLower().Contains(userName.ToLower()))
         .Select(author => new AuthorDTO{ 
             Id = author.AuthorId,
             Name = author.Name,
             Email = author.Email,
-            });
+        });
         // Execute the query
         var result = await query.ToListAsync();
         
