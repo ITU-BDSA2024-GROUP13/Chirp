@@ -21,6 +21,5 @@ public interface ICheepService
     public Task<List<AuthorDTO>> FindAuthorByName(string userName);
 
     public Task<List<AuthorDTO>> FindAuthorByEmail(string email);
-    public Task<List<AuthorDTO>> GetUsersOfSearch(string searchValue);
-
+    public Task<List<AuthorDTO>> FindAuthors(string userName);
 }
