@@ -33,16 +33,38 @@ public class AuthorRepository : IAuthorRepository {
         // Execute the query
         var result = await query.ToListAsync();
         
+        /*
         for (int i = 0; i < result.Count; i++)
         {
             Console.WriteLine(result[i].Name);
-        }
+        }*/
+
+        return result;
+    }
+
+    public async Task<List<AuthorDTO>> FindAuthors(string userName, int amount){
+        var query = _dbContext.Authors.OrderBy(author => author.Name)
+        .Take(amount)
+        .Where(author => author.Name.StartsWith(userName))
+        .Select(author => new AuthorDTO{ 
+            Id = author.AuthorId,
+            Name = author.Name,
+            Email = author.Email,
+            });
+        // Execute the query
+        var result = await query.ToListAsync();
+        
+        /*
+        for (int i = 0; i < result.Count; i++)
+        {
+            Console.WriteLine(result[i].Name);
+        }*/
 
         return result;
     }
 
     public async Task<List<AuthorDTO>> FindAuthorByEmail(string email){
- var query = _dbContext.Authors.OrderBy(author => author.Name)
+        var query = _dbContext.Authors.OrderBy(author => author.Name)
         .Where(author => author.Email.StartsWith(email))
         .Select(author => new AuthorDTO{ 
             Id = author.AuthorId,
@@ -52,14 +74,13 @@ public class AuthorRepository : IAuthorRepository {
         // Execute the query
         var result = await query.ToListAsync();
         
+        /*
         for (int i = 0; i < result.Count; i++)
         {
             Console.WriteLine(result[i].Email);
-        }
+        }*/
 
         return result;    
-        }
-
-
+    }
 
 }
