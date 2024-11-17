@@ -1,0 +1,65 @@
+<form class="cheep-post-form" id="post" asp-page-handler="Save">
+    <input type="text" id="post-input">
+    @Html.AntiForgeryToken()
+    <div class="post-placeholder" id="post-placeholder"> What's on your mind? </div>
+</form>
+
+<button class="footer-button" onclick="rotate()">
+    <img src="/assets/post.png" class="footer-button-image" id="post-button" />
+</button>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const postInput = document.getElementById("post-input");
+
+        postInput.addEventListener("focus", () => movePostPlaceholder());
+        postInput.addEventListener("blur", () => movePostPlaceholder());
+
+        postInput.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                // TODO: add name of account in json
+                fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Save" : "?handler=Save"), {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "RequestVerificationToken": antiforgeryToken
+                    },
+                    body: JSON.stringify({ 
+                        postName: "Helge",
+                        postString: postInput.value,
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    location.reload()
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+            }
+        });
+    });
+
+    function rotate(){
+        const img = document.getElementById("post-button");
+        img.style.transform = img.style.transform === "rotate(45deg)" ? "rotate(0deg)" : "rotate(45deg)";
+        toggleVisibilityById("post");
+    }
+
+    function movePostPlaceholder(){
+        const div = document.getElementById("post-placeholder");
+        const input = document.getElementById("post-input");
+
+        if (input === document.activeElement) {  // When input is focused
+            div.style.top = "4px";
+            div.style.color = "rgb(75, 21, 21)";
+        } else {  // When input loses focus
+            div.style.top = "60px";
+            div.style.color = "rgba(75, 21, 21, 0.37)";
+            input.value = "";
+        }
+    } 
+</script>

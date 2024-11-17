@@ -1,9 +1,10 @@
 using Chirp.Services;
 using Chirp.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using AspNet.Security.OAuth.GitHub;
+using Chirp.Web;
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8604 // Dereference of a possibly null reference.
@@ -15,6 +16,7 @@ if (File.Exists(@"Chat.db")){
 var allowOrigins = "_allowOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddAntiforgery(options => options.HeaderName = "RequestVerificationToken");
 
 builder.Services.AddCors(options => 
 {
@@ -33,6 +35,15 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddRazorPages();
 builder.Services.AddMvc();
 
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<ICheepRepository, CheepRepository>();
 builder.Services.AddScoped<ICheepService, CheepService>();
@@ -41,6 +52,15 @@ builder.Logging.AddConsole();
 
 builder.Services.AddHsts( options => options.MaxAge = TimeSpan.FromHours(1));
 
+builder.Services.AddAuthentication()
+    .AddGitHub(o =>
+    {
+        o.ClientId = "Ov23liXdZEY87yaZCSlR";
+        o.ClientSecret = "ddc835be6e70422f6172d53a52d6bd008a210c61";
+        o.CallbackPath = "/signin-github";
+        o.Scope.Add("user:email");
+    });
+    
 var app = builder.Build();
 
 if(app.Environment.IsProduction())
@@ -51,8 +71,6 @@ if(app.Environment.IsProduction())
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-
-
 
     try
     {
@@ -68,6 +86,7 @@ using (var scope = app.Services.CreateScope())
         var logger = services.GetRequiredService<ILogger<Program>>();
         logger.LogError(ex, "An error occurred while seeding the database.");
     }
+
 }
 
 
@@ -88,6 +107,7 @@ app.UseRouting();
 app.UseCors(allowOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
 app.MapRazorPages();
 
 app.Run();

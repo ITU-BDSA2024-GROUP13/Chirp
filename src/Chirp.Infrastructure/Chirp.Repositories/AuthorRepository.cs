@@ -36,12 +36,35 @@ public class AuthorRepository : IAuthorRepository {
         // Execute the query
         var result = await query.ToListAsync();
         
+        /*
         for (int i = 0; i < result.Count; i++)
         {
             Console.WriteLine(result[i].Name);
             Console.WriteLine(result[i].count);
 
         }
+        }*/
+
+        return result;
+    }
+
+    public async Task<List<AuthorDTO>> FindAuthors(string userName, int amount){
+        var query = _dbContext.Authors.OrderBy(author => author.Name)
+        .Take(amount)
+        .Where(author => author.Name.ToLower().Contains(userName.ToLower()))
+        .Select(author => new AuthorDTO{ 
+            Id = author.AuthorId,
+            Name = author.Name,
+            Email = author.Email,
+        });
+        // Execute the query
+        var result = await query.ToListAsync();
+        
+        /*
+        for (int i = 0; i < result.Count; i++)
+        {
+            Console.WriteLine(result[i].Name);
+        }*/
 
         return result;
     }
@@ -151,10 +174,11 @@ public class AuthorRepository : IAuthorRepository {
         // Execute the query
         var result = await query.ToListAsync();
         
+        /*
         for (int i = 0; i < result.Count; i++)
         {
             Console.WriteLine(result[i].Email);
-        }
+        }*/
 
         return result;    
     }

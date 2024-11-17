@@ -1,0 +1,19 @@
+.row{
+    background: rgba(164, 164, 164, 0.771);
+    border: solid;
+    border-color: black;
+    border-radius: 10px;
+    border-width: 2px;
+    box-shadow: 0px 5px 10px;
+    padding: 10px;
+}
+
+.text-danger{
+    color: rgba(240, 62, 62, 0.912);
+    padding-left: 10px;
+    justify-content: center;
+}
+
+.form-label{
+    color: rgb(53, 53, 53);
+}

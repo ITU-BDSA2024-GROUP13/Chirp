@@ -130,5 +130,9 @@ public class CheepService  : ICheepService
         return true;
     }
 
+    public async Task<List<AuthorDTO>> FindAuthors(string userName){
+        return await _authorRepository.FindAuthors(userName, 5);
+    }
+    
 
 }
