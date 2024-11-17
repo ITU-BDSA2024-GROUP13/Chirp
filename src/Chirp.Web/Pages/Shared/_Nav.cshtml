@@ -15,7 +15,7 @@
         </div>
 
         @if(SignInManager.IsSignedIn(User)){
-            <div class="tag" onClick="window.location = '/'">
+            <div class="tag" onClick="window.location = '/users/@User.Identity.Name'">
                 <img 
                     src = "/assets/user.png"
                     alt="My timeline" 
