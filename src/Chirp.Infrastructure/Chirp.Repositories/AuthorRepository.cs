@@ -85,6 +85,19 @@ public class AuthorRepository : IAuthorRepository {
         return result[0].Select(i => new AuthorDTO(){ Id = i.AuthorId, Email = i.Email, Name = i.Name}).ToList();
     }
 
+    public async Task<List<AuthorDTO>> GetFollowersbyId(int id)
+    {
+        var query = _dbContext.Authors.OrderBy(author => author.Name)
+        .Where(author => author.AuthorId == id)
+        .Select(author => author.Followers);
+        // Execute the query
+        var result = await query.ToListAsync();
+        Console.WriteLine("Following: " + result[0].Count);
+    
+        return result[0].Select(i => new AuthorDTO(){ Id = i.AuthorId, Email = i.Email, Name = i.Name}).ToList();
+    }
+
+
     public async Task AddFollower(int id, int followerId){
 
         Author author = _dbContext.Authors.Single(e => e.AuthorId == id);
@@ -143,6 +156,5 @@ public class AuthorRepository : IAuthorRepository {
         return result;    
     }
 
-    
 
 }

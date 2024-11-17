@@ -32,6 +32,9 @@ public interface ICheepService
 
     public Task<List<AuthorDTO>> GetFollowers(string userName);
 
+    public Task<List<AuthorDTO>> GetFollowersbyId(int id);
+
+
     public Task Follow(int id, int followerId);
 
     public Task Unfollow(int id, int followerId);

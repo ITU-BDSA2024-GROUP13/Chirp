@@ -100,6 +100,11 @@ public class CheepService  : ICheepService
         return (List<AuthorDTO>)await _authorRepository.GetFollowers(userName);
     }
 
+        public async Task<List<AuthorDTO>> GetFollowersbyId(int id)
+    {
+        return (List<AuthorDTO>)await _authorRepository.GetFollowersbyId(id);
+    }
+
     ///<summary>
     /// Adds a single author, which this author will follow
     ///</summary>
