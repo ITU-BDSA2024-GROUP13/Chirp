@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using Chirp.Repositories
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using Chirp.Web.models
+
+<!DOCTYPE html>
 <html lang="en">
     @await Html.PartialAsync("_Imports")
 
@@ -17,10 +23,12 @@
             @RenderBody()
         </main>
 
-        <footer>
-            @await Html.PartialAsync("_Post")
-            @await Html.PartialAsync("_Search")
-        </footer>
+        @if(SignInManager.IsSignedIn(User)){
+            <footer>
+                @await Html.PartialAsync("_Post")
+                @await Html.PartialAsync("_Search")
+            </footer>
+        }
         <script src="~/js/main.js"></script>
         @RenderSection("Scripts", required: false)
     </body>
