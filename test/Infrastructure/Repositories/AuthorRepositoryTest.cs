@@ -146,6 +146,73 @@ public class AuthorRepositoryTest : IDisposable
         }
     }
 
+        [Fact]
+    public async void FindSpecificAuthorByName()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+                var repo = new AuthorRepository(context);
+
+                AuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com"};
+                    await repo.CreateAuthor(newAuthor);
+
+                AuthorDTO author = await repo.FindSpecificAuthorByName("Helge");
+                Assert.Equal("Helge", author.Name);
+            }
+        }
+    }
+
+            [Fact]
+    public async void AddFollower()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+                var repo = new AuthorRepository(context);
+
+                await repo.AddFollower(1, 12);
+
+                List<AuthorDTO> list = (List<AuthorDTO>)await repo.GetFollowers("Roger Histand");
+                Assert.Equal("Adrian", list[0].Name);
+            }
+        }
+    }
+
+    [Fact]
+
+    public async void RemoveFollower()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+                var repo = new AuthorRepository(context);
+
+                await repo.AddFollower(1, 12);
+
+                List<AuthorDTO> list = (List<AuthorDTO>)await repo.GetFollowers("Roger Histand");
+                Assert.Equal("Adrian", list[0].Name);
+
+                await repo.RemoveFollower(1, 12);
+                List<AuthorDTO> list2 = (List<AuthorDTO>)await repo.GetFollowers("Roger Histand");
+                Assert.False(list2.Any());
+            }
+        }
+    }
+
+     [Fact]
+
+    public async void RemoveFollowerException()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+                var repo = new AuthorRepository(context);
+                await Assert.ThrowsAsync<InvalidDataException>(async () => await repo.RemoveFollower(1, 12));
+            }
+        }
+    }
+
    
 
 }

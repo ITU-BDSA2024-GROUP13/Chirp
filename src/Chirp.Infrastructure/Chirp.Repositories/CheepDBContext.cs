@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Chirp.Core.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using NuGet.Protocol.Plugins;
 
 
 namespace Chirp.Repositories;
@@ -35,6 +36,13 @@ public class CheepDBContext : IdentityDbContext<ApplicationUser>
     // Your custom configurations for the Author entity
     modelBuilder.Entity<Author>()
         .HasKey(a => a.AuthorId);
+
+    //Define the relationship betwwen Author and itself (followers)
+
+    modelBuilder.Entity<Author>()
+        .HasMany(a => a.Followers)
+        .WithMany(a => a.FollowedBy);
+    
 
     // Define the relationship between Cheep and Author
     modelBuilder.Entity<Cheep>()
