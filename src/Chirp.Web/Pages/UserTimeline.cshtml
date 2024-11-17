@@ -17,7 +17,9 @@
 
 
 @if(SignInManager.IsSignedIn(User)){
-    @await Html.PartialAsync("_Follow")
+    @if(!User.Identity.Name.Equals(routeName)){
+        @await Html.PartialAsync("_Follow")
+    }
 
     @if (Model.Cheeps.Any()){
         @foreach (var cheep in Model.Cheeps)
