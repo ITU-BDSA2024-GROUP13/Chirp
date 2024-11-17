@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 
 public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepService)
 {
+    
     public async Task<ActionResult> OnGetAsync(string author)
     {
         int page = UpdatePage();
+    
+        Cheeps = await _cheepService.ReadUserAndFollowerMessages(author, page);
 
-        Cheeps = await _cheepService.ReadUserMessages(author, page);
-        Count = await _cheepService.CountUserMessages(author);
+        Count = Cheeps.Count;
         if(!string.IsNullOrEmpty(SearchName)){
             Authors = await _cheepService.FindAuthorByName(SearchName);
         }
@@ -23,4 +25,11 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
 
         return Page();
     }
+
+    public async Task<ActionResult> OnPostFollow()
+    {
+        Console.WriteLine("Hello world!");
+        return Page();
+    }
+
 }

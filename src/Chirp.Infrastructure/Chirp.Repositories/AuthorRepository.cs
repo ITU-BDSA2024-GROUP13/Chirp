@@ -60,7 +60,7 @@ public class AuthorRepository : IAuthorRepository {
         return result[0];
     }
     
-      public async Task<List<AuthorDTO>> GetFollowers(string userName){
+    public async Task<List<AuthorDTO>> GetFollowers(string userName){
         var query = _dbContext.Authors.OrderBy(author => author.Name)
         .Where(author => author.Name.Equals(userName))
         .Select(author => author.Followers);
@@ -111,7 +111,7 @@ public class AuthorRepository : IAuthorRepository {
     }
 
     public async Task<List<AuthorDTO>> FindAuthorByEmail(string email){
-    var query = _dbContext.Authors.OrderBy(author => author.Name)
+        var query = _dbContext.Authors.OrderBy(author => author.Name)
         .Where(author => author.Email.StartsWith(email))
         .Select(author => new AuthorDTO{ 
             Id = author.AuthorId,
@@ -127,8 +127,8 @@ public class AuthorRepository : IAuthorRepository {
         }
 
         return result;    
-        }
+    }
 
-
+    
 
 }

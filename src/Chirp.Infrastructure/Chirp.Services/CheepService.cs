@@ -104,4 +104,14 @@ public class CheepService  : ICheepService
     {
         await _authorRepository.RemoveFollower(id, followerId);
     }
+
+    public async Task<Boolean> IsFollowing(int id, int followerId) {
+        var list = await _authorRepository.GetFollowers("Helge");
+        foreach(var author in list){
+            if(author.Id == followerId)
+                return false;
+        }
+
+        return true;
+    }
 }

@@ -10,7 +10,10 @@
 
 @await Html.PartialAsync("_Nav")
 
+
 <h2 class="name-timeline"> @routeName's Timeline </h2>
+@await Html.PartialAsync("_Follow")
+
 @if (Model.Cheeps.Any())
 {
     @foreach (var cheep in Model.Cheeps)

@@ -12,7 +12,6 @@ public interface ICheepService
 
     public Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, int page);
 
-
     public Task<int> CountUserMessages(string userName);
 
     public Task<int>  CountPublicMessages();
@@ -31,7 +30,7 @@ public interface ICheepService
 
     public Task Unfollow(int id, int followerId);
 
-
+    public Task<Boolean> IsFollowing(int id, int followerId);
 
 
 }
