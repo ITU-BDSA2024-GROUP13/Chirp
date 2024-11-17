@@ -56,8 +56,11 @@ public class AuthorRepository : IAuthorRepository {
             });
         // Execute the query
         var result = await query.ToListAsync();
-        
-        return result[0];
+        if (result.Any()){
+            return result[0];
+        } else {
+            throw new NullReferenceException("No authors were found with this name");
+        }
     }
 
     public async Task<AuthorDTO> FindSpecificAuthorById(int id){

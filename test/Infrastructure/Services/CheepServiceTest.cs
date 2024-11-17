@@ -301,7 +301,11 @@ public class CheepServiceTest : IDisposable
 
             
             List<AuthorDTO> list = await _cheepService.GetFollowers("Roger Histand");
+            List<AuthorDTO> list2 = await _cheepService.GetFollowersbyId(1);
+
             Assert.Equal("Adrian", list[0].Name);
+            Assert.Equal("Adrian", list2[0].Name);
+
 
         }
      
@@ -416,6 +420,23 @@ public class CheepServiceTest : IDisposable
             string authorName = list[0].Name;
 
             Assert.Equal("Helge", authorName);
+        }
+    }
+
+    [Fact]
+    public async void FindSpecificAuthorByName()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+            AuthorDTO author = await _cheepService.FindSpecificAuthorByName("Johnnie Calixto");
+            Assert.Equal("Johnnie Calixto", author.Name);
+            await Assert.ThrowsAsync<NullReferenceException>(async () => await _cheepService.FindSpecificAuthorByName("J"));
+
         }
     }
 
