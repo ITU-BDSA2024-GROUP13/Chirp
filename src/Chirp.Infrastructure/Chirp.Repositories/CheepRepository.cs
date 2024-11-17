@@ -90,9 +90,11 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository {
     /// <param name="amount"></param>
     /// <returns></returns>
 
-    public async Task<List<AuthorDTO>> GetUsersOfSearch(string searchValue, int amount){
+    public async Task<List<AuthorDTO>> GetUsersOfSearch(string searchValue, int amount)
+    {
 
-        var query = _dbContext.Authors.Where(author => author.Name.Contains(searchValue))
+        var query = _dbContext.Authors.
+        Where(author => author.Name.ToLower().Contains(searchValue.ToLower()))
         .Take(amount)
         .Select(author => new AuthorDTO
         {
@@ -104,5 +106,4 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository {
 
         return result;
     }
-
 }

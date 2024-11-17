@@ -19,5 +19,6 @@ public interface IAuthorRepository
 
 
 
+    public Task<List<AuthorDTO>> FindAuthors(string userName, int amount);
 
 }

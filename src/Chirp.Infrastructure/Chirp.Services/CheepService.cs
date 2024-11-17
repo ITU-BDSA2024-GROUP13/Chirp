@@ -104,4 +104,9 @@ public class CheepService  : ICheepService
     {
         await _authorRepository.RemoveFollower(id, followerId);
     }
+    public async Task<List<AuthorDTO>> FindAuthors(string userName){
+        return await _authorRepository.FindAuthors(userName, 5);
+    }
+    
+
 }

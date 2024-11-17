@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Services;
 using Chirp.Core.DTO;
-using Microsoft.Extensions.Primitives;
-
+using Chirp.Repositories;
 
 public abstract class TimeLine(ICheepService cheepService) : PageModel 
 {    
@@ -19,7 +18,8 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     public int LastPage { get; set; }
     [BindProperty( SupportsGet = true )]
     public string? SearchName { get; set; }
-
+    [BindProperty( SupportsGet = true )]
+    public List<AuthorDTO>? SearchQuery { get; set; }
     public int DefinePreviousPage(int page){
         return page == 0 ? 0 : page-1;
     }
@@ -47,5 +47,60 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
     public DateTime ToDateTime(long value){
         return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
+    }
+
+    public async Task<IActionResult> OnPostSearch([FromBody] SearchRequest searchRequest)
+    {
+        if (String.IsNullOrWhiteSpace(searchRequest?.SearchString))
+        {
+            Console.WriteLine("Error: PostString was null.");
+            return BadRequest("PostString cannot be null.");
+        }
+
+        //SearchQuery = await _cheepService.GetUsersOfSearch(searchRequest.SearchString);
+
+        foreach(var author in SearchQuery){
+            Console.WriteLine(author.Email);
+        }
+
+        //return new JsonResult(new { success = true, message = "PostString successfully processed" });
+        
+        return new JsonResult(new { list = new[]{
+            await _cheepService.FindAuthors(searchRequest.SearchString)
+        }});
+    }
+
+    public async Task<IActionResult> OnPostSave([FromBody] PostRequest postRequest)
+    {
+        if (String.IsNullOrWhiteSpace(postRequest?.PostString))
+        {
+            Console.WriteLine("Error: PostString was null.");
+            return BadRequest("PostString cannot be null.");
+        }
+
+        DateTime currentTime = DateTime.UtcNow;
+        long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeMilliseconds();
+
+        await _cheepService.CreateMessage(new CheepDTO{
+            Author = postRequest.PostName,
+            Text = postRequest.PostString,
+            Timestamp = unixTime,
+            AuthorId = 11
+        });
+
+        Console.WriteLine($"Received PostString:\nAuthor: {postRequest?.PostName}\nBody: {postRequest?.PostString}");
+
+        return new JsonResult(new { success = true, message = "PostString successfully processed" });
+    }
+
+    public class PostRequest
+    {
+        public required string PostString { get; set; }
+        public required string PostName { get; set; }
+    }
+    
+    public class SearchRequest
+    {
+        public required string SearchString { get; set; }
     }
 }
