@@ -22,6 +22,17 @@ public class CheepService  : ICheepService
         return _cheepRepository.ReadUserMessages(userName, 32, 32*page);
     }
 
+    public async Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, int page){
+        List<string> followers = AuthorToString(await _authorRepository.GetFollowers(userName));
+        return await _cheepRepository.ReadUserAndFollowerMessages(userName, followers, 32, 32 * page);
+    }
+
+    private List<string> AuthorToString(List<AuthorDTO> authors){
+
+        return authors.Select(a => a.Name).ToList();
+
+    }
+
     public async Task<int> CreateMessage(CheepDTO message) {
 
        if (message.Text.Count() > 160){
@@ -75,6 +86,24 @@ public class CheepService  : ICheepService
 
     }
 
+    public async Task<List<AuthorDTO>> GetFollowers(string userName){
+        return (List<AuthorDTO>)await _authorRepository.GetFollowers(userName);
+    }
+
+    ///<summary>
+    /// Adds a single author, which this author will follow
+    ///</summary>
+    ///<param name="id"> The author who follows the followerId</param>
+    ///<param name="followerId"> The author who will be followed</param>
+    public async Task Follow(int id, int followerId)
+    {
+        await _authorRepository.AddFollower(id, followerId);
+    }
+
+    public async Task Unfollow(int id, int followerId)
+    {
+        await _authorRepository.RemoveFollower(id, followerId);
+    }
     public async Task<List<AuthorDTO>> FindAuthors(string userName){
         return await _authorRepository.FindAuthors(userName, 5);
     }

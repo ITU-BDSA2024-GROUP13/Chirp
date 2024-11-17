@@ -286,7 +286,83 @@ public class CheepServiceTest : IDisposable
         }
     }
 
+      [Fact]
+    public async void Follow()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+
+            await _cheepService.Follow(1, 12);
+
+            
+            List<AuthorDTO> list = await _cheepService.GetFollowers("Roger Histand");
+            Assert.Equal("Adrian", list[0].Name);
+
+        }
+     
+    }
+
+         [Fact]
+    public async void Unfollow()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+
+            await _cheepService.Follow(1, 12);
+
+            
+            List<AuthorDTO> list = await _cheepService.GetFollowers("Roger Histand");
+            Assert.Equal("Adrian", list[0].Name);
+
+            
+            await _cheepService.Unfollow(1, 12);
+
+            
+            List<AuthorDTO> list2 = await _cheepService.GetFollowers("Roger Histand");
+            Assert.False(list2.Any());
+
+        }
+     
+    }
+
           [Fact]
+    public async void ReadUserAndFollowerMessages()
+    {
+        using (var scope = _serviceProvider.CreateScope()){
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+
+            await _cheepService.Follow(11, 12);
+
+            
+            List<AuthorDTO> list = await _cheepService.GetFollowers("Helge");
+
+            List<CheepDTO> listCheeps = await _cheepService.ReadUserMessages("Helge", 0);
+
+            List<CheepDTO> listCheeps2 = await _cheepService.ReadUserAndFollowerMessages("Helge", 0);
+            Assert.True(1 == list.Count);
+            Assert.True(listCheeps.Count < listCheeps2.Count);
+
+        }
+     
+    }
+
+
+    [Fact]
     public async void CountPublicMessages()
     {
         using (var scope = _serviceProvider.CreateScope()){
@@ -300,7 +376,7 @@ public class CheepServiceTest : IDisposable
             int count = await _cheepService.CountPublicMessages();
 
             // Should be exactly 657
-            Assert.Equal(657, count);
+            Assert.Equal(658, count);
         }
      
     }
@@ -378,6 +454,8 @@ public class CheepServiceTest : IDisposable
             Assert.True(messageCreated);
         }
     }
+
+    
 
  
 
