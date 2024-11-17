@@ -24,6 +24,12 @@ public interface ICheepService
 
     public Task<List<AuthorDTO>> FindAuthorByEmail(string email);
 
+    public Task<AuthorDTO> FindSpecificAuthorById(int id);
+
+    public Task<AuthorDTO> FindSpecificAuthorByName(string userName);
+
+
+
     public Task<List<AuthorDTO>> GetFollowers(string userName);
 
     public Task Follow(int id, int followerId);

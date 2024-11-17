@@ -59,6 +59,20 @@ public class AuthorRepository : IAuthorRepository {
         
         return result[0];
     }
+
+    public async Task<AuthorDTO> FindSpecificAuthorById(int id){
+        var query = _dbContext.Authors.OrderBy(author => author.Name)
+        .Where(author => author.AuthorId == id)
+        .Select(author => new AuthorDTO{ 
+            Id = author.AuthorId,
+            Name = author.Name,
+            Email = author.Email,
+            });
+        // Execute the query
+        var result = await query.ToListAsync();
+        
+        return result[0];
+    }
     
     public async Task<List<AuthorDTO>> GetFollowers(string userName){
         var query = _dbContext.Authors.OrderBy(author => author.Name)

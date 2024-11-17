@@ -11,6 +11,9 @@ public interface IAuthorRepository
 
     public Task<AuthorDTO> FindSpecificAuthorByName(string userName);
 
+    public Task<AuthorDTO> FindSpecificAuthorById(int id);
+
+
     public Task<List<AuthorDTO>> GetFollowers(string userName);
 
     public Task AddFollower(int id, int followerId);

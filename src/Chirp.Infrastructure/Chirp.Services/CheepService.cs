@@ -86,6 +86,16 @@ public class CheepService  : ICheepService
 
     }
 
+    public async Task<AuthorDTO> FindSpecificAuthorById(int id)
+    {
+        return await _authorRepository.FindSpecificAuthorById(id);
+    }
+
+    public async Task<AuthorDTO> FindSpecificAuthorByName(string userName)
+    {
+        return await _authorRepository.FindSpecificAuthorByName(userName);
+    }
+
     public async Task<List<AuthorDTO>> GetFollowers(string userName){
         return (List<AuthorDTO>)await _authorRepository.GetFollowers(userName);
     }
@@ -105,7 +115,7 @@ public class CheepService  : ICheepService
         await _authorRepository.RemoveFollower(id, followerId);
     }
 
-    public async Task<Boolean> IsFollowing(int id, int followerId) {
+    public async Task<bool> IsFollowing(int id, int followerId) {
         var list = await _authorRepository.GetFollowers("Helge");
         foreach(var author in list){
             if(author.Id == followerId)
@@ -114,4 +124,6 @@ public class CheepService  : ICheepService
 
         return true;
     }
+
+
 }
