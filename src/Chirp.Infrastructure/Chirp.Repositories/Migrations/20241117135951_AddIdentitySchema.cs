@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Chirp.Repositories.Migrations
-
-
 {
-    [ExcludeFromCodeCoverage]
-
     /// <inheritdoc />
     public partial class AddIdentitySchema : Migration
     {
-
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
