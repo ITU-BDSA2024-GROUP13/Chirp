@@ -1,6 +1,11 @@
 ﻿@page "/"
 @model Chirp.Web.models.PublicTimeLine
+@using Microsoft.AspNetCore.Identity
+@using Chirp.Repositories
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @using Chirp.Web.models
+ 
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "./Shared/_Layout.cshtml";
@@ -14,15 +19,24 @@
 @if (Model.Cheeps.Any())
 {
 
-    @foreach (var cheep in Model.Cheeps)
-    {
-        @await Html.PartialAsync("_Cheep", new CheepPartialView {
-            Author= cheep.Author,
-            Body= cheep.Text,
-            Date= cheep.Timestamp
-        })
-    }
+    @if(SignInManager.IsSignedIn(User)){
 
+        @foreach (var cheep in Model.Cheeps)
+        {
+            @await Html.PartialAsync("_Cheep", new CheepPartialView {
+                Author= cheep.Author,
+                Body= cheep.Text,
+                Date= cheep.Timestamp
+            })
+        }
+    } else{
+        <div>
+            <div class="cheep-item">
+
+                <p class="cheep-body"> Log in to experience new ideas on Chirp. </p>
+            </div>
+        </div>
+    }
 } else
 {
     <em>There are no cheeps so far.</em>
