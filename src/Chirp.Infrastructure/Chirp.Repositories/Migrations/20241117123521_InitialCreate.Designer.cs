@@ -11,8 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Repositories.Migrations
 {
     [DbContext(typeof(CheepDBContext))]
-    [Migration("20241117135951_AddIdentitySchema")]
-    partial class AddIdentitySchema
+
+    [Migration("20241117123521_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
