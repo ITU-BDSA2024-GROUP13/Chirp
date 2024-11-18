@@ -27,7 +27,7 @@
                         "RequestVerificationToken": antiforgeryToken
                     },
                     body: JSON.stringify({ 
-                        postName: "Helge",
+                        postName: @User.Identity.Name,
                         postString: postInput.value,
                     })
                 })

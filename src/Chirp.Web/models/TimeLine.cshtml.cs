@@ -78,14 +78,13 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
             return BadRequest("PostString cannot be null.");
         }
 
-        DateTime currentTime = DateTime.UtcNow;
-        long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeMilliseconds();
+        long unixTime = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow);
 
         await _cheepService.CreateMessage(new CheepDTO{
             Author = postRequest.PostName,
             Text = postRequest.PostString,
             Timestamp = unixTime,
-            AuthorId = 11
+            AuthorId = postRequest.AuthorId,
         });
 
         Console.WriteLine($"Received PostString:\nAuthor: {postRequest?.PostName}\nBody: {postRequest?.PostString}");
@@ -97,6 +96,8 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     {
         public required string PostString { get; set; }
         public required string PostName { get; set; }
+        public required int AuthorId { get; set; }
+
     }
     
     public class SearchRequest
