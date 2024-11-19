@@ -86,7 +86,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
             AuthorId = author.Id,
         });
         
-        Console.WriteLine(_cheepService.FindSpecificAuthorByName(postRequest.PostName).Id + " " + id);
+        //Console.WriteLine(_cheepService.FindSpecificAuthorByName(postRequest.PostName).Id + " " + id);
 
 
         return new JsonResult(new { success = true, message = "PostString successfully processed" });
