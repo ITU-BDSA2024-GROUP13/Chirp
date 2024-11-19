@@ -1,7 +1,7 @@
 @using Chirp.Web.models
 <form class="search-form" id="search" asp-page-handler="Search">
     <input type="text" id="search-input">
-    @Html.AntiForgeryToken()
+    
     <div class="search-placeholder" id="search-placeholder">Who are you looking for?</div>
     <div id="results"></div>
 </form>
