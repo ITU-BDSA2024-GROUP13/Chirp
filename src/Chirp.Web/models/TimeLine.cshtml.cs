@@ -98,7 +98,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         public required string PostName { get; set; }
 
     }
-    
+     
     public class SearchRequest
     {
         public required string SearchString { get; set; }
