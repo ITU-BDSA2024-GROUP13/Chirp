@@ -28,13 +28,13 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
 
     public async Task<ActionResult> OnPostFollow([FromBody] FollowRequest followRequest)
     {
-        Console.WriteLine($"{followRequest.Username}\n{followRequest.FollowId}");
+        Console.WriteLine($"{followRequest.Username}\n{followRequest.FollowName}");
         return new JsonResult(new { success = true, message = "FollowRequest successfully processed" });
     }
 
     public class FollowRequest
     {
         public required string Username { get; set; }
-        public required int FollowId { get; set; }
+        public required int FollowName { get; set; }
     }
 }

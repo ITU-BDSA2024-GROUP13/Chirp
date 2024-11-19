@@ -19,7 +19,10 @@
 
 @if(SignInManager.IsSignedIn(User)){
     @if(!User.Identity.Name.Equals(routeName)){
-        @await Html.PartialAsync("_Follow")
+        @await Html.PartialAsync("_Follow", new FollowPartialView{
+            UserName = @User.Identity.Name,
+            FollowUser = $"{@routeName}",
+        })
     }
 
     @if (Model.Cheeps.Any()){

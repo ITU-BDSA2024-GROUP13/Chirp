@@ -30,7 +30,6 @@
     
     function searchQuery(input) {
         const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
-        // TODO: add name of account in json
         fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Search" : "?handler=Search"), {
             method: "POST",
             headers: {

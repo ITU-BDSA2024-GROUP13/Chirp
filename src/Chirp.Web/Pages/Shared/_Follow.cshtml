@@ -1,3 +1,5 @@
+@model Chirp.Web.models.FollowPartialView
+
 <button id="follow" type="submit" asp-handler="Follow" onclick=followPost()>Follow</button>
 
 <script>
@@ -11,8 +13,8 @@
                 "RequestVerificationToken": antiforgeryToken
             },
             body: JSON.stringify({ 
-                Username: "Helge",
-                FollowId: 14,
+                Username: '@User.Identity.Name',
+                FollowId: '@Model.FollowUser',
             })
         })
         .catch(error => {
