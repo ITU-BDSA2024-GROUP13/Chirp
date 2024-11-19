@@ -121,13 +121,16 @@ public class CheepService  : ICheepService
     }
 
     public async Task<bool> IsFollowing(int id, int followerId) {
-        var list = await _authorRepository.GetFollowers("Helge");
-        foreach(var author in list){
-            if(author.Id == followerId)
-                return false;
+        var author = await FindSpecificAuthorById(id);
+        
+        var list = await _authorRepository.GetFollowers(author.Name);
+
+        foreach(var a in list){
+            if(a.Id == followerId)
+                return true;
         }
 
-        return true;
+        return false;
     }
 
     public async Task<List<AuthorDTO>> FindAuthors(string userName){
