@@ -18,13 +18,13 @@ public static class HelperFunctions
      */
     public static DateTime FromUnixTimeToDateTime(long unixTime)
     {
-        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+        DateTime dateTime = new(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
         dateTime = dateTime.AddMilliseconds(unixTime).ToLocalTime();
         return dateTime;
     }
 
     public static string ReformatDateTimetoDanishFormat(DateTime dateTime){
-        CultureInfo danish = new CultureInfo("da");
+        CultureInfo danish = new("da");
         String danishFormat = dateTime.ToString("G", danish);
         return danishFormat;
     }

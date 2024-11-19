@@ -84,7 +84,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
             Author = postRequest.PostName,
             Text = postRequest.PostString,
             Timestamp = unixTime,
-            AuthorId = postRequest.AuthorId,
+            AuthorId = postRequest.PostAuthorId,
         });
 
         Console.WriteLine($"Received PostString:\nAuthor: {postRequest?.PostName}\nBody: {postRequest?.PostString}");
@@ -96,7 +96,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     {
         public required string PostString { get; set; }
         public required string PostName { get; set; }
-        public required int AuthorId { get; set; }
+        public required int PostAuthorId { get; set; }
 
     }
     

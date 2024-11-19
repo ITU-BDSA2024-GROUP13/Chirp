@@ -154,6 +154,7 @@ footer {
     left: 40px;
     color: #4b15155e;
     transition: top 0.3s ease, opacity 0.3s ease; /* Thank you ChatGPT */
+    pointer-events: none;
 }
 
 .search-form {
