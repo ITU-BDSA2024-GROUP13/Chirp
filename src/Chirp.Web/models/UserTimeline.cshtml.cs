@@ -3,13 +3,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Chirp.Services;
 using System.Threading.Tasks;
+using Chirp.Core.DTO;
+using Chirp.Core.Entities;
 
 #pragma warning disable CS8604 // Possible null reference argument.
 
 
 public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepService)
-{
-    
+{   
     public async Task<ActionResult> OnGetAsync(string author)
     {
         int page = UpdatePage();
@@ -28,13 +29,17 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
 
     public async Task<ActionResult> OnPostFollow([FromBody] FollowRequest followRequest)
     {
-        Console.WriteLine($"{followRequest.Username}\n{followRequest.FollowName}");
+        var user = await _cheepService.FindSpecificAuthorByName(followRequest.Username);
+        var follower = await _cheepService.FindSpecificAuthorByName(followRequest.FollowName);
+        
+        await _cheepService.Follow(user.Id, follower.Id);
         return new JsonResult(new { success = true, message = "FollowRequest successfully processed" });
     }
 
     public class FollowRequest
     {
         public required string Username { get; set; }
-        public required int FollowName { get; set; }
+        public required string FollowName { get; set; }
+        
     }
 }

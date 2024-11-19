@@ -77,7 +77,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
             return BadRequest("PostString cannot be null.");
         }
 
-        AuthorDTO author = await _cheepService.FindSpecificAuthorByName(postRequest.PostName);
+        var author = await _cheepService.FindSpecificAuthorByName(postRequest.PostName);
 
         await _cheepService.CreateMessage(new CheepDTO{
             Author = postRequest.PostName,
@@ -85,9 +85,6 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
             Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow),
             AuthorId = author.Id,
         });
-        
-        Console.WriteLine(_cheepService.FindSpecificAuthorByName(postRequest.PostName).Id + " " + id);
-
 
         return new JsonResult(new { success = true, message = "PostString successfully processed" });
     }

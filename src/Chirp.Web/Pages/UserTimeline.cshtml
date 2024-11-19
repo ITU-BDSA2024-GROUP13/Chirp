@@ -19,10 +19,7 @@
 
 @if(SignInManager.IsSignedIn(User)){
     @if(!User.Identity.Name.Equals(routeName)){
-        @await Html.PartialAsync("_Follow", new FollowPartialView{
-            UserName = @User.Identity.Name,
-            FollowUser = $"{@routeName}",
-        })
+        <button id="follow" type="submit" asp-handler="Follow" onclick=followPost()>Follow</button>
     }
 
     @if (Model.Cheeps.Any()){
@@ -45,4 +42,25 @@
             <p class="cheep-body"> Log in to experience new ideas on Chirp. </p>
         </div>
     </div>
+}
+
+<script>
+    function followPost(){
+        const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Follow" : "?handler=Follow"), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "RequestVerificationToken": antiforgeryToken
+            },
+            body: JSON.stringify({ 
+                Username: '@User.Identity.Name',
+                FollowName: '@routeName',
+            })
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
     }
+</script>
