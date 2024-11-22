@@ -61,13 +61,6 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
             return BadRequest("PostString cannot be null.");
         }
 
-        /*
-        foreach(var author in SearchQuery){
-            Console.WriteLine(author.Email);
-        }
-        */
-
-
         return new JsonResult(new
         {
             list = new[]{
@@ -93,9 +86,6 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
             Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow),
             AuthorId = author.Id,
         });
-
-        //Console.WriteLine(_cheepService.FindSpecificAuthorByName(postRequest.PostName).Id + " " + id);
-
 
         return new JsonResult(new { success = true, message = "PostString successfully processed" });
     }
