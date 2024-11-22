@@ -27,37 +27,30 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
 
     public async Task<ActionResult> OnPostFollow([FromBody] FollowRequest followRequest)
     {
-        Console.WriteLine(followRequest.FollowUser + "\n" + followRequest.Username);
         var user = await _cheepService.FindSpecificAuthorByName(followRequest.Username);
         var follower = await _cheepService.FindSpecificAuthorByName(followRequest.FollowUser);
 
+        Console.WriteLine($"{user.Id}\n{follower.Id}");
+
         try{
-            var followSuccess = followRequest.Follow ? await Follow(user.Id, follower.Id) : await UnFollow(user.Id, follower.Id);
-            Console.WriteLine("success");
-            
+            var followSuccess = await IsFollowing(followRequest.Username, followRequest.FollowUser) ? await UnFollow(user.Id, follower.Id) : await Follow(user.Id, follower.Id);            
             return new JsonResult(new { 
-            success = followSuccess, 
-            message = "FollowRequest successfully processed" 
+                success = followSuccess, 
+                message = followSuccess ? $"{followRequest.Username} succesfully followed {followRequest.FollowUser}" : $"{followRequest.Username} succesfully followed {followRequest.FollowUser}"
             });
         } catch (Exception e) {
             Console.WriteLine(e.Message);
             return StatusCode(500);
         }        
     }
-
-    /*
-    public async Task<ActionResult> OnGetIsFollow()
-    {
-        var user = await _cheepService.FindSpecificAuthorByName(Username);
-        var follower = await _cheepService.FindSpecificAuthorByName(FollowName);
-        return new JsonResult(new { 
-            success = await IsFollowing(user.Id, follower.Id)
-        });
-    }*/
     
-    private async Task<bool> IsFollowing(int userId, int followerId)
+    public async Task<bool> IsFollowing(string userId, string followerId)
     {
-        return await _cheepService.IsFollowing(userId, followerId);
+        var user = await _cheepService.FindSpecificAuthorByName(userId);
+        var follower = await _cheepService.FindSpecificAuthorByName(followerId);
+        Console.WriteLine(await _cheepService.IsFollowing(user.Id, follower.Id));
+
+        return await _cheepService.IsFollowing(user.Id, follower.Id);
     }
 
     private async Task<bool> Follow(int userId, int followerId)
@@ -84,7 +77,6 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
 
     public class FollowRequest
     {
-        public required bool Follow { get; set; }
         public required string Username { get; set; }
         public required string FollowUser { get; set; }
     }

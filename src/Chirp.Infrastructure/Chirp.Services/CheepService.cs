@@ -124,8 +124,9 @@ public class CheepService  : ICheepService
         var author = await FindSpecificAuthorById(id);
         
         var list = await _authorRepository.GetFollowers(author.Name);
-
+        
         foreach(var a in list){
+            Console.WriteLine(a.Name);
             if(a.Id == followerId)
                 return true;
         }

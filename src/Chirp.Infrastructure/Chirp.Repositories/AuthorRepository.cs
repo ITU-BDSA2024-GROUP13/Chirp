@@ -150,6 +150,7 @@ public class AuthorRepository : IAuthorRepository {
         if (author.Followers == null){
             author.Followers = new List<Author>();
         }
+        
         if (author.Followers.Contains(follower)){
                 author.Followers.Remove(follower);
         }else {
