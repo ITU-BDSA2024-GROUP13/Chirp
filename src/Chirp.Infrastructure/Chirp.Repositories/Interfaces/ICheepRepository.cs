@@ -14,6 +14,9 @@ public interface ICheepRepository
 
     public Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, List<string> followers, int takeValue, int skipValue);
 
-
     public Task<List<AuthorDTO>> GetUsersOfSearch(string searchValue, int amount);
+
+    public Task RemoveCheepsFromUser(string userName);
+
+
 }

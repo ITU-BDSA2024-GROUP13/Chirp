@@ -115,4 +115,14 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
 
         return result;
     }
+
+    public async Task RemoveCheepsFromUser(string userName)
+    {
+
+        var cheeps = _dbContext.Cheeps.Where(c => c.Author.Name == userName);
+        _dbContext.RemoveRange(cheeps);
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;
+
+    }
 }

@@ -206,6 +206,28 @@ public class CheepRepositoryTest : IDisposable
         }
     }
 
+     [Fact]
+    public async void RemoveAllMessages()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new CheepRepository(context);
+
+                List<CheepDTO> cheeps = await repo.ReadUserMessages("Roger Histand", 300, 0);
+
+                await repo.RemoveCheepsFromUser("Roger Histand");
+
+                List<CheepDTO> nocheeps = await repo.ReadUserMessages("Roger Histand", 300, 0);
+
+                Assert.NotEmpty(cheeps);
+                Assert.Empty(nocheeps);
+            }
+        }
+    }
+
 
 
 }
