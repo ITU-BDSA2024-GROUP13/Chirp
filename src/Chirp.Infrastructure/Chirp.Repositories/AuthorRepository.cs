@@ -175,6 +175,7 @@ public class AuthorRepository : IAuthorRepository
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
         return;
     }
+    
 
     public async Task RemoveFollower(int id, int followerId)
     {
@@ -182,14 +183,8 @@ public class AuthorRepository : IAuthorRepository
         Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.AuthorId == id);
         Author follower = _dbContext.Authors.Single(e => e.AuthorId == followerId);
 
-        Console.WriteLine("author id " + follower.AuthorId);
-
-        //Console.WriteLine("follower follows " + follower.Followers.Count);
-        Console.WriteLine("author follows " + author.Followers.Count);
-
         if (author.Followers.Any(f => f.AuthorId == follower.AuthorId))
         {
-            Console.WriteLine("REMOVING FOLLWOER");
             author.Followers.Remove(follower);
             var entityEntry = _dbContext.Entry(author);
             _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);
@@ -204,6 +199,34 @@ public class AuthorRepository : IAuthorRepository
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
         return;
+    }
+
+    public async Task RemoveAllFollowers(int id)
+    {
+        Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.AuthorId == id);
+
+        author.Followers.Clear();
+
+        var entityEntry = _dbContext.Entry(author);
+        _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);
+
+
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;    
+    
+    }
+
+    public async Task RemoveAllFollowedby(int id)
+    {
+        Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.AuthorId == id);
+
+        author.FollowedBy.Clear();
+
+        var entityEntry = _dbContext.Entry(author);
+        _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);
+
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;     
     }
 
     public async Task<List<AuthorDTO>> FindAuthorByEmail(string email)
@@ -228,5 +251,5 @@ public class AuthorRepository : IAuthorRepository
         return result;
     }
 
- 
+
 }
