@@ -9,13 +9,14 @@ namespace Repositories;
 
 public class AuthorRepositoryTest : IDisposable
 {
-    #pragma warning disable CS8602 // Dereference of a possibly null reference.
-    #pragma warning disable CS8604 // Dereference of a possibly null reference.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8604 // Dereference of a possibly null reference.
 
     private ServiceProvider _serviceProvider;
-    
 
-    public AuthorRepositoryTest(){
+
+    public AuthorRepositoryTest()
+    {
 
         var services = new ServiceCollection();
 
@@ -53,9 +54,11 @@ public class AuthorRepositoryTest : IDisposable
     [Fact]
     public async void SeededDatabase()
     {
-        using (var scope = _serviceProvider.CreateScope()){
+        using (var scope = _serviceProvider.CreateScope())
+        {
 
-            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
                 var repo = new CheepRepository(context);
 
                 List<CheepDTO> list = await repo.ReadPublicMessages(32, 0);
@@ -67,9 +70,11 @@ public class AuthorRepositoryTest : IDisposable
     [Fact]
     public async void FindAuthorByName()
     {
-        using (var scope = _serviceProvider.CreateScope()){
+        using (var scope = _serviceProvider.CreateScope())
+        {
 
-            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
                 var repo = new AuthorRepository(context);
 
                 List<AuthorDTO> authors = await repo.FindAuthorByName("Helge");
@@ -83,9 +88,11 @@ public class AuthorRepositoryTest : IDisposable
     [Fact]
     public async void FindMultipleAuthors()
     {
-        using (var scope = _serviceProvider.CreateScope()){
+        using (var scope = _serviceProvider.CreateScope())
+        {
 
-            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
                 var repo = new AuthorRepository(context);
 
                 List<AuthorDTO> authors = await repo.FindAuthorByName("J");
@@ -95,13 +102,15 @@ public class AuthorRepositoryTest : IDisposable
             }
         }
     }
-    
+
     [Fact]
     public async void FindAuthorByEmail()
     {
-        using (var scope = _serviceProvider.CreateScope()){
+        using (var scope = _serviceProvider.CreateScope())
+        {
 
-            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
                 var repo = new AuthorRepository(context);
 
                 List<AuthorDTO> authors = await repo.FindAuthorByEmail("ropf@itu.dk");
@@ -115,9 +124,11 @@ public class AuthorRepositoryTest : IDisposable
     [Fact]
     public async void FindMultipleAuthorsByEmail()
     {
-        using (var scope = _serviceProvider.CreateScope()){
+        using (var scope = _serviceProvider.CreateScope())
+        {
 
-            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
                 var repo = new AuthorRepository(context);
 
                 List<AuthorDTO> authors = await repo.FindAuthorByEmail("J");
@@ -131,13 +142,15 @@ public class AuthorRepositoryTest : IDisposable
     [Fact]
     public async void CreateAuthor()
     {
-        using (var scope = _serviceProvider.CreateScope()){
+        using (var scope = _serviceProvider.CreateScope())
+        {
 
-            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
                 var repo = new AuthorRepository(context);
 
-                AuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com"};
-                    await repo.CreateAuthor(newAuthor);
+                AuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com" };
+                await repo.CreateAuthor(newAuthor);
 
                 List<AuthorDTO> authors = await repo.FindAuthorByName("Helge");
                 Assert.Equal("Helge", authors[0].Name);
@@ -146,16 +159,18 @@ public class AuthorRepositoryTest : IDisposable
         }
     }
 
-        [Fact]
+    [Fact]
     public async void FindSpecificAuthorByName()
     {
-        using (var scope = _serviceProvider.CreateScope()){
+        using (var scope = _serviceProvider.CreateScope())
+        {
 
-            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
                 var repo = new AuthorRepository(context);
 
-                AuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com"};
-                    await repo.CreateAuthor(newAuthor);
+                AuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com" };
+                await repo.CreateAuthor(newAuthor);
 
                 AuthorDTO author = await repo.FindSpecificAuthorByName("Helge");
                 Assert.Equal("Helge", author.Name);
@@ -163,12 +178,14 @@ public class AuthorRepositoryTest : IDisposable
         }
     }
 
-            [Fact]
+    [Fact]
     public async void AddFollower()
     {
-        using (var scope = _serviceProvider.CreateScope()){
+        using (var scope = _serviceProvider.CreateScope())
+        {
 
-            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
                 var repo = new AuthorRepository(context);
 
                 await repo.AddFollower(1, 12);
@@ -183,9 +200,11 @@ public class AuthorRepositoryTest : IDisposable
 
     public async void RemoveFollower()
     {
-        using (var scope = _serviceProvider.CreateScope()){
+        using (var scope = _serviceProvider.CreateScope())
+        {
 
-            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
                 var repo = new AuthorRepository(context);
 
                 await repo.AddFollower(1, 12);
@@ -200,19 +219,21 @@ public class AuthorRepositoryTest : IDisposable
         }
     }
 
-     [Fact]
+    [Fact]
 
     public async void RemoveFollowerException()
     {
-        using (var scope = _serviceProvider.CreateScope()){
+        using (var scope = _serviceProvider.CreateScope())
+        {
 
-            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
                 var repo = new AuthorRepository(context);
                 await Assert.ThrowsAsync<InvalidDataException>(async () => await repo.RemoveFollower(1, 12));
             }
         }
     }
 
-   
+
 
 }

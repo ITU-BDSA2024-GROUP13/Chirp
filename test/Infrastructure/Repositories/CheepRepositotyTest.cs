@@ -9,13 +9,14 @@ namespace Repositories;
 
 public class CheepRepositoryTest : IDisposable
 {
-    #pragma warning disable CS8602 // Dereference of a possibly null reference.
-    #pragma warning disable CS8604 // Dereference of a possibly null reference.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8604 // Dereference of a possibly null reference.
 
     private ServiceProvider _serviceProvider;
-    
 
-    public CheepRepositoryTest(){
+
+    public CheepRepositoryTest()
+    {
 
         var services = new ServiceCollection();
 
@@ -48,16 +49,18 @@ public class CheepRepositoryTest : IDisposable
 
     public void Dispose()
     {
-       var dbContext = _serviceProvider.GetService<CheepDBContext>();
-       dbContext.Database.EnsureDeleted();
+        var dbContext = _serviceProvider.GetService<CheepDBContext>();
+        dbContext.Database.EnsureDeleted();
     }
 
     [Fact]
     public async void SeededDatabase()
     {
-        using (var scope = _serviceProvider.CreateScope()){
+        using (var scope = _serviceProvider.CreateScope())
+        {
 
-            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
                 var repo = new CheepRepository(context);
 
                 List<CheepDTO> list = await repo.ReadPublicMessages(32, 0);
@@ -69,9 +72,11 @@ public class CheepRepositoryTest : IDisposable
     [Fact]
     public async void ReadPublicMessages()
     {
-        using (var scope = _serviceProvider.CreateScope()){
+        using (var scope = _serviceProvider.CreateScope())
+        {
 
-            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
                 var repo = new CheepRepository(context);
 
                 List<CheepDTO> list = await repo.ReadPublicMessages(32, 0);
@@ -81,7 +86,8 @@ public class CheepRepositoryTest : IDisposable
 
                 foreach (CheepDTO item in list)
                 {
-                    if(!item.Author.Equals(authorName)){
+                    if (!item.Author.Equals(authorName))
+                    {
                         otherAuthor = true;
                     }
                 }
@@ -97,9 +103,11 @@ public class CheepRepositoryTest : IDisposable
     [Fact]
     public async void ReadUserMessages()
     {
-        using (var scope = _serviceProvider.CreateScope()){
+        using (var scope = _serviceProvider.CreateScope())
+        {
 
-            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
                 var repo = new CheepRepository(context);
 
                 List<CheepDTO> list = await repo.ReadUserMessages("Helge", 32, 0);
@@ -109,7 +117,8 @@ public class CheepRepositoryTest : IDisposable
 
                 foreach (CheepDTO item in list)
                 {
-                    if(!item.Author.Equals(authorName)){
+                    if (!item.Author.Equals(authorName))
+                    {
                         otherAuthor = true;
                         break;
                     }
@@ -125,19 +134,21 @@ public class CheepRepositoryTest : IDisposable
         }
     }
 
-    
+
 
     [Fact]
     public async void CreateMessage()
     {
-        using (var scope = _serviceProvider.CreateScope()){
+        using (var scope = _serviceProvider.CreateScope())
+        {
 
-            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
                 var repo = new CheepRepository(context);
                 bool messageCreated = false;
 
 
-                CheepDTO newMessage = new() { Author = "Helge", AuthorId = 11, Text = "I love group 13!", Timestamp = 12345};
+                CheepDTO newMessage = new() { Author = "Helge", AuthorId = 11, Text = "I love group 13!", Timestamp = 12345 };
                 List<CheepDTO> prevList = await repo.ReadUserMessages("Helge", 32, 0);
 
 
@@ -147,7 +158,8 @@ public class CheepRepositoryTest : IDisposable
 
                 foreach (CheepDTO item in newList)
                 {
-                    if(item.Text.Equals(newMessage.Text)){
+                    if (item.Text.Equals(newMessage.Text))
+                    {
                         messageCreated = true;
                         break;
                     }
@@ -161,14 +173,16 @@ public class CheepRepositoryTest : IDisposable
     [Fact]
     public async void UpdateMessage()
     {
-        using (var scope = _serviceProvider.CreateScope()){
+        using (var scope = _serviceProvider.CreateScope())
+        {
 
-            using (var context = scope.ServiceProvider.GetService<CheepDBContext>()){
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
                 var repo = new CheepRepository(context);
                 bool messageCreated = false;
 
 
-                CheepDTO newMessage = new() { Author = "Helge", AuthorId = 11, Text = "I love group 13!", Timestamp = 12345};
+                CheepDTO newMessage = new() { Author = "Helge", AuthorId = 11, Text = "I love group 13!", Timestamp = 12345 };
                 List<CheepDTO> prevList = await repo.ReadUserMessages("Helge", 32, 0);
 
 
@@ -178,7 +192,8 @@ public class CheepRepositoryTest : IDisposable
 
                 foreach (CheepDTO item in newList)
                 {
-                    if(item.Text.Equals(newMessage.Text)){
+                    if (item.Text.Equals(newMessage.Text))
+                    {
                         messageCreated = true;
                         break;
                     }

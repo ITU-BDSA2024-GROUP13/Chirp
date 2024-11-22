@@ -84,7 +84,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             [MaxLength(25)]
             [DataType(DataType.Text)]
             [Display(Name = "Name")]
-            public string Name {get;set;}
+            public string Name { get; set; }
 
 
             /// <summary>
@@ -131,14 +131,15 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
                 var existingUser = await _userManager.FindByEmailAsync(Input.Email);
-                if(existingUser != null){
+                if (existingUser != null)
+                {
                     ModelState.AddModelError(string.Empty, "Email is already used");
                     return Page();
                 }
                 await _userStore.SetUserNameAsync(user, Input.Name, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                AuthorDTO author = new() { Email = Input.Email, Name = Input.Name};
+                AuthorDTO author = new() { Email = Input.Email, Name = Input.Name };
                 await _cheepService.CreateAuthor(author);
 
                 if (result.Succeeded)
@@ -181,7 +182,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         {
             try
             {
-                
+
                 return Activator.CreateInstance<ApplicationUser>();
             }
             catch

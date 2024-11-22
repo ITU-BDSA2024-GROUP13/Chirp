@@ -1,4 +1,4 @@
-﻿namespace Chirp.Web.models;
+namespace Chirp.Web.models;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,7 +11,7 @@ public class PublicTimeLine(ICheepService cheepService) : TimeLine(cheepService)
 {
 
     public async Task<ActionResult> OnGetAsync()
-    {    
+    {
         int page = UpdatePage();
 
         await _cheepService.FindAuthorByName("Helge");
@@ -21,15 +21,15 @@ public class PublicTimeLine(ICheepService cheepService) : TimeLine(cheepService)
         await _cheepService.GetFollowers("Helge");
 
 
-    
+
         Cheeps = await _cheepService.ReadPublicMessages(page);
         Count = await _cheepService.CountPublicMessages();
-        if(!string.IsNullOrEmpty(SearchName))
+        if (!string.IsNullOrEmpty(SearchName))
             Authors = await _cheepService.FindAuthorByName(SearchName);
-            
+
         UpdatePage(page);
-        
+
         return Page();
     }
-    
+
 }

@@ -14,7 +14,7 @@ public class HelperFunctionsTest
         Assert.Equal(unix, HelperFunctions.FromDateTimetoUnixTime(dateTime));
     }
 
-   [Fact]
+    [Fact]
     public void danishFormat()
     {
         long unix = 1730213300000;
@@ -25,6 +25,6 @@ public class HelperFunctionsTest
         Assert.Equal("29.10.2024 15.48.20", danishFormat);
     }
 
-    
+
 
 }

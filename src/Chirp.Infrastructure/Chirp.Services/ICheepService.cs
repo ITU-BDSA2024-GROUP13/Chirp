@@ -14,7 +14,7 @@ public interface ICheepService
 
     public Task<int> CountUserMessages(string userName);
 
-    public Task<int>  CountPublicMessages();
+    public Task<int> CountPublicMessages();
 
     public Task UpdateMessage(CheepDTO alteredMessage, int id);
 

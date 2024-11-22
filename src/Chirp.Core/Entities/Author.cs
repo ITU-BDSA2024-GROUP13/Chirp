@@ -18,11 +18,11 @@ public class Author
 
 
 
-  /*  public Author(){
-        //Followers = new List<Author>();
-       // Cheeps = new List<Cheep>();
+    /*  public Author(){
+          //Followers = new List<Author>();
+         // Cheeps = new List<Cheep>();
 
-    }*/
+      }*/
 
 
 

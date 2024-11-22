@@ -1,4 +1,4 @@
-﻿namespace Chirp.Web.models;
+namespace Chirp.Web.models;
 
 using Microsoft.AspNetCore.Mvc;
 using Chirp.Services;
@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 
 public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepService)
-{   
+{
     public async Task<ActionResult> OnGetAsync(string author)
     {
         int page = UpdatePage();
-    
+
         Cheeps = await _cheepService.ReadUserAndFollowerMessages(author, page);
 
         Count = Cheeps.Count;
-        if(!string.IsNullOrEmpty(SearchName)){
+        if (!string.IsNullOrEmpty(SearchName))
+        {
             Authors = await _cheepService.FindAuthorByName(SearchName);
         }
 
@@ -23,7 +24,7 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
         return Page();
     }
 
-    
+
 
     public async Task<ActionResult> OnPostFollow([FromBody] FollowRequest followRequest)
     {
@@ -32,18 +33,22 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
 
         Console.WriteLine($"{user.Id}\n{follower.Id}");
 
-        try{
-            var followSuccess = await IsFollowing(followRequest.Username, followRequest.FollowUser) ? await UnFollow(user.Id, follower.Id) : await Follow(user.Id, follower.Id);            
-            return new JsonResult(new { 
-                success = followSuccess, 
+        try
+        {
+            var followSuccess = await IsFollowing(followRequest.Username, followRequest.FollowUser) ? await UnFollow(user.Id, follower.Id) : await Follow(user.Id, follower.Id);
+            return new JsonResult(new
+            {
+                success = followSuccess,
                 message = followSuccess ? $"{followRequest.Username} succesfully followed {followRequest.FollowUser}" : $"{followRequest.Username} succesfully followed {followRequest.FollowUser}"
             });
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e.Message);
             return StatusCode(500);
-        }        
+        }
     }
-    
+
     public async Task<bool> IsFollowing(string userId, string followerId)
     {
         var user = await _cheepService.FindSpecificAuthorByName(userId);
@@ -55,10 +60,13 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
 
     private async Task<bool> Follow(int userId, int followerId)
     {
-        try{
+        try
+        {
             await _cheepService.Follow(userId, followerId);
             return true;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e.Message);
             return false;
         }
@@ -66,10 +74,13 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
 
     private async Task<bool> UnFollow(int userId, int followerId)
     {
-        try{
+        try
+        {
             await _cheepService.Unfollow(userId, followerId);
             return true;
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e.Message);
             return false;
         }
