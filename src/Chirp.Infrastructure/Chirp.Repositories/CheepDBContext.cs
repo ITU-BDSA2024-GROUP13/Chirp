@@ -10,9 +10,9 @@ public class CheepDBContext : IdentityDbContext<ApplicationUser>
 
     public CheepDBContext(DbContextOptions<CheepDBContext> options) : base(options) { }
 
-    public DbSet<Author> Authors { get; set; }
+    public required DbSet<Author> Authors { get; set; }
 
-    public DbSet<Cheep> Cheeps { get; set; }
+    public required DbSet<Cheep> Cheeps { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

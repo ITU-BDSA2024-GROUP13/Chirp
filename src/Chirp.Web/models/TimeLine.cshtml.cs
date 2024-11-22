@@ -34,18 +34,32 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
     protected int UpdatePage(int page = 0)
     {
-        var pageQuery = Request.Query["page"];
-        if (!pageQuery.Equals("") && pageQuery.Count > 0)
-        {
-            page = Int32.Parse(pageQuery[0]);
+        try {
+
+            var pageQuery = Request.Query["page"];
+            if (!pageQuery.Equals("") && pageQuery.Count > 0)
+            {
+                page = Int32.Parse(pageQuery[0]!);
+            }
+
+            CurrentPage = page;
+            NextPage = page + 1;
+            PreviousPage = DefinePreviousPage(page);
+            LastPage = DefineLastPage();
+            return page;
+
+
+        }
+        catch (Exception e){
+
+            Console.WriteLine(e.Message);
+
         }
 
-        CurrentPage = page;
-        NextPage = page + 1;
-        PreviousPage = DefinePreviousPage(page);
-        LastPage = DefineLastPage();
+        return 0;
 
-        return page;
+
+
     }
 
     public DateTime ToDateTime(long value)
