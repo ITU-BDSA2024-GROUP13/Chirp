@@ -55,7 +55,7 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
         return await _cheepService.IsFollowing(user.Id, follower.Id);
     }
 
-    private async Task<bool> Follow(int userId, int followerId)
+    private async Task<bool> Follow(string userId, string followerId)
     {
         try
         {
@@ -69,7 +69,7 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
         }
     }
 
-    private async Task<bool> UnFollow(int userId, int followerId)
+    private async Task<bool> UnFollow(string userId, string followerId)
     {
         try
         {

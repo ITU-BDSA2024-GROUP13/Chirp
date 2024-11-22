@@ -188,7 +188,7 @@ public class AuthorRepositoryTest : IDisposable
             {
                 var repo = new AuthorRepository(context);
 
-                await repo.AddFollower(1, 12);
+                await repo.AddFollower("1", "12");
 
                 List<AuthorDTO> list = (List<AuthorDTO>)await repo.GetFollowers("Roger Histand");
                 List<AuthorDTO> list2 = (List<AuthorDTO>)await repo.GetFollowedby("Adrian");
@@ -210,12 +210,12 @@ public class AuthorRepositoryTest : IDisposable
             {
                 var repo = new AuthorRepository(context);
 
-                await repo.AddFollower(1, 12);
+                await repo.AddFollower("1", "12");
 
                 List<AuthorDTO> list = (List<AuthorDTO>)await repo.GetFollowers("Roger Histand");
                 Assert.Equal("Adrian", list[0].Name);
 
-                await repo.RemoveFollower(1, 12);
+                await repo.RemoveFollower("1", "12");
                 List<AuthorDTO> list2 = (List<AuthorDTO>)await repo.GetFollowers("Roger Histand");
                 Assert.False(list2.Any());
             }
@@ -232,7 +232,7 @@ public class AuthorRepositoryTest : IDisposable
             using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
             {
                 var repo = new AuthorRepository(context);
-                await Assert.ThrowsAsync<InvalidDataException>(async () => await repo.RemoveFollower(1, 12));
+                await Assert.ThrowsAsync<InvalidDataException>(async () => await repo.RemoveFollower("1", "12"));
             }
         }
     }
@@ -248,15 +248,15 @@ public class AuthorRepositoryTest : IDisposable
             {
                 var repo = new AuthorRepository(context);
 
-                await repo.AddFollower(1, 12);
-                await repo.AddFollower(1, 3);
-                await repo.AddFollower(1, 4);
+                await repo.AddFollower("1", "12");
+                await repo.AddFollower("1", "3");
+                await repo.AddFollower("1", "4");
 
 
                 List<AuthorDTO> list = (List<AuthorDTO>)await repo.GetFollowers("Roger Histand");
                 Assert.NotEmpty(list);
 
-                await repo.RemoveAllFollowers(1);
+                await repo.RemoveAllFollowers("1");
                 List<AuthorDTO> list2 = (List<AuthorDTO>)await repo.GetFollowers("Roger Histand");
                 Assert.Empty(list2);
             }
@@ -273,15 +273,15 @@ public class AuthorRepositoryTest : IDisposable
             {
                 var repo = new AuthorRepository(context);
 
-                await repo.AddFollower(12, 1);
-                await repo.AddFollower(11, 1);
-                await repo.AddFollower(8, 1);
+                await repo.AddFollower("12", "1");
+                await repo.AddFollower("11", "1");
+                await repo.AddFollower("8", "1");
 
 
                 List<AuthorDTO> list = (List<AuthorDTO>)await repo.GetFollowedby("Roger Histand");
                 Assert.NotEmpty(list);
 
-                await repo.RemoveAllFollowedby(1);
+                await repo.RemoveAllFollowedby("1");
                 List<AuthorDTO> list2 = (List<AuthorDTO>)await repo.GetFollowedby("Roger Histand");
                 Assert.Empty(list2);
             }
@@ -298,7 +298,7 @@ public class AuthorRepositoryTest : IDisposable
             {
                 var repo = new AuthorRepository(context);
 
-                await repo.RemoveAuthor(11);
+                await repo.RemoveAuthor("11");
 
                 await Assert.ThrowsAsync<NullReferenceException>(async () => await repo.FindSpecificAuthorByName("Helge"));
             }

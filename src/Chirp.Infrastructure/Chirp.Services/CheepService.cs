@@ -91,7 +91,7 @@ public class CheepService : ICheepService
         return _cheepRepository.UpdateMessage(alteredMessage, id);
     }
 
-    public async Task<int> CreateAuthor(AuthorDTO author)
+    public async Task<string> CreateAuthor(AuthorDTO author)
     {
         return await _authorRepository.CreateAuthor(author);
     }
@@ -112,7 +112,7 @@ public class CheepService : ICheepService
 
     }
 
-    public async Task<AuthorDTO> FindSpecificAuthorById(int id)
+    public async Task<AuthorDTO> FindSpecificAuthorById(string id)
     {
         return await _authorRepository.FindSpecificAuthorById(id);
     }
@@ -127,7 +127,7 @@ public class CheepService : ICheepService
         return (List<AuthorDTO>)await _authorRepository.GetFollowers(userName);
     }
 
-    public async Task<List<AuthorDTO>> GetFollowersbyId(int id)
+    public async Task<List<AuthorDTO>> GetFollowersbyId(string id)
     {
         return (List<AuthorDTO>)await _authorRepository.GetFollowersbyId(id);
     }
@@ -137,7 +137,7 @@ public class CheepService : ICheepService
         return (List<AuthorDTO>)await _authorRepository.GetFollowedby(userName);
     }
 
-    public async Task<List<AuthorDTO>> GetFollowedbybyId(int id)
+    public async Task<List<AuthorDTO>> GetFollowedbybyId(string id)
     {
         return (List<AuthorDTO>)await _authorRepository.GetFollowedbybyId(id);
     }
@@ -147,18 +147,18 @@ public class CheepService : ICheepService
     ///</summary>
     ///<param name="id"> The author who follows the followerId</param>
     ///<param name="followerId"> The author who will be followed</param>
-    public async Task Follow(int id, int followerId)
+    public async Task Follow(string id, string followerId)
     {
         await _authorRepository.AddFollower(id, followerId);
     }
 
-    public async Task Unfollow(int id, int followerId)
+    public async Task Unfollow(string id, string followerId)
     {
         Console.WriteLine("UNFOLLOWING");
         await _authorRepository.RemoveFollower(id, followerId);
     }
 
-    public async Task<bool> IsFollowing(int id, int followerId)
+    public async Task<bool> IsFollowing(string id, string followerId)
     {
         var author = await FindSpecificAuthorById(id);
 

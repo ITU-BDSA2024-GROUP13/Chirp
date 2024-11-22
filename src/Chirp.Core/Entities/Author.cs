@@ -7,10 +7,13 @@ namespace Chirp.Core.Entities;
 
 public class Author : IdentityUser
 {
-    public required int AuthorId { get; set; }
 
-    public required string Name { get; set; }
-    //public required string Email { get; set; }
+    //public required string Id { get; set; }
+
+    //public required override string UserName { get; set; }
+    
+    //public required override string Email { get; set; }
+    
     public required ICollection<Cheep> Cheeps { get; set; }
 
     public required ICollection<Author> Followers { get; set; }

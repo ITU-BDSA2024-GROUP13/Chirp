@@ -10,7 +10,7 @@ public class AuthorTest
     [Fact]
     public void Requirements()
     {
-        Author a = new() { Name = "Helge", AuthorId = 1, Email = "Helge@gmail.com", 
+        Author a = new() { Name = "Helge", AuthorId = "1", Email = "Helge@gmail.com", 
         Cheeps = new List<Cheep>(), FollowedBy = new List<Author>(), Followers = new List<Author>() };
         Assert.Empty(a.Cheeps);
     }

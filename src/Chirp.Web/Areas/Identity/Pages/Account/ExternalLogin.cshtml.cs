@@ -183,8 +183,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
-                        AuthorDTO author = new() { Email = email, Name = Input.Name };
-                        await _cheepService.CreateAuthor(author);
+                        //AuthorDTO author = new() { Email = email, Name = Input.Name };
+                        //await _cheepService.CreateAuthor(author);
                         var userId = await _userManager.GetUserIdAsync(user);
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

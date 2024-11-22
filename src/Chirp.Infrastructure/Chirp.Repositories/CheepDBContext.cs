@@ -36,7 +36,11 @@ public class CheepDBContext : IdentityDbContext<Author>
 
         // Your custom configurations for the Author entity
         modelBuilder.Entity<Author>()
-            .HasKey(a => a.AuthorId);
+            .HasKey(a => a.Id);
+
+        modelBuilder.Entity<Author>()
+            .Property(f => f.Id)
+            .ValueGeneratedOnAdd();
 
         //Define the relationship betwwen Author and itself (followers)
 
