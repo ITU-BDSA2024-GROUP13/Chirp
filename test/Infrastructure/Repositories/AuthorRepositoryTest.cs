@@ -191,7 +191,7 @@ public class AuthorRepositoryTest : IDisposable
                 await repo.AddFollower(1, 12);
 
                 List<AuthorDTO> list = (List<AuthorDTO>)await repo.GetFollowers("Roger Histand");
-                List<AuthorDTO> list2 = (List<AuthorDTO>)await repo.GetFollowedBy("Adrian");
+                List<AuthorDTO> list2 = (List<AuthorDTO>)await repo.GetFollowedby("Adrian");
 
                 Assert.Equal("Adrian", list[0].Name);
                 Assert.Equal("Roger Histand", list2[0].Name);

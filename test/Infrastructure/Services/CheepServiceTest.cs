@@ -323,9 +323,14 @@ public class CheepServiceTest : IDisposable
 
             List<AuthorDTO> list = await _cheepService.GetFollowers("Roger Histand");
             List<AuthorDTO> list2 = await _cheepService.GetFollowersbyId(1);
+            List<AuthorDTO> list3 = await _cheepService.GetFollowedby("Adrian");
+            List<AuthorDTO> list4 = await _cheepService.GetFollowedbybyId(12);
+
 
             Assert.Equal("Adrian", list[0].Name);
             Assert.Equal("Adrian", list2[0].Name);
+            Assert.Equal("Roger Histand", list3[0].Name);
+            Assert.Equal("Roger Histand", list4[0].Name);
 
 
         }
