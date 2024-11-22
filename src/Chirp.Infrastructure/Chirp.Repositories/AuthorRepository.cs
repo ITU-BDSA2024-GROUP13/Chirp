@@ -17,7 +17,8 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<int> CreateAuthor(AuthorDTO author)
     {
-        Author newAuthor = new() { AuthorId = author.Id, Name = author.Name, Email = author.Email };
+        Author newAuthor = new() { AuthorId = author.Id, Name = author.Name, Email = author.Email, 
+        Cheeps = new List<Cheep>(), FollowedBy = new List<Author>(), Followers = new List<Author>()};
         var queryResult = await _dbContext.Authors.AddAsync(newAuthor); // does not write to the database!
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
@@ -120,7 +121,6 @@ public class AuthorRepository : IAuthorRepository
         .Select(author => author.Followers);
         // Execute the query
         var result = await query.ToListAsync();
-        Console.WriteLine("Following: " + result[0].Count);
 
         return result[0].Select(i => new AuthorDTO() { Id = i.AuthorId, Email = i.Email, Name = i.Name }).ToList();
     }
@@ -132,7 +132,6 @@ public class AuthorRepository : IAuthorRepository
         .Select(author => author.Followers);
         // Execute the query
         var result = await query.ToListAsync();
-        Console.WriteLine("Following: " + result[0].Count);
 
         return result[0].Select(i => new AuthorDTO() { Id = i.AuthorId, Email = i.Email, Name = i.Name }).ToList();
     }
@@ -162,21 +161,26 @@ public class AuthorRepository : IAuthorRepository
     {
 
         Author author = _dbContext.Authors.Single(e => e.AuthorId == id);
-        var follower = _dbContext.Authors.Single(e => e.AuthorId == followerId);
+        Author follower = _dbContext.Authors.Single(e => e.AuthorId == followerId);
 
-        author.Followers ??= [];
+        Console.WriteLine("author id " + follower.AuthorId);
 
-        if (author.Followers.Contains(follower))
+        //Console.WriteLine("follower follows " + follower.Followers.Count);
+        Console.WriteLine("author follows " + author.Followers.Count);
+
+        if (author.Followers.Any(f => f.AuthorId == follower.AuthorId))
         {
+            Console.WriteLine("REMOVING FOLLWOER");
             author.Followers.Remove(follower);
+            var entityEntry = _dbContext.Entry(author);
+            _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);
         }
         else
         {
             throw new InvalidDataException("Cannot unfollow an author you don't already follow");
         }
 
-        var entityEntry = _dbContext.Entry(author);
-        _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);
+
 
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database

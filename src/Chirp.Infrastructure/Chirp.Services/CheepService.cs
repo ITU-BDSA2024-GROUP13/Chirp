@@ -134,6 +134,7 @@ public class CheepService : ICheepService
 
     public async Task Unfollow(int id, int followerId)
     {
+        Console.WriteLine("UNFOLLOWING");
         await _authorRepository.RemoveFollower(id, followerId);
     }
 
@@ -145,7 +146,6 @@ public class CheepService : ICheepService
 
         foreach (var a in list)
         {
-            Console.WriteLine(a.Name);
             if (a.Id == followerId)
                 return true;
         }

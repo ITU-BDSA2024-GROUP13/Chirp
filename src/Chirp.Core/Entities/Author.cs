@@ -10,11 +10,11 @@ public class Author
 
     public required string Name { get; set; }
     public required string Email { get; set; }
-    public ICollection<Cheep> Cheeps { get; set; }
+    public required ICollection<Cheep> Cheeps { get; set; }
 
-    public ICollection<Author> Followers { get; set; }
+    public required ICollection<Author> Followers { get; set; }
 
-    public ICollection<Author> FollowedBy { get; set; }
+    public required ICollection<Author> FollowedBy { get; set; }
 
 
 
