@@ -122,6 +122,16 @@ public class CheepService : ICheepService
         return (List<AuthorDTO>)await _authorRepository.GetFollowersbyId(id);
     }
 
+    public async Task<List<AuthorDTO>> GetFollowedby(string userName)
+    {
+        return (List<AuthorDTO>)await _authorRepository.GetFollowedby(userName);
+    }
+
+    public async Task<List<AuthorDTO>> GetFollowedbybyId(int id)
+    {
+        return (List<AuthorDTO>)await _authorRepository.GetFollowedbybyId(id);
+    }
+
     ///<summary>
     /// Adds a single author, which this author will follow
     ///</summary>

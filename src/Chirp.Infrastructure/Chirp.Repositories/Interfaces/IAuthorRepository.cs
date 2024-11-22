@@ -18,6 +18,12 @@ public interface IAuthorRepository
 
     public Task<List<AuthorDTO>> GetFollowersbyId(int id);
 
+    public Task<List<AuthorDTO>> GetFollowedby(string userName);
+
+    public Task<List<AuthorDTO>> GetFollowedbybyId(int id);
+
+
+
 
     public Task AddFollower(int id, int followerId);
     public Task RemoveFollower(int id, int followerId);

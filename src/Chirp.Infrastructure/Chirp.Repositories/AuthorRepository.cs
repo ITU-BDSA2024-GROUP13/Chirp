@@ -125,11 +125,34 @@ public class AuthorRepository : IAuthorRepository
         return result[0].Select(i => new AuthorDTO() { Id = i.AuthorId, Email = i.Email, Name = i.Name }).ToList();
     }
 
+ 
+
     public async Task<List<AuthorDTO>> GetFollowersbyId(int id)
     {
         var query = _dbContext.Authors.OrderBy(author => author.Name)
         .Where(author => author.AuthorId == id)
         .Select(author => author.Followers);
+        // Execute the query
+        var result = await query.ToListAsync();
+
+        return result[0].Select(i => new AuthorDTO() { Id = i.AuthorId, Email = i.Email, Name = i.Name }).ToList();
+    }
+
+     
+    public async Task<List<AuthorDTO>> GetFollowedby(string userName)
+    {
+        var query = _dbContext.Authors.OrderBy(author => author.Name)
+        .Where(author => author.Name.Equals(userName))
+        .Select(author => author.FollowedBy);
+        // Execute the query
+        var result = await query.ToListAsync();
+
+        return result[0].Select(i => new AuthorDTO() { Id = i.AuthorId, Email = i.Email, Name = i.Name }).ToList();    }
+    
+    public async Task<List<AuthorDTO>> GetFollowedbybyId(int id){
+         var query = _dbContext.Authors.OrderBy(author => author.Name)
+        .Where(author => author.AuthorId == id)
+        .Select(author => author.FollowedBy);
         // Execute the query
         var result = await query.ToListAsync();
 
@@ -205,5 +228,5 @@ public class AuthorRepository : IAuthorRepository
         return result;
     }
 
-
+ 
 }
