@@ -143,11 +143,30 @@ public class AuthorRepository : IAuthorRepository
         Author author = _dbContext.Authors.Single(e => e.AuthorId == id);
         var follower = _dbContext.Authors.Single(e => e.AuthorId == followerId);
 
-        if (author.Followers == null)
-        {
-            author.Followers = new List<Author>();
-        }
+        Author Roger = _dbContext.Authors.Single(e => e.AuthorId == 1);
+
+
+        List<Author> list = new List<Author>();
+        Console.WriteLine(author.AuthorId + ", id ");
+        Console.WriteLine(author.Followers + ", followers ");
+        Console.WriteLine(list + ", list  ");
+
+        Console.WriteLine(list.Count + ", list count ");
+
+        Console.WriteLine(Roger.Followers.Count + ", followers count ");
+
+
+        Console.WriteLine(author.Followers.Count + ", followers count ");
+
+        Console.WriteLine(follower.AuthorId + ", follower id ");
+
+
+
+
         author.Followers.Add(follower);
+        Console.WriteLine(author.Followers.Count + ", followers count ");
+
+
 
         var entityEntry = _dbContext.Entry(author);
         _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);

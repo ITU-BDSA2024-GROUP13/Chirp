@@ -11,6 +11,7 @@ public class CheepDBContext : IdentityDbContext<ApplicationUser>
     public CheepDBContext(DbContextOptions<CheepDBContext> options) : base(options) { }
 
     public DbSet<Author> Authors { get; set; }
+
     public DbSet<Cheep> Cheeps { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -42,6 +43,7 @@ public class CheepDBContext : IdentityDbContext<ApplicationUser>
         modelBuilder.Entity<Author>()
             .HasMany(a => a.Followers)
             .WithMany(a => a.FollowedBy);
+            
 
 
         // Define the relationship between Cheep and Author
