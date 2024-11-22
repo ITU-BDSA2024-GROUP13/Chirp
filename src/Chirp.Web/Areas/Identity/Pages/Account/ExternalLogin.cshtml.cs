@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Chirp.Services;
+using Chirp.Core.DTO;
 
 namespace Chirp.Web.Areas.Identity.Pages.Account
 {
@@ -30,6 +32,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
+        private readonly ICheepService _cheepService;
+
 
         public string email;
 
@@ -38,7 +42,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ICheepService cheepService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -46,6 +51,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _logger = logger;
             _emailSender = emailSender;
+            _cheepService = cheepService;
         }
 
         /// <summary>
@@ -89,7 +95,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             [MaxLength(20)]
             public string Name { get; set; }
         }
-        
+
         public IActionResult OnGet() => RedirectToPage("./Login");
 
         public IActionResult OnPost(string provider, string returnUrl = null)
@@ -151,14 +157,15 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             {
 
                 var user = CreateUser();
-                
+
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 {
-                    email =  info.Principal.FindFirstValue(ClaimTypes.Email);
+                    email = info.Principal.FindFirstValue(ClaimTypes.Email);
                 }
 
                 var existingUser = await _userManager.FindByEmailAsync(email);
-                if(existingUser != null){
+                if (existingUser != null)
+                {
                     ModelState.AddModelError(string.Empty, "Email is already used");
                     ProviderDisplayName = info.ProviderDisplayName;
                     return Page();
@@ -175,7 +182,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                     if (result.Succeeded)
                     {
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
-
+                        AuthorDTO author = new() { Email = email, Name = Input.Name };
+                        await _cheepService.CreateAuthor(author);
                         var userId = await _userManager.GetUserIdAsync(user);
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

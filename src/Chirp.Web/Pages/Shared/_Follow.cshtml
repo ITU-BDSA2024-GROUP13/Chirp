@@ -1,0 +1,42 @@
+@if(!User.Identity.Name.Equals(@ViewData["Location"])){
+    <button id="follow" type="submit" asp-handler="Follow">
+        @if(await @Model.IsFollowing($"{@User.Identity.Name}", $"{@ViewData["Location"]}")){
+            <span>Unfollow</span>
+        } else {
+            <span>Follow</span>
+        }
+    </button>
+}
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const Follow = document.getElementById("follow")
+
+        Follow.addEventListener("click", () => followPost())
+    })
+
+    function followPost(){
+        const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Follow" : "?handler=Follow"), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "RequestVerificationToken": antiforgeryToken
+            },
+            body: JSON.stringify({ 
+                Username: '@User.Identity.Name',
+                FollowUser: '@ViewData["Location"]'
+            })
+        })
+        .then(response =>  response.json() )
+        .then(data => {
+            console.log("success:", data)
+            location.reload()
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            
+        })
+    }
+</script>

@@ -1,6 +1,9 @@
-
+  @using Microsoft.AspNetCore.Identity
+    @using Chirp.Repositories;
+    @inject SignInManager<ApplicationUser> SignInManager
+    @inject UserManager<ApplicationUser> UserManager
 <nav>
-                
+              
     <div class="nav-tags">
         <div class="tag" onClick="window.location = '/'">
             <img 
@@ -11,16 +14,18 @@
             Public timeline
         </div>
 
-        <div class="tag" onClick="window.location = '/'">
-            <img 
-                src = "/assets/user.png"
-                alt="My timeline" 
-                id="icon"
-            />
-            My timeline
-        </div>
+        @if(SignInManager.IsSignedIn(User)){
+            <div class="tag" onClick="window.location = '/users/@User.Identity.Name'">
+                <img 
+                    src = "/assets/user.png"
+                    alt="My timeline" 
+                 id="icon"
+                 />
+                 My timeline
+            </div>
+        }
 
-            @await Html.PartialAsync("_LoginPartial")
+        @await Html.PartialAsync("_LoginPartial")
 
     </div>
 

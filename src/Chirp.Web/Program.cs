@@ -9,7 +9,8 @@ using Chirp.Web;
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8604 // Dereference of a possibly null reference.
 
-if (File.Exists(@"Chat.db")){
+if (File.Exists(@"Chat.db"))
+{
     File.Delete(@"Chat.db");
 }
 
@@ -18,7 +19,7 @@ var allowOrigins = "_allowOrigins";
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAntiforgery(options => options.HeaderName = "RequestVerificationToken");
 
-builder.Services.AddCors(options => 
+builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: allowOrigins,
     policy =>
@@ -50,7 +51,7 @@ builder.Services.AddScoped<ICheepService, CheepService>();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
-builder.Services.AddHsts( options => options.MaxAge = TimeSpan.FromHours(1));
+builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromHours(1));
 
 builder.Services.AddAuthentication()
     .AddGitHub(o =>
@@ -60,10 +61,10 @@ builder.Services.AddAuthentication()
         o.CallbackPath = "/signin-github";
         o.Scope.Add("user:email");
     });
-    
+
 var app = builder.Build();
 
-if(app.Environment.IsProduction())
+if (app.Environment.IsProduction())
 {
     app.UseHsts(); // Send HSTS headers, but only in production
 }

@@ -1,7 +1,7 @@
 @using Chirp.Web.models
 <form class="search-form" id="search" asp-page-handler="Search">
     <input type="text" id="search-input">
-    @Html.AntiForgeryToken()
+    
     <div class="search-placeholder" id="search-placeholder">Who are you looking for?</div>
     <div id="results"></div>
 </form>
@@ -30,7 +30,6 @@
     
     function searchQuery(input) {
         const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
-        // TODO: add name of account in json
         fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Search" : "?handler=Search"), {
             method: "POST",
             headers: {

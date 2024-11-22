@@ -6,8 +6,8 @@ using Chirp.Services;
 using Chirp.Core.DTO;
 using Chirp.Repositories;
 
-public abstract class TimeLine(ICheepService cheepService) : PageModel 
-{    
+public abstract class TimeLine(ICheepService cheepService) : PageModel
+{
     protected readonly ICheepService _cheepService = cheepService;
     public required List<CheepDTO> Cheeps { get; set; }
     public required List<AuthorDTO> Authors { get; set; }
@@ -16,36 +16,54 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     public int PreviousPage { get; set; }
     public int CurrentPage { get; set; }
     public int LastPage { get; set; }
-    [BindProperty( SupportsGet = true )]
+    [BindProperty(SupportsGet = true)]
     public string? SearchName { get; set; }
-    [BindProperty( SupportsGet = true )]
+    [BindProperty(SupportsGet = true)]
     public List<AuthorDTO>? SearchQuery { get; set; }
-    public int DefinePreviousPage(int page){
-        return page == 0 ? 0 : page-1;
+    public int DefinePreviousPage(int page)
+    {
+        return page == 0 ? 0 : page - 1;
     }
 
-    public int DefineLastPage(){
-        double p = Count/32;
-        int LastPage = (int) Math.Ceiling(p);
+    public int DefineLastPage()
+    {
+        double p = Count / 32;
+        int LastPage = (int)Math.Ceiling(p);
         return LastPage;
     }
-    
+
     protected int UpdatePage(int page = 0)
     {
-        var pageQuery = Request.Query["page"];
-        if (!pageQuery.Equals("") && pageQuery.Count > 0){
-            page = Int32.Parse(pageQuery[0]);
-        }
-        
-        CurrentPage = page;
-        NextPage = page+1;
-        PreviousPage = DefinePreviousPage(page);
-        LastPage = DefineLastPage();
+        try {
 
-        return page;
+            var pageQuery = Request.Query["page"];
+            if (!pageQuery.Equals("") && pageQuery.Count > 0)
+            {
+                page = Int32.Parse(pageQuery[0]!);
+            }
+
+            CurrentPage = page;
+            NextPage = page + 1;
+            PreviousPage = DefinePreviousPage(page);
+            LastPage = DefineLastPage();
+            return page;
+
+
+        }
+        catch (Exception e){
+
+            Console.WriteLine(e.Message);
+
+        }
+
+        return 0;
+
+
+
     }
 
-    public DateTime ToDateTime(long value){
+    public DateTime ToDateTime(long value)
+    {
         return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
     }
 
@@ -57,17 +75,12 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
             return BadRequest("PostString cannot be null.");
         }
 
-        //SearchQuery = await _cheepService.GetUsersOfSearch(searchRequest.SearchString);
-
-        foreach(var author in SearchQuery){
-            Console.WriteLine(author.Email);
-        }
-
-        //return new JsonResult(new { success = true, message = "PostString successfully processed" });
-        
-        return new JsonResult(new { list = new[]{
+        return new JsonResult(new
+        {
+            list = new[]{
             await _cheepService.FindAuthors(searchRequest.SearchString)
-        }});
+        }
+        });
     }
 
     public async Task<IActionResult> OnPostSave([FromBody] PostRequest postRequest)
@@ -78,17 +91,15 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
             return BadRequest("PostString cannot be null.");
         }
 
-        DateTime currentTime = DateTime.UtcNow;
-        long unixTime = ((DateTimeOffset)currentTime).ToUnixTimeMilliseconds();
+        var author = await _cheepService.FindSpecificAuthorByName(postRequest.PostName);
 
-        await _cheepService.CreateMessage(new CheepDTO{
+        await _cheepService.CreateMessage(new CheepDTO
+        {
             Author = postRequest.PostName,
             Text = postRequest.PostString,
-            Timestamp = unixTime,
-            AuthorId = 11
+            Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow),
+            AuthorId = author.Id,
         });
-
-        Console.WriteLine($"Received PostString:\nAuthor: {postRequest?.PostName}\nBody: {postRequest?.PostString}");
 
         return new JsonResult(new { success = true, message = "PostString successfully processed" });
     }
@@ -97,8 +108,9 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     {
         public required string PostString { get; set; }
         public required string PostName { get; set; }
+
     }
-    
+
     public class SearchRequest
     {
         public required string SearchString { get; set; }
