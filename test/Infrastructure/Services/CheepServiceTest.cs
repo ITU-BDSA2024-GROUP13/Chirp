@@ -231,6 +231,7 @@ public class CheepServiceTest : IDisposable
 
     }
 
+/*
     [Fact]
     public async void CreateAuthorFromNewMessage()
     {
@@ -304,7 +305,7 @@ public class CheepServiceTest : IDisposable
             Assert.True(messageCreated);
 
         }
-    }
+    }*/
 
     [Fact]
     public async void Follow()

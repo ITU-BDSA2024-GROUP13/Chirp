@@ -2,7 +2,7 @@ namespace Chirp.Services;
 
 using Chirp.Repositories;
 using Chirp.Core.DTO;
-
+using NuGet.Packaging.Rules;
 
 public class CheepService : ICheepService
 {
@@ -91,6 +91,13 @@ public class CheepService : ICheepService
         return _cheepRepository.UpdateMessage(alteredMessage, id);
     }
 
+    /// <summary>
+    /// Deprecated! The functionality is now handled with Identity.
+    /// 
+    /// Creates a new author using a data transfer object.
+    /// </summary>
+    /// <param name="author"></param>
+    /// <returns></returns>
     public async Task<string> CreateAuthor(AuthorDTO author)
     {
         return await _authorRepository.CreateAuthor(author);
