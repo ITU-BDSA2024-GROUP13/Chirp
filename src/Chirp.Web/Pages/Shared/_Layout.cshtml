@@ -1,7 +1,8 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using Chirp.Core.Entities
+@using Microsoft.AspNetCore.Identity
 @using Chirp.Repositories
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
 @using Chirp.Web.models
 
 <!DOCTYPE html>

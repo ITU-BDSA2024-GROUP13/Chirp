@@ -5,7 +5,7 @@ using NuGet.Protocol.Plugins;
 
 
 namespace Chirp.Repositories;
-public class CheepDBContext : IdentityDbContext<ApplicationUser>
+public class CheepDBContext : IdentityDbContext<Author>
 {
 
     public CheepDBContext(DbContextOptions<CheepDBContext> options) : base(options) { }

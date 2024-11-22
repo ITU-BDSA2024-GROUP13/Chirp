@@ -2,8 +2,9 @@
 @model Chirp.Web.models.PublicTimeLine
 @using Microsoft.AspNetCore.Identity
 @using Chirp.Repositories
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+@using Chirp.Core.Entities
+@inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
 @using Chirp.Web.models
  
 @{
