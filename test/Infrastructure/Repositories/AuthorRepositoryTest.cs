@@ -238,5 +238,73 @@ public class AuthorRepositoryTest : IDisposable
     }
 
 
+    [Fact]
+    public async void RemoveAllFollowers()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new AuthorRepository(context);
+
+                await repo.AddFollower(1, 12);
+                await repo.AddFollower(1, 3);
+                await repo.AddFollower(1, 4);
+
+
+                List<AuthorDTO> list = (List<AuthorDTO>)await repo.GetFollowers("Roger Histand");
+                Assert.NotEmpty(list);
+
+                await repo.RemoveAllFollowers(1);
+                List<AuthorDTO> list2 = (List<AuthorDTO>)await repo.GetFollowers("Roger Histand");
+                Assert.Empty(list2);
+            }
+        }
+    }
+
+    [Fact]
+    public async void RemoveAllFollowedby()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new AuthorRepository(context);
+
+                await repo.AddFollower(12, 1);
+                await repo.AddFollower(11, 1);
+                await repo.AddFollower(8, 1);
+
+
+                List<AuthorDTO> list = (List<AuthorDTO>)await repo.GetFollowedby("Roger Histand");
+                Assert.NotEmpty(list);
+
+                await repo.RemoveAllFollowedby(1);
+                List<AuthorDTO> list2 = (List<AuthorDTO>)await repo.GetFollowedby("Roger Histand");
+                Assert.Empty(list2);
+            }
+        }
+    }
+
+    [Fact]
+    public async void RemoveAuthor()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new AuthorRepository(context);
+
+                await repo.RemoveAuthor(11);
+
+                await Assert.ThrowsAsync<NullReferenceException>(async () => await repo.FindSpecificAuthorByName("Helge"));
+            }
+        }
+    }
+
+
 
 }

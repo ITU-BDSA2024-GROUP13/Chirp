@@ -164,9 +164,10 @@ public class AuthorRepository : IAuthorRepository
     {
 
         Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.AuthorId == id);
-        var follower = _dbContext.Authors.Single(e => e.AuthorId == followerId);
+        var follower = _dbContext.Authors.Include(p => p.FollowedBy).Single(e => e.AuthorId == followerId);
 
         author.Followers.Add(follower);
+
 
         _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);
 
@@ -215,11 +216,11 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task RemoveAllFollowedby(int id)
     {
-        Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.AuthorId == id);
+        Author author = _dbContext.Authors.Include(p => p.FollowedBy).Single(e => e.AuthorId == id);
 
         author.FollowedBy.Clear();
 
-        _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);
+        _dbContext.Entry(author).CurrentValues.SetValues(author.FollowedBy);
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
         return;     
@@ -230,8 +231,7 @@ public class AuthorRepository : IAuthorRepository
     {
         Author author = _dbContext.Authors.Single(e => e.AuthorId == id);
 
-        var entityEntry = _dbContext.Entry(author);
-        _dbContext.Remove(entityEntry);
+        _dbContext.Remove(author);
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
         return;
