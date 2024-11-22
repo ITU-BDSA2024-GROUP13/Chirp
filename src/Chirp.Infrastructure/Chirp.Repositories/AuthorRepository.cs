@@ -15,26 +15,26 @@ public class AuthorRepository : IAuthorRepository
         _dbContext = dbContext;
     }
 
-    public async Task<int> CreateAuthor(AuthorDTO author)
+    public async Task<string> CreateAuthor(AuthorDTO author)
     {
-        Author newAuthor = new() { AuthorId = author.Id, Name = author.Name, Email = author.Email, 
+        Author newAuthor = new() { Id = author.Id, UserName = author.Name, Email = author.Email, 
         Cheeps = new List<Cheep>(), FollowedBy = new List<Author>(), Followers = new List<Author>()};
         var queryResult = await _dbContext.Authors.AddAsync(newAuthor); // does not write to the database!
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
-        Console.WriteLine(queryResult.Entity.AuthorId);
-        return queryResult.Entity.AuthorId;
+        Console.WriteLine(queryResult.Entity.Id);
+        return queryResult.Entity.Id;
 
     }
 
     public async Task<List<AuthorDTO>> FindAuthorByName(string userName)
     {
-        var query = _dbContext.Authors.OrderBy(author => author.Name)
-        .Where(author => author.Name.StartsWith(userName))
+        var query = _dbContext.Authors.OrderBy(author => author.UserName)
+        .Where(author => author.UserName.StartsWith(userName))
         .Select(author => new AuthorDTO
         {
-            Id = author.AuthorId,
-            Name = author.Name,
+            Id = author.Id,
+            Name = author.UserName,
             Email = author.Email,
             count = author.Cheeps.Count,
         });
@@ -55,13 +55,13 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<List<AuthorDTO>> FindAuthors(string userName, int amount)
     {
-        var query = _dbContext.Authors.OrderBy(author => author.Name)
+        var query = _dbContext.Authors.OrderBy(author => author.UserName)
         .Take(amount)
-        .Where(author => author.Name.ToLower().Contains(userName.ToLower()))
+        .Where(author => author.UserName.ToLower().Contains(userName.ToLower()))
         .Select(author => new AuthorDTO
         {
-            Id = author.AuthorId,
-            Name = author.Name,
+            Id = author.Id,
+            Name = author.UserName,
             Email = author.Email,
         });
         // Execute the query
@@ -78,12 +78,12 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<AuthorDTO> FindSpecificAuthorByName(string userName)
     {
-        var query = _dbContext.Authors.OrderBy(author => author.Name)
-        .Where(author => author.Name == userName)
+        var query = _dbContext.Authors.OrderBy(author => author.UserName)
+        .Where(author => author.UserName == userName)
         .Select(author => new AuthorDTO
         {
-            Id = author.AuthorId,
-            Name = author.Name,
+            Id = author.Id,
+            Name = author.UserName,
             Email = author.Email,
         });
         // Execute the query
@@ -98,14 +98,14 @@ public class AuthorRepository : IAuthorRepository
         }
     }
 
-    public async Task<AuthorDTO> FindSpecificAuthorById(int id)
+    public async Task<AuthorDTO> FindSpecificAuthorById(string id)
     {
-        var query = _dbContext.Authors.OrderBy(author => author.Name)
-        .Where(author => author.AuthorId == id)
+        var query = _dbContext.Authors.OrderBy(author => author.UserName)
+        .Where(author => author.Id == id)
         .Select(author => new AuthorDTO
         {
-            Id = author.AuthorId,
-            Name = author.Name,
+            Id = author.Id,
+            Name = author.UserName,
             Email = author.Email,
         });
         // Execute the query
@@ -116,55 +116,55 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<List<AuthorDTO>> GetFollowers(string userName)
     {
-        var query = _dbContext.Authors.OrderBy(author => author.Name)
-        .Where(author => author.Name.Equals(userName))
+        var query = _dbContext.Authors.OrderBy(author => author.UserName)
+        .Where(author => author.UserName.Equals(userName))
         .Select(author => author.Followers);
         // Execute the query
         var result = await query.ToListAsync();
 
-        return result[0].Select(i => new AuthorDTO() { Id = i.AuthorId, Email = i.Email, Name = i.Name }).ToList();
+        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email, Name = i.UserName }).ToList();
     }
 
  
 
-    public async Task<List<AuthorDTO>> GetFollowersbyId(int id)
+    public async Task<List<AuthorDTO>> GetFollowersbyId(string id)
     {
-        var query = _dbContext.Authors.OrderBy(author => author.Name)
-        .Where(author => author.AuthorId == id)
+        var query = _dbContext.Authors.OrderBy(author => author.UserName)
+        .Where(author => author.Id == id)
         .Select(author => author.Followers);
         // Execute the query
         var result = await query.ToListAsync();
 
-        return result[0].Select(i => new AuthorDTO() { Id = i.AuthorId, Email = i.Email, Name = i.Name }).ToList();
+        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email, Name = i.UserName }).ToList();
     }
 
      
     public async Task<List<AuthorDTO>> GetFollowedby(string userName)
     {
-        var query = _dbContext.Authors.OrderBy(author => author.Name)
-        .Where(author => author.Name.Equals(userName))
+        var query = _dbContext.Authors.OrderBy(author => author.UserName)
+        .Where(author => author.UserName.Equals(userName))
         .Select(author => author.FollowedBy);
         // Execute the query
         var result = await query.ToListAsync();
 
-        return result[0].Select(i => new AuthorDTO() { Id = i.AuthorId, Email = i.Email, Name = i.Name }).ToList();    }
+        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email, Name = i.UserName }).ToList();    }
     
-    public async Task<List<AuthorDTO>> GetFollowedbybyId(int id){
-         var query = _dbContext.Authors.OrderBy(author => author.Name)
-        .Where(author => author.AuthorId == id)
+    public async Task<List<AuthorDTO>> GetFollowedbybyId(string id){
+         var query = _dbContext.Authors.OrderBy(author => author.UserName)
+        .Where(author => author.Id == id)
         .Select(author => author.FollowedBy);
         // Execute the query
         var result = await query.ToListAsync();
 
-        return result[0].Select(i => new AuthorDTO() { Id = i.AuthorId, Email = i.Email, Name = i.Name }).ToList();
+        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email, Name = i.UserName }).ToList();
     }
 
 
-    public async Task AddFollower(int id, int followerId)
+    public async Task AddFollower(string id, string followerId)
     {
 
-        Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.AuthorId == id);
-        var follower = _dbContext.Authors.Include(p => p.FollowedBy).Single(e => e.AuthorId == followerId);
+        Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.Id == id);
+        var follower = _dbContext.Authors.Include(p => p.FollowedBy).Single(e => e.Id == followerId);
 
         author.Followers.Add(follower);
 
@@ -177,13 +177,13 @@ public class AuthorRepository : IAuthorRepository
     }
     
 
-    public async Task RemoveFollower(int id, int followerId)
+    public async Task RemoveFollower(string id, string followerId)
     {
 
-        Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.AuthorId == id);
-        Author follower = _dbContext.Authors.Single(e => e.AuthorId == followerId);
+        Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.Id == id);
+        Author follower = _dbContext.Authors.Single(e => e.Id == followerId);
 
-        if (author.Followers.Any(f => f.AuthorId == follower.AuthorId))
+        if (author.Followers.Any(f => f.Id == follower.Id))
         {
             author.Followers.Remove(follower);
             _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);
@@ -200,9 +200,9 @@ public class AuthorRepository : IAuthorRepository
         return;
     }
 
-    public async Task RemoveAllFollowers(int id)
+    public async Task RemoveAllFollowers(string id)
     {
-        Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.AuthorId == id);
+        Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.Id == id);
 
         author.Followers.Clear();
 
@@ -214,9 +214,9 @@ public class AuthorRepository : IAuthorRepository
     
     }
 
-    public async Task RemoveAllFollowedby(int id)
+    public async Task RemoveAllFollowedby(string id)
     {
-        Author author = _dbContext.Authors.Include(p => p.FollowedBy).Single(e => e.AuthorId == id);
+        Author author = _dbContext.Authors.Include(p => p.FollowedBy).Single(e => e.Id == id);
 
         author.FollowedBy.Clear();
 
@@ -227,9 +227,9 @@ public class AuthorRepository : IAuthorRepository
     }
 
     
-    public async Task RemoveAuthor(int id)
+    public async Task RemoveAuthor(string id)
     {
-        Author author = _dbContext.Authors.Single(e => e.AuthorId == id);
+        Author author = _dbContext.Authors.Single(e => e.Id == id);
 
         _dbContext.Remove(author);
 
@@ -239,12 +239,12 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<List<AuthorDTO>> FindAuthorByEmail(string email)
     {
-        var query = _dbContext.Authors.OrderBy(author => author.Name)
+        var query = _dbContext.Authors.OrderBy(author => author.UserName)
         .Where(author => author.Email.StartsWith(email))
         .Select(author => new AuthorDTO
         {
-            Id = author.AuthorId,
-            Name = author.Name,
+            Id = author.Id,
+            Name = author.UserName,
             Email = author.Email,
         });
         // Execute the query
@@ -253,4 +253,19 @@ public class AuthorRepository : IAuthorRepository
         return result;
     }
 
+    public async Task<AuthorDTO> FindSpecificAuthorByEmail(string email)
+    {
+        var query = _dbContext.Authors.OrderBy(author => author.UserName)
+                .Where(author => author.Email == email)
+                .Select(author => new AuthorDTO
+                {
+                    Id = author.Id,
+                    Name = author.UserName,
+                    Email = author.Email,
+                });
+                // Execute the query
+                var result = await query.ToListAsync();
+
+                return result[0];    
+    }
 }

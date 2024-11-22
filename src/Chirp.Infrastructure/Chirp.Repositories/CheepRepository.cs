@@ -29,7 +29,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         .Select(message => new CheepDTO
         {
             AuthorId = message.AuthorId,
-            Author = message.Author.Name,
+            Author = message.Author.UserName,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds()
         });
@@ -43,13 +43,13 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     {
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps.OrderByDescending(message => message.TimeStamp)
-        .Where(message => message.Author.Name == userName)
+        .Where(message => message.Author.UserName == userName)
         .Skip(skipValue)
         .Take(takeValue)
         .Select(message => new CheepDTO
         {
             AuthorId = message.AuthorId,
-            Author = message.Author.Name,
+            Author = message.Author.UserName,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds()
         });
@@ -62,13 +62,13 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     {
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps.OrderByDescending(message => message.TimeStamp)
-        .Where(message => message.Author.Name == userName || followers.Contains(message.Author.Name))
+        .Where(message => message.Author.UserName == userName || followers.Contains(message.Author.UserName))
         .Skip(skipValue)
         .Take(takeValue)
         .Select(message => new CheepDTO
         {
             AuthorId = message.AuthorId,
-            Author = message.Author.Name,
+            Author = message.Author.UserName,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds()
         });
@@ -103,11 +103,11 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     {
 
         var query = _dbContext.Authors.
-        Where(author => author.Name.ToLower().Contains(searchValue.ToLower()))
+        Where(author => author.UserName.ToLower().Contains(searchValue.ToLower()))
         .Take(amount)
         .Select(author => new AuthorDTO
         {
-            Name = author.Name,
+            Name = author.UserName,
             Email = author.Email
         });
 
@@ -119,7 +119,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     public async Task RemoveCheepsFromUser(string userName)
     {
 
-        var cheeps = _dbContext.Cheeps.Where(c => c.Author.Name == userName);
+        var cheeps = _dbContext.Cheeps.Where(c => c.Author.UserName == userName);
         _dbContext.RemoveRange(cheeps);
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
         return;

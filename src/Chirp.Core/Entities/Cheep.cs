@@ -16,6 +16,6 @@ public class Cheep
     [StringLength(160)]
     public required string Text { get; set; }
     public required DateTime TimeStamp { get; set; }
-    public required int AuthorId { get; set; }
+    public required string AuthorId { get; set; }
     public Author Author { get; set; }
 }

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Chirp.Repositories.Migrations
 {
-    [ExcludeFromCodeCoverage]
     /// <inheritdoc />
     public partial class InitialCreate : Migration
     {
@@ -50,20 +48,6 @@ namespace Chirp.Repositories.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Authors",
-                columns: table => new
-                {
-                    AuthorId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Authors", x => x.AuthorId);
                 });
 
             migrationBuilder.CreateTable(
@@ -176,23 +160,23 @@ namespace Chirp.Repositories.Migrations
                 name: "AuthorAuthor",
                 columns: table => new
                 {
-                    FollowedByAuthorId = table.Column<int>(type: "INTEGER", nullable: false),
-                    FollowersAuthorId = table.Column<int>(type: "INTEGER", nullable: false)
+                    FollowedById = table.Column<string>(type: "TEXT", nullable: false),
+                    FollowersId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AuthorAuthor", x => new { x.FollowedByAuthorId, x.FollowersAuthorId });
+                    table.PrimaryKey("PK_AuthorAuthor", x => new { x.FollowedById, x.FollowersId });
                     table.ForeignKey(
-                        name: "FK_AuthorAuthor_Authors_FollowedByAuthorId",
-                        column: x => x.FollowedByAuthorId,
-                        principalTable: "Authors",
-                        principalColumn: "AuthorId",
+                        name: "FK_AuthorAuthor_AspNetUsers_FollowedById",
+                        column: x => x.FollowedById,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AuthorAuthor_Authors_FollowersAuthorId",
-                        column: x => x.FollowersAuthorId,
-                        principalTable: "Authors",
-                        principalColumn: "AuthorId",
+                        name: "FK_AuthorAuthor_AspNetUsers_FollowersId",
+                        column: x => x.FollowersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -204,16 +188,16 @@ namespace Chirp.Repositories.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Text = table.Column<string>(type: "TEXT", maxLength: 160, nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    AuthorId = table.Column<int>(type: "INTEGER", nullable: false)
+                    AuthorId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cheeps", x => x.CheepId);
                     table.ForeignKey(
-                        name: "FK_Cheeps_Authors_AuthorId",
+                        name: "FK_Cheeps_AspNetUsers_AuthorId",
                         column: x => x.AuthorId,
-                        principalTable: "Authors",
-                        principalColumn: "AuthorId",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -255,9 +239,9 @@ namespace Chirp.Repositories.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_AuthorAuthor_FollowersAuthorId",
+                name: "IX_AuthorAuthor_FollowersId",
                 table: "AuthorAuthor",
-                column: "FollowersAuthorId");
+                column: "FollowersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cheeps_AuthorId",
@@ -294,9 +278,6 @@ namespace Chirp.Repositories.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Authors");
         }
     }
 }

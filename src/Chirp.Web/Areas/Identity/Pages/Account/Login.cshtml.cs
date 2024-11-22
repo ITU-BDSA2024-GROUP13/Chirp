@@ -15,18 +15,22 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Chirp.Core.Entities;
+using Chirp.Services;
 
 namespace Chirp.Web.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly SignInManager<Author> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly ICheepService _cheepService;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<Author> signInManager, ILogger<LoginModel> logger, ICheepService cheepService)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _cheepService = cheepService;
         }
 
         /// <summary>
@@ -66,8 +70,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [EmailAddress]
-            public string Email { get; set; }
+            public string Identity { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -104,6 +107,8 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+
+
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -111,8 +116,13 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true  
+                var Identity = Input.Identity;
+                if (Identity.Contains(".")){
+                    var authordto = await _cheepService.FindSpecificAuthorByEmail(Identity);
+                    Identity = authordto.Name;
+                }
+                var result = await _signInManager.PasswordSignInAsync(Identity, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");

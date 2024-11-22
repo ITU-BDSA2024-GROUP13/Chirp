@@ -5,7 +5,7 @@ using NuGet.Protocol.Plugins;
 
 
 namespace Chirp.Repositories;
-public class CheepDBContext : IdentityDbContext<ApplicationUser>
+public class CheepDBContext : IdentityDbContext<Author>
 {
 
     public CheepDBContext(DbContextOptions<CheepDBContext> options) : base(options) { }
@@ -36,7 +36,11 @@ public class CheepDBContext : IdentityDbContext<ApplicationUser>
 
         // Your custom configurations for the Author entity
         modelBuilder.Entity<Author>()
-            .HasKey(a => a.AuthorId);
+            .HasKey(a => a.Id);
+
+        modelBuilder.Entity<Author>()
+            .Property(f => f.Id)
+            .ValueGeneratedOnAdd();
 
         //Define the relationship betwwen Author and itself (followers)
 

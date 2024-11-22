@@ -20,32 +20,32 @@ public interface ICheepService
 
     public Task UpdateMessage(CheepDTO alteredMessage, int id);
 
-    public Task<int> CreateAuthor(AuthorDTO newMessage);
+    public Task<string> CreateAuthor(AuthorDTO newMessage);
 
     public Task<List<AuthorDTO>> FindAuthorByName(string userName);
 
     public Task<List<AuthorDTO>> FindAuthorByEmail(string email);
 
-    public Task<AuthorDTO> FindSpecificAuthorById(int id);
+    public Task<AuthorDTO> FindSpecificAuthorById(string id);
 
     public Task<AuthorDTO> FindSpecificAuthorByName(string userName);
 
-
+    public Task<AuthorDTO> FindSpecificAuthorByEmail(string email);
 
     public Task<List<AuthorDTO>> GetFollowers(string userName);
 
-    public Task<List<AuthorDTO>> GetFollowersbyId(int id);
+    public Task<List<AuthorDTO>> GetFollowersbyId(string id);
 
     public Task<List<AuthorDTO>> GetFollowedby(string userName);
 
-    public Task<List<AuthorDTO>> GetFollowedbybyId(int id);
+    public Task<List<AuthorDTO>> GetFollowedbybyId(string id);
 
 
-    public Task Follow(int id, int followerId);
+    public Task Follow(string id, string followerId);
 
-    public Task Unfollow(int id, int followerId);
+    public Task Unfollow(string id, string followerId);
 
-    public Task<Boolean> IsFollowing(int id, int followerId);
+    public Task<Boolean> IsFollowing(string id, string followerId);
 
 
     public Task<List<AuthorDTO>> FindAuthors(string userName);

@@ -12,18 +12,19 @@ using Microsoft.Extensions.Logging;
 using Chirp.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using Chirp.Core.Entities;
 
 namespace Chirp.Web.Areas.Identity.Pages.Account
 {
     public class LoginWith2faModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<Author> _signInManager;
+        private readonly UserManager<Author> _userManager;
         private readonly ILogger<LoginWith2faModel> _logger;
 
         public LoginWith2faModel(
-            SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager,
+            SignInManager<Author> signInManager,
+            UserManager<Author> userManager,
             ILogger<LoginWith2faModel> logger)
         {
             _signInManager = signInManager;
