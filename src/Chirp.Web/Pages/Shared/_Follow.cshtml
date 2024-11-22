@@ -1,0 +1,23 @@
+<button id="follow" type="submit" asp-handler="Follow" onclick=followPost()>Follow</button>
+
+<script>
+    function followPost(){
+        const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Follow" : "?handler=Follow"), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "RequestVerificationToken": antiforgeryToken
+            },
+            body: JSON.stringify({ 
+                Follow: true,
+                Username: '@User.Identity.Name',
+                FollowUser: '@ViewData["Location"]'
+            })
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    }
+</script>
