@@ -129,6 +129,11 @@ public class CheepService : ICheepService
         return await _authorRepository.FindSpecificAuthorByName(userName);
     }
 
+     public async Task<AuthorDTO> FindSpecificAuthorByEmail(string email)
+    {
+        return await _authorRepository.FindSpecificAuthorByEmail(email);
+    }
+
     public async Task<List<AuthorDTO>> GetFollowers(string userName)
     {
         return (List<AuthorDTO>)await _authorRepository.GetFollowers(userName);
@@ -185,5 +190,5 @@ public class CheepService : ICheepService
         return await _authorRepository.FindAuthors(userName, 5);
     }
 
-
+   
 }

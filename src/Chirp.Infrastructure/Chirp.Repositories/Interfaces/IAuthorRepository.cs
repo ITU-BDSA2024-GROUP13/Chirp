@@ -11,6 +11,9 @@ public interface IAuthorRepository
 
     public Task<AuthorDTO> FindSpecificAuthorByName(string userName);
 
+    public Task<AuthorDTO> FindSpecificAuthorByEmail(string email);
+
+
     public Task<AuthorDTO> FindSpecificAuthorById(string id);
 
 

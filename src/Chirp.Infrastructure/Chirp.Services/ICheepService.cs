@@ -30,7 +30,7 @@ public interface ICheepService
 
     public Task<AuthorDTO> FindSpecificAuthorByName(string userName);
 
-
+    public Task<AuthorDTO> FindSpecificAuthorByEmail(string email);
 
     public Task<List<AuthorDTO>> GetFollowers(string userName);
 
