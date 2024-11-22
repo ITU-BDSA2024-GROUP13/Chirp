@@ -140,33 +140,10 @@ public class AuthorRepository : IAuthorRepository
     public async Task AddFollower(int id, int followerId)
     {
 
-        Author author = _dbContext.Authors.Single(e => e.AuthorId == id);
+        Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.AuthorId == id);
         var follower = _dbContext.Authors.Single(e => e.AuthorId == followerId);
 
-        Author Roger = _dbContext.Authors.Single(e => e.AuthorId == 1);
-
-
-        List<Author> list = new List<Author>();
-        Console.WriteLine(author.AuthorId + ", id ");
-        Console.WriteLine(author.Followers + ", followers ");
-        Console.WriteLine(list + ", list  ");
-
-        Console.WriteLine(list.Count + ", list count ");
-
-        Console.WriteLine(Roger.Followers.Count + ", followers count ");
-
-
-        Console.WriteLine(author.Followers.Count + ", followers count ");
-
-        Console.WriteLine(follower.AuthorId + ", follower id ");
-
-
-
-
         author.Followers.Add(follower);
-        Console.WriteLine(author.Followers.Count + ", followers count ");
-
-
 
         var entityEntry = _dbContext.Entry(author);
         _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);
@@ -179,7 +156,7 @@ public class AuthorRepository : IAuthorRepository
     public async Task RemoveFollower(int id, int followerId)
     {
 
-        Author author = _dbContext.Authors.Single(e => e.AuthorId == id);
+        Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.AuthorId == id);
         Author follower = _dbContext.Authors.Single(e => e.AuthorId == followerId);
 
         Console.WriteLine("author id " + follower.AuthorId);
