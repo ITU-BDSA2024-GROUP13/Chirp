@@ -168,7 +168,6 @@ public class AuthorRepository : IAuthorRepository
 
         author.Followers.Add(follower);
 
-        var entityEntry = _dbContext.Entry(author);
         _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);
 
 
@@ -186,7 +185,6 @@ public class AuthorRepository : IAuthorRepository
         if (author.Followers.Any(f => f.AuthorId == follower.AuthorId))
         {
             author.Followers.Remove(follower);
-            var entityEntry = _dbContext.Entry(author);
             _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);
         }
         else
@@ -207,7 +205,6 @@ public class AuthorRepository : IAuthorRepository
 
         author.Followers.Clear();
 
-        var entityEntry = _dbContext.Entry(author);
         _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);
 
 
@@ -222,11 +219,22 @@ public class AuthorRepository : IAuthorRepository
 
         author.FollowedBy.Clear();
 
-        var entityEntry = _dbContext.Entry(author);
         _dbContext.Entry(author).CurrentValues.SetValues(author.Followers);
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
         return;     
+    }
+
+    
+    public async Task RemoveAuthor(int id)
+    {
+        Author author = _dbContext.Authors.Single(e => e.AuthorId == id);
+
+        var entityEntry = _dbContext.Entry(author);
+        _dbContext.Remove(entityEntry);
+
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;
     }
 
     public async Task<List<AuthorDTO>> FindAuthorByEmail(string email)
@@ -242,14 +250,7 @@ public class AuthorRepository : IAuthorRepository
         // Execute the query
         var result = await query.ToListAsync();
 
-        /*
-        for (int i = 0; i < result.Count; i++)
-        {
-            Console.WriteLine(result[i].Email);
-        }*/
-
         return result;
     }
-
 
 }

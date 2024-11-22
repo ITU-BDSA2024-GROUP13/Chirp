@@ -27,7 +27,7 @@ public interface IAuthorRepository
     public Task<List<AuthorDTO>> FindAuthors(string userName, int amount);
 
     public Task RemoveAllFollowers(int id);
-
     public Task RemoveAllFollowedby(int id);
+    public Task RemoveAuthor(int id);
 
 }
