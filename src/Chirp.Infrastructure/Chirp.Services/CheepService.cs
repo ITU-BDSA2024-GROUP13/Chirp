@@ -62,8 +62,18 @@ public class CheepService : ICheepService
         return await _cheepRepository.CreateMessage(message);
     }
 
+        public async Task<int> CountUserAndFollowerMessages(string userName)
+    {
+        List<string> followers = AuthorToString(await _authorRepository.GetFollowers(userName));
+
+        var list = await _cheepRepository.ReadUserAndFollowerMessages(userName, followers, int.MaxValue, 0);
+        var result = list.Count;
+        return result;    
+    }
+
     public async Task<int> CountPublicMessages()
     {
+
         var list = await _cheepRepository.ReadPublicMessages(int.MaxValue, 0);
         var result = list.Count;
         return result;

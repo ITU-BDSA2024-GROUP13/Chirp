@@ -12,6 +12,8 @@ public interface ICheepService
 
     public Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, int page);
 
+    public Task<int> CountUserAndFollowerMessages(string userName);
+
     public Task<int> CountUserMessages(string userName);
 
     public Task<int> CountPublicMessages();

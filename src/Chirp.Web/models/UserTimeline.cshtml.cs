@@ -13,7 +13,7 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
 
         Cheeps = await _cheepService.ReadUserAndFollowerMessages(author, page);
 
-        Count = Cheeps.Count;
+        Count = await _cheepService.CountUserAndFollowerMessages(author);
         if (!string.IsNullOrEmpty(SearchName))
         {
             Authors = await _cheepService.FindAuthorByName(SearchName);
