@@ -98,7 +98,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
             Author = postRequest.PostName,
             Text = postRequest.PostString,
             Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow),
-            AuthorId = author.Id,
+            AuthorId = author.Id!,
         });
 
         return new JsonResult(new { success = true, message = "PostString successfully processed" });
