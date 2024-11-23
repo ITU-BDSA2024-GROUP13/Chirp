@@ -60,12 +60,29 @@ h2, .name-timeline {
 .cheep-item::before{
   content: "";
   position: absolute;
-  width: 50px;
-  height: 50px;
-  border-top: 2px solid red;
-  border-left: 2px solid red;
-  top:-20px;
-  left: -20px;
+  width: 40px;
+  height: 40px;
+  border-top: 2px solid rgb(0, 0, 0);
+  border-left: 2px solid rgb(0, 0, 0);
+  top:0px;
+  left: 0px;
+  border-radius: 15px;
+  border-start-end-radius: 0px;
+  border-end-start-radius: 0px;
+}
+
+.cheep-item::after{
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-right: 2px solid rgb(0, 0, 0);
+  border-bottom: 2px solid rgb(0, 0, 0);
+  bottom:0px;
+  right: 0px;
+  border-radius: 15px;
+  border-end-start-radius: 0px;
+  border-start-end-radius: 0px;
 }
 
 .cheep-author {
