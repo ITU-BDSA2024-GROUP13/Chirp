@@ -1,3 +1,4 @@
+
 @if(!User.Identity.Name.Equals(@ViewData["Location"])){
     <button id="follow" type="submit" asp-handler="Follow">
         @if(await @Model.IsFollowing($"{@User.Identity.Name}", $"{@ViewData["Location"]}")){
