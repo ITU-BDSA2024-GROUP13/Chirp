@@ -48,11 +48,24 @@ h2, .name-timeline {
 }
 
 .cheep-item {
+  position:relative;
   display: flex;
   flex-direction: column;
   background-color: rgba(160, 160, 160, 0.335);
   padding: 20px;
   border-radius: 20px;
+  z-index: auto;
+}
+
+.cheep-item::before{
+  content: "";
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-top: 2px solid red;
+  border-left: 2px solid red;
+  top:-20px;
+  left: -20px;
 }
 
 .cheep-author {
@@ -73,6 +86,7 @@ nav {
   background-color: gray;
   border-bottom: 2px solid #4b1515;
   border-top: 2px solid #4b1515;
+  z-index: 10;
 
 }
 
