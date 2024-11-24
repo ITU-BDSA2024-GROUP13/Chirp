@@ -43,11 +43,11 @@ header {
     font-size: 20px;
     margin-left: 20px;
     margin-right: 20px;
-
+    z-index: 10;
 }
 
 a:hover {
-    color: rgb(64, 144, 205);
+    color: rgb(47, 112, 192);
 }
 
 header, .brand-container {

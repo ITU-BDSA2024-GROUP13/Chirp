@@ -9,6 +9,7 @@ h2, .name-timeline {
   justify-content: center;
   gap: 5px;
   align-items: center;
+  cursor: pointer;
 }
 
 .tag #icon {
@@ -48,11 +49,41 @@ h2, .name-timeline {
 }
 
 .cheep-item {
+  position:relative;
   display: flex;
   flex-direction: column;
   background-color: rgba(160, 160, 160, 0.335);
   padding: 20px;
   border-radius: 20px;
+  z-index: auto;
+}
+
+.cheep-item::before{
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-top: 2px solid rgb(0, 0, 0);
+  border-left: 2px solid rgb(0, 0, 0);
+  top:0px;
+  left: 0px;
+  border-radius: 15px;
+  border-start-end-radius: 0px;
+  border-end-start-radius: 0px;
+}
+
+.cheep-item::after{
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-right: 2px solid rgb(0, 0, 0);
+  border-bottom: 2px solid rgb(0, 0, 0);
+  bottom:0px;
+  right: 0px;
+  border-radius: 15px;
+  border-end-start-radius: 0px;
+  border-start-end-radius: 0px;
 }
 
 .cheep-author {
@@ -73,6 +104,7 @@ nav {
   background-color: gray;
   border-bottom: 2px solid #4b1515;
   border-top: 2px solid #4b1515;
+  z-index: 10;
 
 }
 
@@ -122,4 +154,20 @@ nav {
   width: 200px;
   background: white;
   list-style-type: none;
+}
+
+.pagelist li {
+  display: flex;
+  justify-content: center;
+  width: 20px;
+  height: 15px;
+  border-radius: 2px;
+  border-style: solid;
+  border-color: rgba(119, 106, 106, 0.762);
+  border-width: 1px;
+  align-items: center;
+}
+
+.pagelist li:hover{
+  background: rgba(64, 144, 205, 0.583);
 }
