@@ -6,24 +6,24 @@
 <nav>
               
     <div class="nav-tags">
-        <div class="tag" onClick="window.location = '/'">
+        <a class="tag" onClick="window.location = '/'">
             <img 
                 src = "/assets/home.png"
                 alt="Public timeline" 
                 id="icon"
             />
             Public timeline
-        </div>
+        </a>
 
         @if(SignInManager.IsSignedIn(User)){
-            <div class="tag" onClick="window.location = '/users/@User.Identity.Name'">
+            <a class="tag" onClick="window.location = '/users/@User.Identity.Name'">
                 <img 
                     src = "/assets/user.png"
                     alt="My timeline" 
                  id="icon"
                  />
                  My timeline
-            </div>
+            </a>
         }
 
         @await Html.PartialAsync("_LoginPartial")

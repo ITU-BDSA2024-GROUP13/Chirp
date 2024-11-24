@@ -9,6 +9,7 @@ h2, .name-timeline {
   justify-content: center;
   gap: 5px;
   align-items: center;
+  cursor: pointer;
 }
 
 .tag #icon {
