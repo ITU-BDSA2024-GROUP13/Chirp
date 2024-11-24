@@ -47,18 +47,14 @@ public class CheepService : ICheepService
             return 0;
         }
 
-        List<AuthorDTO> authorsList = await FindAuthorByName(message.Author);
+        AuthorDTO author = await FindSpecificAuthorByName(message.Author);
+        Console.WriteLine(author.Name);
+        if (!author.Name.Equals(message.Author))
+        {
+            AuthorDTO newAuthor = new() { Name = message.Author, Email = message.Author + "@mail.com" };
+            await CreateAuthor(newAuthor);
+        }
 
-        if (authorsList.Any() && !authorsList[0].Equals(message.Author))
-        {
-            AuthorDTO newAuthor = new() { Name = message.Author, Email = message.Author + "@mail.com" };
-            await CreateAuthor(newAuthor);
-        }
-        else if (!authorsList.Any())
-        {
-            AuthorDTO newAuthor = new() { Name = message.Author, Email = message.Author + "@mail.com" };
-            await CreateAuthor(newAuthor);
-        }
         return await _cheepRepository.CreateMessage(message);
     }
 
