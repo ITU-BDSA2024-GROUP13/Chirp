@@ -29,7 +29,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         .Select(message => new CheepDTO
         {
             AuthorId = message.AuthorId,
-            Author = message.Author.UserName,
+            Author = message.Author.UserName!,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds()
         });
@@ -49,7 +49,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         .Select(message => new CheepDTO
         {
             AuthorId = message.AuthorId,
-            Author = message.Author.UserName,
+            Author = message.Author.UserName!,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds()
         });
@@ -62,13 +62,13 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     {
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps.OrderByDescending(message => message.TimeStamp)
-        .Where(message => message.Author.UserName == userName || followers.Contains(message.Author.UserName))
+        .Where(message => message.Author.UserName == userName || followers.Contains(message.Author.UserName!))
         .Skip(skipValue)
         .Take(takeValue)
         .Select(message => new CheepDTO
         {
             AuthorId = message.AuthorId,
-            Author = message.Author.UserName,
+            Author = message.Author.UserName!,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds()
         });
@@ -103,12 +103,12 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     {
 
         var query = _dbContext.Authors.
-        Where(author => author.UserName.ToLower().Contains(searchValue.ToLower()))
+        Where(author => author.UserName!.ToLower().Contains(searchValue.ToLower()))
         .Take(amount)
         .Select(author => new AuthorDTO
         {
-            Name = author.UserName,
-            Email = author.Email
+            Name = author.UserName!,
+            Email = author.Email!
         });
 
         var result = await query.ToListAsync();

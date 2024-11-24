@@ -33,7 +33,7 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
 
         try
         {
-            var followSuccess = await IsFollowing(followRequest.Username, followRequest.FollowUser) ? await UnFollow(user.Id, follower.Id) : await Follow(user.Id, follower.Id);
+            var followSuccess = await IsFollowing(followRequest.Username, followRequest.FollowUser) ? await UnFollow(user.Id!, follower.Id!) : await Follow(user.Id!, follower.Id!);
             return new JsonResult(new
             {
                 success = followSuccess,
@@ -52,7 +52,7 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
     {
         var user = await _cheepService.FindSpecificAuthorByName(userId);
         var follower = await _cheepService.FindSpecificAuthorByName(followerId);
-        return await _cheepService.IsFollowing(user.Id, follower.Id);
+        return await _cheepService.IsFollowing(user.Id!, follower.Id!);
     }
 
     private async Task<bool> Follow(string userId, string followerId)
