@@ -1,9 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
 using Xunit;
 namespace PlaywrightTests;
 
-public class UnitTest1
+public class Azuretests
 {
     [Fact]
     public async Task LogInTest()
@@ -11,12 +12,15 @@ public class UnitTest1
         using var playwright = await Playwright.CreateAsync();
         await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
         {
-            Headless = false,
+            Headless = true,
         });
         var context = await browser.NewContextAsync();
 
         var page = await context.NewPageAsync();
         await page.GotoAsync("https://bdsagroup013chirprazor.azurewebsites.net/?page=0");
+        string? ActualTitle = await page.Locator("h1").TextContentAsync();
+        string? ActualLogin = await page.Locator(".nav-item").TextContentAsync();
+
         await page.GetByRole(AriaRole.Link, new() { Name = "Logout Log in" }).ClickAsync();
         await page.GetByPlaceholder("name@example.com").ClickAsync();
         await page.GetByPlaceholder("name@example.com").FillAsync("Test@gmail.com");
@@ -25,21 +29,10 @@ public class UnitTest1
         await page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
         var page1 = await context.NewPageAsync();
         await page1.GotoAsync("https://bdsagroup013chirprazor.azurewebsites.net/");
-    }
-    
-    [Fact]
-    public async Task LocalHostTest()
-    {
-        using var playwright = await Playwright.CreateAsync();
-        await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
-        {
-            Headless = false,
-        });
-        var context = await browser.NewContextAsync();
+        string? ActualLogout = await page1.Locator(".nav-item").TextContentAsync();
 
-        var page = await context.NewPageAsync();
-        await page.GotoAsync("http://localhost:5273/");
-        await page.GetByText("Public timeline", new() { Exact = true }).ClickAsync();
-        await page.GetByText("2", new() { Exact = true }).ClickAsync();
+        Assert.Equal("Chirp!", ActualTitle);
+        Assert.Equal("Log in", ActualLogin.Trim());
+        Assert.Equal("Logout[TestName]", ActualLogout.Trim());
     }
 }
