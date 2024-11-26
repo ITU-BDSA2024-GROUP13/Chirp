@@ -395,6 +395,33 @@ public class CheepServiceTest : IDisposable
 
     }
 
+    [Fact]
+    public async void CountUserAndFollowerMessages()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+
+            await _cheepService.Follow("11", "12");
+
+
+            List<AuthorDTO> list = await _cheepService.GetFollowers("Helge");
+
+            List<CheepDTO> listCheeps = await _cheepService.ReadUserMessages("Helge", 0);
+            int count1 = await _cheepService.CountUserMessages("Helge");
+            int count2 = await _cheepService.CountUserMessages("Adrian");
+            int count3 = await _cheepService.CountUserAndFollowerMessages("Helge");
+            Assert.Equal(count1 + count2, count3);
+
+        }
+
+    }
+
 
     [Fact]
     public async void CountPublicMessages()
