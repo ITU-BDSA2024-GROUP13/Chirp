@@ -56,8 +56,8 @@ public class AuthorRepository : IAuthorRepository
     public async Task<List<AuthorDTO>> FindAuthors(string userName, int amount)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
-        .Take(amount)
         .Where(author => author.UserName!.ToLower().Contains(userName.ToLower()))
+        .Take(amount)
         .Select(author => new AuthorDTO
         {
             Id = author.Id,
