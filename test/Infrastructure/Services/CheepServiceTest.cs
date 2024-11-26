@@ -525,6 +525,29 @@ public class CheepServiceTest : IDisposable
     }
 
      [Fact]
+    public async void FindAuthors()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+
+            List<AuthorDTO> list = await _cheepService.FindAuthors("J");
+            string authorName = list[0].Name;
+
+            Assert.Equal("Jacqualine Gilcoine", list[0].Name);
+            Assert.Equal("Johnnie Calixto", list[1].Name);
+            Assert.Equal("Malcolm Janski", list[2].Name);
+
+
+        }
+    }
+
+     [Fact]
     public async void CreateAuthor()
     {
         using (var scope = _serviceProvider.CreateScope())
