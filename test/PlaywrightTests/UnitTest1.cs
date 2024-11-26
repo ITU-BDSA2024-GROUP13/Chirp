@@ -26,4 +26,20 @@ public class UnitTest1
         var page1 = await context.NewPageAsync();
         await page1.GotoAsync("https://bdsagroup013chirprazor.azurewebsites.net/");
     }
+    
+    [Fact]
+    public async Task LocalHostTest()
+    {
+        using var playwright = await Playwright.CreateAsync();
+        await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+        {
+            Headless = false,
+        });
+        var context = await browser.NewContextAsync();
+
+        var page = await context.NewPageAsync();
+        await page.GotoAsync("http://localhost:5273/");
+        await page.GetByText("Public timeline", new() { Exact = true }).ClickAsync();
+        await page.GetByText("2", new() { Exact = true }).ClickAsync();
+    }
 }
