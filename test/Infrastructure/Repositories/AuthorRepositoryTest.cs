@@ -214,6 +214,22 @@ public class AuthorRepositoryTest : IDisposable
         }
     }
 
+        [Fact]
+    public async void FindSpecificAuthorByEmail()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new AuthorRepository(context);
+
+                AuthorDTO author = await repo.FindSpecificAuthorByEmail("adho@itu.dk");
+                Assert.Equal("Adrian", author.Name);
+            }
+        }
+    }
+
     [Fact]
     public async void AddFollower()
     {
