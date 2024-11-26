@@ -49,7 +49,6 @@ public class CheepService : ICheepService
         try{
 
             AuthorDTO author = await FindSpecificAuthorByName(message.Author);
-            Console.WriteLine(author.Name);
 
         } catch{
 

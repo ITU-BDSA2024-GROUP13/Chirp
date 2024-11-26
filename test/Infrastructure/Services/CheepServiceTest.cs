@@ -355,9 +355,11 @@ public class CheepServiceTest : IDisposable
 
             bool isfollowing = await _cheepService.IsFollowing("1", "12");
             Assert.True(isfollowing);
-
-            bool isfollowing2 = await _cheepService.IsFollowing("12", "1");
+            bool isfollowing2 = await _cheepService.IsFollowing("1", "11");
             Assert.False(isfollowing2);
+
+            bool isfollowing3 = await _cheepService.IsFollowing("12", "1");
+            Assert.False(isfollowing3);
         }
 
     }
