@@ -463,6 +463,24 @@ public class CheepServiceTest : IDisposable
 
     }
 
+    [Fact]
+    public async void FindAuthorByName()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+
+            List<AuthorDTO> list = await _cheepService.FindAuthorByName("Hel");
+            string authorName = list[0].Name;
+
+            Assert.Equal("Helge", authorName);
+        }
+    }
 
     [Fact]
     public async void FindAuthorByEmail()
@@ -480,6 +498,25 @@ public class CheepServiceTest : IDisposable
             string authorName = list[0].Name;
 
             Assert.Equal("Helge", authorName);
+        }
+    }
+
+     [Fact]
+    public async void CreateAuthor()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+            AuthorDTO author = new() { Name = "Helge2", Email = "Helg2@mail.dk" };
+            await _cheepService.CreateAuthor(author);
+            AuthorDTO createdAuthor = await _cheepService.FindSpecificAuthorByName("Helge2");
+
+            Assert.Equal("Helge2", createdAuthor.Name);
         }
     }
 
