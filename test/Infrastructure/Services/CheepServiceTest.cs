@@ -340,6 +340,29 @@ public class CheepServiceTest : IDisposable
     }
 
     [Fact]
+    public async void IsFollowing()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+
+            await _cheepService.Follow("1", "12");
+
+            bool isfollowing = await _cheepService.IsFollowing("1", "12");
+            Assert.True(isfollowing);
+
+            bool isfollowing2 = await _cheepService.IsFollowing("12", "1");
+            Assert.False(isfollowing2);
+        }
+
+    }
+
+    [Fact]
     public async void Unfollow()
     {
         using (var scope = _serviceProvider.CreateScope())
@@ -537,6 +560,40 @@ public class CheepServiceTest : IDisposable
 
         }
     }
+
+     [Fact]
+    public async void FindSpecificAuthorById()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+            AuthorDTO author = await _cheepService.FindSpecificAuthorById("1");
+            Assert.Equal("Roger Histand", author.Name);
+
+        }
+    }
+
+         [Fact]
+    public async void FindSpecificAuthorByEmail()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+            AuthorDTO author = await _cheepService.FindSpecificAuthorByEmail("ropf@itu.dk");
+            Assert.Equal("Helge", author.Name);
+            await Assert.ThrowsAsync<NullReferenceException>(async () => await _cheepService.FindSpecificAuthorByEmail("r"));
+        }
+    }
+
 
 
     [Fact]
