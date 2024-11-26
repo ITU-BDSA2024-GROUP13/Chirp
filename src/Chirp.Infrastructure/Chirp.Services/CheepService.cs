@@ -46,13 +46,17 @@ public class CheepService : ICheepService
             Console.WriteLine("Message is too long!");
             return 0;
         }
+        try{
 
-        AuthorDTO author = await FindSpecificAuthorByName(message.Author);
-        Console.WriteLine(author.Name);
-        if (!author.Name.Equals(message.Author))
-        {
+            AuthorDTO author = await FindSpecificAuthorByName(message.Author);
+            Console.WriteLine(author.Name);
+
+        } catch{
+
             AuthorDTO newAuthor = new() { Name = message.Author, Email = message.Author + "@mail.com" };
             await CreateAuthor(newAuthor);
+            AuthorDTO createdAuthor = await FindSpecificAuthorByName(message.Author);
+            message.AuthorId = createdAuthor.Id!;
         }
 
         return await _cheepRepository.CreateMessage(message);

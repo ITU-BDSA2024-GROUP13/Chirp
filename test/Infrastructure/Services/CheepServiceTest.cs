@@ -231,7 +231,7 @@ public class CheepServiceTest : IDisposable
 
     }
 
-/*
+
     [Fact]
     public async void CreateAuthorFromNewMessage()
     {
@@ -245,11 +245,11 @@ public class CheepServiceTest : IDisposable
 
             bool messageCreated = false;
 
-            List<CheepDTO> prevList = await _cheepService.ReadUserMessages("Helge2", 0);
-
             CheepDTO newMessage = new() { Author = "Helge2", AuthorId = "13", Text = "I love group 13!", Timestamp = 12345 };
 
             await _cheepService.CreateMessage(newMessage);
+
+            AuthorDTO author = await _cheepService.FindSpecificAuthorByName("Helge2");
 
             List<CheepDTO> newList = await _cheepService.ReadUserMessages("Helge2", 0);
 
@@ -263,7 +263,8 @@ public class CheepServiceTest : IDisposable
                 }
             }
 
-            Assert.True(newList.Count > prevList.Count);
+            Assert.Equal("Helge2", author.Name);
+
             Assert.True(messageCreated);
 
         }
@@ -305,7 +306,7 @@ public class CheepServiceTest : IDisposable
             Assert.True(messageCreated);
 
         }
-    }*/
+    }
 
     [Fact]
     public async void Follow()
