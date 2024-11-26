@@ -11,8 +11,8 @@ public class CheepService : ICheepService
 
     public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
-        _cheepRepository = cheepRepository ?? throw new ArgumentNullException();
-        _authorRepository = authorRepository ?? throw new ArgumentNullException();
+        _cheepRepository = cheepRepository;
+        _authorRepository = authorRepository;
     }
 
     public Task<List<CheepDTO>> ReadPublicMessages(int page)
