@@ -19,6 +19,25 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         return queryResult.Entity.CheepId;
     }
 
+     public async Task<CheepDTO> FindSpecificCheepbyId(int id)
+    {
+        var query = _dbContext.Cheeps
+        .Where(cheep => cheep.CheepId == id)
+        .Select(cheep => new CheepDTO
+        {
+            AuthorId = cheep.AuthorId,
+            Author = cheep.Author.UserName!,
+            Text = cheep.Text,
+            Timestamp = ((DateTimeOffset)cheep.TimeStamp).ToUnixTimeMilliseconds(),
+            Likes = cheep.Likes.Count
+
+        });
+        // Execute the query
+        var result = await query.ToListAsync();
+
+        return result[0];
+    }
+
     public async Task<List<CheepDTO>> ReadPublicMessages(int takeValue, int skipValue)
     {
 

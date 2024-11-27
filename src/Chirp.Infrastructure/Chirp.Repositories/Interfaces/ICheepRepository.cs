@@ -6,6 +6,8 @@ public interface ICheepRepository
 {
     public Task<int> CreateMessage(CheepDTO newMessage);
 
+    public Task<CheepDTO> FindSpecificCheepbyId(int id);
+
     public Task<List<CheepDTO>> ReadPublicMessages(int takeValue, int skipValue);
 
     public Task<List<CheepDTO>> ReadUserMessages(string userName, int takeValue, int skipValue);

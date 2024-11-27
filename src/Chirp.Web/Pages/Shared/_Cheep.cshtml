@@ -7,5 +7,8 @@
         <p class="cheep-body"> @Model.Body </p>
         <p class="cheep-body"> @Model.Like </p>
         <span class="cheep-date"> &mdash; @Model.ToDateTime(Model.Date) </span>
+        <button id="follow" type="submit" asp-handler="Follow">
+
+    </button>
     </div>
 </div>
