@@ -675,10 +675,39 @@ public class CheepServiceTest : IDisposable
 
             //Other likes same cheep
             await _cheepService.AddLike(656, "12");
+            await _cheepService.AddLike(656, "12");
+            await _cheepService.AddLike(656, "12");
+
+
 
             List<CheepDTO> cheeps =  await _cheepService.ReadUserMessages("Helge", 0);
 
             Assert.Equal(2, cheeps[0].Likes);
+        }
+    }
+
+    [Fact]
+    public async void RemoveLike()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+            //Likes own cheep (is allowed)
+            await _cheepService.AddLike(656, "11");
+
+            //Other likes same cheep
+            await _cheepService.RemoveLike(656, "11");
+            await _cheepService.RemoveLike(656, "11");
+
+
+            List<CheepDTO> cheeps =  await _cheepService.ReadUserMessages("Helge", 0);
+
+            Assert.Equal(0, cheeps[0].Likes);
         }
     }
 
