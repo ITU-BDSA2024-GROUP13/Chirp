@@ -35,6 +35,7 @@ public class AzureTests : IAsyncLifetime
     [Fact]
     public async Task LoginChangeTest()
     {
+        if (context !=null){
         var page1 = await context.NewPageAsync();
         await page1.GotoAsync("https://bdsagroup013chirprazor.azurewebsites.net/?page=0");
         string? ActualTitle = await page1.Locator("h1").TextContentAsync();
@@ -53,7 +54,8 @@ public class AzureTests : IAsyncLifetime
         string? ActualLogout = await page2.Locator(".nav-item").TextContentAsync();
 
         Assert.Equal("Chirp!", ActualTitle);
-        Assert.Equal("Log in", ActualLogin.Trim());
-        Assert.Equal("Logout[TestName]", ActualLogout.Trim());
+        Assert.Equal("Log in", ActualLogin?.Trim());
+        Assert.Equal("Logout[TestName]", ActualLogout?.Trim());
+    }
     }
 }
