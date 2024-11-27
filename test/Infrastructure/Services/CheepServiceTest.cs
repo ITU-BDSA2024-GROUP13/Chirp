@@ -671,11 +671,14 @@ public class CheepServiceTest : IDisposable
             _cheepService = new CheepService(_cheepRepository, _authorRepository);
 
             //Likes own cheep (is allowed)
-            await _cheepService.AddLike(1, "10");
+            await _cheepService.AddLike(656, "11");
 
             //Other likes same cheep
-            await _cheepService.AddLike(1, "11");
+            await _cheepService.AddLike(656, "12");
 
+            List<CheepDTO> cheeps =  await _cheepService.ReadUserMessages("Helge", 0);
+
+            Assert.Equal(2, cheeps[0].Likes);
         }
     }
 
