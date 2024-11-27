@@ -7,8 +7,45 @@
         <p class="cheep-body"> @Model.Body </p>
         <p class="cheep-body"> @Model.Like </p>
         <span class="cheep-date"> &mdash; @Model.ToDateTime(Model.Date) </span>
-        <button id="follow" type="submit" asp-handler="Follow">
-
-    </button>
+        <button id="like" type="submit" asp-handler="Like">
+        @if(await @Model.HasLiked($"{@User!.Identity!.Name}")){
+            <span>Like</span>
+        } else {
+            <span>UnLike</span>
+        }
+        </button>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const Follow = document.getElementById("like")
+
+        Follow.addEventListener("click", () => followPost())
+    })
+
+    function followPost(){
+        const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Like" : "?handler=Like"), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "RequestVerificationToken": antiforgeryToken
+            },
+            body: JSON.stringify({ 
+                Username: '@User.Identity.Name',
+                FollowUser: '@ViewData["Location"]'
+            })
+        })
+        .then(response =>  response.json() )
+        .then(data => {
+            console.log("success:", data)
+            location.reload()
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            
+        })
+    }
+</script>
