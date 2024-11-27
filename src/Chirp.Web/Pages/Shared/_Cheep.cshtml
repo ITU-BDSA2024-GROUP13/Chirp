@@ -7,36 +7,33 @@
         <p class="cheep-body"> @Model.Body </p>
         <p class="cheep-body"> @Model.Like </p>
         <span class="cheep-date"> &mdash; @Model.ToDateTime(Model.Date) </span>
-        <button id="like" type="submit" asp-handler="Like">
+        <button id="@Model.Id" type="submit" asp-handler="Like">
         @if(@Model.isLiked){
             <span>UnLike</span>
         } else {
-            <span>Like</span>
+            <span>Like @Model.Id</span>
         }
         </button>
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const Follow = document.getElementById("like")
 
-                Follow.addEventListener("click", () => likePost())
-            })
-
-            function likePost(){
+       <script>
+            document.getElementById(@Model.Id).addEventListener("click", () => {
                 const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
                 fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Like" : "?handler=Like"), {
-                    method: "POST",
+                    method: "POST", 
                     headers: {
                         "Content-Type": "application/json",
                         "RequestVerificationToken": antiforgeryToken
                     },
                     body: JSON.stringify({ 
                         Username: '@User!.Identity!.Name',
-                        cheepId: '@Model.Id'
+                        cheepId: @Model.Id
                     })
                 })
                 .then(response =>  response.json() )
                 .then(data => {
+                    console.log("success:", @Model.Id)
+
                     console.log("success:", data)
                     location.reload()
                 })
@@ -44,11 +41,12 @@
                     console.error("Error:", error);
                     
                 })
-            }
-    </script>
+            })
+            
+        </script>
     </div>
 </div>
 
-
+ 
 
 
