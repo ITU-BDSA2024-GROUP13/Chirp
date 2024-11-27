@@ -228,6 +228,21 @@ public class AuthorRepository : IAuthorRepository
     
     }
 
+    public async Task RemoveAllLikedCheeps(string id)
+    {
+        Author author = _dbContext.Authors.Include(p => p.LikedCheeps).Single(e => e.Id == id);
+
+        author.LikedCheeps.Clear();
+
+        _dbContext.Entry(author).CurrentValues.SetValues(author.LikedCheeps);
+
+
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;    
+    
+    }
+
+
     public async Task RemoveAllFollowedby(string id)
     {
         Author author = _dbContext.Authors.Include(p => p.FollowedBy).Single(e => e.Id == id);

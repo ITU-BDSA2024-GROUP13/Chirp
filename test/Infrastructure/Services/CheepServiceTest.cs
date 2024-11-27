@@ -604,7 +604,7 @@ public class CheepServiceTest : IDisposable
         }
     }
 
-         [Fact]
+    [Fact]
     public async void FindSpecificAuthorByEmail()
     {
         using (var scope = _serviceProvider.CreateScope())
@@ -710,12 +710,4 @@ public class CheepServiceTest : IDisposable
             Assert.Equal(0, cheeps[0].Likes);
         }
     }
-
-
-
-
-
-
-
-
 }
