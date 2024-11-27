@@ -97,7 +97,9 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         Cheep cheep = _dbContext.Cheeps.Include(p => p.Likes).Single(e => e.CheepId == cheepId);
         var author = _dbContext.Authors.Include(p => p.LikedCheeps).Single(e => e.Id == authorId);
 
-        cheep.Likes.Add(author);
+        if (!cheep.Likes.Contains(author)){
+            cheep.Likes.Add(author);
+        }
 
         _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Likes);
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
@@ -110,7 +112,9 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         Cheep cheep = _dbContext.Cheeps.Include(p => p.Likes).Single(e => e.CheepId == cheepId);
         var author = _dbContext.Authors.Include(p => p.LikedCheeps).Single(e => e.Id == authorId);
 
-        cheep.Likes.Remove(author);
+        if (cheep.Likes.Contains(author)){
+            cheep.Likes.Remove(author);
+        }
 
         _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Likes);
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
