@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
 using Xunit;
+using Xunit.Sdk;
 namespace PlaywrightTests;
 
 //Local host needs to be active for these tests to work
@@ -29,17 +30,6 @@ public class LocalTests : IAsyncLifetime
         });
 
         context = await browser.NewContextAsync();
-    }
-
-    internal async void Login(IPage page)
-    {
-        await page.GotoAsync("http://localhost:5273/");
-        await page.GetByRole(AriaRole.Link, new() { Name = "Logout Log in" }).ClickAsync();
-        await page.GetByPlaceholder("name@example.com").ClickAsync();
-        await page.GetByPlaceholder("name@example.com").FillAsync("Test@gmail.com");
-        await page.GetByPlaceholder("password").ClickAsync();
-        await page.GetByPlaceholder("password").FillAsync("Chirp123!");
-        await page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
     }
 
     [Fact]
@@ -98,7 +88,6 @@ public class LocalTests : IAsyncLifetime
         string? NoCheepsMessage = await page.Locator("p").TextContentAsync();
 
 
-
         Login(page);
 
         //Waits for the last element to be loaded before it checks anything else on the page 
@@ -106,8 +95,47 @@ public class LocalTests : IAsyncLifetime
         await page.Locator("footer").WaitForAsync();
 
         bool? CheepsVisible = await page.Locator(".cheep-author > a").First.IsVisibleAsync();
+       
         Assert.Equal("Log in to experience new ideas on Chirp.", NoCheepsMessage?.Trim());
-        Assert.True(CheepsVisible);
-        Assert.False(CheepsNotVisible);
+        Assert.True(CheepsVisible, "Cheeps are visible when logged in");
+        Assert.False(CheepsNotVisible, "Cheeps are invisible when not logged in");
+
+    }
+
+
+    [Fact]
+    public async Task LocalNavItems()
+    {
+        var page = await context!.NewPageAsync();
+        await page.GotoAsync("http://localhost:5273/");
+        var Timelines1 = await page.QuerySelectorAllAsync(".tag");
+
+
+        Login(page);
+
+        await page.Locator("footer").WaitForAsync();
+        var Timelines2 = await page.QuerySelectorAllAsync(".tag");
+       
+        Assert.True(Timelines2.Count==2, "Should have 2 elements: Public- & My Timeline");
+        Assert.True(Timelines1.Count==1, "Should only have 1: Public Timeline");
+
+    }
+
+
+    // HELPER METHODS FOR TESTS TO AVOID DUPLICATING CODE
+
+    /// <summary>
+    /// Takes a page and logs in on it
+    /// </summary>
+    /// <param name="page"></param>
+    internal async void Login(IPage page)
+    {
+        await page.GotoAsync("http://localhost:5273/");
+        await page.GetByRole(AriaRole.Link, new() { Name = "Logout Log in" }).ClickAsync();
+        await page.GetByPlaceholder("name@example.com").ClickAsync();
+        await page.GetByPlaceholder("name@example.com").FillAsync("Test@gmail.com");
+        await page.GetByPlaceholder("password").ClickAsync();
+        await page.GetByPlaceholder("password").FillAsync("Chirp123!");
+        await page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
     }
 }
