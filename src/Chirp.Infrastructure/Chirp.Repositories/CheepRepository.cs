@@ -23,7 +23,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     {
 
         // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.Cheeps.OrderByDescending(message => message.TimeStamp)
+        var query = _dbContext.Cheeps.Include(p => p.Likes).OrderByDescending(message => message.TimeStamp)
         .Skip(skipValue)
         .Take(takeValue)
         .Select(message => new CheepDTO
@@ -31,7 +31,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             AuthorId = message.AuthorId,
             Author = message.Author.UserName!,
             Text = message.Text,
-            Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds()
+            Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
+            Likes = message.Likes.Count
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -42,7 +43,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     public async Task<List<CheepDTO>> ReadUserMessages(string userName, int takeValue, int skipValue)
     {
         // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.Cheeps.OrderByDescending(message => message.TimeStamp)
+        var query = _dbContext.Cheeps.Include(p => p.Likes).OrderByDescending(message => message.TimeStamp)
         .Where(message => message.Author.UserName == userName)
         .Skip(skipValue)
         .Take(takeValue)
@@ -51,7 +52,9 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             AuthorId = message.AuthorId,
             Author = message.Author.UserName!,
             Text = message.Text,
-            Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds()
+            Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
+            Likes = message.Likes.Count
+            
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -61,7 +64,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     public async Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, List<string> followers, int takeValue, int skipValue)
     {
         // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.Cheeps.OrderByDescending(message => message.TimeStamp)
+        var query = _dbContext.Cheeps.Include(p => p.Likes).OrderByDescending(message => message.TimeStamp)
         .Where(message => message.Author.UserName == userName || followers.Contains(message.Author.UserName!))
         .Skip(skipValue)
         .Take(takeValue)
@@ -70,7 +73,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             AuthorId = message.AuthorId,
             Author = message.Author.UserName!,
             Text = message.Text,
-            Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds()
+            Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
+            Likes = message.Likes.Count
         });
         // Execute the query
         var result = await query.ToListAsync();
