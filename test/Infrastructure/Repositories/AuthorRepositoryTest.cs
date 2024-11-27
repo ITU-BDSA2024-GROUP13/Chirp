@@ -159,6 +159,26 @@ public class AuthorRepositoryTest : IDisposable
         }
     }
 
+  [Fact]
+    public async void FindAuthors()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new AuthorRepository(context);
+
+                AuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com" };
+                List<AuthorDTO> list = await repo.FindAuthors("J", 2);
+
+                Assert.Equal(2, list.Count);
+                List<AuthorDTO> list2 = await repo.FindAuthors("J", 3);
+                Assert.Equal("Malcolm Janski", list2[2].Name);
+            }
+        }
+    }
+
     [Fact]
     public async void FindSpecificAuthorByName()
     {
@@ -174,6 +194,38 @@ public class AuthorRepositoryTest : IDisposable
 
                 AuthorDTO author = await repo.FindSpecificAuthorByName("Helge");
                 Assert.Equal("Helge", author.Name);
+            }
+        }
+    }
+
+    [Fact]
+    public async void FindSpecificAuthorById()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new AuthorRepository(context);
+
+                AuthorDTO author = await repo.FindSpecificAuthorById("1");
+                Assert.Equal("Roger Histand", author.Name);
+            }
+        }
+    }
+
+        [Fact]
+    public async void FindSpecificAuthorByEmail()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new AuthorRepository(context);
+
+                AuthorDTO author = await repo.FindSpecificAuthorByEmail("adho@itu.dk");
+                Assert.Equal("Adrian", author.Name);
             }
         }
     }

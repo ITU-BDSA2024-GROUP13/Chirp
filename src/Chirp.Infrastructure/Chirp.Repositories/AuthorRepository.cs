@@ -56,8 +56,8 @@ public class AuthorRepository : IAuthorRepository
     public async Task<List<AuthorDTO>> FindAuthors(string userName, int amount)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
-        .Take(amount)
         .Where(author => author.UserName!.ToLower().Contains(userName.ToLower()))
+        .Take(amount)
         .Select(author => new AuthorDTO
         {
             Id = author.Id,
@@ -96,6 +96,29 @@ public class AuthorRepository : IAuthorRepository
         {
             throw new NullReferenceException("No authors were found with this name");
         }
+    }
+       public async Task<AuthorDTO> FindSpecificAuthorByEmail(string email)
+    {
+        var query = _dbContext.Authors.OrderBy(author => author.UserName)
+                .Where(author => author.Email == email)
+                .Select(author => new AuthorDTO
+                {
+                    Id = author.Id,
+                    Name = author.UserName!,
+                    Email = author.Email!,
+                });
+                // Execute the query
+                var result = await query.ToListAsync();
+
+        if (result.Any())
+        {
+            return result[0];
+        }
+        else
+        {
+            throw new NullReferenceException("No authors were found with this email");
+        }    
+        
     }
 
     public async Task<AuthorDTO> FindSpecificAuthorById(string id)
@@ -253,19 +276,5 @@ public class AuthorRepository : IAuthorRepository
         return result;
     }
 
-    public async Task<AuthorDTO> FindSpecificAuthorByEmail(string email)
-    {
-        var query = _dbContext.Authors.OrderBy(author => author.UserName)
-                .Where(author => author.Email == email)
-                .Select(author => new AuthorDTO
-                {
-                    Id = author.Id,
-                    Name = author.UserName!,
-                    Email = author.Email!,
-                });
-                // Execute the query
-                var result = await query.ToListAsync();
-
-                return result[0];    
-    }
+ 
 }
