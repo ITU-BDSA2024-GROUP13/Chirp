@@ -1,12 +1,24 @@
-@page "/mypage"
+@page "user/{author}/mypage"
+@using Chirp.Core.Entities
 @model Chirp.Web.models.MyPage
+@inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
+@using Chirp.Web.models;
 
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "./Shared/_Layout.cshtml";
+    var author = await @Model.GetAuthorDTO(@User!.Identity!.Name!);
 }
 
+<h2>@author.Name's private page</h2>
 
-<div>
-    Hello!
+<div class="mypage-outer">
+    <div class="mypawge-Identifiers">
+            <div>Email</div>        
+        </div>
+
+    <div class="mypage-variables">
+        <div>@author.Email</div>
+    </div>
 </div>
