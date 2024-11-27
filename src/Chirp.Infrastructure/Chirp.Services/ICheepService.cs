@@ -57,5 +57,8 @@ public interface ICheepService
 
     public  Task RemoveLike(int cheepId, string authorId);
 
+    public Task<Boolean> HasLiked(string authorId, int cheepId);
+
+
 
 }

@@ -189,16 +189,14 @@ public class CheepService : ICheepService
         return false;
     }
 
-    public async Task<bool> HasLiked(string authorId, int cheepId)
+    public async Task<Boolean> HasLiked(string authorId, int cheepId)
     {
         var author = await FindSpecificAuthorById(authorId);
-        var cheep = await FindSpecificCheepbyId(cheepId);
+        var likers = await _cheepRepository.GetAllLikers(cheepId);
 
-        
-
-        foreach (var a in list)
+        foreach (var a in likers)
         {
-            if (a.Id == followerId)
+            if (a.Id == author.Id)
                 return true;
         }
 
