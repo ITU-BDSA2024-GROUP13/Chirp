@@ -6,24 +6,52 @@ namespace PlaywrightTests;
 
 //Local host needs to be active for these tests to work
 //(Or else the test can't redirect itself to the proper urls)
-public class LocalTests
+public class LocalTests : IAsyncLifetime
 {
-
-
-    
-    [Fact]
-    public async Task LocalHostTest()
+    private IPlaywright? playwright;
+    private IBrowser? browser;
+    private IBrowserContext? context;
+    public async Task DisposeAsync()
     {
-        using var playwright = await Playwright.CreateAsync();
-        await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
-        {
-            Headless = true,
-        });
-        var context = await browser.NewContextAsync();
+       if (browser != null) { await browser.CloseAsync(); }
 
+        if (playwright != null) { playwright.Dispose(); }
+    }
+
+    public async Task InitializeAsync()
+    {
+        playwright = await Playwright.CreateAsync();
+        browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+        {
+            //To see what the tests "do" you can set this to false
+            //and then you can see how it traverses through the website
+            Headless = false,
+        });
+
+        context = await browser.NewContextAsync();
+    }
+
+    internal async void Login(IPage page)
+    {
+        await page.GotoAsync("http://localhost:5273/");
+        await page.GetByRole(AriaRole.Link, new() { Name = "Logout Log in" }).ClickAsync();
+        await page.GetByPlaceholder("name@example.com").ClickAsync();
+        await page.GetByPlaceholder("name@example.com").FillAsync("Test@gmail.com");
+        await page.GetByPlaceholder("password").ClickAsync();
+        await page.GetByPlaceholder("password").FillAsync("Chirp123!");
+        await page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+    }
+
+    [Fact]
+    public async Task LocalLogin()
+    {
         var page = await context.NewPageAsync();
         await page.GotoAsync("http://localhost:5273/");
-        await page.GetByText("Public timeline", new() { Exact = true }).ClickAsync();
-        await page.GetByText("2", new() { Exact = true }).ClickAsync();
+        await page.GetByRole(AriaRole.Link, new() { Name = "Logout Log in" }).ClickAsync();
+        await page.GetByPlaceholder("name@example.com").ClickAsync();
+        await page.GetByPlaceholder("name@example.com").FillAsync("Test@gmail.com");
+        await page.GetByPlaceholder("password").ClickAsync();
+        await page.GetByPlaceholder("password").FillAsync("Chirp123!");
+        await page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
     }
 }
