@@ -15,6 +15,11 @@ public class CheepService : ICheepService
         _authorRepository = authorRepository;
     }
 
+    public Task<CheepDTO> FindSpecificCheepbyId(int cheepId)
+    {
+        return _cheepRepository.FindSpecificCheepbyId(cheepId);
+    }
+
     public Task<List<CheepDTO>> ReadPublicMessages(int page)
     {
         return _cheepRepository.ReadPublicMessages(32, 32 * page);
@@ -172,6 +177,22 @@ public class CheepService : ICheepService
     public async Task<bool> IsFollowing(string id, string followerId)
     {
         var author = await FindSpecificAuthorById(id);
+
+        var list = await _authorRepository.GetFollowers(author.Name);
+
+        foreach (var a in list)
+        {
+            if (a.Id == followerId)
+                return true;
+        }
+
+        return false;
+    }
+
+    public async Task<bool> HasLiked(string authorId, int cheepId)
+    {
+        var author = await FindSpecificAuthorById(authorId);
+        var cheep = await 
 
         var list = await _authorRepository.GetFollowers(author.Name);
 

@@ -4,6 +4,9 @@ using Chirp.Core.DTO;
 
 public interface ICheepService
 {
+
+    public Task<CheepDTO> FindSpecificCheepbyId(int cheepId);
+
     public Task<int> CreateMessage(CheepDTO newMessage);
 
     public Task<List<CheepDTO>> ReadPublicMessages(int page);
