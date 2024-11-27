@@ -13,7 +13,7 @@ public class LocalTests : IAsyncLifetime
     private IBrowserContext? context;
     public async Task DisposeAsync()
     {
-       if (browser != null) { await browser.CloseAsync(); }
+        if (browser != null) { await browser.CloseAsync(); }
 
         if (playwright != null) { playwright.Dispose(); }
     }
@@ -54,4 +54,29 @@ public class LocalTests : IAsyncLifetime
         await page.GetByPlaceholder("password").FillAsync("Chirp123!");
         await page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
     }
+
+
+    [Fact]
+    public async Task LocalLoginChange()
+    {
+        var page = await context.NewPageAsync();
+        await page.GotoAsync("http://localhost:5273/");
+        string? ActualTitle = await page.Locator("h1").TextContentAsync();
+        string? ActualLogin = await page.Locator(".nav-item").TextContentAsync();
+        await page.GetByRole(AriaRole.Link, new() { Name = "Logout Log in" }).ClickAsync();
+        await page.GetByPlaceholder("name@example.com").ClickAsync();
+        await page.GetByPlaceholder("name@example.com").FillAsync("Test@gmail.com");
+        await page.GetByPlaceholder("password").ClickAsync();
+        await page.GetByPlaceholder("password").FillAsync("Chirp123!");
+        await page.GetByRole(AriaRole.Button, new() { Name = "Log in" }).ClickAsync();
+
+        var page2 = await context.NewPageAsync();
+        await page2.GotoAsync("http://localhost:5273/");
+        string? ActualLogout = await page2.Locator(".nav-item").TextContentAsync();
+        Assert.Equal("Chirp!", ActualTitle);
+        Assert.Equal("Log in", ActualLogin?.Trim());
+        Assert.Equal("Logout[TestName]", ActualLogout?.Trim());
+    }
+
+
 }
