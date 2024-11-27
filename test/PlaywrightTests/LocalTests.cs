@@ -78,5 +78,12 @@ public class LocalTests : IAsyncLifetime
         Assert.Equal("Logout[TestName]", ActualLogout?.Trim());
     }
 
-
+    [Fact]
+    public async Task LocalLogOut(){
+         var page = await context!.NewPageAsync();
+        Login(page);
+        await page.GetByRole(AriaRole.Link, new() { Name = "Logout Logout[TestName]" }).ClickAsync();
+        await page.GetByRole(AriaRole.Button, new() { Name = "Click here to Logout" }).ClickAsync();
+        await page.GetByRole(AriaRole.Img, new() { Name = "Icon1" }).ClickAsync();
+    }    
 }
