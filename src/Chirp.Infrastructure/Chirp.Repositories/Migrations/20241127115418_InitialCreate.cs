@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Chirp.Repositories.Migrations
 {
-    
-    [ExcludeFromCodeCoverage]
-
     /// <inheritdoc />
     public partial class InitialCreate : Migration
     {
@@ -192,7 +188,8 @@ namespace Chirp.Repositories.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Text = table.Column<string>(type: "TEXT", maxLength: 160, nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    AuthorId = table.Column<string>(type: "TEXT", nullable: false)
+                    AuthorId = table.Column<string>(type: "TEXT", nullable: false),
+                    Likes = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
