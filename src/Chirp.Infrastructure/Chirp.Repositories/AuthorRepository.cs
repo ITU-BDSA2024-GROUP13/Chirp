@@ -139,6 +139,9 @@ public class AuthorRepository : IAuthorRepository
         return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
     }
 
+
+
+
  
 
     public async Task<List<AuthorDTO>> GetFollowersbyId(string id)

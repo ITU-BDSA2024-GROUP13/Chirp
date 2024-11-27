@@ -16,6 +16,8 @@ public interface ICheepRepository
 
     public  Task AddLike(int cheepId, string authorId);
 
+    public  Task<List<AuthorDTO>> GetAllLikers(int cheepId);
+
     public  Task RemoveLike(int cheepId, string authorId);
 
     public  Task RemoveAllLikes(int cheepId);

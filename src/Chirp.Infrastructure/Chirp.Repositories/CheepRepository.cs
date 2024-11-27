@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Chirp.Core.DTO;
 using Chirp.Core.Entities;
+using System.ComponentModel;
 
 namespace Chirp.Repositories;
 
@@ -156,6 +157,17 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         return;
     }
 
+    public async Task<List<AuthorDTO>> GetAllLikers(int cheepId)
+    {
+
+        var query = _dbContext.Cheeps
+        .Where(cheep => cheep.CheepId == cheepId)
+        .Select(cheep => cheep.Likes);
+        // Execute the query
+        var result = await query.ToListAsync();
+
+        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+    }
     public async Task RemoveCheepsFromUser(string userName)
     {
 

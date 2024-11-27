@@ -192,9 +192,9 @@ public class CheepService : ICheepService
     public async Task<bool> HasLiked(string authorId, int cheepId)
     {
         var author = await FindSpecificAuthorById(authorId);
-        var cheep = await 
+        var cheep = await FindSpecificCheepbyId(cheepId);
 
-        var list = await _authorRepository.GetFollowers(author.Name);
+        
 
         foreach (var a in list)
         {
