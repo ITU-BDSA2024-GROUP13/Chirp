@@ -4,8 +4,13 @@ using Microsoft.Playwright;
 using Xunit;
 namespace PlaywrightTests;
 
+//Local host needs to be active for these tests to work
+//(Or else the test can't redirect itself to the proper urls)
 public class LocalTests
 {
+
+
+    
     [Fact]
     public async Task LocalHostTest()
     {
