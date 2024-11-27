@@ -14,13 +14,26 @@ public class MyPage(ICheepService cheepService) : TimeLine(cheepService)
     public async Task<IActionResult> OnGetAsync(string author)
     {        
         var page = UpdatePage();
+        AuthorDTO = await _cheepService.FindSpecificAuthorByName(author);
         MyCheeps = await _cheepService.ReadUserMessages(author, page);
         Count = await _cheepService.CountUserMessages(author);   
         UpdatePage(page);
         return Page();
     }
 
-    public async Task<AuthorDTO> GetAuthorDTO(string name) {
-        return await _cheepService.FindSpecificAuthorByName(name);
+    public async Task<IActionResult> OnPostForgetMe([FromBody] ForgetMeRequest forgetMeRequest){
+        if(forgetMeRequest == null)
+            return StatusCode(500);
+
+        Console.WriteLine("hi");
+
+        return new JsonResult(new { success = true });
     }
+
+    public async Task ForgetMe()
+    {
+        await _cheepService.ForgetMe(AuthorDTO.Name);
+    }
+
+    public class ForgetMeRequest { }
 }

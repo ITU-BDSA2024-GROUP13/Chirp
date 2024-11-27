@@ -47,6 +47,7 @@ public interface ICheepService
 
     public Task<Boolean> IsFollowing(string id, string followerId);
 
-
     public Task<List<AuthorDTO>> FindAuthors(string userName);
+
+    public Task ForgetMe(string userName);
 }

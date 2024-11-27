@@ -8,7 +8,6 @@
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "./Shared/_Layout.cshtml";
-    var author = await @Model.GetAuthorDTO(@User!.Identity!.Name!);
 }
 
 @await Html.PartialAsync("_Nav")
@@ -22,12 +21,12 @@
         </div>
 
     <div class="mypage-variables">
-        <div>@author.Name</div>
-        <div>@author.Email</div>
+        <div>@Model.AuthorDTO.Name</div>
+        <div>@Model.AuthorDTO.Email</div>
     </div>
 </div>
 
-<button>Forget me</button>
+<button id="forgetme" asp-page-handler="ForgetMe">Forget me</button>
 
 <h3>All your personal tweets</h3>
 @if(SignInManager.IsSignedIn(User))
@@ -55,3 +54,29 @@
         </div>
     </div>
 }
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const forgetme = document.getElementById("forgetme")
+
+        forgetme.addEventListener("click", () => {
+            const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            fetch(window.location.href + (window.location.href.includes("?") ? "&handler=forgetme" : "?handler=forgetme"), {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "RequestVerificationToken": antiforgeryToken
+                },
+                body: JSON.stringify({ })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        })
+    })
+</script>

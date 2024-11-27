@@ -186,5 +186,9 @@ public class CheepService : ICheepService
         return await _authorRepository.FindAuthors(userName, 5);
     }
 
+    public async Task ForgetMe(string userName)
+    {
+        Console.WriteLine("Hi");
+    }
    
 }
