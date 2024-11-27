@@ -57,9 +57,6 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         }
 
         return 0;
-
-
-
     }
 
     public DateTime ToDateTime(long value)

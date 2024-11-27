@@ -29,7 +29,8 @@
                 @await Html.PartialAsync("_Cheep", new CheepPartialView {
                     Author= cheep.Author,
                     Body= cheep.Text,
-                    Date= cheep.Timestamp
+                    Date= cheep.Timestamp,
+                    Like= cheep.Likes
                 })
             } 
     } else{
