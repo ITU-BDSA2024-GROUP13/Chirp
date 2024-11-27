@@ -14,39 +14,41 @@
             <span>Like</span>
         }
         </button>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const Follow = document.getElementById("like")
+
+                Follow.addEventListener("click", () => likePost())
+            })
+
+            function likePost(){
+                const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Like" : "?handler=Like"), {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "RequestVerificationToken": antiforgeryToken
+                    },
+                    body: JSON.stringify({ 
+                        Username: '@User!.Identity!.Name',
+                        cheepId: '@Model.Id'
+                    })
+                })
+                .then(response =>  response.json() )
+                .then(data => {
+                    console.log("success:", data)
+                    location.reload()
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    
+                })
+            }
+    </script>
     </div>
 </div>
 
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const Follow = document.getElementById("like")
 
-        Follow.addEventListener("click", () => likePost())
-    })
 
-    function likePost(){
-        const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
-
-        fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Like" : "?handler=Like"), {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "RequestVerificationToken": antiforgeryToken
-            },
-            body: JSON.stringify({ 
-                Username: '@User!.Identity!.Name',
-                cheepId: '@Model.Id'
-            })
-        })
-        .then(response =>  response.json() )
-        .then(data => {
-            console.log("success:", data)
-            location.reload()
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            
-        })
-    }
-</script>

@@ -21,6 +21,8 @@
 @if(SignInManager.IsSignedIn(User)){
 
     @await Html.PartialAsync("_Follow")
+    @await Html.PartialAsync("_Like")
+
 
     @if (Model.Cheeps.Any()){
         @foreach (var cheep in Model.Cheeps)
