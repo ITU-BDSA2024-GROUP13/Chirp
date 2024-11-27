@@ -125,6 +125,18 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         return;
     }
 
+    public async Task RemoveAllLikes(int cheepId)
+    {
+
+        Cheep cheep = _dbContext.Cheeps.Include(p => p.Likes).Single(e => e.CheepId == cheepId);
+
+        cheep.Likes.Clear();
+
+        _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Likes);
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;
+    }
+
     public async Task RemoveCheepsFromUser(string userName)
     {
 
