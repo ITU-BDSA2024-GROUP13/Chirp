@@ -17,6 +17,7 @@ public class PublicTimeLine(ICheepService cheepService) : TimeLine(cheepService)
 
         Cheeps = await _cheepService.ReadPublicMessages(page);
         Count = await _cheepService.CountPublicMessages();
+        
         if (!string.IsNullOrEmpty(SearchName))
             Authors = await _cheepService.FindAuthorByName(SearchName);
 

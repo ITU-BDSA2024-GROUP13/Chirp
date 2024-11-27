@@ -21,7 +21,9 @@
 @if(SignInManager.IsSignedIn(User)){
 
     @await Html.PartialAsync("_Follow")
-    @await Html.PartialAsync("_MyPage")
+    @if(@User!.Identity!.Name!.Equals(@routeName)){
+        <button onclick='window.location = location.origin + "/users/@User!.Identity!.Name/mypage"'> My Page </button>
+    }
 
     @if (Model.Cheeps.Any()){
         @foreach (var cheep in Model.Cheeps)
