@@ -11,4 +11,7 @@ public class CheepDTO
 
     public required string AuthorId { get; set; }
 
+    public required int Likes { get; set; }
+
+
 }

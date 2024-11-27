@@ -32,6 +32,9 @@ public interface ICheepService
 
     public Task<AuthorDTO> FindSpecificAuthorByEmail(string email);
 
+    public Task<List<AuthorDTO>> FindAuthors(string userName);
+
+
     public Task<List<AuthorDTO>> GetFollowers(string userName);
 
     public Task<List<AuthorDTO>> GetFollowersbyId(string id);
@@ -47,6 +50,9 @@ public interface ICheepService
 
     public Task<Boolean> IsFollowing(string id, string followerId);
 
+    public  Task AddLike(int cheepId, string authorId);
 
-    public Task<List<AuthorDTO>> FindAuthors(string userName);
+    public  Task RemoveLike(int cheepId, string authorId);
+
+
 }

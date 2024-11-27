@@ -47,14 +47,17 @@ public class CheepDBContext : IdentityDbContext<Author>
         modelBuilder.Entity<Author>()
             .HasMany(a => a.Followers)
             .WithMany(a => a.FollowedBy);
-            
-
 
         // Define the relationship between Cheep and Author
         modelBuilder.Entity<Cheep>()
             .HasOne(c => c.Author)
             .WithMany(a => a.Cheeps)
             .HasForeignKey(c => c.AuthorId);
+        
+        // Define the relationship of Likes
+        modelBuilder.Entity<Cheep>()
+            .HasMany(c => c.Likes)
+            .WithMany(a => a.LikedCheeps);
     }
 
 }

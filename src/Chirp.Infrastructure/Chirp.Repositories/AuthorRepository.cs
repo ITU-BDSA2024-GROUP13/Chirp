@@ -17,7 +17,7 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<string> CreateAuthor(AuthorDTO author)
     {
-        Author newAuthor = new() { Id = author.Id!, UserName = author.Name, Email = author.Email, 
+        Author newAuthor = new() { LikedCheeps = new List<Cheep>(), Id = author.Id!, UserName = author.Name, Email = author.Email, 
         Cheeps = new List<Cheep>(), FollowedBy = new List<Author>(), Followers = new List<Author>()};
         var queryResult = await _dbContext.Authors.AddAsync(newAuthor); // does not write to the database!
 
@@ -40,15 +40,6 @@ public class AuthorRepository : IAuthorRepository
         });
         // Execute the query
         var result = await query.ToListAsync();
-
-        /*
-        for (int i = 0; i < result.Count; i++)
-        {
-            Console.WriteLine(result[i].Name);
-            Console.WriteLine(result[i].count);
-
-        }
-        }*/
 
         return result;
     }
@@ -236,6 +227,21 @@ public class AuthorRepository : IAuthorRepository
         return;    
     
     }
+
+    public async Task RemoveAllLikedCheeps(string id)
+    {
+        Author author = _dbContext.Authors.Include(p => p.LikedCheeps).Single(e => e.Id == id);
+
+        author.LikedCheeps.Clear();
+
+        _dbContext.Entry(author).CurrentValues.SetValues(author.LikedCheeps);
+
+
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;    
+    
+    }
+
 
     public async Task RemoveAllFollowedby(string id)
     {

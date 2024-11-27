@@ -17,5 +17,8 @@ public class Cheep
     public required string Text { get; set; }
     public required DateTime TimeStamp { get; set; }
     public required string AuthorId { get; set; }
+    public required List<Author> Likes { get; set; }
+
     public Author Author { get; set; }
+
 }
