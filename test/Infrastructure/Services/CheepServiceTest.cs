@@ -658,6 +658,26 @@ public class CheepServiceTest : IDisposable
         }
     }
 
+    [Fact]
+    public async void AddLike()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+            //Likes own cheep (is allowed)
+            await _cheepService.AddLike(1, "10");
+
+            //Other likes same cheep
+            await _cheepService.AddLike(1, "11");
+
+        }
+    }
+
 
 
 
