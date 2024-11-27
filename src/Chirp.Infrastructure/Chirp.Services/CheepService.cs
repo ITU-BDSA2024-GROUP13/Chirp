@@ -189,5 +189,13 @@ public class CheepService : ICheepService
         return await _authorRepository.FindAuthors(userName, 5);
     }
 
-   
+    public async Task AddLike(int cheepId, string authorId)
+    {
+        await _cheepRepository.AddLike(cheepId, authorId);
+    }
+
+    public async Task RemoveLike(int cheepId, string authorId)
+    {
+        await _cheepRepository.RemoveLike(cheepId, authorId);
+    }
 }
