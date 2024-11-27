@@ -191,16 +191,27 @@ public class CheepService : ICheepService
 
     public async Task<Boolean> HasLiked(string authorId, int cheepId)
     {
-        var author = await FindSpecificAuthorById(authorId);
-        var likers = await _cheepRepository.GetAllLikers(cheepId);
+        try {
+            var author = await FindSpecificAuthorById(authorId);
+            var likers = await _cheepRepository.GetAllLikers(cheepId);
+            Console.WriteLine(author.Name);
+            Console.WriteLine(likers.Count);
 
-        foreach (var a in likers)
-        {
-            if (a.Id == author.Id)
-                return true;
+
+            foreach (var a in likers)
+            {
+                if (a.Id == author.Id)
+                    return true;
+            }
+
+            return false;
+
+        } catch (NullReferenceException e){
+
+            Console.WriteLine(e.Message);
+            return false;
         }
 
-        return false;
     }
 
     public async Task<List<AuthorDTO>> FindAuthors(string userName)

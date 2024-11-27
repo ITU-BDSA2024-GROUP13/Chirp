@@ -26,6 +26,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         .Where(cheep => cheep.CheepId == id)
         .Select(cheep => new CheepDTO
         {
+            Id = cheep.CheepId,
             AuthorId = cheep.AuthorId,
             Author = cheep.Author.UserName!,
             Text = cheep.Text,
@@ -48,6 +49,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         .Take(takeValue)
         .Select(message => new CheepDTO
         {
+            Id = message.CheepId,
             AuthorId = message.AuthorId,
             Author = message.Author.UserName!,
             Text = message.Text,
@@ -69,6 +71,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         .Take(takeValue)
         .Select(message => new CheepDTO
         {
+            Id = message.CheepId,
             AuthorId = message.AuthorId,
             Author = message.Author.UserName!,
             Text = message.Text,
@@ -90,6 +93,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         .Take(takeValue)
         .Select(message => new CheepDTO
         {
+            Id = message.CheepId,
             AuthorId = message.AuthorId,
             Author = message.Author.UserName!,
             Text = message.Text,
@@ -160,13 +164,17 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     public async Task<List<AuthorDTO>> GetAllLikers(int cheepId)
     {
 
-        var query = _dbContext.Cheeps
+        var query = _dbContext.Cheeps.Include(p => p.Likes)
         .Where(cheep => cheep.CheepId == cheepId)
         .Select(cheep => cheep.Likes);
         // Execute the query
         var result = await query.ToListAsync();
+        if (result.Any()){
+            return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+        } else{
+            throw new NullReferenceException("There are no likes on this cheep");
+        }
 
-        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
     }
     public async Task RemoveCheepsFromUser(string userName)
     {
