@@ -25,7 +25,7 @@ public class LocalTests : IAsyncLifetime
         {
             //To see what the tests "do" you can set this to false
             //and then you can see how it traverses through the website
-            Headless = false,
+            Headless = true,
         });
 
         context = await browser.NewContextAsync();
@@ -79,11 +79,35 @@ public class LocalTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task LocalLogOut(){
-         var page = await context!.NewPageAsync();
+    public async Task LocalLogOut()
+    {
+        var page = await context!.NewPageAsync();
         Login(page);
         await page.GetByRole(AriaRole.Link, new() { Name = "Logout Logout[TestName]" }).ClickAsync();
         await page.GetByRole(AriaRole.Button, new() { Name = "Click here to Logout" }).ClickAsync();
         await page.GetByRole(AriaRole.Img, new() { Name = "Icon1" }).ClickAsync();
-    }    
+    }
+
+    [Fact]
+    public async Task LocalShowingCheeps()
+    {
+        var page = await context!.NewPageAsync();
+        await page.GotoAsync("http://localhost:5273/");
+
+        bool? CheepsNotVisible = await page.Locator(".cheep-author > a").IsVisibleAsync();
+        string? NoCheepsMessage = await page.Locator("p").TextContentAsync();
+
+
+
+        Login(page);
+
+        //Waits for the last element to be loaded before it checks anything else on the page 
+        // (error would occur before, beacause sometimes it checked before the page was loaded...)
+        await page.Locator("footer").WaitForAsync();
+
+        bool? CheepsVisible = await page.Locator(".cheep-author > a").First.IsVisibleAsync();
+        Assert.Equal("Log in to experience new ideas on Chirp.", NoCheepsMessage?.Trim());
+        Assert.True(CheepsVisible);
+        Assert.False(CheepsNotVisible);
+    }
 }
