@@ -188,4 +188,59 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         return;
 
     }
+
+    public async Task AddDisLike(int cheepId, string authorId)
+    {
+        Cheep cheep = _dbContext.Cheeps.Include(p => p.Dislikes).Single(e => e.CheepId == cheepId);
+        var author = _dbContext.Authors.Include(p => p.DislikedCheeps).Single(e => e.Id == authorId);
+
+        if (!cheep.Dislikes.Contains(author)){
+            cheep.Dislikes.Add(author);
+        }
+
+        _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Dislikes);
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;
+    }
+
+    public async Task<List<AuthorDTO>> GetAllDislikers(int cheepId)
+    {
+        var query = _dbContext.Cheeps.Include(p => p.Dislikes)
+        .Where(cheep => cheep.CheepId == cheepId)
+        .Select(cheep => cheep.Dislikes);
+        // Execute the query
+        var result = await query.ToListAsync();
+        if (result.Any()){
+            return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+        } else{
+            throw new NullReferenceException("There are no likes on this cheep");
+        }    
+    
+    }
+
+    public async Task RemoveDislike(int cheepId, string authorId)
+    {
+        Cheep cheep = _dbContext.Cheeps.Include(p => p.Dislikes).Single(e => e.CheepId == cheepId);
+        var author = _dbContext.Authors.Include(p => p.DislikedCheeps).Single(e => e.Id == authorId);
+
+        if (cheep.Dislikes.Contains(author)){
+            cheep.Dislikes.Remove(author);
+        }
+
+        _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Likes);
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;    
+    }
+
+    public async Task RemoveAllDislikes(int cheepId)
+    {
+       Cheep cheep = _dbContext.Cheeps.Include(p => p.Dislikes).Single(e => e.CheepId == cheepId);
+
+        cheep.Dislikes.Clear();
+
+        _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Dislikes);
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;    
+        
+    }
 }
