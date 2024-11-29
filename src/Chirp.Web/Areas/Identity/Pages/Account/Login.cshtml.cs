@@ -108,19 +108,24 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
 
-
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (ModelState.IsValid)
             {
+                string ErrorMessage = null;
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true  
                 var Identity = Input.Identity;
                 if (Identity.Contains(".")){
+                    try{
                     var authordto = await _cheepService.FindSpecificAuthorByEmail(Identity);
                     Identity = authordto.Name;
+                    }catch (NullReferenceException e){
+                        ErrorMessage = e.Message;
+
+                    }
                 }
                 var result = await _signInManager.PasswordSignInAsync(Identity, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
@@ -139,7 +144,11 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    if(ErrorMessage == null){
+                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    } else{
+                        ModelState.AddModelError(string.Empty, ErrorMessage);
+                    }
                     return Page();
                 }
             }
