@@ -4,6 +4,9 @@ using Chirp.Core.DTO;
 
 public interface ICheepService
 {
+
+    public Task<CheepDTO> FindSpecificCheepbyId(int cheepId);
+
     public Task<int> CreateMessage(CheepDTO newMessage);
 
     public Task<List<CheepDTO>> ReadPublicMessages(int page);
@@ -53,6 +56,9 @@ public interface ICheepService
     public  Task AddLike(int cheepId, string authorId);
 
     public  Task RemoveLike(int cheepId, string authorId);
+
+    public Task<Boolean> HasLiked(string authorId, int cheepId);
+
 
 
 }
