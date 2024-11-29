@@ -164,7 +164,70 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         return await _cheepService.HasLiked(userId, (int)cheepId!);
     }
 
+      public async Task<ActionResult> OnPostDislike([FromBody] DislikeRequest dislikeRequest)
+    {
+        var user = await _cheepService.FindSpecificAuthorByName(dislikeRequest.Username);
+        var cheep = await _cheepService.FindSpecificCheepbyId(dislikeRequest.cheepId);
+        int cheepId = (int)cheep.Id!;
+
+
+        try
+        {
+            var likeSuccess = await HasDisliked(user.Id!, cheepId) ? await UnDislike(user.Id!, cheepId) : await DislikeCheep(user.Id!, cheepId);
+
+            return new JsonResult(new
+            {
+                success = likeSuccess,
+                message = likeSuccess ? $"{dislikeRequest.Username} succesfully unliked {dislikeRequest.cheepId}" : $"{dislikeRequest.Username} succesfully liked {dislikeRequest.cheepId}",
+            });
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return StatusCode(500);
+        }
+    }
+
+
+    private async Task<bool> DislikeCheep(string userId, int cheepId)
+    {
+        try
+        {
+            await _cheepService.AddDislike(cheepId, userId);
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return false;
+        }
+    }
+
+    private async Task<bool> UnDislike(string userId, int cheepId)
+    {
+        try
+        {
+            await _cheepService.RemoveDislike(cheepId, userId);
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return false;
+        }
+    }
+
+    public async Task<bool> HasDisliked(string userId, int? cheepId)
+    {
+        return await _cheepService.HasDisliked(userId, (int)cheepId!);
+    }
+
     public class LikeRequest
+    {
+        public required string Username { get; set; }
+        public required int cheepId { get; set; }
+    }
+    public class DislikeRequest
     {
         public required string Username { get; set; }
         public required int cheepId { get; set; }
