@@ -37,7 +37,7 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
             return new JsonResult(new
             {
                 success = followSuccess,
-                message = followSuccess ? $"{followRequest.Username} succesfully followed {followRequest.FollowUser}" : $"{followRequest.Username} succesfully followed {followRequest.FollowUser}"
+                message = followSuccess ? $"{followRequest.Username} succesfully unfollowed {followRequest.FollowUser}" : $"{followRequest.Username} succesfully followed {followRequest.FollowUser}"
             });
         }
         catch (Exception e)

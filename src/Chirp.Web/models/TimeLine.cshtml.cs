@@ -118,13 +118,13 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
         try
         {
-            var followSuccess = await HasLiked(user.Id!, cheepId) ? await UnLike(user.Id!, cheepId) : await LikeCheep(user.Id!, cheepId);
-            Console.WriteLine(followSuccess);
+            var likeSuccess = await HasLiked(user.Id!, cheepId) ? await UnLike(user.Id!, cheepId) : await LikeCheep(user.Id!, cheepId);
+            Console.WriteLine(likeSuccess);
 
             return new JsonResult(new
             {
-                success = followSuccess,
-                message = followSuccess ? $"{likeRequest.Username} succesfully unliked {likeRequest.cheepId}" : $"{likeRequest.Username} succesfully liked {likeRequest.cheepId}"
+                success = likeSuccess,
+                message = likeSuccess ? $"{likeRequest.Username} succesfully unliked {likeRequest.cheepId}" : $"{likeRequest.Username} succesfully liked {likeRequest.cheepId}",
             });
         }
         catch (Exception e)
@@ -168,9 +168,11 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         }
     }
 
-    public async Task<bool> HasLiked(string userId, int cheepId)
+    public async Task<bool> HasLiked(string userId, int? cheepId)
     {
-        return await _cheepService.HasLiked(userId, cheepId);
+        
+
+        return await _cheepService.HasLiked(userId, (int)cheepId!);
     }
 
     public class LikeRequest

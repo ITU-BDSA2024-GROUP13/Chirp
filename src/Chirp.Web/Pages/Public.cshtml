@@ -31,7 +31,7 @@
                     Body= cheep.Text,
                     Date= cheep.Timestamp,
                     Like= cheep.Likes,
-                    isLiked = false
+                    isLiked = await @Model.HasLiked(User!.Identity!.Name!, cheep.Id)
                 })
             } 
     } else{

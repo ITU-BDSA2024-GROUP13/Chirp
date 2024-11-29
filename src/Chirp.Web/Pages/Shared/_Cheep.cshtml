@@ -11,7 +11,7 @@
         @if(@Model.isLiked){
             <span>UnLike</span>
         } else {
-            <span>Like @Model.Id</span>
+            <span>Like</span>
         }
         </button>
 
@@ -33,8 +33,7 @@
                 .then(response =>  response.json() )
                 .then(data => {
                     console.log("success:", @Model.Id)
-
-                    console.log("success:", data)
+                    console.log("success:", data["success"])
                     location.reload()
                 })
                 .catch(error => {

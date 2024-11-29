@@ -170,7 +170,6 @@ public class CheepService : ICheepService
 
     public async Task Unfollow(string id, string followerId)
     {
-        Console.WriteLine("UNFOLLOWING");
         await _authorRepository.RemoveFollower(id, followerId);
     }
 
@@ -189,14 +188,11 @@ public class CheepService : ICheepService
         return false;
     }
 
-    public async Task<Boolean> HasLiked(string authorId, int cheepId)
+    public async Task<Boolean> HasLiked(string userName, int cheepId)
     {
         try {
-            var author = await FindSpecificAuthorById(authorId);
+            var author = await FindSpecificAuthorByName(userName);
             var likers = await _cheepRepository.GetAllLikers(cheepId);
-            Console.WriteLine(author.Name);
-            Console.WriteLine(likers.Count);
-
 
             foreach (var a in likers)
             {
