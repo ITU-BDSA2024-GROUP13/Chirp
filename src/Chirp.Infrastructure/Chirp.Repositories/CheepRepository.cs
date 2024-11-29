@@ -63,6 +63,72 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         return result;
     }
 
+    public async Task<List<CheepDTO>> ReadPublicMessagesbyOldest(int takeValue, int skipValue)
+    {
+        // Formulate the query - will be translated to SQL by EF Core
+        var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderBy(message => message.TimeStamp)
+        .Skip(skipValue)
+        .Take(takeValue)
+        .Select(message => new CheepDTO
+        {
+            Id = message.CheepId,
+            AuthorId = message.AuthorId,
+            Author = message.Author.UserName!,
+            Text = message.Text,
+            Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
+            Likes = message.Likes.Count,
+            Dislikes = message.Dislikes.Count
+        });
+        // Execute the query
+        var result = await query.ToListAsync();
+
+        return result;    }
+
+    public async Task<List<CheepDTO>> ReadPublicMessagesbyMostLiked(int takeValue, int skipValue)
+    {
+        // Formulate the query - will be translated to SQL by EF Core
+        var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(message => message.Likes.Count)
+        .Skip(skipValue)
+        .Take(takeValue)
+        .Select(message => new CheepDTO
+        {
+            Id = message.CheepId,
+            AuthorId = message.AuthorId,
+            Author = message.Author.UserName!,
+            Text = message.Text,
+            Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
+            Likes = message.Likes.Count,
+            Dislikes = message.Dislikes.Count
+        });
+        // Execute the query
+        var result = await query.ToListAsync();
+
+        return result;    
+    }
+
+    public async Task<List<CheepDTO>> ReadPublicMessagesbyRelevance(int takeValue, int skipValue)
+    {
+        // Formulate the query - will be translated to SQL by EF Core
+        var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(
+            message => message.Likes.Count - (DateTime.UtcNow - message.TimeStamp).Minutes)
+        .Skip(skipValue)
+        .Take(takeValue)
+        .Select(message => new CheepDTO
+        {
+            Id = message.CheepId,
+            AuthorId = message.AuthorId,
+            Author = message.Author.UserName!,
+            Text = message.Text,
+            Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
+            Likes = message.Likes.Count,
+            Dislikes = message.Dislikes.Count
+        });
+        // Execute the query
+        var result = await query.ToListAsync();
+
+        return result;        
+        }
+
     public async Task<List<CheepDTO>> ReadUserMessages(string userName, int takeValue, int skipValue)
     {
         // Formulate the query - will be translated to SQL by EF Core
@@ -243,4 +309,6 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         return;    
         
     }
+
+
 }
