@@ -114,7 +114,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                string? ErrorMessage = null;
+                string ErrorMessage = null;
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true  
                 var Identity = Input.Identity;
