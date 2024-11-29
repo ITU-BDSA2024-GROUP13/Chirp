@@ -112,7 +112,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
         try
         {
-            var likeSuccess = await HasLiked(user.Id!, cheepId) ? await UnLike(user.Id!, cheepId) : await LikeCheep(user.Id!, cheepId);
+            var likeSuccess = await HasLiked(user.Name!, cheepId) ? await UnLike(user.Id!, cheepId) : await LikeCheep(user.Id!, cheepId);
 
             return new JsonResult(new
             {
@@ -157,11 +157,10 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         }
     }
 
-    public async Task<bool> HasLiked(string userId, int? cheepId)
+    public async Task<bool> HasLiked(string userName, int? cheepId)
     {
-        
 
-        return await _cheepService.HasLiked(userId, (int)cheepId!);
+        return await _cheepService.HasLiked(userName, (int)cheepId!);
     }
 
       public async Task<ActionResult> OnPostDislike([FromBody] DislikeRequest dislikeRequest)
@@ -173,7 +172,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
         try
         {
-            var likeSuccess = await HasDisliked(user.Id!, cheepId) ? await UnDislike(user.Id!, cheepId) : await DislikeCheep(user.Id!, cheepId);
+            var likeSuccess = await HasDisliked(user.Name!, cheepId) ? await UnDislike(user.Id!, cheepId) : await DislikeCheep(user.Id!, cheepId);
 
             return new JsonResult(new
             {
@@ -217,9 +216,9 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         }
     }
 
-    public async Task<bool> HasDisliked(string userId, int? cheepId)
+    public async Task<bool> HasDisliked(string userName, int? cheepId)
     {
-        return await _cheepService.HasDisliked(userId, (int)cheepId!);
+        return await _cheepService.HasDisliked(userName, (int)cheepId!);
     }
 
     public class LikeRequest

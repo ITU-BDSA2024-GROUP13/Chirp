@@ -86,7 +86,7 @@ public class AuthorRepository : IAuthorRepository
         }
         else
         {
-            throw new NullReferenceException("No authors were found with this name");
+            throw new NullReferenceException("No authors were found with this name: " + userName);
         }
     }
        public async Task<AuthorDTO> FindSpecificAuthorByEmail(string email)
