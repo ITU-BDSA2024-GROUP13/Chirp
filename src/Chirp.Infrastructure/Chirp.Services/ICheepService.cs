@@ -59,6 +59,12 @@ public interface ICheepService
 
     public Task<Boolean> HasLiked(string userName, int cheepId);
 
+    public  Task AddDislike(int cheepId, string authorId);
+
+    public  Task RemoveDislike(int cheepId, string authorId);
+
+    public Task<Boolean> HasDisliked(string userName, int cheepId);
+
 
 
 }
