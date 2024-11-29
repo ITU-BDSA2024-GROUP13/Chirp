@@ -224,4 +224,35 @@ public class CheepService : ICheepService
     {
         await _cheepRepository.RemoveLike(cheepId, authorId);
     }
+
+    public async Task AddDislike(int cheepId, string authorId)
+    {
+        
+        await _cheepRepository.AddDisLike(cheepId, authorId);
+
+    }
+
+    public async Task RemoveDislike(int cheepId, string authorId)
+    {
+        await _cheepRepository.RemoveDislike(cheepId, authorId);
+    }
+
+    public async Task<bool> HasDisliked(string userName, int cheepId)
+    {
+        try {
+            var author = await FindSpecificAuthorByName(userName);
+            var likers = await _cheepRepository.GetAllDislikers(cheepId);
+
+            foreach (var a in likers)
+            {
+                if (a.Id == author.Id)
+                    return true;
+            }
+            return false;
+
+        } catch (NullReferenceException e){
+            Console.WriteLine(e.Message);
+            return false;
+        }    
+    }
 }
