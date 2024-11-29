@@ -91,6 +91,29 @@ h2, .name-timeline {
   cursor: pointer;
 }
 
+.LikeButtons{
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.LikeButtons button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 30px;
+  background: rgb(133, 133, 138);
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+}
+
+.LikeButtons .current{
+  background: rgb(129, 129, 226);
+}
+
 nav {
   position: fixed;
   top: 90px;

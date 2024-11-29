@@ -2,86 +2,97 @@
 
 <div>
     <div class="cheep-item">
-        <strong class="cheep-author">  <a href="/users/@Model.Author">@Model.Author</a> </strong>
+        <strong class="cheep-author"> <a href="/users/@Model.Author">@Model.Author</a> </strong>
 
         <p class="cheep-body"> @Model.Body </p>
         <p class="cheep-body"> likes: @Model.Likes </p>
         <p class="cheep-body"> dislikes: @Model.Dislikes </p>
         <span class="cheep-date"> &mdash; @Model.ToDateTime(Model.Date) </span>
-        <button id="@Model.LikeButtonId()" type="submit" asp-handler="Like">
-        @if(@Model.isLiked){
-            <span>UnLike</span>
-        } else {
-            <span>Like</span>
-        }
-        </button>
-        <button id="@Model.DislikeButtonId()" type="submit" asp-handler="Dislike">
-        @if(@Model.isDisliked){
-            <span>UnDislike</span>
-        } else {
-            <span>Dislike</span>
-        }
-        </button>
-       <script>
+
+        <div class="LikeButtons">
+            @if (@Model.isLiked)
+            {
+                <button class="current" id="@Model.LikeButtonId()" type="submit" asp-handler="Like">
+                    Like
+                </button>
+            }
+            else
+            {
+                <button id="@Model.LikeButtonId()" type="submit" asp-handler="Like">
+                    Like
+                </button>
+            }
+            
+            @if (@Model.isDisliked)
+            {
+                <button class="current" id="@Model.DislikeButtonId()" type="submit" asp-handler="Dislike">
+                    Dislike
+                </button>
+            }
+            else
+            {
+                <button id="@Model.DislikeButtonId()" type="submit" asp-handler="Dislike">
+                    Dislike
+                </button>
+            }
+        </div>
+
+        <script>
 
             document.getElementById("@Model.LikeButtonId()").addEventListener("click", () => {
-                const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                const antiforgeryToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
                 fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Like" : "?handler=Like"), {
-                    method: "POST", 
+                    method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                         "RequestVerificationToken": antiforgeryToken
                     },
-                    body: JSON.stringify({ 
+                    body: JSON.stringify({
                         Username: '@User!.Identity!.Name',
                         cheepId: @Model.Id
                     })
                 })
-                .then(response =>  response.json() )
-                .then(data => {
-                    console.log("success:", @Model.Id)
-                    console.log("success:", data["success"])
-                    location.reload()
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    
-                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("success:", @Model.Id)
+                        console.log("success:", data["success"])
+                        location.reload()
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+
+                    })
             })
-            
+
         </script>
         <script>
             document.getElementById("@Model.DislikeButtonId()").addEventListener("click", () => {
-                const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                const antiforgeryToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
                 fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Dislike" : "?handler=Dislike"), {
-                    method: "POST", 
+                    method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                         "RequestVerificationToken": antiforgeryToken
                     },
-                    body: JSON.stringify({ 
+                    body: JSON.stringify({
                         Username: '@User!.Identity!.Name',
                         cheepId: @Model.Id
                     })
                 })
-                .then(response =>  response.json() )
-                .then(data => {
-                    console.log("success:", @Model.Id)
-                    console.log("success:", data["success"])
-                    location.reload()
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    
-                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("success:", @Model.Id)
+                        console.log("success:", data["success"])
+                        location.reload()
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+
+                    })
             })
-            
+
         </script>
     </div>
 </div>
-
- 
-
-
