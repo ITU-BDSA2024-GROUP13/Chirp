@@ -46,6 +46,21 @@ header {
     z-index: 10;
 }
 
+.settings{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    margin-right: 45px
+}
+
+#settingIcon{
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+}
+
 a:hover {
     color: rgb(47, 112, 192);
 }
