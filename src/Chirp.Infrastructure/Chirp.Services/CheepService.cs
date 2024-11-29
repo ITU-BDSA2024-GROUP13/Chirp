@@ -57,7 +57,7 @@ public class CheepService : ICheepService
 
         } catch{
 
-            AuthorDTO newAuthor = new() { Name = message.Author, Email = message.Author + "@mail.com" };
+            NewAuthorDTO newAuthor = new() { Name = message.Author, Email = message.Author + "@mail.com" };
             await CreateAuthor(newAuthor);
             AuthorDTO createdAuthor = await FindSpecificAuthorByName(message.Author);
             message.AuthorId = createdAuthor.Id!;
@@ -102,7 +102,7 @@ public class CheepService : ICheepService
     /// </summary>
     /// <param name="author"></param>
     /// <returns></returns>
-    public async Task<string> CreateAuthor(AuthorDTO author)
+    public async Task<string> CreateAuthor(NewAuthorDTO author)
     {
         return await _authorRepository.CreateAuthor(author);
     }

@@ -3,7 +3,7 @@ using Chirp.Core.DTO;
 
 public interface IAuthorRepository
 {
-    public Task<string> CreateAuthor(AuthorDTO newMessage);
+    public Task<string> CreateAuthor(NewAuthorDTO newMessage);
 
     public Task<List<AuthorDTO>> FindAuthorByName(string userName);
 

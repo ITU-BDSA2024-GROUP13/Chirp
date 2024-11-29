@@ -23,7 +23,7 @@ public interface ICheepService
 
     public Task UpdateMessage(UpdateCheepDTO alteredMessage, int id);
 
-    public Task<string> CreateAuthor(AuthorDTO newMessage);
+    public Task<string> CreateAuthor(NewAuthorDTO newMessage);
 
     public Task<List<AuthorDTO>> FindAuthorByName(string userName);
 

@@ -149,7 +149,7 @@ public class AuthorRepositoryTest : IDisposable
             {
                 var repo = new AuthorRepository(context);
 
-                AuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com" };
+                NewAuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com" };
                 await repo.CreateAuthor(newAuthor);
 
                 List<AuthorDTO> authors = await repo.FindAuthorByName("Helge");
@@ -169,7 +169,6 @@ public class AuthorRepositoryTest : IDisposable
             {
                 var repo = new AuthorRepository(context);
 
-                AuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com" };
                 List<AuthorDTO> list = await repo.FindAuthors("J", 2);
 
                 Assert.Equal(2, list.Count);
@@ -189,7 +188,7 @@ public class AuthorRepositoryTest : IDisposable
             {
                 var repo = new AuthorRepository(context);
 
-                AuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com" };
+                NewAuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com" };
                 await repo.CreateAuthor(newAuthor);
 
                 AuthorDTO author = await repo.FindSpecificAuthorByName("Helge");

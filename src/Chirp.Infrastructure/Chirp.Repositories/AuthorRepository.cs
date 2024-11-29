@@ -15,10 +15,10 @@ public class AuthorRepository : IAuthorRepository
         _dbContext = dbContext;
     }
 
-    public async Task<string> CreateAuthor(AuthorDTO author)
+    public async Task<string> CreateAuthor(NewAuthorDTO author)
     {
         Author newAuthor = new() { DislikedCheeps = new List<Cheep>(), LikedCheeps = new List<Cheep>(), 
-        Id = author.Id!, UserName = author.Name, Email = author.Email, 
+        UserName = author.Name, Email = author.Email, 
         Cheeps = new List<Cheep>(), FollowedBy = new List<Author>(), Followers = new List<Author>()};
         var queryResult = await _dbContext.Authors.AddAsync(newAuthor); // does not write to the database!
 
@@ -37,7 +37,6 @@ public class AuthorRepository : IAuthorRepository
             Id = author.Id,
             Name = author.UserName!,
             Email = author.Email!,
-            count = author.Cheeps.Count,
         });
         // Execute the query
         var result = await query.ToListAsync();

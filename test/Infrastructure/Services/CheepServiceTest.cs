@@ -563,7 +563,7 @@ public class CheepServiceTest : IDisposable
             _authorRepository = new AuthorRepository(context);
             _cheepService = new CheepService(_cheepRepository, _authorRepository);
 
-            AuthorDTO author = new() { Name = "Helge2", Email = "Helg2@mail.dk" };
+            NewAuthorDTO author = new() { Name = "Helge2", Email = "Helg2@mail.dk" };
             await _cheepService.CreateAuthor(author);
             AuthorDTO createdAuthor = await _cheepService.FindSpecificAuthorByName("Helge2");
 
