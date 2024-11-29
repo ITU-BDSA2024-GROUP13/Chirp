@@ -15,6 +15,11 @@ public class CheepService : ICheepService
         _authorRepository = authorRepository;
     }
 
+    public Task<CheepDTO> FindSpecificCheepbyId(int cheepId)
+    {
+        return _cheepRepository.FindSpecificCheepbyId(cheepId);
+    }
+
     public Task<List<CheepDTO>> ReadPublicMessages(int page)
     {
         return _cheepRepository.ReadPublicMessages(32, 32 * page);
@@ -182,6 +187,31 @@ public class CheepService : ICheepService
         }
 
         return false;
+    }
+
+    public async Task<Boolean> HasLiked(string authorId, int cheepId)
+    {
+        try {
+            var author = await FindSpecificAuthorById(authorId);
+            var likers = await _cheepRepository.GetAllLikers(cheepId);
+            Console.WriteLine(author.Name);
+            Console.WriteLine(likers.Count);
+
+
+            foreach (var a in likers)
+            {
+                if (a.Id == author.Id)
+                    return true;
+            }
+
+            return false;
+
+        } catch (NullReferenceException e){
+
+            Console.WriteLine(e.Message);
+            return false;
+        }
+
     }
 
     public async Task<List<AuthorDTO>> FindAuthors(string userName)

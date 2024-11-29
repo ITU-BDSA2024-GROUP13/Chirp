@@ -15,6 +15,7 @@
 
 @await Html.PartialAsync("_Nav")
 
+
 <h2 class="name-timeline"> Public Timeline </h2>
 
 @if(SignInManager.IsSignedIn(User)){
@@ -22,14 +23,15 @@
 
     @if (Model.Cheeps.Any())
     {
-
-
             @foreach (var cheep in Model.Cheeps)
             {
                 @await Html.PartialAsync("_Cheep", new CheepPartialView {
+                    Id = cheep.Id,
                     Author= cheep.Author,
                     Body= cheep.Text,
-                    Date= cheep.Timestamp
+                    Date= cheep.Timestamp,
+                    Like= cheep.Likes,
+                    isLiked = false
                 })
             } 
     } else{
@@ -43,3 +45,4 @@
         </div>
     </div>
 }
+

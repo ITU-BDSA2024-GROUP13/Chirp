@@ -5,7 +5,48 @@
         <strong class="cheep-author">  <a href="/users/@Model.Author">@Model.Author</a> </strong>
 
         <p class="cheep-body"> @Model.Body </p>
-
+        <p class="cheep-body"> @Model.Like </p>
         <span class="cheep-date"> &mdash; @Model.ToDateTime(Model.Date) </span>
+        <button id="@Model.Id" type="submit" asp-handler="Like">
+        @if(@Model.isLiked){
+            <span>UnLike</span>
+        } else {
+            <span>Like @Model.Id</span>
+        }
+        </button>
+
+       <script>
+            document.getElementById(@Model.Id).addEventListener("click", () => {
+                const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Like" : "?handler=Like"), {
+                    method: "POST", 
+                    headers: {
+                        "Content-Type": "application/json",
+                        "RequestVerificationToken": antiforgeryToken
+                    },
+                    body: JSON.stringify({ 
+                        Username: '@User!.Identity!.Name',
+                        cheepId: @Model.Id
+                    })
+                })
+                .then(response =>  response.json() )
+                .then(data => {
+                    console.log("success:", @Model.Id)
+
+                    console.log("success:", data)
+                    location.reload()
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    
+                })
+            })
+            
+        </script>
     </div>
 </div>
+
+ 
+
+

@@ -22,13 +22,17 @@
 
     @await Html.PartialAsync("_Follow")
 
+
     @if (Model.Cheeps.Any()){
         @foreach (var cheep in Model.Cheeps)
         {
             @await Html.PartialAsync("_Cheep", new CheepPartialView {
+                Id = cheep.Id,
                 Author= cheep.Author,
                 Body= cheep.Text,
-                Date= cheep.Timestamp
+                Date= cheep.Timestamp,
+                Like= cheep.Likes,
+                isLiked = false
             })
         }
     }else{

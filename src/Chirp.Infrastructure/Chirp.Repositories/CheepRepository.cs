@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Chirp.Core.DTO;
 using Chirp.Core.Entities;
+using System.ComponentModel;
 
 namespace Chirp.Repositories;
 
@@ -19,6 +20,26 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         return queryResult.Entity.CheepId;
     }
 
+     public async Task<CheepDTO> FindSpecificCheepbyId(int id)
+    {
+        var query = _dbContext.Cheeps
+        .Where(cheep => cheep.CheepId == id)
+        .Select(cheep => new CheepDTO
+        {
+            Id = cheep.CheepId,
+            AuthorId = cheep.AuthorId,
+            Author = cheep.Author.UserName!,
+            Text = cheep.Text,
+            Timestamp = ((DateTimeOffset)cheep.TimeStamp).ToUnixTimeMilliseconds(),
+            Likes = cheep.Likes.Count
+
+        });
+        // Execute the query
+        var result = await query.ToListAsync();
+
+        return result[0];
+    }
+
     public async Task<List<CheepDTO>> ReadPublicMessages(int takeValue, int skipValue)
     {
 
@@ -28,6 +49,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         .Take(takeValue)
         .Select(message => new CheepDTO
         {
+            Id = message.CheepId,
             AuthorId = message.AuthorId,
             Author = message.Author.UserName!,
             Text = message.Text,
@@ -49,6 +71,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         .Take(takeValue)
         .Select(message => new CheepDTO
         {
+            Id = message.CheepId,
             AuthorId = message.AuthorId,
             Author = message.Author.UserName!,
             Text = message.Text,
@@ -70,6 +93,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         .Take(takeValue)
         .Select(message => new CheepDTO
         {
+            Id = message.CheepId,
             AuthorId = message.AuthorId,
             Author = message.Author.UserName!,
             Text = message.Text,
@@ -137,6 +161,21 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         return;
     }
 
+    public async Task<List<AuthorDTO>> GetAllLikers(int cheepId)
+    {
+
+        var query = _dbContext.Cheeps.Include(p => p.Likes)
+        .Where(cheep => cheep.CheepId == cheepId)
+        .Select(cheep => cheep.Likes);
+        // Execute the query
+        var result = await query.ToListAsync();
+        if (result.Any()){
+            return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+        } else{
+            throw new NullReferenceException("There are no likes on this cheep");
+        }
+
+    }
     public async Task RemoveCheepsFromUser(string userName)
     {
 
