@@ -11,7 +11,8 @@ public class AuthorTest
     public void Requirements()
     {
         Author a = new() { UserName = "Helge", Id = "1", Email = "Helge@gmail.com", 
-        Cheeps = new List<Cheep>(), FollowedBy = new List<Author>(), Followers = new List<Author>(), LikedCheeps = new List<Cheep>() };
+        Cheeps = new List<Cheep>(), FollowedBy = new List<Author>(), Followers = new List<Author>(), 
+        LikedCheeps = new List<Cheep>(), DislikedCheeps = new List<Cheep>() };
         Assert.Empty(a.Cheeps);
     }
 }

@@ -58,6 +58,11 @@ public class CheepDBContext : IdentityDbContext<Author>
         modelBuilder.Entity<Cheep>()
             .HasMany(c => c.Likes)
             .WithMany(a => a.LikedCheeps);
+        
+         // Define the relationship of Dislikes
+        modelBuilder.Entity<Cheep>()
+            .HasMany(c => c.Dislikes)
+            .WithMany(a => a.DislikedCheeps);
     }
 
 }

@@ -31,8 +31,10 @@
                 Author= cheep.Author,
                 Body= cheep.Text,
                 Date= cheep.Timestamp,
-                Like= cheep.Likes,
-                isLiked = false
+                Likes = cheep.Likes,
+                Dislikes = cheep.Dislikes,
+                isLiked = await @Model.HasLiked(User!.Identity!.Name!, cheep.Id),
+                isDisliked = await @Model.HasDisliked(User!.Identity!.Name!, cheep.Id)
             })
         }
     }else{

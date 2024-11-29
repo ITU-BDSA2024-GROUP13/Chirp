@@ -148,7 +148,8 @@ public class CheepRepositoryTest : IDisposable
                 bool messageCreated = false;
 
 
-                CheepDTO newMessage = new() { Author = "Helge", AuthorId = "11", Text = "I love group 13!", Timestamp = 12345, Likes = 0 };
+                CheepDTO newMessage = new() { Author = "Helge", AuthorId = "11", Text = "I love group 13!", 
+                Timestamp = 12345, Likes = 0, Dislikes = 0 };
                 List<CheepDTO> prevList = await repo.ReadUserMessages("Helge", 32, 0);
 
 
@@ -182,7 +183,8 @@ public class CheepRepositoryTest : IDisposable
                 bool messageCreated = false;
 
 
-                CheepDTO newMessage = new() { Author = "Helge", AuthorId = "11", Text = "I love group 13!", Timestamp = 12345, Likes = 0 };
+                CheepDTO newMessage = new() { Author = "Helge", AuthorId = "11", Text = "I love group 13!", 
+                Timestamp = 12345, Likes = 0, Dislikes = 0 };
                 List<CheepDTO> prevList = await repo.ReadUserMessages("Helge", 32, 0);
 
 
@@ -227,6 +229,197 @@ public class CheepRepositoryTest : IDisposable
             }
         }
     }
+
+     [Fact]
+    public async void AddLike()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new CheepRepository(context);
+
+                await repo.AddLike(1, "12");
+
+                CheepDTO cheep = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(1, cheep.Likes);
+
+                await repo.AddLike(1, "11");
+                await repo.AddLike(1, "11");
+                await repo.AddLike(1, "11");
+                await repo.AddLike(1, "11");
+                await repo.AddLike(1, "12");
+                await repo.AddLike(1, "10");
+
+                CheepDTO cheep2 = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(3, cheep2.Likes);
+            }
+        }
+    }
+    [Fact]
+    public async void RemoveLike()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new CheepRepository(context);
+
+                await repo.AddLike(1, "12");
+
+                CheepDTO cheep = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(1, cheep.Likes);
+
+                await repo.RemoveLike(1, "12");
+
+                CheepDTO cheep2 = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(0, cheep2.Likes);
+            }
+        }
+    }
+
+    
+     [Fact]
+    public async void RemoveAllLikes()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new CheepRepository(context);
+
+                await repo.AddLike(1, "12");
+
+                CheepDTO cheep = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(1, cheep.Likes);
+
+                await repo.AddLike(1, "11");
+                await repo.AddLike(1, "10");
+                await repo.AddLike(1, "9");
+                await repo.AddLike(1, "8");
+                await repo.AddLike(1, "7");
+                await repo.AddLike(1, "6");
+
+                CheepDTO cheep2 = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(7, cheep2.Likes);
+
+                await repo.RemoveAllLikes(1);
+
+                CheepDTO cheep3 = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(0, cheep3.Likes);
+
+            }
+        }
+    }
+
+     [Fact]
+    public async void RemoveDislike()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new CheepRepository(context);
+
+                await repo.AddDisLike(1, "12");
+
+                CheepDTO cheep = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(1, cheep.Dislikes);
+
+                await repo.RemoveDislike(1, "12");
+                await repo.RemoveDislike(1, "12");
+
+
+                CheepDTO cheep2 = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(0, cheep2.Dislikes);
+            }
+        }
+    }
+
+    [Fact]
+    public async void AddDislike()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new CheepRepository(context);
+
+                await repo.AddDisLike(1, "12");
+
+                CheepDTO cheep = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(1, cheep.Dislikes);
+
+                await repo.AddDisLike(1, "11");
+                await repo.AddDisLike(1, "11");
+                await repo.AddDisLike(1, "11");
+                await repo.AddDisLike(1, "11");
+                await repo.AddDisLike(1, "12");
+                await repo.AddDisLike(1, "10");
+
+                CheepDTO cheep2 = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(3, cheep2.Dislikes);
+            }
+        }
+    }
+
+         [Fact]
+    public async void RemoveAllDislikes()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new CheepRepository(context);
+
+                await repo.AddDisLike(1, "12");
+
+                CheepDTO cheep = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(1, cheep.Dislikes);
+
+                await repo.AddDisLike(1, "11");
+                await repo.AddDisLike(1, "10");
+                await repo.AddDisLike(1, "9");
+                await repo.AddDisLike(1, "8");
+                await repo.AddDisLike(1, "7");
+                await repo.AddDisLike(1, "6");
+
+                CheepDTO cheep2 = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(7, cheep2.Dislikes);
+
+                await repo.RemoveAllDislikes(1);
+
+                CheepDTO cheep3 = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(0, cheep3.Dislikes);
+
+            }
+        }
+    }
+
+
+
+
+
 
 
 

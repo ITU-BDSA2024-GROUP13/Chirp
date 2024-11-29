@@ -19,6 +19,8 @@ public class Cheep
     public required string AuthorId { get; set; }
     public required List<Author> Likes { get; set; }
 
+    public required List<Author> Dislikes { get; set; }
+
     public Author Author { get; set; }
 
 }

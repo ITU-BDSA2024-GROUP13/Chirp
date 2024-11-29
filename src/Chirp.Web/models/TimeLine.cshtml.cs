@@ -96,7 +96,8 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
             Text = postRequest.PostString,
             Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow),
             AuthorId = author.Id!,
-            Likes = 0
+            Likes = 0,
+            Dislikes = 0
         });
 
         return new JsonResult(new { success = true, message = "PostString successfully processed" });
@@ -104,26 +105,17 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
     public async Task<ActionResult> OnPostLike([FromBody] LikeRequest likeRequest)
     {
-        Console.WriteLine("HELLO??");
         var user = await _cheepService.FindSpecificAuthorByName(likeRequest.Username);
         var cheep = await _cheepService.FindSpecificCheepbyId(likeRequest.cheepId);
-        Console.WriteLine("user and cheep initialized?? " + user.Name + " " + cheep.Id);
-
         int cheepId = (int)cheep.Id!;
-        Console.WriteLine("cheepId initialized");
-        var hasliked = await HasLiked(user.Id!, cheepId);
-        Console.WriteLine(hasliked);
-
-
         try
         {
-            var followSuccess = await HasLiked(user.Id!, cheepId) ? await UnLike(user.Id!, cheepId) : await LikeCheep(user.Id!, cheepId);
-            Console.WriteLine(followSuccess);
-
+            var likeSuccess = await HasLiked(user.Name!, cheepId) ? await UnLike(user.Id!, cheepId) : await LikeCheep(user.Id!, cheepId);
             return new JsonResult(new
             {
-                success = followSuccess,
-                message = followSuccess ? $"{likeRequest.Username} succesfully unliked {likeRequest.cheepId}" : $"{likeRequest.Username} succesfully liked {likeRequest.cheepId}"
+                success = likeSuccess,
+                message = likeSuccess ? $"{likeRequest.Username} succesful {likeRequest.cheepId}" : $"{likeRequest.Username} unsuccesful {likeRequest.cheepId}",
+
             });
         }
         catch (Exception e)
@@ -136,8 +128,6 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
     private async Task<bool> LikeCheep(string userId, int cheepId)
     {
-        Console.WriteLine("Liking..");
-
         try
         {
             await _cheepService.AddLike(cheepId, userId);
@@ -153,8 +143,6 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
     private async Task<bool> UnLike(string userId, int cheepId)
     {
-        Console.WriteLine("UnLiking..");
-
         try
         {
             await _cheepService.RemoveLike(cheepId, userId);
@@ -167,12 +155,72 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         }
     }
 
-    public async Task<bool> HasLiked(string userId, int cheepId)
+    public async Task<bool> HasLiked(string userName, int? cheepId)
     {
-        return await _cheepService.HasLiked(userId, cheepId);
+        return await _cheepService.HasLiked(userName, (int)cheepId!);
+    }
+
+      public async Task<ActionResult> OnPostDislike([FromBody] DislikeRequest dislikeRequest)
+    {
+        var user = await _cheepService.FindSpecificAuthorByName(dislikeRequest.Username);
+        var cheep = await _cheepService.FindSpecificCheepbyId(dislikeRequest.cheepId);
+        int cheepId = (int)cheep.Id!;
+        try
+        {
+            var likeSuccess = await HasDisliked(user.Name!, cheepId) ? await UnDislike(user.Id!, cheepId) : await DislikeCheep(user.Id!, cheepId);
+            return new JsonResult(new
+            {
+                success = likeSuccess,
+                message = likeSuccess ? $"{dislikeRequest.Username} succesfully undisliked {dislikeRequest.cheepId}" : $"{dislikeRequest.Username} succesfully disliked {dislikeRequest.cheepId}",
+            });
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return StatusCode(500);
+        }
+    }
+
+
+    private async Task<bool> DislikeCheep(string userId, int cheepId)
+    {
+        try
+        {
+            await _cheepService.AddDislike(cheepId, userId);
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return false;
+        }
+    }
+
+    private async Task<bool> UnDislike(string userId, int cheepId)
+    {
+        try
+        {
+            await _cheepService.RemoveDislike(cheepId, userId);
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return false;
+        }
+    }
+
+    public async Task<bool> HasDisliked(string userName, int? cheepId)
+    {
+        return await _cheepService.HasDisliked(userName, (int)cheepId!);
     }
 
     public class LikeRequest
+    {
+        public required string Username { get; set; }
+        public required int cheepId { get; set; }
+    }
+    public class DislikeRequest
     {
         public required string Username { get; set; }
         public required int cheepId { get; set; }

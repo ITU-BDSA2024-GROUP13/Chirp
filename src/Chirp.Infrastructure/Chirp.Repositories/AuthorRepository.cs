@@ -17,7 +17,8 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<string> CreateAuthor(AuthorDTO author)
     {
-        Author newAuthor = new() { LikedCheeps = new List<Cheep>(), Id = author.Id!, UserName = author.Name, Email = author.Email, 
+        Author newAuthor = new() { DislikedCheeps = new List<Cheep>(), LikedCheeps = new List<Cheep>(), 
+        Id = author.Id!, UserName = author.Name, Email = author.Email, 
         Cheeps = new List<Cheep>(), FollowedBy = new List<Author>(), Followers = new List<Author>()};
         var queryResult = await _dbContext.Authors.AddAsync(newAuthor); // does not write to the database!
 
@@ -58,11 +59,6 @@ public class AuthorRepository : IAuthorRepository
         // Execute the query
         var result = await query.ToListAsync();
 
-        /*
-        for (int i = 0; i < result.Count; i++)
-        {
-            Console.WriteLine(result[i].Name);
-        }*/
 
         return result;
     }
@@ -85,7 +81,7 @@ public class AuthorRepository : IAuthorRepository
         }
         else
         {
-            throw new NullReferenceException("No authors were found with this name");
+            throw new NullReferenceException("No authors were found with this name: " + userName);
         }
     }
        public async Task<AuthorDTO> FindSpecificAuthorByEmail(string email)

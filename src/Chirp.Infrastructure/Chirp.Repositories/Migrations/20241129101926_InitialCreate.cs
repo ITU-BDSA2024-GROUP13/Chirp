@@ -225,6 +225,30 @@ namespace Chirp.Repositories.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "AuthorCheep1",
+                columns: table => new
+                {
+                    DislikedCheepsCheepId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DislikesId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuthorCheep1", x => new { x.DislikedCheepsCheepId, x.DislikesId });
+                    table.ForeignKey(
+                        name: "FK_AuthorCheep1_AspNetUsers_DislikesId",
+                        column: x => x.DislikesId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AuthorCheep1_Cheeps_DislikedCheepsCheepId",
+                        column: x => x.DislikedCheepsCheepId,
+                        principalTable: "Cheeps",
+                        principalColumn: "CheepId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -273,6 +297,11 @@ namespace Chirp.Repositories.Migrations
                 column: "LikesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AuthorCheep1_DislikesId",
+                table: "AuthorCheep1",
+                column: "DislikesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Cheeps_AuthorId",
                 table: "Cheeps",
                 column: "AuthorId");
@@ -301,6 +330,9 @@ namespace Chirp.Repositories.Migrations
 
             migrationBuilder.DropTable(
                 name: "AuthorCheep");
+
+            migrationBuilder.DropTable(
+                name: "AuthorCheep1");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

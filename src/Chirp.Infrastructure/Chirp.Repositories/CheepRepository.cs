@@ -13,7 +13,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     public async Task<int> CreateMessage(CheepDTO message)
     {
 
-        Cheep newCheep = new() { Likes = new List<Author>(), Text = message.Text, AuthorId = message.AuthorId, TimeStamp = HelperFunctions.FromUnixTimeToDateTime(message.Timestamp) };
+        Cheep newCheep = new() { Dislikes = new List<Author>(), Likes = new List<Author>(), Text = message.Text, AuthorId = message.AuthorId, TimeStamp = HelperFunctions.FromUnixTimeToDateTime(message.Timestamp) };
         var queryResult = await _dbContext.Cheeps.AddAsync(newCheep); // does not write to the database!
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
@@ -31,8 +31,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Author = cheep.Author.UserName!,
             Text = cheep.Text,
             Timestamp = ((DateTimeOffset)cheep.TimeStamp).ToUnixTimeMilliseconds(),
-            Likes = cheep.Likes.Count
-
+            Likes = cheep.Likes.Count,
+            Dislikes = cheep.Dislikes.Count
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -44,7 +44,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     {
 
         // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.Cheeps.Include(p => p.Likes).OrderByDescending(message => message.TimeStamp)
+        var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(message => message.TimeStamp)
         .Skip(skipValue)
         .Take(takeValue)
         .Select(message => new CheepDTO
@@ -54,7 +54,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Author = message.Author.UserName!,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
-            Likes = message.Likes.Count
+            Likes = message.Likes.Count,
+            Dislikes = message.Dislikes.Count
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -65,7 +66,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     public async Task<List<CheepDTO>> ReadUserMessages(string userName, int takeValue, int skipValue)
     {
         // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.Cheeps.Include(p => p.Likes).OrderByDescending(message => message.TimeStamp)
+        var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(message => message.TimeStamp)
         .Where(message => message.Author.UserName == userName)
         .Skip(skipValue)
         .Take(takeValue)
@@ -76,7 +77,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Author = message.Author.UserName!,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
-            Likes = message.Likes.Count
+            Likes = message.Likes.Count,
+            Dislikes = message.Dislikes.Count
             
         });
         // Execute the query
@@ -87,7 +89,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     public async Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, List<string> followers, int takeValue, int skipValue)
     {
         // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.Cheeps.Include(p => p.Likes).OrderByDescending(message => message.TimeStamp)
+        var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(message => message.TimeStamp)
         .Where(message => message.Author.UserName == userName || followers.Contains(message.Author.UserName!))
         .Skip(skipValue)
         .Take(takeValue)
@@ -98,7 +100,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Author = message.Author.UserName!,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
-            Likes = message.Likes.Count
+            Likes = message.Likes.Count,
+            Dislikes = message.Dislikes.Count
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -184,5 +187,60 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
         return;
 
+    }
+
+    public async Task AddDisLike(int cheepId, string authorId)
+    {
+        Cheep cheep = _dbContext.Cheeps.Include(p => p.Dislikes).Single(e => e.CheepId == cheepId);
+        var author = _dbContext.Authors.Include(p => p.DislikedCheeps).Single(e => e.Id == authorId);
+
+        if (!cheep.Dislikes.Contains(author)){
+            cheep.Dislikes.Add(author);
+        }
+
+        _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Dislikes);
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;
+    }
+
+    public async Task<List<AuthorDTO>> GetAllDislikers(int cheepId)
+    {
+        var query = _dbContext.Cheeps.Include(p => p.Dislikes)
+        .Where(cheep => cheep.CheepId == cheepId)
+        .Select(cheep => cheep.Dislikes);
+        // Execute the query
+        var result = await query.ToListAsync();
+        if (result.Any()){
+            return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+        } else{
+            throw new NullReferenceException("There are no likes on this cheep");
+        }    
+    
+    }
+
+    public async Task RemoveDislike(int cheepId, string authorId)
+    {
+        Cheep cheep = _dbContext.Cheeps.Include(p => p.Dislikes).Single(e => e.CheepId == cheepId);
+        var author = _dbContext.Authors.Include(p => p.DislikedCheeps).Single(e => e.Id == authorId);
+
+        if (cheep.Dislikes.Contains(author)){
+            cheep.Dislikes.Remove(author);
+        }
+
+        _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Dislikes);
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;    
+    }
+
+    public async Task RemoveAllDislikes(int cheepId)
+    {
+       Cheep cheep = _dbContext.Cheeps.Include(p => p.Dislikes).Single(e => e.CheepId == cheepId);
+
+        cheep.Dislikes.Clear();
+
+        _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Dislikes);
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;    
+        
     }
 }

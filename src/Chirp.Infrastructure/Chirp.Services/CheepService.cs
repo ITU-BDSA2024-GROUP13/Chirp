@@ -170,7 +170,6 @@ public class CheepService : ICheepService
 
     public async Task Unfollow(string id, string followerId)
     {
-        Console.WriteLine("UNFOLLOWING");
         await _authorRepository.RemoveFollower(id, followerId);
     }
 
@@ -189,14 +188,11 @@ public class CheepService : ICheepService
         return false;
     }
 
-    public async Task<Boolean> HasLiked(string authorId, int cheepId)
+    public async Task<Boolean> HasLiked(string userName, int cheepId)
     {
         try {
-            var author = await FindSpecificAuthorById(authorId);
+            var author = await FindSpecificAuthorByName(userName);
             var likers = await _cheepRepository.GetAllLikers(cheepId);
-            Console.WriteLine(author.Name);
-            Console.WriteLine(likers.Count);
-
 
             foreach (var a in likers)
             {
@@ -222,10 +218,43 @@ public class CheepService : ICheepService
     public async Task AddLike(int cheepId, string authorId)
     {
         await _cheepRepository.AddLike(cheepId, authorId);
+        await _cheepRepository.RemoveDislike(cheepId, authorId);
+
     }
 
     public async Task RemoveLike(int cheepId, string authorId)
     {
         await _cheepRepository.RemoveLike(cheepId, authorId);
+    }
+
+    public async Task AddDislike(int cheepId, string authorId)
+    {
+        
+        await _cheepRepository.AddDisLike(cheepId, authorId);
+        await _cheepRepository.RemoveLike(cheepId, authorId);
+    }
+
+    public async Task RemoveDislike(int cheepId, string authorId)
+    {
+        await _cheepRepository.RemoveDislike(cheepId, authorId);
+    }
+
+    public async Task<bool> HasDisliked(string userName, int cheepId)
+    {
+        try {
+            var author = await FindSpecificAuthorByName(userName);
+            var likers = await _cheepRepository.GetAllDislikers(cheepId);
+
+            foreach (var a in likers)
+            {
+                if (a.Id == author.Id)
+                    return true;
+            }
+            return false;
+
+        } catch (NullReferenceException e){
+            Console.WriteLine(e.Message);
+            return false;
+        }    
     }
 }
