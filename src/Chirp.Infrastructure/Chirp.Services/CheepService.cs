@@ -218,6 +218,8 @@ public class CheepService : ICheepService
     public async Task AddLike(int cheepId, string authorId)
     {
         await _cheepRepository.AddLike(cheepId, authorId);
+        await _cheepRepository.RemoveDislike(cheepId, authorId);
+
     }
 
     public async Task RemoveLike(int cheepId, string authorId)
@@ -229,7 +231,7 @@ public class CheepService : ICheepService
     {
         
         await _cheepRepository.AddDisLike(cheepId, authorId);
-
+        await _cheepRepository.RemoveLike(cheepId, authorId);
     }
 
     public async Task RemoveDislike(int cheepId, string authorId)
