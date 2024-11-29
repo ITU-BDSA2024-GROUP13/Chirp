@@ -17,3 +17,9 @@ Why would AzureTests fail?
 
 If none of these fixes work try and set the value "Headless" to false in the tests, 
 then it is possible to see where the tests "get stuck" - could be an internet problem, or a server problem.
+
+Before testing, register with this information:
+
+Username: TestName
+Email: Test@gmail.com
+Password: Chirp123!
