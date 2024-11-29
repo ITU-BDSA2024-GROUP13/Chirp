@@ -101,6 +101,68 @@ public class CheepRepositoryTest : IDisposable
     }
 
     [Fact]
+    public async void ReadPublicMessagesbyOldest()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new CheepRepository(context);
+
+                List<CheepDTO> list = await repo.ReadPublicMessagesbyOldest(32, 0);
+
+                // Should not be larger than the take value
+                Assert.False(list.Count > 32);
+                // The most recent message in the test db
+                Assert.Equal("Hello, BDSA students!", list[0].Text);
+            }
+        }
+    }
+
+        [Fact]
+    public async void ReadPublicMessagesbyMostLiked()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new CheepRepository(context);
+
+                await repo.AddLike(1, "11");
+                await repo.AddLike(1, "10");
+                await repo.AddLike(1, "9");
+                await repo.AddLike(1, "8");
+                await repo.AddLike(1, "7");
+                await repo.AddLike(1, "6");
+                await repo.AddLike(1, "5");
+
+                await repo.AddLike(2, "11");
+                await repo.AddLike(2, "10");
+                await repo.AddLike(2, "9");
+                await repo.AddLike(2, "8");
+                await repo.AddLike(2, "7");
+                await repo.AddLike(2, "6");
+
+                
+                
+
+                List<CheepDTO> list = await repo.ReadPublicMessagesbyMostLiked(32, 0);
+                // Should not be larger than the take value
+                Assert.False(list.Count > 32);
+                // The most recent message in the test db
+                Assert.Equal("They were married in Chicago, with old Smith, and was expected aboard every day; meantime, the two went past me.", list[0].Text);
+                Assert.Equal("And then, as he listened to all that's left o' twenty-one people.", list[1].Text);
+
+            }
+        }
+    }
+
+
+
+
+    [Fact]
     public async void ReadUserMessages()
     {
         using (var scope = _serviceProvider.CreateScope())
@@ -133,6 +195,8 @@ public class CheepRepositoryTest : IDisposable
             }
         }
     }
+
+    
 
 
 
