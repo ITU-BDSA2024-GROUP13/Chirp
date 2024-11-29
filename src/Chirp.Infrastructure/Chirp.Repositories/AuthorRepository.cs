@@ -17,7 +17,8 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<string> CreateAuthor(AuthorDTO author)
     {
-        Author newAuthor = new() { LikedCheeps = new List<Cheep>(), Id = author.Id!, UserName = author.Name, Email = author.Email, 
+        Author newAuthor = new() { DislikedCheeps = new List<Cheep>(), LikedCheeps = new List<Cheep>(), 
+        Id = author.Id!, UserName = author.Name, Email = author.Email, 
         Cheeps = new List<Cheep>(), FollowedBy = new List<Author>(), Followers = new List<Author>()};
         var queryResult = await _dbContext.Authors.AddAsync(newAuthor); // does not write to the database!
 

@@ -14,5 +14,8 @@ public class CheepDTO
 
     public required int Likes { get; set; }
 
+    public required int Dislikes { get; set; }
+
+
 
 }

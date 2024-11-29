@@ -13,7 +13,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     public async Task<int> CreateMessage(CheepDTO message)
     {
 
-        Cheep newCheep = new() { Likes = new List<Author>(), Text = message.Text, AuthorId = message.AuthorId, TimeStamp = HelperFunctions.FromUnixTimeToDateTime(message.Timestamp) };
+        Cheep newCheep = new() { Dislikes = new List<Author>(), Likes = new List<Author>(), Text = message.Text, AuthorId = message.AuthorId, TimeStamp = HelperFunctions.FromUnixTimeToDateTime(message.Timestamp) };
         var queryResult = await _dbContext.Cheeps.AddAsync(newCheep); // does not write to the database!
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
@@ -31,8 +31,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Author = cheep.Author.UserName!,
             Text = cheep.Text,
             Timestamp = ((DateTimeOffset)cheep.TimeStamp).ToUnixTimeMilliseconds(),
-            Likes = cheep.Likes.Count
-
+            Likes = cheep.Likes.Count,
+            Dislikes = cheep.Dislikes.Count
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -44,7 +44,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     {
 
         // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.Cheeps.Include(p => p.Likes).OrderByDescending(message => message.TimeStamp)
+        var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(message => message.TimeStamp)
         .Skip(skipValue)
         .Take(takeValue)
         .Select(message => new CheepDTO
@@ -54,7 +54,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Author = message.Author.UserName!,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
-            Likes = message.Likes.Count
+            Likes = message.Likes.Count,
+            Dislikes = message.Dislikes.Count
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -65,7 +66,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     public async Task<List<CheepDTO>> ReadUserMessages(string userName, int takeValue, int skipValue)
     {
         // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.Cheeps.Include(p => p.Likes).OrderByDescending(message => message.TimeStamp)
+        var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(message => message.TimeStamp)
         .Where(message => message.Author.UserName == userName)
         .Skip(skipValue)
         .Take(takeValue)
@@ -76,7 +77,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Author = message.Author.UserName!,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
-            Likes = message.Likes.Count
+            Likes = message.Likes.Count,
+            Dislikes = message.Dislikes.Count
             
         });
         // Execute the query
@@ -87,7 +89,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     public async Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, List<string> followers, int takeValue, int skipValue)
     {
         // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.Cheeps.Include(p => p.Likes).OrderByDescending(message => message.TimeStamp)
+        var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(message => message.TimeStamp)
         .Where(message => message.Author.UserName == userName || followers.Contains(message.Author.UserName!))
         .Skip(skipValue)
         .Take(takeValue)
@@ -98,7 +100,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Author = message.Author.UserName!,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
-            Likes = message.Likes.Count
+            Likes = message.Likes.Count,
+            Dislikes = message.Dislikes.Count
         });
         // Execute the query
         var result = await query.ToListAsync();
