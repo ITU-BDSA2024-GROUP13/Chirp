@@ -686,8 +686,11 @@ public class CheepServiceTest : IDisposable
 
 
             List<CheepDTO> cheeps =  await _cheepService.ReadUserMessages("Helge", 0);
+            CheepDTO cheep =  await _cheepService.FindSpecificCheepbyId(656);
+
 
             Assert.Equal(2, cheeps[0].Likes);
+            Assert.Equal(2, cheep.Likes);
         }
     }
 

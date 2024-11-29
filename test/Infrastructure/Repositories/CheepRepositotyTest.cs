@@ -230,6 +230,64 @@ public class CheepRepositoryTest : IDisposable
         }
     }
 
+     [Fact]
+    public async void AddLike()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new CheepRepository(context);
+
+                await repo.AddLike(1, "12");
+
+                CheepDTO cheep = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(1, cheep.Likes);
+
+                await repo.AddLike(1, "11");
+                await repo.AddLike(1, "11");
+                await repo.AddLike(1, "11");
+                await repo.AddLike(1, "11");
+                await repo.AddLike(1, "12");
+                await repo.AddLike(1, "10");
+
+                CheepDTO cheep2 = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(3, cheep2.Likes);
+            }
+        }
+    }
+
+      [Fact]
+    public async void RemoveLike()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new CheepRepository(context);
+
+                await repo.AddLike(1, "12");
+
+                CheepDTO cheep = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(1, cheep.Likes);
+
+                await repo.RemoveLike(1, "12");
+
+                CheepDTO cheep2 = await repo.FindSpecificCheepbyId(1);
+
+                Assert.Equal(0, cheep2.Likes);
+            }
+        }
+    }
+
+
+
+
 
 
 }
