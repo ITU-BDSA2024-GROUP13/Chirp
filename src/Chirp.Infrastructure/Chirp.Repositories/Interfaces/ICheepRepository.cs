@@ -4,7 +4,7 @@ using Chirp.Core.DTO;
 
 public interface ICheepRepository
 {
-    public Task<int> CreateMessage(CheepDTO newMessage);
+    public Task<int> CreateMessage(NewCheepDTO newMessage);
 
     public Task<CheepDTO> FindSpecificCheepbyId(int id);
 
@@ -12,7 +12,7 @@ public interface ICheepRepository
 
     public Task<List<CheepDTO>> ReadUserMessages(string userName, int takeValue, int skipValue);
 
-    public Task UpdateMessage(CheepDTO alteredMessage, int id);
+    public Task UpdateMessage(UpdateCheepDTO alteredMessage, int id);
 
     public  Task AddLike(int cheepId, string authorId);
 

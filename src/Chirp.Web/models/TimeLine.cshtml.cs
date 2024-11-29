@@ -90,14 +90,12 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
         var author = await _cheepService.FindSpecificAuthorByName(postRequest.PostName);
 
-        await _cheepService.CreateMessage(new CheepDTO
+        await _cheepService.CreateMessage(new NewCheepDTO
         {
             Author = postRequest.PostName,
             Text = postRequest.PostString,
             Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow),
             AuthorId = author.Id!,
-            Likes = 0,
-            Dislikes = 0
         });
 
         return new JsonResult(new { success = true, message = "PostString successfully processed" });

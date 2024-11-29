@@ -43,7 +43,7 @@ public class CheepService : ICheepService
 
     }
 
-    public async Task<int> CreateMessage(CheepDTO message)
+    public async Task<int> CreateMessage(NewCheepDTO message)
     {
 
         if (message.Text.Count() > 160)
@@ -90,7 +90,7 @@ public class CheepService : ICheepService
         return result;
     }
 
-    public Task UpdateMessage(CheepDTO alteredMessage, int id)
+    public Task UpdateMessage(UpdateCheepDTO alteredMessage, int id)
     {
         return _cheepRepository.UpdateMessage(alteredMessage, id);
     }

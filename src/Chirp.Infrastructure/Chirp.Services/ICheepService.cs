@@ -7,7 +7,7 @@ public interface ICheepService
 
     public Task<CheepDTO> FindSpecificCheepbyId(int cheepId);
 
-    public Task<int> CreateMessage(CheepDTO newMessage);
+    public Task<int> CreateMessage(NewCheepDTO newMessage);
 
     public Task<List<CheepDTO>> ReadPublicMessages(int page);
 
@@ -21,7 +21,7 @@ public interface ICheepService
 
     public Task<int> CountPublicMessages();
 
-    public Task UpdateMessage(CheepDTO alteredMessage, int id);
+    public Task UpdateMessage(UpdateCheepDTO alteredMessage, int id);
 
     public Task<string> CreateAuthor(AuthorDTO newMessage);
 

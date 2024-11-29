@@ -165,8 +165,8 @@ public class CheepServiceTest : IDisposable
 
             List<CheepDTO> prevList = await _cheepService.ReadUserMessages("Helge", 0);
 
-            CheepDTO newMessage = new() { Author = "Helge", AuthorId = "11", Text = "I love group 13!", Timestamp = 12345, 
-            Likes = 0, Dislikes = 0 };
+            NewCheepDTO newMessage = new() { Author = "Helge", AuthorId = "11", Text = "I love group 13!", Timestamp = 12345, 
+             };
 
             await _cheepRepository.CreateMessage(newMessage);
 
@@ -203,15 +203,13 @@ public class CheepServiceTest : IDisposable
 
             List<CheepDTO> prevList = await _cheepService.ReadUserMessages("Helge", 0);
 
-            CheepDTO newMessage = new()
+            NewCheepDTO newMessage = new()
             {
                 Author = "Helge",
                 AuthorId = "11",
                 Text = "I love group 13! " +
             "I love group 13! I love group 13! I love group 13! I love group 13! I love group 13! I love group 13! I love group 13! I love group 13! I love !",
                 Timestamp = 12345,
-                Likes = 0,
-                Dislikes = 0
             };
 
             await _cheepService.CreateMessage(newMessage);
@@ -248,8 +246,8 @@ public class CheepServiceTest : IDisposable
 
             bool messageCreated = false;
 
-            CheepDTO newMessage = new() { Author = "Helge2", AuthorId = "13", Text = "I love group 13!", 
-            Timestamp = 12345, Likes = 0, Dislikes = 0 };
+            NewCheepDTO newMessage = new() { Author = "Helge2", AuthorId = "13", Text = "I love group 13!", 
+            Timestamp = 12345};
 
             await _cheepService.CreateMessage(newMessage);
 
@@ -290,8 +288,8 @@ public class CheepServiceTest : IDisposable
 
             List<CheepDTO> prevList = await _cheepService.ReadUserMessages("Helg", 0);
 
-            CheepDTO newMessage = new() { Author = "Helg", AuthorId = "13", Text = "I love group 13!", 
-            Timestamp = 12345, Likes = 0, Dislikes = 0 };
+            NewCheepDTO newMessage = new() { Author = "Helg", AuthorId = "13", Text = "I love group 13!", 
+            Timestamp = 12345};
 
             await _cheepService.CreateMessage(newMessage);
 
@@ -640,8 +638,7 @@ public class CheepServiceTest : IDisposable
             bool messageCreated = false;
 
 
-            CheepDTO newMessage = new() { Author = "Helge", AuthorId = "11", Text = "I love group 13!", 
-            Timestamp = 12345, Likes = 0, Dislikes = 0 };
+            UpdateCheepDTO newMessage = new() { Text = "I love group 13!"};
             List<CheepDTO> prevList = await _cheepService.ReadUserMessages("Helge", 0);
 
 

@@ -10,7 +10,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
 {
 
     private readonly CheepDBContext _dbContext = dbContext;
-    public async Task<int> CreateMessage(CheepDTO message)
+    public async Task<int> CreateMessage(NewCheepDTO message)
     {
 
         Cheep newCheep = new() { Dislikes = new List<Author>(), Likes = new List<Author>(), Text = message.Text, AuthorId = message.AuthorId, TimeStamp = HelperFunctions.FromUnixTimeToDateTime(message.Timestamp) };
@@ -111,7 +111,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
 
 
 
-    public async Task UpdateMessage(CheepDTO alteredMessage, int id)
+    public async Task UpdateMessage(UpdateCheepDTO alteredMessage, int id)
     {
 
         var cheep = _dbContext.Cheeps.Single(e => e.CheepId == id);

@@ -148,8 +148,8 @@ public class CheepRepositoryTest : IDisposable
                 bool messageCreated = false;
 
 
-                CheepDTO newMessage = new() { Author = "Helge", AuthorId = "11", Text = "I love group 13!", 
-                Timestamp = 12345, Likes = 0, Dislikes = 0 };
+                NewCheepDTO newMessage = new() { Author = "Helge", AuthorId = "11", Text = "I love group 13!", 
+                Timestamp = 12345};
                 List<CheepDTO> prevList = await repo.ReadUserMessages("Helge", 32, 0);
 
 
@@ -183,8 +183,7 @@ public class CheepRepositoryTest : IDisposable
                 bool messageCreated = false;
 
 
-                CheepDTO newMessage = new() { Author = "Helge", AuthorId = "11", Text = "I love group 13!", 
-                Timestamp = 12345, Likes = 0, Dislikes = 0 };
+                UpdateCheepDTO newMessage = new() { Text = "I love group 13!"};
                 List<CheepDTO> prevList = await repo.ReadUserMessages("Helge", 32, 0);
 
 
