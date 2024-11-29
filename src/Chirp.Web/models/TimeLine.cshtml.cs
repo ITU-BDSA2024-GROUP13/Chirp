@@ -105,21 +105,14 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
     public async Task<ActionResult> OnPostLike([FromBody] LikeRequest likeRequest)
     {
-        Console.WriteLine("HELLO??");
         var user = await _cheepService.FindSpecificAuthorByName(likeRequest.Username);
         var cheep = await _cheepService.FindSpecificCheepbyId(likeRequest.cheepId);
-        Console.WriteLine("user and cheep initialized?? " + user.Name + " " + cheep.Id);
-
         int cheepId = (int)cheep.Id!;
-        Console.WriteLine("cheepId initialized");
-        var hasliked = await HasLiked(user.Id!, cheepId);
-        Console.WriteLine(hasliked);
 
 
         try
         {
             var likeSuccess = await HasLiked(user.Id!, cheepId) ? await UnLike(user.Id!, cheepId) : await LikeCheep(user.Id!, cheepId);
-            Console.WriteLine(likeSuccess);
 
             return new JsonResult(new
             {
@@ -137,8 +130,6 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
     private async Task<bool> LikeCheep(string userId, int cheepId)
     {
-        Console.WriteLine("Liking..");
-
         try
         {
             await _cheepService.AddLike(cheepId, userId);
@@ -154,8 +145,6 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
     private async Task<bool> UnLike(string userId, int cheepId)
     {
-        Console.WriteLine("UnLiking..");
-
         try
         {
             await _cheepService.RemoveLike(cheepId, userId);
