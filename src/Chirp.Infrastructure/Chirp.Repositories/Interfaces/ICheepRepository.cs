@@ -10,6 +10,12 @@ public interface ICheepRepository
 
     public Task<List<CheepDTO>> ReadPublicMessages(int takeValue, int skipValue);
 
+    public Task<List<CheepDTO>> ReadPublicMessagesbyOldest(int takeValue, int skipValue);
+
+    public Task<List<CheepDTO>> ReadPublicMessagesbyMostLiked(int takeValue, int skipValue);
+
+    public Task<List<CheepDTO>> ReadPublicMessagesbyRelevance(int takeValue, int skipValue);
+
     public Task<List<CheepDTO>> ReadUserMessages(string userName, int takeValue, int skipValue);
 
     public Task UpdateMessage(UpdateCheepDTO alteredMessage, int id);
