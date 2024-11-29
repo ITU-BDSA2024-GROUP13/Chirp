@@ -32,7 +32,8 @@ builder.Services.AddCors(options =>
     );
 });
 
-builder.Services.AddDbContext<CheepDBContext>(options => options.UseSqlite("Data Source=Chat.db"));
+
+builder.Services.AddDbContext<CheepDBContext>();
 builder.Services.AddDefaultIdentity<Author>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<CheepDBContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddMvc();

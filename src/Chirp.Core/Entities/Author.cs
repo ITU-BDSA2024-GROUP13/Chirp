@@ -20,6 +20,9 @@ public class Author : IdentityUser
 
     public required ICollection<Author> FollowedBy { get; set; }
 
+      public required ICollection<Cheep> LikedCheeps { get; set; }
+
+
 
 
     /*  public Author(){

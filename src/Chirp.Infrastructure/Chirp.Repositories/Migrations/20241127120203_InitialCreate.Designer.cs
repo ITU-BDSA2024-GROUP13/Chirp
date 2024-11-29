@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Chirp.Repositories.Migrations
 {
     [DbContext(typeof(CheepDBContext))]
-    [Migration("20241122164041_InitialCreate")]
+    [Migration("20241127120203_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -33,6 +33,21 @@ namespace Chirp.Repositories.Migrations
                     b.HasIndex("FollowersId");
 
                     b.ToTable("AuthorAuthor");
+                });
+
+            modelBuilder.Entity("AuthorCheep", b =>
+                {
+                    b.Property<int>("LikedCheepsCheepId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LikesId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("LikedCheepsCheepId", "LikesId");
+
+                    b.HasIndex("LikesId");
+
+                    b.ToTable("AuthorCheep");
                 });
 
             modelBuilder.Entity("Chirp.Core.Entities.Author", b =>
@@ -268,6 +283,21 @@ namespace Chirp.Repositories.Migrations
                     b.HasOne("Chirp.Core.Entities.Author", null)
                         .WithMany()
                         .HasForeignKey("FollowersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AuthorCheep", b =>
+                {
+                    b.HasOne("Chirp.Core.Entities.Cheep", null)
+                        .WithMany()
+                        .HasForeignKey("LikedCheepsCheepId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Chirp.Core.Entities.Author", null)
+                        .WithMany()
+                        .HasForeignKey("LikesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

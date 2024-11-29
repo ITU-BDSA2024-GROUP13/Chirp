@@ -17,7 +17,7 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<string> CreateAuthor(AuthorDTO author)
     {
-        Author newAuthor = new() { Id = author.Id!, UserName = author.Name, Email = author.Email, 
+        Author newAuthor = new() { LikedCheeps = new List<Cheep>(), Id = author.Id!, UserName = author.Name, Email = author.Email, 
         Cheeps = new List<Cheep>(), FollowedBy = new List<Author>(), Followers = new List<Author>()};
         var queryResult = await _dbContext.Authors.AddAsync(newAuthor); // does not write to the database!
 
@@ -41,23 +41,14 @@ public class AuthorRepository : IAuthorRepository
         // Execute the query
         var result = await query.ToListAsync();
 
-        /*
-        for (int i = 0; i < result.Count; i++)
-        {
-            Console.WriteLine(result[i].Name);
-            Console.WriteLine(result[i].count);
-
-        }
-        }*/
-
         return result;
     }
 
     public async Task<List<AuthorDTO>> FindAuthors(string userName, int amount)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
-        .Take(amount)
         .Where(author => author.UserName!.ToLower().Contains(userName.ToLower()))
+        .Take(amount)
         .Select(author => new AuthorDTO
         {
             Id = author.Id,
@@ -96,6 +87,29 @@ public class AuthorRepository : IAuthorRepository
         {
             throw new NullReferenceException("No authors were found with this name");
         }
+    }
+       public async Task<AuthorDTO> FindSpecificAuthorByEmail(string email)
+    {
+        var query = _dbContext.Authors.OrderBy(author => author.UserName)
+                .Where(author => author.Email == email)
+                .Select(author => new AuthorDTO
+                {
+                    Id = author.Id,
+                    Name = author.UserName!,
+                    Email = author.Email!,
+                });
+                // Execute the query
+                var result = await query.ToListAsync();
+
+        if (result.Any())
+        {
+            return result[0];
+        }
+        else
+        {
+            throw new NullReferenceException("No authors were found with this email");
+        }    
+        
     }
 
     public async Task<AuthorDTO> FindSpecificAuthorById(string id)
@@ -214,6 +228,21 @@ public class AuthorRepository : IAuthorRepository
     
     }
 
+    public async Task RemoveAllLikedCheeps(string id)
+    {
+        Author author = _dbContext.Authors.Include(p => p.LikedCheeps).Single(e => e.Id == id);
+
+        author.LikedCheeps.Clear();
+
+        _dbContext.Entry(author).CurrentValues.SetValues(author.LikedCheeps);
+
+
+        await _dbContext.SaveChangesAsync(); // persist the changes in the database
+        return;    
+    
+    }
+
+
     public async Task RemoveAllFollowedby(string id)
     {
         Author author = _dbContext.Authors.Include(p => p.FollowedBy).Single(e => e.Id == id);
@@ -253,19 +282,5 @@ public class AuthorRepository : IAuthorRepository
         return result;
     }
 
-    public async Task<AuthorDTO> FindSpecificAuthorByEmail(string email)
-    {
-        var query = _dbContext.Authors.OrderBy(author => author.UserName)
-                .Where(author => author.Email == email)
-                .Select(author => new AuthorDTO
-                {
-                    Id = author.Id,
-                    Name = author.UserName!,
-                    Email = author.Email!,
-                });
-                // Execute the query
-                var result = await query.ToListAsync();
-
-                return result[0];    
-    }
+ 
 }
