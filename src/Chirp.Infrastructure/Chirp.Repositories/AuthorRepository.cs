@@ -59,11 +59,6 @@ public class AuthorRepository : IAuthorRepository
         // Execute the query
         var result = await query.ToListAsync();
 
-        /*
-        for (int i = 0; i < result.Count; i++)
-        {
-            Console.WriteLine(result[i].Name);
-        }*/
 
         return result;
     }

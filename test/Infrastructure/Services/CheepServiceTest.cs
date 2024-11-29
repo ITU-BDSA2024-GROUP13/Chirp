@@ -718,4 +718,117 @@ public class CheepServiceTest : IDisposable
             Assert.Equal(0, cheeps[0].Likes);
         }
     }
+
+        [Fact]
+    public async void HasLiked()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+            await _cheepService.AddLike(656, "11");
+
+            bool hasLiked = await _cheepService.HasLiked("Helge", 656);
+
+            bool hasLiked2 = await _cheepService.HasLiked("Adrian", 656);
+
+
+            Assert.True(hasLiked);
+            Assert.False(hasLiked2);
+
+            await _cheepService.RemoveLike(656, "11");
+            bool hasLiked3 = await _cheepService.HasLiked("Helge", 656);
+            
+            Assert.False(hasLiked3);
+
+
+        }
+    }
+
+    [Fact]
+    public async void AddDisLike()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+            //Dislikes own cheep (is allowed)
+            await _cheepService.AddDislike(656, "11");
+
+            //Other dislikes same cheep
+            await _cheepService.AddDislike(656, "12");
+            await _cheepService.AddDislike(656, "12");
+            await _cheepService.AddDislike(656, "12");
+
+            List<CheepDTO> cheeps =  await _cheepService.ReadUserMessages("Helge", 0);
+            CheepDTO cheep =  await _cheepService.FindSpecificCheepbyId(656);
+
+
+            Assert.Equal(2, cheeps[0].Dislikes);
+            Assert.Equal(2, cheep.Dislikes);
+        }
+    }
+
+        [Fact]
+    public async void RemoveDislike()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+            //dislikes own cheep (is allowed)
+            await _cheepService.AddDislike(656, "11");
+
+            //Removes dislike for same user
+            await _cheepService.RemoveDislike(656, "11");
+            await _cheepService.RemoveDislike(656, "11");
+
+
+            List<CheepDTO> cheeps =  await _cheepService.ReadUserMessages("Helge", 0);
+
+            Assert.Equal(0, cheeps[0].Dislikes);
+        }
+    }
+
+    [Fact]
+    public async void HasDisliked()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+            await _cheepService.AddDislike(656, "11");
+
+            bool HasDisliked = await _cheepService.HasDisliked("Helge", 656);
+
+            bool HasDisliked2 = await _cheepService.HasDisliked("Adrian", 656);
+
+
+            Assert.True(HasDisliked);
+            Assert.False(HasDisliked2);
+
+            await _cheepService.RemoveLike(656, "11");
+            bool HasDisliked3 = await _cheepService.HasLiked("Helge", 656);
+            
+            Assert.False(HasDisliked3);
+
+
+        }
+    }
 }
