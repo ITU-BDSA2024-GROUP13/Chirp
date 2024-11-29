@@ -227,7 +227,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             cheep.Dislikes.Remove(author);
         }
 
-        _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Likes);
+        _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Dislikes);
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
         return;    
     }

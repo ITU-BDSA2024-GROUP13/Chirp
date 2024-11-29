@@ -108,16 +108,14 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         var user = await _cheepService.FindSpecificAuthorByName(likeRequest.Username);
         var cheep = await _cheepService.FindSpecificCheepbyId(likeRequest.cheepId);
         int cheepId = (int)cheep.Id!;
-
-
         try
         {
             var likeSuccess = await HasLiked(user.Name!, cheepId) ? await UnLike(user.Id!, cheepId) : await LikeCheep(user.Id!, cheepId);
-
             return new JsonResult(new
             {
                 success = likeSuccess,
-                message = likeSuccess ? $"{likeRequest.Username} succesfully unliked {likeRequest.cheepId}" : $"{likeRequest.Username} succesfully liked {likeRequest.cheepId}",
+                message = likeSuccess ? $"{likeRequest.Username} succesful {likeRequest.cheepId}" : $"{likeRequest.Username} unsuccesful {likeRequest.cheepId}",
+
             });
         }
         catch (Exception e)
@@ -159,7 +157,6 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
     public async Task<bool> HasLiked(string userName, int? cheepId)
     {
-
         return await _cheepService.HasLiked(userName, (int)cheepId!);
     }
 
@@ -168,16 +165,13 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         var user = await _cheepService.FindSpecificAuthorByName(dislikeRequest.Username);
         var cheep = await _cheepService.FindSpecificCheepbyId(dislikeRequest.cheepId);
         int cheepId = (int)cheep.Id!;
-
-
         try
         {
             var likeSuccess = await HasDisliked(user.Name!, cheepId) ? await UnDislike(user.Id!, cheepId) : await DislikeCheep(user.Id!, cheepId);
-
             return new JsonResult(new
             {
                 success = likeSuccess,
-                message = likeSuccess ? $"{dislikeRequest.Username} succesfully unliked {dislikeRequest.cheepId}" : $"{dislikeRequest.Username} succesfully liked {dislikeRequest.cheepId}",
+                message = likeSuccess ? $"{dislikeRequest.Username} succesfully undisliked {dislikeRequest.cheepId}" : $"{dislikeRequest.Username} succesfully disliked {dislikeRequest.cheepId}",
             });
         }
         catch (Exception e)

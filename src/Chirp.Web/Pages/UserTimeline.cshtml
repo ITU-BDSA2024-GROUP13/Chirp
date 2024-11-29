@@ -35,7 +35,6 @@
                 Dislikes = cheep.Dislikes,
                 isLiked = await @Model.HasLiked(User!.Identity!.Name!, cheep.Id),
                 isDisliked = await @Model.HasDisliked(User!.Identity!.Name!, cheep.Id)
-
             })
         }
     }else{
