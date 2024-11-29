@@ -10,9 +10,9 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
 {
 
     private readonly CheepDBContext _dbContext = dbContext;
-    private int _totalLikes = 0;
+    private double _totalLikes = 0;
     //Likes will have more value when determining relevance, compared to time if there are fewer likes in total
-    private float _globalLikeRatio = 1;
+    private double _globalLikeRatio = 1;
 
     public async Task<int> CreateMessage(NewCheepDTO message)
     {
@@ -204,7 +204,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             if (_totalLikes == 0){
                 _globalLikeRatio = 0;
             } else{
-                _globalLikeRatio = 10 / _totalLikes;
+                _globalLikeRatio = 10 / Math.Pow(_totalLikes, 0.95);
             }
         }
 
@@ -225,7 +225,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             if (_totalLikes == 0){
                 _globalLikeRatio = 0;
             } else{
-                _globalLikeRatio = 10 / _totalLikes;
+                _globalLikeRatio = 10 / Math.Pow(_totalLikes, 0.95);
             }
         }
 
