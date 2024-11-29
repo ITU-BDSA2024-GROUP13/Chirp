@@ -54,6 +54,7 @@ h2, .name-timeline {
   flex-direction: column;
   background-color: rgba(160, 160, 160, 0.335);
   padding: 20px;
+  padding-bottom: 5px;
   border-radius: 20px;
   z-index: auto;
 }
@@ -91,6 +92,24 @@ h2, .name-timeline {
   cursor: pointer;
 }
 
+.cheep-date{
+  display: flex;
+  justify-content: end;
+  border-bottom-style: solid;
+  border-color: rgba(128, 128, 128, 0.644);
+}
+
+.likes{
+  display: flex;
+  padding-top: 3px;
+  padding-left: 20px;
+  gap: 50px;
+  height: 15px;
+  width: 88px;
+  align-items: center;
+  font-family:'Courier New', Courier, monospace;
+}
+
 .LikeButtons{
   margin-top: 10px;
   display: flex;
@@ -103,7 +122,7 @@ h2, .name-timeline {
   align-items: center;
   width: 50px;
   height: 30px;
-  background: rgb(133, 133, 138);
+  background: rgba(190, 190, 198, 0.536);
   border-color: black;
   border-style: solid;
   border-width: 1px;
@@ -111,7 +130,7 @@ h2, .name-timeline {
 }
 
 .LikeButtons .current{
-  background: rgb(129, 129, 226);
+  background: rgba(70, 158, 230, 0.848);
 }
 
 nav {

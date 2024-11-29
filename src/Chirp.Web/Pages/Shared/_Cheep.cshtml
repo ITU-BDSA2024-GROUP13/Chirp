@@ -5,8 +5,6 @@
         <strong class="cheep-author"> <a href="/users/@Model.Author">@Model.Author</a> </strong>
 
         <p class="cheep-body"> @Model.Body </p>
-        <p class="cheep-body"> likes: @Model.Likes </p>
-        <p class="cheep-body"> dislikes: @Model.Dislikes </p>
         <span class="cheep-date"> &mdash; @Model.ToDateTime(Model.Date) </span>
 
         <div class="LikeButtons">
@@ -22,7 +20,7 @@
                     Like
                 </button>
             }
-            
+
             @if (@Model.isDisliked)
             {
                 <button class="current" id="@Model.DislikeButtonId()" type="submit" asp-handler="Dislike">
@@ -35,6 +33,11 @@
                     Dislike
                 </button>
             }
+        </div>
+
+        <div class="likes">
+            <p>@Model.Likes </p>
+            <p>@Model.Dislikes </p>
         </div>
 
         <script>
