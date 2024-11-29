@@ -7,14 +7,14 @@
         <p class="cheep-body"> @Model.Body </p>
         <p class="cheep-body"> @Model.Likes </p>
         <span class="cheep-date"> &mdash; @Model.ToDateTime(Model.Date) </span>
-        <button id="@Model.Id'like'" type="submit" asp-handler="Like">
+        <button id="@Model.LikeButtonId()" type="submit" asp-handler="Like">
         @if(@Model.isLiked){
             <span>UnLike</span>
         } else {
             <span>Like</span>
         }
         </button>
-        <button id="@Model.Id'dislike'" type="submit" asp-handler="Dislike">
+        <button id="@Model.DislikeButtonId()" type="submit" asp-handler="Dislike">
         @if(@Model.isDisliked){
             <span>UnDislike</span>
         } else {
@@ -22,7 +22,8 @@
         }
         </button>
        <script>
-            document.getElementById(@Model.Id'like').addEventListener("click", () => {
+
+            document.getElementById("@Model.LikeButtonId()").addEventListener("click", () => {
                 const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
                 fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Like" : "?handler=Like"), {
@@ -50,7 +51,7 @@
             
         </script>
         <script>
-            document.getElementById(@Model.Id'dislike').addEventListener("click", () => {
+            document.getElementById("@Model.DislikeButtonId()").addEventListener("click", () => {
                 const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
                 fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Dislike" : "?handler=Dislike"), {

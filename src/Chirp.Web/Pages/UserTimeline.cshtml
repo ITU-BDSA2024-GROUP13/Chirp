@@ -33,7 +33,9 @@
                 Date= cheep.Timestamp,
                 Likes = cheep.Likes,
                 Dislikes = cheep.Dislikes,
-                isLiked = false
+                isLiked = await @Model.HasLiked(User!.Identity!.Name!, cheep.Id),
+                isDisliked = await @Model.HasDisliked(User!.Identity!.Name!, cheep.Id)
+
             })
         }
     }else{

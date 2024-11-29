@@ -16,6 +16,13 @@ public class CheepPartialView()
     public required long Date { get; set; }
     public required int Likes { get; set; }
     public required int Dislikes { get; set; }
+    public string LikeButtonId(){
+        return Id + "like";
+    }
+
+    public string DislikeButtonId(){
+        return Id + "dislike";
+    }
 
     public DateTime ToDateTime(long value)
     {
