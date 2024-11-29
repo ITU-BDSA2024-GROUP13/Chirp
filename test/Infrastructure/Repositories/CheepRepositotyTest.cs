@@ -15,6 +15,7 @@ public class CheepRepositoryTest : IDisposable
     private ServiceProvider _serviceProvider;
 
 
+
     public CheepRepositoryTest()
     {
 
@@ -154,6 +155,43 @@ public class CheepRepositoryTest : IDisposable
                 // The most recent message in the test db
                 Assert.Equal("They were married in Chicago, with old Smith, and was expected aboard every day; meantime, the two went past me.", list[0].Text);
                 Assert.Equal("And then, as he listened to all that's left o' twenty-one people.", list[1].Text);
+
+            }
+        }
+    }
+
+    [Fact]
+    public async void ReadPublicMessagesbyRelevance()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new CheepRepository(context);
+
+
+                // 2023 dec 24 at 12 PM
+                await repo.CreateMessage(new NewCheepDTO { Author = "Helge", AuthorId = "11", 
+                 Text = "Hello", Timestamp = 1703419200});
+
+                // 2023 dec 23 at 12 PM
+                await repo.CreateMessage(new NewCheepDTO { Author = "Adrian", AuthorId = "12", 
+                 Text = "Hello", Timestamp = 1703332800});
+
+                // 2023 dec 24 at 10 PM
+                await repo.CreateMessage(new NewCheepDTO { Author = "Jacqualine Gilcoine", AuthorId = "10", 
+                 Text = "Hello", Timestamp = 1703325600});
+
+                // Gives 10 hours of relevance (likes have less effect the more likes there are in the entire system)
+                await repo.AddLike(661, "10");
+
+                List<CheepDTO> list = await repo.ReadPublicMessagesbyRelevance(32, 0);
+                // Should not be larger than the take value
+                Assert.False(list.Count > 32);
+                // The most relevant
+                Assert.Equal("10", list[0].AuthorId);
+                Assert.Equal("11", list[1].AuthorId);
 
             }
         }

@@ -10,6 +10,10 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
 {
 
     private readonly CheepDBContext _dbContext = dbContext;
+    private int _totalLikes = 0;
+    //Likes will have more value when determining relevance, compared to time if there are fewer likes in total
+    private float _globalLikeRatio = 1;
+
     public async Task<int> CreateMessage(NewCheepDTO message)
     {
 
@@ -110,7 +114,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     {
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(
-            message => message.Likes.Count - (DateTime.UtcNow - message.TimeStamp).Minutes)
+            message => (message.Likes.Count * _globalLikeRatio) - (DateTime.UtcNow - message.TimeStamp).Hours)
         .Skip(skipValue)
         .Take(takeValue)
         .Select(message => new CheepDTO
@@ -196,6 +200,12 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
 
         if (!cheep.Likes.Contains(author)){
             cheep.Likes.Add(author);
+            _totalLikes++;
+            if (_totalLikes == 0){
+                _globalLikeRatio = 0;
+            } else{
+                _globalLikeRatio = 10 / _totalLikes;
+            }
         }
 
         _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Likes);
@@ -211,6 +221,12 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
 
         if (cheep.Likes.Contains(author)){
             cheep.Likes.Remove(author);
+            _totalLikes--;
+            if (_totalLikes == 0){
+                _globalLikeRatio = 0;
+            } else{
+                _globalLikeRatio = 10 / _totalLikes;
+            }
         }
 
         _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Likes);
