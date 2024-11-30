@@ -25,6 +25,21 @@ public class CheepService : ICheepService
         return _cheepRepository.ReadPublicMessages(32, 32 * page);
     }
 
+    public Task<List<CheepDTO>> ReadPublicMessagesbyOldest(int page)
+    {
+        return _cheepRepository.ReadPublicMessagesbyOldest(32, 32 * page);
+    }
+
+    public Task<List<CheepDTO>> ReadPublicMessagesbyMostLiked(int page)
+    {
+        return _cheepRepository.ReadPublicMessagesbyMostLiked(32, 32 * page);
+    }
+
+    public Task<List<CheepDTO>> ReadPublicMessagesbyMostRelevance(int page, string userName)
+    {
+        return _cheepRepository.ReadPublicMessagesbyRelevance(32, 32 * page, userName);
+    }
+
     public Task<List<CheepDTO>> ReadUserMessages(string userName, int page)
     {
         return _cheepRepository.ReadUserMessages(userName, 32, 32 * page);
@@ -257,4 +272,5 @@ public class CheepService : ICheepService
             return false;
         }    
     }
+
 }
