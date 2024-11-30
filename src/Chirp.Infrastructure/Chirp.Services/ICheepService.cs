@@ -11,6 +11,12 @@ public interface ICheepService
 
     public Task<List<CheepDTO>> ReadPublicMessages(int page);
 
+    public Task<List<CheepDTO>> ReadPublicMessagesbyOldest(int page);
+
+    public Task<List<CheepDTO>> ReadPublicMessagesbyMostLiked(int page);
+
+    public Task<List<CheepDTO>> ReadPublicMessagesbyMostRelevance(int page, string userName);
+
     public Task<List<CheepDTO>> ReadUserMessages(string userName, int page);
 
     public Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, int page);
