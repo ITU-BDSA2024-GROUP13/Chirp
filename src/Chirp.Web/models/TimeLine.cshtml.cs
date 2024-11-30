@@ -20,6 +20,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     public string? SearchName { get; set; }
     [BindProperty(SupportsGet = true)]
     public List<AuthorDTO>? SearchQuery { get; set; }
+    public string? sortState {get; set; } = "default";
     public int DefinePreviousPage(int page)
     {
         return page == 0 ? 0 : page - 1;
@@ -42,6 +43,12 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
                 page = Int32.Parse(pageQuery[0]!);
             }
 
+            var sortQuery = Request.Query["sort"];
+            if (!sortQuery.Equals("") && pageQuery.Count > 0)
+            {
+                sortState = sortQuery[0]!;
+
+            }
             CurrentPage = page;
             NextPage = page + 1;
             PreviousPage = DefinePreviousPage(page);
@@ -52,7 +59,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         }
         catch (Exception e){
 
-            Console.WriteLine(e.Message);
+            Console.WriteLine("ERROR: " + e.Message);
 
         }
 
@@ -80,6 +87,23 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         });
     }
 
+    public IActionResult OnPostSort([FromBody] SortRequest sortRequest)
+    {
+        if (String.IsNullOrWhiteSpace(sortRequest?.SortString))
+        {
+            Console.WriteLine("Error: PostString was null.");
+            return BadRequest("PostString cannot be null.");
+        }
+
+        sortState = sortRequest.SortString;
+        return new JsonResult(new
+        {
+            success = true,
+            message = "Sorting after " + sortRequest.SortString
+        }
+        );
+    }
+
     public async Task<IActionResult> OnPostSave([FromBody] PostRequest postRequest)
     {
         if (String.IsNullOrWhiteSpace(postRequest?.PostString))
@@ -90,14 +114,12 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
         var author = await _cheepService.FindSpecificAuthorByName(postRequest.PostName);
 
-        await _cheepService.CreateMessage(new CheepDTO
+        await _cheepService.CreateMessage(new NewCheepDTO
         {
             Author = postRequest.PostName,
             Text = postRequest.PostString,
             Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow),
             AuthorId = author.Id!,
-            Likes = 0,
-            Dislikes = 0
         });
 
         return new JsonResult(new { success = true, message = "PostString successfully processed" });
@@ -236,5 +258,10 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     public class SearchRequest
     {
         public required string SearchString { get; set; }
+    }
+
+        public class SortRequest
+    {
+        public required string SortString { get; set; }
     }
 }

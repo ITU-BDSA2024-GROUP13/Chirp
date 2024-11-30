@@ -149,7 +149,7 @@ public class AuthorRepositoryTest : IDisposable
             {
                 var repo = new AuthorRepository(context);
 
-                AuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com" };
+                NewAuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com" };
                 await repo.CreateAuthor(newAuthor);
 
                 List<AuthorDTO> authors = await repo.FindAuthorByName("Helge");
@@ -169,7 +169,6 @@ public class AuthorRepositoryTest : IDisposable
             {
                 var repo = new AuthorRepository(context);
 
-                AuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com" };
                 List<AuthorDTO> list = await repo.FindAuthors("J", 2);
 
                 Assert.Equal(2, list.Count);
@@ -189,7 +188,7 @@ public class AuthorRepositoryTest : IDisposable
             {
                 var repo = new AuthorRepository(context);
 
-                AuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com" };
+                NewAuthorDTO newAuthor = new() { Name = "Helge Helgesen", Email = "Helge@gmail.com" };
                 await repo.CreateAuthor(newAuthor);
 
                 AuthorDTO author = await repo.FindSpecificAuthorByName("Helge");
@@ -231,7 +230,7 @@ public class AuthorRepositoryTest : IDisposable
     }
 
     [Fact]
-    public async void AddFollower()
+    public async void AddFollowing()
     {
         using (var scope = _serviceProvider.CreateScope())
         {
@@ -240,9 +239,9 @@ public class AuthorRepositoryTest : IDisposable
             {
                 var repo = new AuthorRepository(context);
 
-                await repo.AddFollower("1", "12");
+                await repo.AddFollowing("1", "12");
 
-                List<AuthorDTO> list = (List<AuthorDTO>)await repo.GetFollowers("Roger Histand");
+                List<AuthorDTO> list = (List<AuthorDTO>)await repo.GetFollowing("Roger Histand");
                 List<AuthorDTO> list2 = (List<AuthorDTO>)await repo.GetFollowedby("Adrian");
 
                 Assert.Equal("Adrian", list[0].Name);
@@ -262,13 +261,13 @@ public class AuthorRepositoryTest : IDisposable
             {
                 var repo = new AuthorRepository(context);
 
-                await repo.AddFollower("1", "12");
+                await repo.AddFollowing("1", "12");
 
-                List<AuthorDTO> list = (List<AuthorDTO>)await repo.GetFollowers("Roger Histand");
+                List<AuthorDTO> list = (List<AuthorDTO>)await repo.GetFollowing("Roger Histand");
                 Assert.Equal("Adrian", list[0].Name);
 
-                await repo.RemoveFollower("1", "12");
-                List<AuthorDTO> list2 = (List<AuthorDTO>)await repo.GetFollowers("Roger Histand");
+                await repo.RemoveFollowing("1", "12");
+                List<AuthorDTO> list2 = (List<AuthorDTO>)await repo.GetFollowing("Roger Histand");
                 Assert.False(list2.Any());
             }
         }
@@ -284,14 +283,14 @@ public class AuthorRepositoryTest : IDisposable
             using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
             {
                 var repo = new AuthorRepository(context);
-                await Assert.ThrowsAsync<InvalidDataException>(async () => await repo.RemoveFollower("1", "12"));
+                await Assert.ThrowsAsync<InvalidDataException>(async () => await repo.RemoveFollowing("1", "12"));
             }
         }
     }
 
 
     [Fact]
-    public async void RemoveAllFollowers()
+    public async void RemoveAllFollowing()
     {
         using (var scope = _serviceProvider.CreateScope())
         {
@@ -300,16 +299,16 @@ public class AuthorRepositoryTest : IDisposable
             {
                 var repo = new AuthorRepository(context);
 
-                await repo.AddFollower("1", "12");
-                await repo.AddFollower("1", "3");
-                await repo.AddFollower("1", "4");
+                await repo.AddFollowing("1", "12");
+                await repo.AddFollowing("1", "3");
+                await repo.AddFollowing("1", "4");
 
 
-                List<AuthorDTO> list = (List<AuthorDTO>)await repo.GetFollowers("Roger Histand");
+                List<AuthorDTO> list = (List<AuthorDTO>)await repo.GetFollowing("Roger Histand");
                 Assert.NotEmpty(list);
 
-                await repo.RemoveAllFollowers("1");
-                List<AuthorDTO> list2 = (List<AuthorDTO>)await repo.GetFollowers("Roger Histand");
+                await repo.RemoveAllFollowing("1");
+                List<AuthorDTO> list2 = (List<AuthorDTO>)await repo.GetFollowing("Roger Histand");
                 Assert.Empty(list2);
             }
         }
@@ -325,9 +324,9 @@ public class AuthorRepositoryTest : IDisposable
             {
                 var repo = new AuthorRepository(context);
 
-                await repo.AddFollower("12", "1");
-                await repo.AddFollower("11", "1");
-                await repo.AddFollower("8", "1");
+                await repo.AddFollowing("12", "1");
+                await repo.AddFollowing("11", "1");
+                await repo.AddFollowing("8", "1");
 
 
                 List<AuthorDTO> list = (List<AuthorDTO>)await repo.GetFollowedby("Roger Histand");

@@ -1,6 +1,8 @@
 using Chirp.Core.DTO;
 using Chirp.Core.Entities;
 using Chirp.Repositories;
+using Humanizer;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit.Sdk;
@@ -13,6 +15,7 @@ public class CheepRepositoryTest : IDisposable
 #pragma warning disable CS8604 // Dereference of a possibly null reference.
 
     private ServiceProvider _serviceProvider;
+
 
 
     public CheepRepositoryTest()
@@ -101,6 +104,154 @@ public class CheepRepositoryTest : IDisposable
     }
 
     [Fact]
+    public async void ReadPublicMessagesbyOldest()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new CheepRepository(context);
+
+                List<CheepDTO> list = await repo.ReadPublicMessagesbyOldest(32, 0);
+
+                // Should not be larger than the take value
+                Assert.False(list.Count > 32);
+                // The most recent message in the test db
+                Assert.Equal("Hello, BDSA students!", list[0].Text);
+            }
+        }
+    }
+
+        [Fact]
+    public async void ReadPublicMessagesbyMostLiked()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new CheepRepository(context);
+
+                await repo.AddLike(1, "11");
+                await repo.AddLike(1, "10");
+                await repo.AddLike(1, "9");
+                await repo.AddLike(1, "8");
+                await repo.AddLike(1, "7");
+                await repo.AddLike(1, "6");
+                await repo.AddLike(1, "5");
+
+                await repo.AddLike(2, "11");
+                await repo.AddLike(2, "10");
+                await repo.AddLike(2, "9");
+                await repo.AddLike(2, "8");
+                await repo.AddLike(2, "7");
+                await repo.AddLike(2, "6");
+
+                
+                
+
+                List<CheepDTO> list = await repo.ReadPublicMessagesbyMostLiked(32, 0);
+                // Should not be larger than the take value
+                Assert.False(list.Count > 32);
+                // The most recent message in the test db
+                Assert.Equal("They were married in Chicago, with old Smith, and was expected aboard every day; meantime, the two went past me.", list[0].Text);
+                Assert.Equal("And then, as he listened to all that's left o' twenty-one people.", list[1].Text);
+
+            }
+        }
+    }
+
+    [Fact]
+    public async void ReadPublicMessagesbyRelevance()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            using (var context = scope.ServiceProvider.GetService<CheepDBContext>())
+            {
+                var repo = new CheepRepository(context);
+
+                //659
+                await repo.CreateMessage(new NewCheepDTO { Author = "Jacqualine Gilcoine", AuthorId = "10", 
+                 Text = "Hello", Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddDays(1))});
+
+                //660
+                await repo.CreateMessage(new NewCheepDTO { Author = "Helge", AuthorId = "11", 
+                 Text = "Hello", Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddHours(23))});
+
+                //661
+                await repo.CreateMessage(new NewCheepDTO { Author = "Adrian", AuthorId = "12", 
+                 Text = "Hello", Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddHours(23))});
+                
+                //662
+                await repo.CreateMessage(new NewCheepDTO { Author = "Johnnie Calixto", AuthorId = "9", 
+                 Text = "Hello", Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow)});
+
+
+
+                await repo.AddLike(661, "10");
+                await repo.AddLike(661, "11");
+                await repo.AddLike(661, "9");
+                await repo.AddLike(661, "8");
+                await repo.AddLike(661, "7");
+
+                var cheep = await repo.FindSpecificCheepbyId(659);
+                var cheep2 = await repo.FindSpecificCheepbyId(660);
+                var cheep3 = await repo.FindSpecificCheepbyId(661);
+                var cheep5 = await repo.FindSpecificCheepbyId(662);
+
+                Assert.Equal(-25, (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep.Timestamp)).TotalHours, 0.5);
+                Assert.Equal(-24, (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep2.Timestamp)).TotalHours, 0.5);
+
+                var cheepLocalLikeRatio3 = (float)Math.Log((float)cheep3.Likes, 5);
+
+
+                Assert.Equal(25, 0 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep.Timestamp)).TotalHours, 0.5 );
+                Assert.Equal(24, 0 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep2.Timestamp)).TotalHours, 0.5 );
+                // cheep 661 has gotten 2 more relevance from likes
+                Assert.Equal(25, cheepLocalLikeRatio3 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep3.Timestamp) ).TotalHours, 0.5 );
+
+                List<CheepDTO> list = await repo.ReadPublicMessagesbyRelevance(32, 0, "Helge");
+                // Should not be larger than the take value
+                Assert.False(list.Count > 32);
+                // The most relevant
+                Assert.Equal("12", list[0].AuthorId);
+                Assert.Equal("10", list[1].AuthorId);
+                Assert.Equal("11", list[2].AuthorId);
+
+                await repo.RemoveLike(661, "10");
+                await repo.RemoveLike(661, "11");
+                await repo.RemoveLike(661, "9");
+                await repo.RemoveLike(661, "8");
+
+                await repo.AddLike(660, "11");
+                await repo.AddLike(660, "10");
+
+                List<CheepDTO> list2 = await repo.ReadPublicMessagesbyRelevance(32, 0, "Helge");
+
+                Assert.Equal("10", list2[0].AuthorId);
+                Assert.Equal("11", list2[1].AuthorId);
+
+                var authorRepo = new AuthorRepository(context);
+
+                // Adrian follows Helge
+                await authorRepo.AddFollowing("12", "11");
+
+                List<CheepDTO> list3 = await repo.ReadPublicMessagesbyRelevance(32, 0, "Adrian");
+                // Helge message gets more relevance for Adrian
+                Assert.Equal("11", list3[0].AuthorId);
+                Assert.Equal("10", list3[1].AuthorId);
+
+
+            }
+        }
+    }
+
+
+
+
+    [Fact]
     public async void ReadUserMessages()
     {
         using (var scope = _serviceProvider.CreateScope())
@@ -134,6 +285,8 @@ public class CheepRepositoryTest : IDisposable
         }
     }
 
+    
+
 
 
     [Fact]
@@ -148,8 +301,8 @@ public class CheepRepositoryTest : IDisposable
                 bool messageCreated = false;
 
 
-                CheepDTO newMessage = new() { Author = "Helge", AuthorId = "11", Text = "I love group 13!", 
-                Timestamp = 12345, Likes = 0, Dislikes = 0 };
+                NewCheepDTO newMessage = new() { Author = "Helge", AuthorId = "11", Text = "I love group 13!", 
+                Timestamp = 12345};
                 List<CheepDTO> prevList = await repo.ReadUserMessages("Helge", 32, 0);
 
 
@@ -183,8 +336,7 @@ public class CheepRepositoryTest : IDisposable
                 bool messageCreated = false;
 
 
-                CheepDTO newMessage = new() { Author = "Helge", AuthorId = "11", Text = "I love group 13!", 
-                Timestamp = 12345, Likes = 0, Dislikes = 0 };
+                UpdateCheepDTO newMessage = new() { Text = "I love group 13!"};
                 List<CheepDTO> prevList = await repo.ReadUserMessages("Helge", 32, 0);
 
 
