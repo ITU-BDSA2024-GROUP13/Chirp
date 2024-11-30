@@ -188,7 +188,7 @@ public class CheepService : ICheepService
 
     public async Task ForgetMe(string userName)
     {
-        Console.WriteLine("Hi");
+        
     }
    
 }

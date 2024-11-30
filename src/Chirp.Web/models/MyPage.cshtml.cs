@@ -11,6 +11,7 @@ public class MyPage(ICheepService cheepService) : TimeLine(cheepService)
 {
     public required List<CheepDTO> MyCheeps { get; set; }
     public required AuthorDTO AuthorDTO { get; set; }
+    public required string Author { get; set; }
     public async Task<IActionResult> OnGetAsync(string author)
     {        
         var page = UpdatePage();
@@ -21,19 +22,18 @@ public class MyPage(ICheepService cheepService) : TimeLine(cheepService)
         return Page();
     }
 
-    public async Task<IActionResult> OnPostForgetMe([FromBody] ForgetMeRequest forgetMeRequest){
-        if(forgetMeRequest == null)
-            return StatusCode(500);
+    public async Task<IActionResult> OnPostForgetMe([FromBody] ForgetMeRequest forgetMeRequest)
+    {
+        if(forgetMeRequest == null) {
+            return StatusCode(400);
+        }
 
-        Console.WriteLine("hi");
+        await _cheepService.ForgetMe(forgetMeRequest.UserName);
 
         return new JsonResult(new { success = true });
     }
 
-    public async Task ForgetMe()
-    {
-        await _cheepService.ForgetMe(AuthorDTO.Name);
+    public class ForgetMeRequest { 
+        public required string UserName { get; set; }
     }
-
-    public class ForgetMeRequest { }
 }

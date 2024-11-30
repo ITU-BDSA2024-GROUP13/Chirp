@@ -8,6 +8,7 @@
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "./Shared/_Layout.cshtml";
+    var author = @Model.AuthorDTO;
 }
 
 @await Html.PartialAsync("_Nav")
@@ -21,12 +22,12 @@
         </div>
 
     <div class="mypage-variables">
-        <div>@Model.AuthorDTO.Name</div>
-        <div>@Model.AuthorDTO.Email</div>
+        <div>@author.Name</div>
+        <div>@author.Email</div>
     </div>
 </div>
 
-<button id="forgetme" asp-page-handler="ForgetMe">Forget me</button>
+<button id="forgetme" data-author="@Model.AuthorDTO.Name">Forget me</button>
 
 <h3>All your personal tweets</h3>
 @if(SignInManager.IsSignedIn(User))
@@ -58,6 +59,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const forgetme = document.getElementById("forgetme")
+        const dataAuthor = forgetme.getAttribute("data-author")
 
         forgetme.addEventListener("click", () => {
             const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
@@ -68,7 +70,9 @@
                     "Content-Type": "application/json",
                     "RequestVerificationToken": antiforgeryToken
                 },
-                body: JSON.stringify({ })
+                body: JSON.stringify({ 
+                    userName: dataAuthor
+                })
             })
             .then(response => response.json())
             .then(data => {
