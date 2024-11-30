@@ -236,7 +236,7 @@ public class CheepRepositoryTest : IDisposable
                 var authorRepo = new AuthorRepository(context);
 
                 // Adrian follows Helge
-                await authorRepo.AddFollower("12", "11");
+                await authorRepo.AddFollowing("12", "11");
 
                 List<CheepDTO> list3 = await repo.ReadPublicMessagesbyRelevance(32, 0, "Adrian");
                 // Helge message gets more relevance for Adrian

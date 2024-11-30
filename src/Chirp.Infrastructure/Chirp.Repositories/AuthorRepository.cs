@@ -123,7 +123,7 @@ public class AuthorRepository : IAuthorRepository
         return result[0];
     }
 
-    public async Task<List<AuthorDTO>> GetFollowers(string userName)
+    public async Task<List<AuthorDTO>> GetFollowing(string userName)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
         .Where(author => author.UserName!.Equals(userName))
@@ -139,7 +139,7 @@ public class AuthorRepository : IAuthorRepository
 
  
 
-    public async Task<List<AuthorDTO>> GetFollowersbyId(string id)
+    public async Task<List<AuthorDTO>> GetFollowingbyId(string id)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
         .Where(author => author.Id == id)
@@ -172,11 +172,11 @@ public class AuthorRepository : IAuthorRepository
     }
 
 
-    public async Task AddFollower(string id, string followerId)
+    public async Task AddFollowing(string followingId, string followedId)
     {
 
-        Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.Id == id);
-        var follower = _dbContext.Authors.Include(p => p.FollowedBy).Single(e => e.Id == followerId);
+        Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.Id == followingId);
+        var follower = _dbContext.Authors.Include(p => p.FollowedBy).Single(e => e.Id == followedId);
 
         author.Followers.Add(follower);
 
@@ -189,11 +189,11 @@ public class AuthorRepository : IAuthorRepository
     }
     
 
-    public async Task RemoveFollower(string id, string followerId)
+    public async Task RemoveFollowing(string followingId, string followedId)
     {
 
-        Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.Id == id);
-        Author follower = _dbContext.Authors.Single(e => e.Id == followerId);
+        Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.Id == followingId);
+        Author follower = _dbContext.Authors.Single(e => e.Id == followedId);
 
         if (author.Followers.Any(f => f.Id == follower.Id))
         {
@@ -212,7 +212,7 @@ public class AuthorRepository : IAuthorRepository
         return;
     }
 
-    public async Task RemoveAllFollowers(string id)
+    public async Task RemoveAllFollowing(string id)
     {
         Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.Id == id);
 

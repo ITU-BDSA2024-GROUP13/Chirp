@@ -32,7 +32,7 @@ public class CheepService : ICheepService
 
     public async Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, int page)
     {
-        List<string> followers = AuthorToString(await _authorRepository.GetFollowers(userName));
+        List<string> followers = AuthorToString(await _authorRepository.GetFollowing(userName));
         return await _cheepRepository.ReadUserAndFollowerMessages(userName, followers, 32, 32 * page);
     }
 
@@ -68,7 +68,7 @@ public class CheepService : ICheepService
 
         public async Task<int> CountUserAndFollowerMessages(string userName)
     {
-        List<string> followers = AuthorToString(await _authorRepository.GetFollowers(userName));
+        List<string> followers = AuthorToString(await _authorRepository.GetFollowing(userName));
 
         var list = await _cheepRepository.ReadUserAndFollowerMessages(userName, followers, int.MaxValue, 0);
         var result = list.Count;
@@ -140,12 +140,12 @@ public class CheepService : ICheepService
 
     public async Task<List<AuthorDTO>> GetFollowers(string userName)
     {
-        return (List<AuthorDTO>)await _authorRepository.GetFollowers(userName);
+        return (List<AuthorDTO>)await _authorRepository.GetFollowing(userName);
     }
 
     public async Task<List<AuthorDTO>> GetFollowersbyId(string id)
     {
-        return (List<AuthorDTO>)await _authorRepository.GetFollowersbyId(id);
+        return (List<AuthorDTO>)await _authorRepository.GetFollowingbyId(id);
     }
 
     public async Task<List<AuthorDTO>> GetFollowedby(string userName)
@@ -165,19 +165,19 @@ public class CheepService : ICheepService
     ///<param name="followerId"> The author who will be followed</param>
     public async Task Follow(string id, string followerId)
     {
-        await _authorRepository.AddFollower(id, followerId);
+        await _authorRepository.AddFollowing(id, followerId);
     }
 
     public async Task Unfollow(string id, string followerId)
     {
-        await _authorRepository.RemoveFollower(id, followerId);
+        await _authorRepository.RemoveFollowing(id, followerId);
     }
 
     public async Task<bool> IsFollowing(string id, string followerId)
     {
         var author = await FindSpecificAuthorById(id);
 
-        var list = await _authorRepository.GetFollowers(author.Name);
+        var list = await _authorRepository.GetFollowing(author.Name);
 
         foreach (var a in list)
         {
