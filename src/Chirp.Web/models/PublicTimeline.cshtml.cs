@@ -29,7 +29,7 @@ public class PublicTimeLine(ICheepService cheepService) : TimeLine(cheepService)
 
             case "relevance":
             Console.WriteLine("Reading by relevance as user: " + User!.Identity!.Name);
-            Cheeps = await _cheepService.ReadPublicMessagesbyMostRelevance(page, "Helge");
+            Cheeps = await _cheepService.ReadPublicMessagesbyMostRelevance(page, User!.Identity!.Name);
             Count = await _cheepService.CountPublicMessages();
             break;
 

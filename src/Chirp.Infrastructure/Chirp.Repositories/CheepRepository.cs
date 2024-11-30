@@ -202,13 +202,15 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             cheep.Likes.Add(author);
             _totalLikes++;
             if (cheep.Likes.Any()){
-                cheep.LocalLikeRatio = (float)Math.Log((double)cheep.Likes.Count, 5);
+                cheep.LocalLikeRatio = (float)Math.Log((double)cheep.Likes.Count + 1, 5);
             } else{
                 cheep.LocalLikeRatio = 0;
             }
         }
 
         _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Likes);
+        _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.LocalLikeRatio);
+
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
         return;
     }
@@ -223,13 +225,16 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             cheep.Likes.Remove(author);
             _totalLikes--;
             if (cheep.Likes.Any()){
-                cheep.LocalLikeRatio = (float)Math.Log((double)cheep.Likes.Count, 5);
+                Console.WriteLine("setting local like ratio");
+                cheep.LocalLikeRatio = (float)Math.Log((double)cheep.Likes.Count + 1, 5);
             } else{
                 cheep.LocalLikeRatio = 0;
             }
         }
 
         _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Likes);
+        _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.LocalLikeRatio);
+
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
         return;
     }
