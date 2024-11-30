@@ -3,6 +3,7 @@ namespace Chirp.Core.DTO;
 
 public class CheepDTO
 {
+    public int? Id { get; set; }
     public required long Timestamp { get; set; }
 
     public required string Text { get; set; }
@@ -10,5 +11,11 @@ public class CheepDTO
     public required string Author { get; set; }
 
     public required string AuthorId { get; set; }
+
+    public required int Likes { get; set; }
+
+    public required int Dislikes { get; set; }
+
+
 
 }

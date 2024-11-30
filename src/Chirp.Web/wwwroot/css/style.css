@@ -33,6 +33,10 @@ h2, .name-timeline {
   font-size: 15px;
 }
 
+#defaultMessage{
+  padding-bottom: 15px;
+}
+
 .cheep-container {
   display: flex;
   flex-direction: column;
@@ -54,6 +58,7 @@ h2, .name-timeline {
   flex-direction: column;
   background-color: rgba(160, 160, 160, 0.335);
   padding: 20px;
+  padding-bottom: 5px;
   border-radius: 20px;
   z-index: auto;
 }
@@ -89,6 +94,47 @@ h2, .name-timeline {
 .cheep-author {
   text-decoration: underline;
   cursor: pointer;
+}
+
+.cheep-date{
+  display: flex;
+  justify-content: end;
+  border-bottom-style: solid;
+  border-color: rgba(128, 128, 128, 0.644);
+}
+
+.likes{
+  display: flex;
+  padding-top: 3px;
+  padding-left: 20px;
+  gap: 50px;
+  height: 15px;
+  width: 88px;
+  align-items: center;
+  font-family:'Courier New', Courier, monospace;
+}
+
+.LikeButtons{
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.LikeButtons button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 30px;
+  background: rgba(190, 190, 198, 0.536);
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 5px;
+}
+
+.LikeButtons .current{
+  background: rgba(70, 158, 230, 0.848);
 }
 
 nav {

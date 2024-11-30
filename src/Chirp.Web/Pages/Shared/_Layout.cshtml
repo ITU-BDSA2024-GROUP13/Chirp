@@ -17,6 +17,12 @@
                     <img src="/assets/icon1.png" onclick = "window.location = '/?page=0'" class = "brand" id="icon" alt="Icon1" />
                     <h1 class="brand" id="name">Chirp!</h1>
                 </div>
+
+                @if(SignInManager.IsSignedIn(User)){
+                    <a class = "settings" asp-area="Identity" asp-page="/Account/Manage/Index">
+                        <img src="/assets/settings.png" id="settingIcon" />
+                    </a>
+                }
             </header>
 
         </div>

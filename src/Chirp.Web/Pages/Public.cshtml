@@ -15,6 +15,7 @@
 
 @await Html.PartialAsync("_Nav")
 
+
 <h2 class="name-timeline"> Public Timeline </h2>
 
 @if(SignInManager.IsSignedIn(User)){
@@ -22,14 +23,17 @@
 
     @if (Model.Cheeps.Any())
     {
-
-
             @foreach (var cheep in Model.Cheeps)
             {
                 @await Html.PartialAsync("_Cheep", new CheepPartialView {
+                    Id = cheep.Id,
                     Author= cheep.Author,
                     Body= cheep.Text,
-                    Date= cheep.Timestamp
+                    Date= cheep.Timestamp,
+                    Likes = cheep.Likes,
+                    Dislikes = cheep.Dislikes,
+                    isLiked = await @Model.HasLiked(User!.Identity!.Name!, cheep.Id),
+                    isDisliked = await @Model.HasDisliked(User!.Identity!.Name!, cheep.Id)
                 })
             } 
     } else{
@@ -39,7 +43,8 @@
     <div>
         <div class="cheep-item">
 
-            <p class="cheep-body"> Log in to experience new ideas on Chirp. </p>
+            <p class="cheep-body" id = "defaultMessage"> Log in to experience new ideas on Chirp. </p>
         </div>
     </div>
 }
+

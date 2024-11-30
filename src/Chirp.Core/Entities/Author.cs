@@ -7,12 +7,6 @@ namespace Chirp.Core.Entities;
 
 public class Author : IdentityUser
 {
-
-    //public required string Id { get; set; }
-
-    //public required override string UserName { get; set; }
-    
-    //public required override string Email { get; set; }
     
     public required ICollection<Cheep> Cheeps { get; set; }
 
@@ -20,13 +14,8 @@ public class Author : IdentityUser
 
     public required ICollection<Author> FollowedBy { get; set; }
 
-
-
-    /*  public Author(){
-          //Followers = new List<Author>();
-         // Cheeps = new List<Cheep>();
-
-      }*/
+    public required ICollection<Cheep> LikedCheeps { get; set; }
+    public required ICollection<Cheep> DislikedCheeps { get; set; }
 
 
 

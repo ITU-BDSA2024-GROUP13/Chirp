@@ -32,6 +32,36 @@ namespace Chirp.Repositories.Migrations
                     b.ToTable("AuthorAuthor");
                 });
 
+            modelBuilder.Entity("AuthorCheep", b =>
+                {
+                    b.Property<int>("LikedCheepsCheepId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LikesId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("LikedCheepsCheepId", "LikesId");
+
+                    b.HasIndex("LikesId");
+
+                    b.ToTable("AuthorCheep");
+                });
+
+            modelBuilder.Entity("AuthorCheep1", b =>
+                {
+                    b.Property<int>("DislikedCheepsCheepId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("DislikesId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("DislikedCheepsCheepId", "DislikesId");
+
+                    b.HasIndex("DislikesId");
+
+                    b.ToTable("AuthorCheep1");
+                });
+
             modelBuilder.Entity("Chirp.Core.Entities.Author", b =>
                 {
                     b.Property<string>("Id")
@@ -265,6 +295,36 @@ namespace Chirp.Repositories.Migrations
                     b.HasOne("Chirp.Core.Entities.Author", null)
                         .WithMany()
                         .HasForeignKey("FollowersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AuthorCheep", b =>
+                {
+                    b.HasOne("Chirp.Core.Entities.Cheep", null)
+                        .WithMany()
+                        .HasForeignKey("LikedCheepsCheepId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Chirp.Core.Entities.Author", null)
+                        .WithMany()
+                        .HasForeignKey("LikesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AuthorCheep1", b =>
+                {
+                    b.HasOne("Chirp.Core.Entities.Cheep", null)
+                        .WithMany()
+                        .HasForeignKey("DislikedCheepsCheepId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Chirp.Core.Entities.Author", null)
+                        .WithMany()
+                        .HasForeignKey("DislikesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

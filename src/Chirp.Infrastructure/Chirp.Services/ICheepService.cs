@@ -4,6 +4,9 @@ using Chirp.Core.DTO;
 
 public interface ICheepService
 {
+
+    public Task<CheepDTO> FindSpecificCheepbyId(int cheepId);
+
     public Task<int> CreateMessage(CheepDTO newMessage);
 
     public Task<List<CheepDTO>> ReadPublicMessages(int page);
@@ -32,6 +35,9 @@ public interface ICheepService
 
     public Task<AuthorDTO> FindSpecificAuthorByEmail(string email);
 
+    public Task<List<AuthorDTO>> FindAuthors(string userName);
+
+
     public Task<List<AuthorDTO>> GetFollowers(string userName);
 
     public Task<List<AuthorDTO>> GetFollowersbyId(string id);
@@ -47,7 +53,19 @@ public interface ICheepService
 
     public Task<Boolean> IsFollowing(string id, string followerId);
 
-    public Task<List<AuthorDTO>> FindAuthors(string userName);
 
     public Task ForgetMe(string userName);
+
+    public  Task AddLike(int cheepId, string authorId);
+
+    public  Task RemoveLike(int cheepId, string authorId);
+
+    public Task<Boolean> HasLiked(string userName, int cheepId);
+
+    public  Task AddDislike(int cheepId, string authorId);
+
+    public  Task RemoveDislike(int cheepId, string authorId);
+
+    public Task<Boolean> HasDisliked(string userName, int cheepId);
+
 }

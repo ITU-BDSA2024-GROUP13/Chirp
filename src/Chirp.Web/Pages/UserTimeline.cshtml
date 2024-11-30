@@ -25,13 +25,19 @@
         <button onclick='window.location = location.origin + "/users/@User!.Identity!.Name/mypage"'> My Page </button>
     }
 
+
     @if (Model.Cheeps.Any()){
         @foreach (var cheep in Model.Cheeps)
         {
             @await Html.PartialAsync("_Cheep", new CheepPartialView {
+                Id = cheep.Id,
                 Author= cheep.Author,
                 Body= cheep.Text,
-                Date= cheep.Timestamp
+                Date= cheep.Timestamp,
+                Likes = cheep.Likes,
+                Dislikes = cheep.Dislikes,
+                isLiked = await @Model.HasLiked(User!.Identity!.Name!, cheep.Id),
+                isDisliked = await @Model.HasDisliked(User!.Identity!.Name!, cheep.Id)
             })
         }
     }else{

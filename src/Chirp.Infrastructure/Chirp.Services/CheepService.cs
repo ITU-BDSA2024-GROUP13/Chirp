@@ -11,8 +11,13 @@ public class CheepService : ICheepService
 
     public CheepService(ICheepRepository cheepRepository, IAuthorRepository authorRepository)
     {
-        _cheepRepository = cheepRepository ?? throw new ArgumentNullException();
-        _authorRepository = authorRepository ?? throw new ArgumentNullException();
+        _cheepRepository = cheepRepository;
+        _authorRepository = authorRepository;
+    }
+
+    public Task<CheepDTO> FindSpecificCheepbyId(int cheepId)
+    {
+        return _cheepRepository.FindSpecificCheepbyId(cheepId);
     }
 
     public Task<List<CheepDTO>> ReadPublicMessages(int page)
@@ -46,13 +51,16 @@ public class CheepService : ICheepService
             Console.WriteLine("Message is too long!");
             return 0;
         }
+        try{
 
-        AuthorDTO author = await FindSpecificAuthorByName(message.Author);
-        Console.WriteLine(author.Name);
-        if (!author.Name.Equals(message.Author))
-        {
+            AuthorDTO author = await FindSpecificAuthorByName(message.Author);
+
+        } catch{
+
             AuthorDTO newAuthor = new() { Name = message.Author, Email = message.Author + "@mail.com" };
             await CreateAuthor(newAuthor);
+            AuthorDTO createdAuthor = await FindSpecificAuthorByName(message.Author);
+            message.AuthorId = createdAuthor.Id!;
         }
 
         return await _cheepRepository.CreateMessage(message);
@@ -162,7 +170,6 @@ public class CheepService : ICheepService
 
     public async Task Unfollow(string id, string followerId)
     {
-        Console.WriteLine("UNFOLLOWING");
         await _authorRepository.RemoveFollower(id, followerId);
     }
 
@@ -181,6 +188,28 @@ public class CheepService : ICheepService
         return false;
     }
 
+    public async Task<Boolean> HasLiked(string userName, int cheepId)
+    {
+        try {
+            var author = await FindSpecificAuthorByName(userName);
+            var likers = await _cheepRepository.GetAllLikers(cheepId);
+
+            foreach (var a in likers)
+            {
+                if (a.Id == author.Id)
+                    return true;
+            }
+
+            return false;
+
+        } catch (NullReferenceException e){
+
+            Console.WriteLine(e.Message);
+            return false;
+        }
+
+    }
+
     public async Task<List<AuthorDTO>> FindAuthors(string userName)
     {
         return await _authorRepository.FindAuthors(userName, 5);
@@ -191,4 +220,46 @@ public class CheepService : ICheepService
         
     }
    
+    public async Task AddLike(int cheepId, string authorId)
+    {
+        await _cheepRepository.AddLike(cheepId, authorId);
+        await _cheepRepository.RemoveDislike(cheepId, authorId);
+
+    }
+
+    public async Task RemoveLike(int cheepId, string authorId)
+    {
+        await _cheepRepository.RemoveLike(cheepId, authorId);
+    }
+
+    public async Task AddDislike(int cheepId, string authorId)
+    {
+        
+        await _cheepRepository.AddDisLike(cheepId, authorId);
+        await _cheepRepository.RemoveLike(cheepId, authorId);
+    }
+
+    public async Task RemoveDislike(int cheepId, string authorId)
+    {
+        await _cheepRepository.RemoveDislike(cheepId, authorId);
+    }
+
+    public async Task<bool> HasDisliked(string userName, int cheepId)
+    {
+        try {
+            var author = await FindSpecificAuthorByName(userName);
+            var likers = await _cheepRepository.GetAllDislikers(cheepId);
+
+            foreach (var a in likers)
+            {
+                if (a.Id == author.Id)
+                    return true;
+            }
+            return false;
+
+        } catch (NullReferenceException e){
+            Console.WriteLine(e.Message);
+            return false;
+        }    
+    }
 }
