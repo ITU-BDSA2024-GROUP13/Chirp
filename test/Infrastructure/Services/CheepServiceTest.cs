@@ -28,8 +28,8 @@ public class CheepServiceTest : IDisposable
         services.AddDbContext<CheepDBContext>(options =>
             options.UseInMemoryDatabase("TestDbService"));
 
-        services.AddScoped<CheepRepository>();
-        services.AddScoped<AuthorRepository>();
+        services.AddScoped<ICheepRepository, CheepRepository>();
+        services.AddScoped<IAuthorRepository, AuthorRepository>();
         services.AddScoped<ICheepService, CheepService>();
 
         _serviceProvider = services.BuildServiceProvider();
@@ -118,9 +118,7 @@ public class CheepServiceTest : IDisposable
     {
         using (var scope = _serviceProvider.CreateScope())
         {
-
-               
-
+            
             var context = scope.ServiceProvider.GetService<CheepDBContext>();
             _cheepRepository = new CheepRepository(context);
             _authorRepository = new AuthorRepository(context);

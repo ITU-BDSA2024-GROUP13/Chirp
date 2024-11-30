@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Chirp.Core.DTO;
 using Chirp.Core.Entities;
 using System.ComponentModel;
+using Humanizer;
 
 namespace Chirp.Repositories;
 
@@ -91,7 +92,9 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     public async Task<List<CheepDTO>> ReadPublicMessagesbyMostLiked(int takeValue, int skipValue)
     {
         // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(message => message.Likes.Count)
+        var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes)
+        .OrderByDescending(message => message.Likes.Count)
+        .ThenByDescending(message => message.TimeStamp)
         .Skip(skipValue)
         .Take(takeValue)
         .Select(message => new CheepDTO
@@ -112,11 +115,40 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
 
     public async Task<List<CheepDTO>> ReadPublicMessagesbyRelevance(int takeValue, int skipValue, string userName)
     {
+
+        var query1 = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes)
+        .Select(message => new CheepDTOWithLikeRatio
+        {
+            Id = message.CheepId,
+            Author = message.Author.UserName!,
+            Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
+            Dislikes = message.Dislikes.Count,
+            LocalLikeRatio = message.LocalLikeRatio
+        })
+        .ToListAsync();
+
+        var list = await query1;
+
+        //Console.WriteLine(list.Count);
+
+        Dictionary<int, double> relevanceMap = new Dictionary<int, double>();
+
+        foreach (var cheep in list)
+        {
+            //Console.WriteLine(cheep.Id);
+            //Console.WriteLine(cheep.Author);
+            var points = await RelevancePoints(cheep.Author!, 
+            userName, cheep.LocalLikeRatio, HelperFunctions.FromUnixTimeToDateTime(cheep.Timestamp));
+
+            relevanceMap.Add(cheep.Id, points);
+        }
+
+        list.OrderByDescending(message => relevanceMap[message.Id]);
+
+        Console.WriteLine("HELLO???");
+
         // Formulate the query - will be translated to SQL by EF Core
-        var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(
-          message => RelevancePoints(message.Author.UserName!, userName, message.LocalLikeRatio, message.TimeStamp).Result)
-        .Skip(skipValue)
-        .Take(takeValue)
+        var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes)
         .Select(message => new CheepDTO
         {
             Id = message.CheepId,
@@ -126,11 +158,25 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
             Likes = message.Likes.Count,
             Dislikes = message.Dislikes.Count
-        }).ToListAsync();
+        })
+        .ToListAsync();
         // Execute the query
         var result = await query;
+        Console.WriteLine("HELLO??? AGAIN??");
 
-        return result;        
+        var something = result.OrderByDescending(
+          message => relevanceMap[message.Id])
+        .Skip(skipValue)
+        .Take(takeValue)
+        .ToList();
+
+        var result2 = something;
+
+        Console.WriteLine("HELLO??? AGAIN?? TWICE");
+
+        Console.WriteLine(something.Count);
+
+        return something;        
         }
 
     
@@ -147,12 +193,12 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         .Select(author => author.Followers);
         // Execute the query
         var result = await query.ToListAsync();
-
+        if (result.Any()){
         foreach (var a in result[0])
         {
             if (a.UserName == follower)
                 return 24;
-        }
+        }}
         return 0;
     }
 
