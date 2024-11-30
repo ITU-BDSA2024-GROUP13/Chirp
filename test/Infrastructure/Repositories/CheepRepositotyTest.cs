@@ -1,6 +1,8 @@
 using Chirp.Core.DTO;
 using Chirp.Core.Entities;
 using Chirp.Repositories;
+using Humanizer;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit.Sdk;
@@ -170,29 +172,59 @@ public class CheepRepositoryTest : IDisposable
             {
                 var repo = new CheepRepository(context);
 
-
-                // 2023 dec 24 at 12 PM
-                await repo.CreateMessage(new NewCheepDTO { Author = "Helge", AuthorId = "11", 
-                 Text = "Hello", Timestamp = 1703419200});
-
-                // 2023 dec 23 at 12 PM
-                await repo.CreateMessage(new NewCheepDTO { Author = "Adrian", AuthorId = "12", 
-                 Text = "Hello", Timestamp = 1703332800});
-
-                // 2023 dec 24 at 10 PM
+                //659
                 await repo.CreateMessage(new NewCheepDTO { Author = "Jacqualine Gilcoine", AuthorId = "10", 
-                 Text = "Hello", Timestamp = 1703325600});
+                 Text = "Hello", Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddDays(1))});
 
-                // Gives 10 hours of relevance (likes have less effect the more likes there are in the entire system)
+                //660
+                await repo.CreateMessage(new NewCheepDTO { Author = "Helge", AuthorId = "11", 
+                 Text = "Hello", Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddHours(23))});
+
+                //661
+                await repo.CreateMessage(new NewCheepDTO { Author = "Adrian", AuthorId = "12", 
+                 Text = "Hello", Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddHours(23))});
+                
+                //662
+                await repo.CreateMessage(new NewCheepDTO { Author = "Johnnie Calixto", AuthorId = "9", 
+                 Text = "Hello", Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow)});
+
+
+
+                // Gives roughly 1 hour of relevance per like (likes have less effect the more likes there are in the entire system)
                 await repo.AddLike(661, "10");
+                await repo.AddLike(661, "11");
+
+                var cheep = await repo.FindSpecificCheepbyId(659);
+                var cheep2 = await repo.FindSpecificCheepbyId(660);
+                var cheep3 = await repo.FindSpecificCheepbyId(661);
+                var cheep5 = await repo.FindSpecificCheepbyId(662);
+
+                Assert.Equal(-25, (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep.Timestamp)).TotalHours, 0.5);
+                Assert.Equal(-24, (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep2.Timestamp)).TotalHours, 0.5);
+
+                Assert.Equal(25, (cheep.Likes * 1 / Math.Pow(2, 0.1)) - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep.Timestamp)).TotalHours, 0.5 );
+                Assert.Equal(24, (cheep2.Likes * 1 / Math.Pow(2, 0.1)) - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep2.Timestamp)).TotalHours, 0.5 );
+                // cheep 661 has gotten 2 more relevance from likes
+                Assert.Equal(26, (cheep3.Likes * 1 / Math.Pow(2, 0.1)) - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep3.Timestamp) ).TotalHours, 0.5 );
 
                 List<CheepDTO> list = await repo.ReadPublicMessagesbyRelevance(32, 0);
                 // Should not be larger than the take value
                 Assert.False(list.Count > 32);
                 // The most relevant
-                Assert.Equal("10", list[0].AuthorId);
-                Assert.Equal("11", list[1].AuthorId);
+                Assert.Equal("12", list[0].AuthorId);
+                Assert.Equal("10", list[1].AuthorId);
+                Assert.Equal("11", list[2].AuthorId);
 
+                await repo.RemoveLike(661, "10");
+                await repo.RemoveLike(661, "11");
+
+                await repo.AddLike(660, "11");
+                await repo.AddLike(660, "10");
+
+                List<CheepDTO> list2 = await repo.ReadPublicMessagesbyRelevance(32, 0);
+
+                Assert.Equal("11", list2[0].AuthorId);
+                Assert.Equal("10", list2[1].AuthorId);
             }
         }
     }
