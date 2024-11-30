@@ -33,6 +33,10 @@ h2, .name-timeline {
   font-size: 15px;
 }
 
+#defaultMessage{
+  padding-bottom: 15px;
+}
+
 .cheep-container {
   display: flex;
   flex-direction: column;
