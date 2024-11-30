@@ -133,6 +133,29 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         return result;        
         }
 
+    
+    public async Task<double> RelevancePoints(string follower, string userName, double likeRatio, DateTime timeStamp){
+
+        return likeRatio - (DateTime.UtcNow - timeStamp).TotalHours + ( await FollowerPoints(follower, userName));
+
+    }
+
+        public async Task<int> FollowerPoints(string follower, string userName){
+
+        var query = _dbContext.Authors.OrderBy(author => author.UserName)
+        .Where(author => author.UserName!.Equals(userName))
+        .Select(author => author.Followers);
+        // Execute the query
+        var result = await query.ToListAsync();
+
+        foreach (var a in result[0])
+        {
+            if (a.UserName == follower)
+                return 24;
+        }
+        return 0;
+    }
+
     public async Task<List<CheepDTO>> ReadUserMessages(string userName, int takeValue, int skipValue)
     {
         // Formulate the query - will be translated to SQL by EF Core
@@ -266,27 +289,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         }
     }
 
-    public async Task<int> FollowerPoints(string follower, string userName){
 
-        var query = _dbContext.Authors.OrderBy(author => author.UserName)
-        .Where(author => author.UserName!.Equals(userName))
-        .Select(author => author.Followers);
-        // Execute the query
-        var result = await query.ToListAsync();
 
-        foreach (var a in result[0])
-        {
-            if (a.UserName == follower)
-                return 24;
-        }
-        return 0;
-    }
-
-    public async Task<double> RelevancePoints(string follower, string userName, double likeRatio, DateTime timeStamp){
-
-        return likeRatio - (DateTime.UtcNow - timeStamp).TotalHours + ( await FollowerPoints(follower, userName));
-
-    }
 
     public async Task RemoveCheepsFromUser(string userName)
     {
