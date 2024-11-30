@@ -54,7 +54,7 @@ public interface ICheepService
     public Task<Boolean> IsFollowing(string id, string followerId);
 
 
-    public Task ForgetMe(string userName);
+    public Task<bool> ForgetMe(string userName);
 
     public  Task AddLike(int cheepId, string authorId);
 

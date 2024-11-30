@@ -25,12 +25,12 @@ public class MyPage(ICheepService cheepService) : TimeLine(cheepService)
     public async Task<IActionResult> OnPostForgetMe([FromBody] ForgetMeRequest forgetMeRequest)
     {
         if(forgetMeRequest == null) {
-            return StatusCode(400);
+            return StatusCode(500);
         }
 
-        await _cheepService.ForgetMe(forgetMeRequest.UserName);
+        var feedback = await _cheepService.ForgetMe(forgetMeRequest.UserName);
 
-        return new JsonResult(new { success = true });
+        return new JsonResult(new { success = feedback });
     }
 
     public class ForgetMeRequest { 

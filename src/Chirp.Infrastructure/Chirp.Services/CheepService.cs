@@ -215,9 +215,16 @@ public class CheepService : ICheepService
         return await _authorRepository.FindAuthors(userName, 5);
     }
 
-    public async Task ForgetMe(string userName)
+    public async Task<bool> ForgetMe(string userName)
     {
-        
+        try{
+            await _cheepRepository.RemoveCheepsFromUser(userName);
+            await _authorRepository.RemoveAuthor(userName); // issue with removing author
+            return true;
+        } catch (Exception e) {
+            Console.WriteLine(e.Message);
+            return false;
+        }
     }
    
     public async Task AddLike(int cheepId, string authorId)

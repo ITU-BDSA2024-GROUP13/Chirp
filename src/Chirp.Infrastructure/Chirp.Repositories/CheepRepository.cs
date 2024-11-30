@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Chirp.Core.DTO;
 using Chirp.Core.Entities;
-using System.ComponentModel;
 
 namespace Chirp.Repositories;
 
@@ -240,7 +239,6 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
 
         _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Dislikes);
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
-        return;    
-        
+        return;           
     }
 }

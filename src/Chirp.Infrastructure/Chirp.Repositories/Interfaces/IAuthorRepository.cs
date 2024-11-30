@@ -13,9 +13,7 @@ public interface IAuthorRepository
 
     public Task<AuthorDTO> FindSpecificAuthorByEmail(string email);
 
-
     public Task<AuthorDTO> FindSpecificAuthorById(string id);
-
 
     public Task<List<AuthorDTO>> GetFollowers(string userName);
 
@@ -26,13 +24,16 @@ public interface IAuthorRepository
     public Task<List<AuthorDTO>> GetFollowedbybyId(string id);
 
     public Task AddFollower(string id, string followerId);
+
     public Task RemoveFollower(string id, string followerId);
+
     public Task<List<AuthorDTO>> FindAuthors(string userName, int amount);
 
     public Task RemoveAllFollowers(string id);
 
     public Task RemoveAllLikedCheeps(string id);
-    public Task RemoveAllFollowedby(string id);
-    public Task RemoveAuthor(string id);
 
+    public Task RemoveAllFollowedby(string id);
+
+    public Task RemoveAuthor(string id);
 }

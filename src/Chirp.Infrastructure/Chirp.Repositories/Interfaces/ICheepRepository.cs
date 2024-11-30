@@ -19,6 +19,7 @@ public interface ICheepRepository
     public  Task AddDisLike(int cheepId, string authorId);
 
     public  Task<List<AuthorDTO>> GetAllLikers(int cheepId);
+
     public  Task<List<AuthorDTO>> GetAllDislikers(int cheepId);
 
     public  Task RemoveLike(int cheepId, string authorId);
@@ -29,10 +30,8 @@ public interface ICheepRepository
 
     public  Task RemoveAllDislikes(int cheepId);
 
-
     public Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, List<string> followers, int takeValue, int skipValue);
 
     public Task RemoveCheepsFromUser(string userName);
-
 
 }
