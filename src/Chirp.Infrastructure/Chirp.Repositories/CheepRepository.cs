@@ -145,8 +145,6 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
 
         list.OrderByDescending(message => relevanceMap[message.Id]);
 
-        Console.WriteLine("HELLO???");
-
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes)
         .Select(message => new CheepDTO
@@ -162,19 +160,12 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         .ToListAsync();
         // Execute the query
         var result = await query;
-        Console.WriteLine("HELLO??? AGAIN??");
 
         var something = result.OrderByDescending(
           message => relevanceMap[message.Id])
         .Skip(skipValue)
         .Take(takeValue)
         .ToList();
-
-        var result2 = something;
-
-        Console.WriteLine("HELLO??? AGAIN?? TWICE");
-
-        Console.WriteLine(something.Count);
 
         return something;        
         }

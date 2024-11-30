@@ -6,7 +6,7 @@
 <nav>
               
     <div class="nav-tags">
-        <a class="tag" onClick="window.location = '/'">
+        <a class="tag" onClick="window.location = '/?page=0&sort=@Model.sortState'">
             <img 
                 src = "/assets/home.png"
                 alt="Public timeline" 
@@ -16,7 +16,7 @@
         </a>
 
         @if(SignInManager.IsSignedIn(User)){
-            <a class="tag" onClick="window.location = '/users/@User!.Identity!.Name'">
+            <a class="tag" onClick="window.location = '/users/@User!.Identity!.Name/?page=0&sort=@Model.sortState'">
                 <img 
                     src = "/assets/user.png"
                     alt="My timeline" 
@@ -38,7 +38,7 @@
         <!-- Defines the 'prev' button which will function as a way to go to the
         previous page by clicking on it-->
         @if(Model.CurrentPage != 0){
-            <a href="?page=@Model.PreviousPage">
+            <a href="?page=@Model.PreviousPage&sort=@Model.sortState">
                 <button class="nav-arrow">
                     <img src="/assets/arrow.png" class="arrow" id="left" />
                 </button>
@@ -104,7 +104,7 @@
         next page by clicking on it-->
         @if(Model.CurrentPage != Model.LastPage){
             
-            <a href="?page=@Model.NextPage">
+            <a href="?page=@Model.NextPage&sort=@Model.sortState">
                 <button class="nav-arrow">
                     <img src="/assets/arrow.png" class="arrow" id="right" />
                 </button>
