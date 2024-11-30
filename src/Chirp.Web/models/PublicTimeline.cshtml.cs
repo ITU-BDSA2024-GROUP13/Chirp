@@ -14,9 +14,29 @@ public class PublicTimeLine(ICheepService cheepService) : TimeLine(cheepService)
     {
         int page = UpdatePage();
 
+        switch (sortState)
+        {
+            case "oldest": 
+            Cheeps = await _cheepService.ReadPublicMessagesbyOldest(page);
+            Count = await _cheepService.CountPublicMessages();
+            break;
 
-        Cheeps = await _cheepService.ReadPublicMessages(page);
-        Count = await _cheepService.CountPublicMessages();
+            case "mostLiked":
+            Cheeps = await _cheepService.ReadPublicMessagesbyMostLiked(page);
+            Count = await _cheepService.CountPublicMessages();
+            break;
+
+            case "relevance":
+            Cheeps = await _cheepService.ReadPublicMessagesbyMostRelevance(page, User!.Identity!.Name);
+            Count = await _cheepService.CountPublicMessages();
+            break;
+            
+            default: 
+            Cheeps = await _cheepService.ReadPublicMessages(page);
+            Count = await _cheepService.CountPublicMessages();
+            break;
+        }
+
         if (!string.IsNullOrEmpty(SearchName))
             Authors = await _cheepService.FindAuthorByName(SearchName);
 
