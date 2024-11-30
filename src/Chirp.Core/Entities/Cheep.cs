@@ -18,9 +18,8 @@ public class Cheep
     public required DateTime TimeStamp { get; set; }
     public required string AuthorId { get; set; }
     public required List<Author> Likes { get; set; }
-
     public required List<Author> Dislikes { get; set; }
-
+    public float LocalLikeRatio { get; set; } = 0;
     public Author Author { get; set; }
 
 }

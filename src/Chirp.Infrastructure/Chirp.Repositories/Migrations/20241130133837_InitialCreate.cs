@@ -188,7 +188,8 @@ namespace Chirp.Repositories.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Text = table.Column<string>(type: "TEXT", maxLength: 160, nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    AuthorId = table.Column<string>(type: "TEXT", nullable: false)
+                    AuthorId = table.Column<string>(type: "TEXT", nullable: false),
+                    LocalLikeRatio = table.Column<float>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
