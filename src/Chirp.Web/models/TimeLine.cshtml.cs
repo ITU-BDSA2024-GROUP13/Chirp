@@ -81,6 +81,24 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         });
     }
 
+    public IActionResult OnPostSort([FromBody] SortRequest sortRequest)
+    {
+        if (String.IsNullOrWhiteSpace(sortRequest?.SortString))
+        {
+            Console.WriteLine("Error: PostString was null.");
+            return BadRequest("PostString cannot be null.");
+        }
+
+        sortState = sortRequest.SortString;
+
+        return new JsonResult(new
+        {
+            success = true,
+            message = "Sorting after " + sortRequest.SortString
+        }
+        );
+    }
+
     public async Task<IActionResult> OnPostSave([FromBody] PostRequest postRequest)
     {
         if (String.IsNullOrWhiteSpace(postRequest?.PostString))
@@ -235,5 +253,10 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     public class SearchRequest
     {
         public required string SearchString { get; set; }
+    }
+
+        public class SortRequest
+    {
+        public required string SortString { get; set; }
     }
 }
