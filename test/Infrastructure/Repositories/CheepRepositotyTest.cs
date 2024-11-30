@@ -212,7 +212,7 @@ public class CheepRepositoryTest : IDisposable
                 // cheep 661 has gotten 2 more relevance from likes
                 Assert.Equal(25, cheepLocalLikeRatio3 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep3.Timestamp) ).TotalHours, 0.5 );
 
-                List<CheepDTO> list = await repo.ReadPublicMessagesbyRelevance(32, 0);
+                List<CheepDTO> list = await repo.ReadPublicMessagesbyRelevance(32, 0, "Helge");
                 // Should not be larger than the take value
                 Assert.False(list.Count > 32);
                 // The most relevant
@@ -228,10 +228,22 @@ public class CheepRepositoryTest : IDisposable
                 await repo.AddLike(660, "11");
                 await repo.AddLike(660, "10");
 
-                List<CheepDTO> list2 = await repo.ReadPublicMessagesbyRelevance(32, 0);
+                List<CheepDTO> list2 = await repo.ReadPublicMessagesbyRelevance(32, 0, "Helge");
 
                 Assert.Equal("10", list2[0].AuthorId);
                 Assert.Equal("11", list2[1].AuthorId);
+
+                var authorRepo = new AuthorRepository(context);
+
+                // Adrian follows Helge
+                await authorRepo.AddFollower("12", "11");
+
+                List<CheepDTO> list3 = await repo.ReadPublicMessagesbyRelevance(32, 0, "Adrian");
+                // Helge message gets more relevance for Adrian
+                Assert.Equal("11", list3[0].AuthorId);
+                Assert.Equal("10", list3[1].AuthorId);
+
+
             }
         }
     }

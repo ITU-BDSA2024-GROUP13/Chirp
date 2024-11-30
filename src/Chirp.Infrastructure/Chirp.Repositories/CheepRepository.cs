@@ -110,11 +110,11 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         return result;    
     }
 
-    public async Task<List<CheepDTO>> ReadPublicMessagesbyRelevance(int takeValue, int skipValue)
+    public async Task<List<CheepDTO>> ReadPublicMessagesbyRelevance(int takeValue, int skipValue, string userName)
     {
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(
-            message => message.LocalLikeRatio - (DateTime.UtcNow - message.TimeStamp).TotalHours)
+         message => relevancePoint(message.Author.UserName!, userName, message.LocalLikeRatio, message.TimeStamp).Result)
         .Skip(skipValue)
         .Take(takeValue)
         .Select(message => new CheepDTO
@@ -160,7 +160,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     {
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(message => message.TimeStamp)
-        .Where(message => message.Author.UserName == userName || followers.Contains(message.Author.UserName!))
+        .Where(message =>  message.Author.UserName == userName || followers.Contains(message.Author.UserName!))
         .Skip(skipValue)
         .Take(takeValue)
         .Select(message => new CheepDTO
@@ -259,8 +259,30 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         } else{
             throw new NullReferenceException("There are no likes on this cheep");
         }
+    }
+
+    public async Task<int> followerPoints(string follower, string userName){
+
+        var query = _dbContext.Authors.OrderBy(author => author.UserName)
+        .Where(author => author.UserName!.Equals(userName))
+        .Select(author => author.Followers);
+        // Execute the query
+        var result = await query.ToListAsync();
+
+        foreach (var a in result[0])
+        {
+            if (a.UserName == follower)
+                return 24;
+        }
+        return 0;
+    }
+
+    public async Task<double> relevancePoint(string follower, string userName, double likeRatio, DateTime timeStamp){
+
+        return likeRatio - (DateTime.UtcNow - timeStamp).TotalHours + ( await followerPoints(follower, userName));
 
     }
+
     public async Task RemoveCheepsFromUser(string userName)
     {
 
