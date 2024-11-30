@@ -190,9 +190,11 @@ public class CheepRepositoryTest : IDisposable
 
 
 
-                // Gives roughly 1 hour of relevance per like (likes have less effect the more likes there are in the entire system)
                 await repo.AddLike(661, "10");
                 await repo.AddLike(661, "11");
+                await repo.AddLike(661, "9");
+                await repo.AddLike(661, "8");
+                await repo.AddLike(661, "7");
 
                 var cheep = await repo.FindSpecificCheepbyId(659);
                 var cheep2 = await repo.FindSpecificCheepbyId(660);
@@ -202,10 +204,13 @@ public class CheepRepositoryTest : IDisposable
                 Assert.Equal(-25, (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep.Timestamp)).TotalHours, 0.5);
                 Assert.Equal(-24, (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep2.Timestamp)).TotalHours, 0.5);
 
-                Assert.Equal(25, (cheep.Likes * 1 / Math.Pow(2, 0.1)) - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep.Timestamp)).TotalHours, 0.5 );
-                Assert.Equal(24, (cheep2.Likes * 1 / Math.Pow(2, 0.1)) - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep2.Timestamp)).TotalHours, 0.5 );
+                var cheepLocalLikeRatio3 = (float)Math.Log((float)cheep3.Likes, 5);
+
+
+                Assert.Equal(25, 0 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep.Timestamp)).TotalHours, 0.5 );
+                Assert.Equal(24, 0 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep2.Timestamp)).TotalHours, 0.5 );
                 // cheep 661 has gotten 2 more relevance from likes
-                Assert.Equal(26, (cheep3.Likes * 1 / Math.Pow(2, 0.1)) - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep3.Timestamp) ).TotalHours, 0.5 );
+                Assert.Equal(25, cheepLocalLikeRatio3 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep3.Timestamp) ).TotalHours, 0.5 );
 
                 List<CheepDTO> list = await repo.ReadPublicMessagesbyRelevance(32, 0);
                 // Should not be larger than the take value
@@ -217,14 +222,16 @@ public class CheepRepositoryTest : IDisposable
 
                 await repo.RemoveLike(661, "10");
                 await repo.RemoveLike(661, "11");
+                await repo.RemoveLike(661, "9");
+                await repo.RemoveLike(661, "8");
 
                 await repo.AddLike(660, "11");
                 await repo.AddLike(660, "10");
 
                 List<CheepDTO> list2 = await repo.ReadPublicMessagesbyRelevance(32, 0);
 
-                Assert.Equal("11", list2[0].AuthorId);
-                Assert.Equal("10", list2[1].AuthorId);
+                Assert.Equal("10", list2[0].AuthorId);
+                Assert.Equal("11", list2[1].AuthorId);
             }
         }
     }

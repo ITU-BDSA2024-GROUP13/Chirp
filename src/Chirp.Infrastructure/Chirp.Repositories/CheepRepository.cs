@@ -114,7 +114,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     {
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(
-            message => (message.Likes.Count * _globalLikeRatio) - (DateTime.UtcNow - message.TimeStamp).TotalHours)
+            message => message.LocalLikeRatio - (DateTime.UtcNow - message.TimeStamp).TotalHours)
         .Skip(skipValue)
         .Take(takeValue)
         .Select(message => new CheepDTO
@@ -201,11 +201,10 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         if (!cheep.Likes.Contains(author)){
             cheep.Likes.Add(author);
             _totalLikes++;
-            if (_totalLikes <= 0){
-                _totalLikes = 0;
-                _globalLikeRatio = 1;
+            if (cheep.Likes.Any()){
+                cheep.LocalLikeRatio = (float)Math.Log((double)cheep.Likes.Count, 5);
             } else{
-                _globalLikeRatio = 1 / Math.Pow(_totalLikes, 0.1);
+                cheep.LocalLikeRatio = 0;
             }
         }
 
@@ -223,11 +222,10 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         if (cheep.Likes.Contains(author)){
             cheep.Likes.Remove(author);
             _totalLikes--;
-            if (_totalLikes <= 0){
-                _totalLikes = 0;
-                _globalLikeRatio = 1;
+            if (cheep.Likes.Any()){
+                cheep.LocalLikeRatio = (float)Math.Log((double)cheep.Likes.Count, 5);
             } else{
-                _globalLikeRatio = 1 / Math.Pow(_totalLikes, 0.1);
+                cheep.LocalLikeRatio = 0;
             }
         }
 
