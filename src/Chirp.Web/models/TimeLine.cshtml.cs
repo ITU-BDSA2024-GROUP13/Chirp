@@ -20,7 +20,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     public string? SearchName { get; set; }
     [BindProperty(SupportsGet = true)]
     public List<AuthorDTO>? SearchQuery { get; set; }
-    public string sortState {get; set; } = "default";
+    public string? sortState {get; set; } = "default";
     public int DefinePreviousPage(int page)
     {
         return page == 0 ? 0 : page - 1;
@@ -43,6 +43,12 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
                 page = Int32.Parse(pageQuery[0]!);
             }
 
+            var sortQuery = Request.Query["sort"];
+            if (!sortQuery.Equals("") && pageQuery.Count > 0)
+            {
+                sortState = sortQuery[0]!;
+
+            }
             CurrentPage = page;
             NextPage = page + 1;
             PreviousPage = DefinePreviousPage(page);
@@ -53,7 +59,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         }
         catch (Exception e){
 
-            Console.WriteLine(e.Message);
+            Console.WriteLine("ERROR: " + e.Message);
 
         }
 
@@ -90,7 +96,6 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         }
 
         sortState = sortRequest.SortString;
-
         return new JsonResult(new
         {
             success = true,

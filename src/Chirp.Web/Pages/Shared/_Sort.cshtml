@@ -1,0 +1,82 @@
+
+<button id="relevance" type="submit" asp-handler="Sort">
+     Sort by relevance
+</button>
+
+<button id="oldest" type="submit" asp-handler="Sort">
+     Sort by oldest
+</button>
+<button id="mostLiked" type="submit" asp-handler="Sort">
+     Sort by mostLiked
+</button>
+ <script>
+            document.getElementById("relevance").addEventListener("click", () => {
+                const antiforgeryToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Sort" : "?handler=Sort"), {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "RequestVerificationToken": antiforgeryToken
+                    },
+                    body: JSON.stringify({
+                        SortString: "relevance"
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("success:", data["success"])
+                        location.href = '@ViewData["Location"]?page=@Model.CurrentPage&sort=relevance'
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+
+                    })
+            })
+            document.getElementById("oldest").addEventListener("click", () => {
+                const antiforgeryToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Sort" : "?handler=Sort"), {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "RequestVerificationToken": antiforgeryToken
+                    },
+                    body: JSON.stringify({
+                        SortString: "oldest"
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("success:", data["success"])
+                        location.href = '@ViewData["Location"]?page=@Model.CurrentPage&sort=oldest'
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+
+                    })
+            })
+            document.getElementById("mostLiked").addEventListener("click", () => {
+                const antiforgeryToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Sort" : "?handler=Sort"), {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "RequestVerificationToken": antiforgeryToken
+                    },
+                    body: JSON.stringify({
+                        SortString: "mostLiked"
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("success:", data["success"])
+                        location.href = '@ViewData["Location"]?page=@Model.CurrentPage&sort=mostLiked'
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+
+                    })
+            })
+</script>

@@ -114,7 +114,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     {
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(
-         message => relevancePoint(message.Author.UserName!, userName, message.LocalLikeRatio, message.TimeStamp).Result)
+          message => RelevancePoints(message.Author.UserName!, userName, message.LocalLikeRatio, message.TimeStamp).Result)
         .Skip(skipValue)
         .Take(takeValue)
         .Select(message => new CheepDTO
@@ -126,9 +126,9 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
             Likes = message.Likes.Count,
             Dislikes = message.Dislikes.Count
-        });
+        }).ToListAsync();
         // Execute the query
-        var result = await query.ToListAsync();
+        var result = await query;
 
         return result;        
         }
@@ -261,7 +261,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         }
     }
 
-    public async Task<int> followerPoints(string follower, string userName){
+    public async Task<int> FollowerPoints(string follower, string userName){
 
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
         .Where(author => author.UserName!.Equals(userName))
@@ -277,9 +277,9 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         return 0;
     }
 
-    public async Task<double> relevancePoint(string follower, string userName, double likeRatio, DateTime timeStamp){
+    public async Task<double> RelevancePoints(string follower, string userName, double likeRatio, DateTime timeStamp){
 
-        return likeRatio - (DateTime.UtcNow - timeStamp).TotalHours + ( await followerPoints(follower, userName));
+        return likeRatio - (DateTime.UtcNow - timeStamp).TotalHours + ( await FollowerPoints(follower, userName));
 
     }
 

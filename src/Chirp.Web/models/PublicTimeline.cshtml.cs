@@ -13,6 +13,7 @@ public class PublicTimeLine(ICheepService cheepService) : TimeLine(cheepService)
     public async Task<ActionResult> OnGetAsync()
     {
         int page = UpdatePage();
+        Console.WriteLine("sortState: " + sortState);
 
         switch (sortState)
         {
@@ -27,10 +28,11 @@ public class PublicTimeLine(ICheepService cheepService) : TimeLine(cheepService)
             break;
 
             case "relevance":
-            Cheeps = await _cheepService.ReadPublicMessagesbyMostRelevance(page, User!.Identity!.Name);
+            Console.WriteLine("Reading by relevance as user: " + User!.Identity!.Name);
+            Cheeps = await _cheepService.ReadPublicMessagesbyMostRelevance(page, "Helge");
             Count = await _cheepService.CountPublicMessages();
             break;
-            
+
             default: 
             Cheeps = await _cheepService.ReadPublicMessages(page);
             Count = await _cheepService.CountPublicMessages();
