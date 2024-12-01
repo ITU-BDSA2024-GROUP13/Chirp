@@ -33,8 +33,6 @@ jobs:
             echo "version_type=minor" >> $GITHUB_ENV
           elif [[ "${{ github.event.head_commit.message }}" =~ "patch" ]]; then
             echo "version_type=patch" >> $GITHUB_ENV
-          else
-            echo "version_type=none" >> $GITHUB_ENV
           fi
 
       # Step 2: Increment version using Git tags (or modify your .csproj)
