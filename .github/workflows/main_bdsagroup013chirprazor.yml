@@ -5,7 +5,7 @@ name: Build and deploy ASP.Net Core app to Azure Web App - bdsagroup013chirprazo
 
 on:
   workflow_run:
-      workflows: ["Bump Version and Create Release"]  # The name of the workflow you want to depend on
+      workflows: ["Create Release"]  # The name of the workflow you want to depend on
       types:
         - completed  # Triggers this workflow when the specified workflow is completed
   workflow_dispatch:
