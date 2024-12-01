@@ -54,14 +54,12 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
 builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromHours(1));
-var ClientSecret = builder.Configuration["Github:Secret"];
-var ClientId = builder.Configuration["Github:Id"];
+var ClientSecret = builder.Configuration["authentication:github:clientSecret"];
+var ClientId = builder.Configuration["authentication:github:clientId"];
 
 builder.Services.AddAuthentication()
     .AddGitHub(o =>
     {
-        //o.ClientId = Environment.GetEnvironmentVariable("OAUTH_CLIENT_ID");
-        //o.ClientSecret = Environment.GetEnvironmentVariable("OAUTH_CLIENT_SECRET");
         o.ClientId = ClientId!;
         o.ClientSecret = ClientSecret!;
         o.CallbackPath = "/signin-github";
