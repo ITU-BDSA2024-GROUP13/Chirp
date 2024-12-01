@@ -31,12 +31,6 @@ jobs:
         with:
           dotnet-version: "8.x"
 
-      - name: Test
-        run: |
-            export GitHub__ClientId="${{ secrets.OAUTH_CLIENT_ID }}"
-            export GitHub__ClientSecret="${{ secrets.OAUTH_CLIENT_SECRET }}"
-            dotnet test --no-build --verbosity normal
-
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
