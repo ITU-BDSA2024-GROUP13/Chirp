@@ -35,7 +35,7 @@ public class LocalTests : IAsyncLifetime
     [Fact]
     public async Task LocalLogin()
     {
-        var page = await context.NewPageAsync();
+        var page = await context!.NewPageAsync();
         await page.GotoAsync("http://localhost:5273/");
         await page.GetByRole(AriaRole.Link, new() { Name = "Logout Log in" }).ClickAsync();
         await page.GetByPlaceholder("name@example.com").ClickAsync();
@@ -49,7 +49,7 @@ public class LocalTests : IAsyncLifetime
     [Fact]
     public async Task LocalLoginChange()
     {
-        var page = await context.NewPageAsync();
+        var page = await context!.NewPageAsync();
         await page.GotoAsync("http://localhost:5273/");
         string? ActualTitle = await page.Locator("h1").TextContentAsync();
         string? ActualLogin = await page.Locator(".nav-item").TextContentAsync();

@@ -6,17 +6,17 @@
 <nav>
               
     <div class="nav-tags">
-        <a class="tag" onClick="window.location = '/'">
+        <a class="tag" onClick="window.location = '/?page=0&sort=@Model.sortState'">
             <img 
                 src = "/assets/home.png"
                 alt="Public timeline" 
                 id="icon"
             />
-            Public timeline
+            Public timeline by @Model.sortState
         </a>
 
         @if(SignInManager.IsSignedIn(User)){
-            <a class="tag" onClick="window.location = '/users/@User!.Identity!.Name'">
+            <a class="tag" onClick="window.location = '/users/@User!.Identity!.Name/?page=0&sort=@Model.sortState'">
                 <img 
                     src = "/assets/user.png"
                     alt="My timeline" 
@@ -24,6 +24,10 @@
                  />
                  My timeline
             </a>
+
+            @await Html.PartialAsync("_Sort")
+
+
         }
 
         @await Html.PartialAsync("_LoginPartial")
@@ -34,7 +38,7 @@
         <!-- Defines the 'prev' button which will function as a way to go to the
         previous page by clicking on it-->
         @if(Model.CurrentPage != 0){
-            <a href="?page=@Model.PreviousPage">
+            <a href="?page=@Model.PreviousPage&sort=@Model.sortState">
                 <button class="nav-arrow">
                     <img src="/assets/arrow.png" class="arrow" id="left" />
                 </button>
@@ -49,24 +53,24 @@
                     if(i > Model.CurrentPage + 3){
                         if(i == Model.LastPage){
                             <fill>..</fill>
-                            <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
+                            <li onclick = "location.href = '@ViewData["Location"]?page=@i&sort=@Model.sortState'" class="list-item"> @i</li>
                         }
                     } else if(Model.CurrentPage == i){
-                        <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                        <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i&sort=@Model.sortState'" > @i</li>
                     }else{
-                        <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
+                        <li onclick = "location.href = '@ViewData["Location"]?page=@i&sort=@Model.sortState'" class="list-item"> @i</li>
                     }
 
                 }else if (Model.CurrentPage == Model.LastPage){
                     if(i < Model.CurrentPage - 3){
                         if(i == 0){
-                            <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
+                            <li onclick = "location.href = '@ViewData["Location"]?page=@i&sort=@Model.sortState'" class="list-item"> @i</li>
                             <fill>..</fill>
                         }
                     } else if(Model.CurrentPage == i){
-                        <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                        <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i&sort=@Model.sortState'" > @i</li>
                     }else{
-                        <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
+                        <li onclick = "location.href = '@ViewData["Location"]?page=@i&sort=@Model.sortState'" class="list-item"> @i</li>
                     }
 
 
@@ -77,18 +81,18 @@
                             if(Model.CurrentPage + 3 < Model.LastPage){
                                 <fill>..</fill>
                             }
-                            <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
+                            <li onclick = "location.href = '@ViewData["Location"]?page=@i&sort=@Model.sortState'" class="list-item"> @i</li>
 
                         } else if(i == 0){
-                            <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
+                            <li onclick = "location.href = '@ViewData["Location"]?page=@i&sort=@Model.sortState'" class="list-item"> @i</li>
                             if(Model.CurrentPage - 3 > 0){
                                 <fill>..</fill>
                             }
                         }
                     } else if(Model.CurrentPage == i){
-                        <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i'" > @i</li>
+                        <li id = "current" onclick = "location.href = '@ViewData["Location"]?page=@i&sort=@Model.sortState'" > @i</li>
                     } else{
-                        <li onclick = "location.href = '@ViewData["Location"]?page=@i'" class="list-item"> @i</li>
+                        <li onclick = "location.href = '@ViewData["Location"]?page=@i&sort=@Model.sortState'" class="list-item"> @i</li>
                     }
                 }
             }
@@ -100,7 +104,7 @@
         next page by clicking on it-->
         @if(Model.CurrentPage != Model.LastPage){
             
-            <a href="?page=@Model.NextPage">
+            <a href="?page=@Model.NextPage&sort=@Model.sortState">
                 <button class="nav-arrow">
                     <img src="/assets/arrow.png" class="arrow" id="right" />
                 </button>

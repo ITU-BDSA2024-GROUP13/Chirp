@@ -7,9 +7,15 @@ public interface ICheepService
 
     public Task<CheepDTO> FindSpecificCheepbyId(int cheepId);
 
-    public Task<int> CreateMessage(CheepDTO newMessage);
+    public Task<int> CreateMessage(NewCheepDTO newMessage);
 
     public Task<List<CheepDTO>> ReadPublicMessages(int page);
+
+    public Task<List<CheepDTO>> ReadPublicMessagesbyOldest(int page);
+
+    public Task<List<CheepDTO>> ReadPublicMessagesbyMostLiked(int page);
+
+    public Task<List<CheepDTO>> ReadPublicMessagesbyMostRelevance(int page, string userName);
 
     public Task<List<CheepDTO>> ReadUserMessages(string userName, int page);
 
@@ -21,9 +27,9 @@ public interface ICheepService
 
     public Task<int> CountPublicMessages();
 
-    public Task UpdateMessage(CheepDTO alteredMessage, int id);
+    public Task UpdateMessage(UpdateCheepDTO alteredMessage, int id);
 
-    public Task<string> CreateAuthor(AuthorDTO newMessage);
+    public Task<string> CreateAuthor(NewAuthorDTO newMessage);
 
     public Task<List<AuthorDTO>> FindAuthorByName(string userName);
 

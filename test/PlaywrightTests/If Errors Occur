@@ -1,12 +1,25 @@
-This file has been made to ensure that whoever might tests the playwright, is not confused on why the tests MIGHT fail - there's a logicla explenation that does not rid the tests of their reliability:
+This file has been made to ensure that whoever might tests the playwright, :
+is not confused on why the tests MIGHT fail - there's a logical explanation that does not rid the tests of their reliability:
 
 Why would LocalTests fail?
-- For local tests to work you need to first make sure, that your localhost is running (can't run navigate localhosts without a host)
-- Errors might occur because the database is reset, so the user with the correct information needs to be registered before the login tests can work (look at the tests to see what information is registered)
+- For local tests to work you need to first make sure, 
+  that your localhost is running (can't run navigate localhosts without a host)
+
+- Errors might occur because the database is reset, 
+  so the user with the correct information needs to be registered before the login tests can work 
+  (look at the tests to see what information is registered)
 
 Why would AzureTests fail?
-- Same problem as LocalTests with registration - if updates have been made to the code, the database resets to the default data, which doesn't include the registered user.
+- Same problem as LocalTests with registration - if updates have been made to the code, 
+  the database resets to the default data, which doesn't include the registered user.
 
 
 
-If none of these fixes work try and set the value "Headless" to false in the tests, then it is possible to see where the tests "get stuck" - could be an internet problem, or a server problem.
+If none of these fixes work try and set the value "Headless" to false in the tests, 
+then it is possible to see where the tests "get stuck" - could be an internet problem, or a server problem.
+
+Before testing, register with this information:
+
+Username: TestName
+Email: Test@gmail.com
+Password: Chirp123!

@@ -25,6 +25,21 @@ public class CheepService : ICheepService
         return _cheepRepository.ReadPublicMessages(32, 32 * page);
     }
 
+    public Task<List<CheepDTO>> ReadPublicMessagesbyOldest(int page)
+    {
+        return _cheepRepository.ReadPublicMessagesbyOldest(32, 32 * page);
+    }
+
+    public Task<List<CheepDTO>> ReadPublicMessagesbyMostLiked(int page)
+    {
+        return _cheepRepository.ReadPublicMessagesbyMostLiked(32, 32 * page);
+    }
+
+    public Task<List<CheepDTO>> ReadPublicMessagesbyMostRelevance(int page, string userName)
+    {
+        return _cheepRepository.ReadPublicMessagesbyRelevance(32, 32 * page, userName);
+    }
+
     public Task<List<CheepDTO>> ReadUserMessages(string userName, int page)
     {
         return _cheepRepository.ReadUserMessages(userName, 32, 32 * page);
@@ -32,7 +47,7 @@ public class CheepService : ICheepService
 
     public async Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, int page)
     {
-        List<string> followers = AuthorToString(await _authorRepository.GetFollowers(userName));
+        List<string> followers = AuthorToString(await _authorRepository.GetFollowing(userName));
         return await _cheepRepository.ReadUserAndFollowerMessages(userName, followers, 32, 32 * page);
     }
 
@@ -43,7 +58,7 @@ public class CheepService : ICheepService
 
     }
 
-    public async Task<int> CreateMessage(CheepDTO message)
+    public async Task<int> CreateMessage(NewCheepDTO message)
     {
 
         if (message.Text.Count() > 160)
@@ -57,7 +72,7 @@ public class CheepService : ICheepService
 
         } catch{
 
-            AuthorDTO newAuthor = new() { Name = message.Author, Email = message.Author + "@mail.com" };
+            NewAuthorDTO newAuthor = new() { Name = message.Author, Email = message.Author + "@mail.com" };
             await CreateAuthor(newAuthor);
             AuthorDTO createdAuthor = await FindSpecificAuthorByName(message.Author);
             message.AuthorId = createdAuthor.Id!;
@@ -68,7 +83,7 @@ public class CheepService : ICheepService
 
         public async Task<int> CountUserAndFollowerMessages(string userName)
     {
-        List<string> followers = AuthorToString(await _authorRepository.GetFollowers(userName));
+        List<string> followers = AuthorToString(await _authorRepository.GetFollowing(userName));
 
         var list = await _cheepRepository.ReadUserAndFollowerMessages(userName, followers, int.MaxValue, 0);
         var result = list.Count;
@@ -90,7 +105,7 @@ public class CheepService : ICheepService
         return result;
     }
 
-    public Task UpdateMessage(CheepDTO alteredMessage, int id)
+    public Task UpdateMessage(UpdateCheepDTO alteredMessage, int id)
     {
         return _cheepRepository.UpdateMessage(alteredMessage, id);
     }
@@ -102,7 +117,7 @@ public class CheepService : ICheepService
     /// </summary>
     /// <param name="author"></param>
     /// <returns></returns>
-    public async Task<string> CreateAuthor(AuthorDTO author)
+    public async Task<string> CreateAuthor(NewAuthorDTO author)
     {
         return await _authorRepository.CreateAuthor(author);
     }
@@ -140,12 +155,12 @@ public class CheepService : ICheepService
 
     public async Task<List<AuthorDTO>> GetFollowers(string userName)
     {
-        return (List<AuthorDTO>)await _authorRepository.GetFollowers(userName);
+        return (List<AuthorDTO>)await _authorRepository.GetFollowing(userName);
     }
 
     public async Task<List<AuthorDTO>> GetFollowersbyId(string id)
     {
-        return (List<AuthorDTO>)await _authorRepository.GetFollowersbyId(id);
+        return (List<AuthorDTO>)await _authorRepository.GetFollowingbyId(id);
     }
 
     public async Task<List<AuthorDTO>> GetFollowedby(string userName)
@@ -165,19 +180,19 @@ public class CheepService : ICheepService
     ///<param name="followerId"> The author who will be followed</param>
     public async Task Follow(string id, string followerId)
     {
-        await _authorRepository.AddFollower(id, followerId);
+        await _authorRepository.AddFollowing(id, followerId);
     }
 
     public async Task Unfollow(string id, string followerId)
     {
-        await _authorRepository.RemoveFollower(id, followerId);
+        await _authorRepository.RemoveFollowing(id, followerId);
     }
 
     public async Task<bool> IsFollowing(string id, string followerId)
     {
         var author = await FindSpecificAuthorById(id);
 
-        var list = await _authorRepository.GetFollowers(author.Name);
+        var list = await _authorRepository.GetFollowing(author.Name);
 
         foreach (var a in list)
         {
@@ -269,4 +284,5 @@ public class CheepService : ICheepService
             return false;
         }    
     }
+
 }

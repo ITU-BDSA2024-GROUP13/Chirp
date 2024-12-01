@@ -5,10 +5,13 @@ namespace Chirp.Core.DTO;
 /// </summary>
 public class AuthorDTO
 {
-    public string? Id { get; set; }
+    public required string Id { get; set; }
     public required string Name { get; set; }
     public required string Email { get; set; }
+}
 
-    public int count { get; set; }
-
+public class NewAuthorDTO
+{
+    public required string Name { get; set; }
+    public required string Email { get; set; }
 }
