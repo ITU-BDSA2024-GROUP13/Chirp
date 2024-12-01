@@ -37,6 +37,41 @@ h2, .name-timeline {
   width: 40px;
 }
 
+.content{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(197, 197, 197);
+  width: 100px;
+  height: 180px;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.content button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 10px;
+  height: 25px;
+  width: 80%;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.content span{
+  display: flex;
+  justify-content: center;
+  font-size: 13px;
+  border-bottom: 2px;
+  border-bottom-style:dashed;
+  margin-bottom: 10px;
+  width: 100%;
+  padding-bottom: 5px;
+}
+
 #navbutton{
   padding: 0;
   display: flex;
