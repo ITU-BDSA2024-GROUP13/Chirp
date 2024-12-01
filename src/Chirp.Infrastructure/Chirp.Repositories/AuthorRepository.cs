@@ -19,13 +19,13 @@ public class AuthorRepository : IAuthorRepository
     {
         Author newAuthor = new()
         {
-            DislikedCheeps = new List<Cheep>(),
-            LikedCheeps = new List<Cheep>(),
+            DislikedCheeps = [],
+            LikedCheeps = [],
             UserName = author.Name,
             Email = author.Email,
-            Cheeps = new List<Cheep>(),
-            FollowedBy = new List<Author>(),
-            Followers = new List<Author>()
+            Cheeps = [],
+            FollowedBy = [],
+            Followers = []
         };
         var queryResult = await _dbContext.Authors.AddAsync(newAuthor); // does not write to the database!
 
