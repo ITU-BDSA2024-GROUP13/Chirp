@@ -41,9 +41,12 @@ h2, .name-timeline {
   width: 40px;
 }
 
+.dropMenu:hover .content{
+  display: flex;
+}
+
 .content{
   position: absolute;
-  display: flex;
   justify-content: center;
   align-items: center;
   background-color: rgb(214, 213, 213);
@@ -57,6 +60,7 @@ h2, .name-timeline {
   border-style:solid;
   border-color:rgb(60, 59, 59);
   box-shadow: -3px 3px 8px rgba(0, 0, 0, 0.693);
+  display: none;
 }
 
 .content button{
