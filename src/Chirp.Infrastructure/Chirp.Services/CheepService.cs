@@ -180,12 +180,12 @@ public class CheepService : ICheepService
     ///<param name="followerId"> The author who will be followed</param>
     public async Task Follow(string id, string followerId)
     {
-        await _authorRepository.AddFollowing(id, followerId);
+        await _authorRepository.AddFollower(id, followerId);
     }
 
     public async Task Unfollow(string id, string followerId)
     {
-        await _authorRepository.RemoveFollowing(id, followerId);
+        await _authorRepository.RemoveFollower(id, followerId);
     }
 
     public async Task<bool> IsFollowing(string id, string followerId)

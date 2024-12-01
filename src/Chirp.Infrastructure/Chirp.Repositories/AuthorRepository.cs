@@ -172,7 +172,7 @@ public class AuthorRepository : IAuthorRepository
     }
 
 
-    public async Task AddFollowing(string followingId, string followedId)
+    public async Task AddFollower(string followingId, string followedId)
     {
 
         Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.Id == followingId);
@@ -189,7 +189,7 @@ public class AuthorRepository : IAuthorRepository
     }
     
 
-    public async Task RemoveFollowing(string followingId, string followedId)
+    public async Task RemoveFollower(string followingId, string followedId)
     {
 
         Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.Id == followingId);
