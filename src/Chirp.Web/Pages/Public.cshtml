@@ -6,7 +6,7 @@
 @inject SignInManager<Author> SignInManager
 @inject UserManager<Author> UserManager
 @using Chirp.Web.models
- 
+
 @{
     ViewData["Title"] = "Chirp!";
     Layout = "./Shared/_Layout.cshtml";
@@ -16,35 +16,49 @@
 @await Html.PartialAsync("_Nav")
 
 
-<h2 class="name-timeline"> Public Timeline </h2>
+<h2 class="name-timeline"> 
+    Public Timeline - @Model.sortState
 
-@if(SignInManager.IsSignedIn(User)){
+    <div class="dropMenu">
+        <button><img src="/assets/filter.png" id="filter" /></button>
+        <div class="content">
+            <span>Sort by:</span>
+            @await Html.PartialAsync("_Sort")
+        </div>
+</h2>
+
+@if (SignInManager.IsSignedIn(User))
+{
 
 
     @if (Model.Cheeps.Any())
     {
-            @foreach (var cheep in Model.Cheeps)
-            {
-                @await Html.PartialAsync("_Cheep", new CheepPartialView {
-                    Id = cheep.Id,
-                    Author= cheep.Author,
-                    Body= cheep.Text,
-                    Date= cheep.Timestamp,
-                    Likes = cheep.Likes,
-                    Dislikes = cheep.Dislikes,
-                    isLiked = await @Model.HasLiked(User!.Identity!.Name!, cheep.Id),
-                    isDisliked = await @Model.HasDisliked(User!.Identity!.Name!, cheep.Id)
-                })
-            } 
-    } else{
+        @foreach (var cheep in Model.Cheeps)
+        {
+            @await Html.PartialAsync("_Cheep", new CheepPartialView
+{
+    Id = cheep.Id,
+    Author = cheep.Author,
+    Body = cheep.Text,
+    Date = cheep.Timestamp,
+    Likes = cheep.Likes,
+    Dislikes = cheep.Dislikes,
+    isLiked = await @Model.HasLiked(User!.Identity!.Name!, cheep.Id),
+    isDisliked = await @Model.HasDisliked(User!.Identity!.Name!, cheep.Id)
+})
+        }
+    }
+    else
+    {
         <em>There are no cheeps so far.</em>
     }
-}else{
-    <div>
-        <div class="cheep-item">
-
-            <p class="cheep-body" id = "defaultMessage"> Log in to experience new ideas on Chirp. </p>
-        </div>
-    </div>
 }
+else
+{
+    <div>
+    <div class="cheep-item">
 
+        <p class="cheep-body" id="defaultMessage"> Log in to experience new ideas on Chirp. </p>
+    </div>
+</div>
+}

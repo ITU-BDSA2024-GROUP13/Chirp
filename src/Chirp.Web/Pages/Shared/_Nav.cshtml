@@ -12,7 +12,7 @@
                 alt="Public timeline" 
                 id="icon"
             />
-            Public timeline by @Model.sortState
+            Public timeline
         </a>
 
         @if(SignInManager.IsSignedIn(User)){
@@ -24,10 +24,6 @@
                  />
                  My timeline
             </a>
-
-            @await Html.PartialAsync("_Sort")
-
-
         }
 
         @await Html.PartialAsync("_LoginPartial")
