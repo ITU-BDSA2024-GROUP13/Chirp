@@ -16,20 +16,19 @@
 @await Html.PartialAsync("_Nav")
 
 
-<h2 class="name-timeline"> 
-    Public Timeline - @Model.sortState
+@if (SignInManager.IsSignedIn(User))
+{
 
+    <h2 class="name-timeline">
+    Public Timeline - @Model.sortState
     <div class="dropMenu">
         <button><img src="/assets/filter.png" id="filter" /></button>
         <div class="content">
             <span>Sort by:</span>
             @await Html.PartialAsync("_Sort")
         </div>
+    </div>
 </h2>
-
-@if (SignInManager.IsSignedIn(User))
-{
-
 
     @if (Model.Cheeps.Any())
     {
@@ -56,6 +55,7 @@
 else
 {
     <div>
+         <h2 class="name-timeline">Welcome to Chirp</h2>
     <div class="cheep-item">
 
         <p class="cheep-body" id="defaultMessage"> Log in to experience new ideas on Chirp. </p>
