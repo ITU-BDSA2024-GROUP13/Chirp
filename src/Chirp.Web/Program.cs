@@ -55,10 +55,12 @@ builder.Logging.AddConsole();
 
 builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromHours(1));
 var ClientSecret = builder.Configuration["Github:Secret"];
+var ClientId = builder.Configuration["Github:Id"];
+
 builder.Services.AddAuthentication()
     .AddGitHub(o =>
     {
-        o.ClientId = "Ov23liXdZEY87yaZCSlR";
+        o.ClientId = ClientId!;
         o.ClientSecret = ClientSecret!;
         o.CallbackPath = "/signin-github";
         o.Scope.Add("user:email");
