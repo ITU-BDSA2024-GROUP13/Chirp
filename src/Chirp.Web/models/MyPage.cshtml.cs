@@ -2,13 +2,16 @@ using Chirp.Core.DTO;
 using Chirp.Core.Entities;
 using Chirp.Repositories;
 using Chirp.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Web.models;
 
-public class MyPage(ICheepService cheepService) : TimeLine(cheepService) 
+public class MyPage(ICheepService cheepService, SignInManager<Author> signInManager, UserManager<Author> userManager) : TimeLine (cheepService)
 {
+    private readonly SignInManager<Author> _signInManager = signInManager;
+    private readonly UserManager<Author> _userManager = userManager;
     public required List<CheepDTO> MyCheeps { get; set; }
     public required AuthorDTO AuthorDTO { get; set; }
     public required string Author { get; set; }
@@ -28,8 +31,10 @@ public class MyPage(ICheepService cheepService) : TimeLine(cheepService)
             return StatusCode(500);
         }
 
-        var feedback = await _cheepService.ForgetMe(forgetMeRequest.UserName);
+        var user = await _cheepService.FindSpecificAuthorByName(forgetMeRequest.UserName);
+        var feedback = await _cheepService.ForgetMe(user.Name);
 
+        await _signInManager.SignOutAsync();
         return new JsonResult(new { success = feedback });
     }
 

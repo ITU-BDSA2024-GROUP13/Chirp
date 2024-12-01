@@ -18,3 +18,28 @@
     gap: 20px;
 }
 
+.confirmForgetMe {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: gray;
+    padding: 20px;
+    border-radius: 20px;
+    z-index: 1001;
+    left: 50%;
+    visibility: hidden;
+    gap: 5px;
+    transform: translate(-50%, 50%);
+}
+
+.confirmButtons {
+    display: ;
+}
+
+#forgetMeNo {
+    border-radius: 20px;
+}
+
+#forgetMeYes {
+    border-radius: 20px;
+}

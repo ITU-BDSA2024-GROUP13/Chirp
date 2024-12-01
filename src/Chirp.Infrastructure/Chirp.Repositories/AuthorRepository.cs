@@ -256,9 +256,9 @@ public class AuthorRepository : IAuthorRepository
     }
 
     
-    public async Task RemoveAuthor(string id)
+    public async Task RemoveAuthor(string userName)
     {
-        Author author = _dbContext.Authors.Single(e => e.Id == id);
+        Author author = _dbContext.Authors.Single(e => e.UserName == userName);
 
         _dbContext.Remove(author);
 
