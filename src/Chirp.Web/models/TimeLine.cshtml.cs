@@ -20,7 +20,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     public string? SearchName { get; set; }
     [BindProperty(SupportsGet = true)]
     public List<AuthorDTO>? SearchQuery { get; set; }
-    public string? sortState {get; set; } = "default";
+    public string? sortState { get; set; } = "default";
     public int DefinePreviousPage(int page)
     {
         return page == 0 ? 0 : page - 1;
@@ -35,7 +35,8 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
     protected int UpdatePage(int page = 0)
     {
-        try {
+        try
+        {
 
             var pageQuery = Request.Query["page"];
             if (!pageQuery.Equals("") && pageQuery.Count > 0)
@@ -57,7 +58,8 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
 
         }
-        catch (Exception e){
+        catch (Exception e)
+        {
 
             Console.WriteLine("ERROR: " + e.Message);
 
@@ -182,7 +184,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         return await _cheepService.HasLiked(userName, (int)cheepId!);
     }
 
-      public async Task<ActionResult> OnPostDislike([FromBody] DislikeRequest dislikeRequest)
+    public async Task<ActionResult> OnPostDislike([FromBody] DislikeRequest dislikeRequest)
     {
         var user = await _cheepService.FindSpecificAuthorByName(dislikeRequest.Username);
         var cheep = await _cheepService.FindSpecificCheepbyId(dislikeRequest.cheepId);
@@ -260,7 +262,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         public required string SearchString { get; set; }
     }
 
-        public class SortRequest
+    public class SortRequest
     {
         public required string SortString { get; set; }
     }

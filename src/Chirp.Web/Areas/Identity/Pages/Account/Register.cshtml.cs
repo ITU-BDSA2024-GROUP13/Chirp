@@ -140,7 +140,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Name, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
-               // AuthorDTO author = new() { Email = Input.Email, Name = Input.Name };
+                // AuthorDTO author = new() { Email = Input.Email, Name = Input.Name };
                 //await _cheepService.CreateAuthor(author);
 
                 if (result.Succeeded)

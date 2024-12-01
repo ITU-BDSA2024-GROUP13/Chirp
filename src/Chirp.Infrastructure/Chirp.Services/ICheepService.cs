@@ -62,15 +62,15 @@ public interface ICheepService
 
     public Task<bool> ForgetMe(string userName);
 
-    public  Task AddLike(int cheepId, string authorId);
+    public Task AddLike(int cheepId, string authorId);
 
-    public  Task RemoveLike(int cheepId, string authorId);
+    public Task RemoveLike(int cheepId, string authorId);
 
     public Task<Boolean> HasLiked(string userName, int cheepId);
 
-    public  Task AddDislike(int cheepId, string authorId);
+    public Task AddDislike(int cheepId, string authorId);
 
-    public  Task RemoveDislike(int cheepId, string authorId);
+    public Task RemoveDislike(int cheepId, string authorId);
 
     public Task<Boolean> HasDisliked(string userName, int cheepId);
 

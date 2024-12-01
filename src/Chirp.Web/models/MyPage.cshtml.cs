@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Chirp.Web.models;
 
-public class MyPage(ICheepService cheepService, SignInManager<Author> signInManager, UserManager<Author> userManager) : TimeLine (cheepService)
+public class MyPage(ICheepService cheepService, SignInManager<Author> signInManager, UserManager<Author> userManager) : TimeLine(cheepService)
 {
     private readonly SignInManager<Author> _signInManager = signInManager;
     private readonly UserManager<Author> _userManager = userManager;
@@ -16,18 +16,19 @@ public class MyPage(ICheepService cheepService, SignInManager<Author> signInMana
     public required AuthorDTO AuthorDTO { get; set; }
     public required string Author { get; set; }
     public async Task<IActionResult> OnGetAsync(string author)
-    {        
+    {
         var page = UpdatePage();
         AuthorDTO = await _cheepService.FindSpecificAuthorByName(author);
         MyCheeps = await _cheepService.ReadUserMessages(author, page);
-        Count = await _cheepService.CountUserMessages(author);   
+        Count = await _cheepService.CountUserMessages(author);
         UpdatePage(page);
         return Page();
     }
 
     public async Task<IActionResult> OnPostForgetMe([FromBody] ForgetMeRequest forgetMeRequest)
     {
-        if(forgetMeRequest == null) {
+        if (forgetMeRequest == null)
+        {
             return StatusCode(500);
         }
 
@@ -38,7 +39,8 @@ public class MyPage(ICheepService cheepService, SignInManager<Author> signInMana
         return new JsonResult(new { success = feedback });
     }
 
-    public class ForgetMeRequest { 
+    public class ForgetMeRequest
+    {
         public required string UserName { get; set; }
     }
 }

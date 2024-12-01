@@ -95,7 +95,7 @@ public class LocalTests : IAsyncLifetime
         await page.Locator("footer").WaitForAsync();
 
         bool? CheepsVisible = await page.Locator(".cheep-author > a").First.IsVisibleAsync();
-       
+
         Assert.Equal("Log in to experience new ideas on Chirp.", NoCheepsMessage?.Trim());
         Assert.True(CheepsVisible, "Cheeps are visible when logged in");
         Assert.False(CheepsNotVisible, "Cheeps are invisible when not logged in");
@@ -115,9 +115,9 @@ public class LocalTests : IAsyncLifetime
 
         await page.Locator("footer").WaitForAsync();
         var Timelines2 = await page.QuerySelectorAllAsync(".tag");
-       
-        Assert.True(Timelines2.Count==2, "Should have 2 elements: Public- & My Timeline");
-        Assert.True(Timelines1.Count==1, "Should only have 1: Public Timeline");
+
+        Assert.True(Timelines2.Count == 2, "Should have 2 elements: Public- & My Timeline");
+        Assert.True(Timelines1.Count == 1, "Should only have 1: Public Timeline");
 
     }
 
