@@ -84,11 +84,11 @@ public class AzureTests : IAsyncLifetime
         Assert.Equal("Log in", ActualLogin?.Trim());
         Assert.Equal("Logout[TestName]", ActualLogout?.Trim());
     }
-    
+
 
     [Fact]
     public async Task LogOut()
-    {   
+    {
         var page = await context!.NewPageAsync();
         Login(page);
         await page.GetByRole(AriaRole.Link, new() { Name = "Logout Logout[TestName]" }).ClickAsync();

@@ -53,13 +53,13 @@ public class CheepDBContext : IdentityDbContext<Author>
             .HasOne(c => c.Author)
             .WithMany(a => a.Cheeps)
             .HasForeignKey(c => c.AuthorId);
-        
+
         // Define the relationship of Likes
         modelBuilder.Entity<Cheep>()
             .HasMany(c => c.Likes)
             .WithMany(a => a.LikedCheeps);
-        
-         // Define the relationship of Dislikes
+
+        // Define the relationship of Dislikes
         modelBuilder.Entity<Cheep>()
             .HasMany(c => c.Dislikes)
             .WithMany(a => a.DislikedCheeps);
