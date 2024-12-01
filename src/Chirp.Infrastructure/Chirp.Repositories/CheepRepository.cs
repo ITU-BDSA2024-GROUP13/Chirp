@@ -238,12 +238,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         return result;
     }
 
-
-
-
     public async Task UpdateMessage(UpdateCheepDTO alteredMessage, int id)
     {
-
         var cheep = _dbContext.Cheeps.Single(e => e.CheepId == id);
         var entityEntry = _dbContext.Entry(cheep);
         _dbContext.Entry(cheep).CurrentValues.SetValues(alteredMessage);
@@ -390,8 +386,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
 
         _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Dislikes);
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
-        return;    
-        
+        return;           
     }
 
 

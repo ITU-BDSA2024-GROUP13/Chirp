@@ -180,12 +180,12 @@ public class CheepService : ICheepService
     ///<param name="followerId"> The author who will be followed</param>
     public async Task Follow(string id, string followerId)
     {
-        await _authorRepository.AddFollowing(id, followerId);
+        await _authorRepository.AddFollower(id, followerId);
     }
 
     public async Task Unfollow(string id, string followerId)
     {
-        await _authorRepository.RemoveFollowing(id, followerId);
+        await _authorRepository.RemoveFollower(id, followerId);
     }
 
     public async Task<bool> IsFollowing(string id, string followerId)
@@ -230,6 +230,18 @@ public class CheepService : ICheepService
         return await _authorRepository.FindAuthors(userName, 5);
     }
 
+    public async Task<bool> ForgetMe(string userName)
+    {
+        try{
+            await _cheepRepository.RemoveCheepsFromUser(userName);
+            await _authorRepository.RemoveAuthor(userName); // issue with removing author
+            return true;
+        } catch (Exception e) {
+            Console.WriteLine(e.Message);
+            return false;
+        }
+    }
+   
     public async Task AddLike(int cheepId, string authorId)
     {
         await _cheepRepository.AddLike(cheepId, authorId);

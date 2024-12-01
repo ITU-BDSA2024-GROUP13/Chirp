@@ -10,7 +10,6 @@ public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepServi
     public async Task<ActionResult> OnGetAsync(string author)
     {
         int page = UpdatePage();
-        Console.WriteLine(author+ " " + page);
         Cheeps = await _cheepService.ReadUserAndFollowerMessages(author, page);
 
         Count = await _cheepService.CountUserAndFollowerMessages(author);

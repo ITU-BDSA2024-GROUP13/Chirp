@@ -59,6 +59,9 @@ public interface ICheepService
 
     public Task<Boolean> IsFollowing(string id, string followerId);
 
+
+    public Task<bool> ForgetMe(string userName);
+
     public  Task AddLike(int cheepId, string authorId);
 
     public  Task RemoveLike(int cheepId, string authorId);
@@ -70,7 +73,5 @@ public interface ICheepService
     public  Task RemoveDislike(int cheepId, string authorId);
 
     public Task<Boolean> HasDisliked(string userName, int cheepId);
-
-
 
 }
