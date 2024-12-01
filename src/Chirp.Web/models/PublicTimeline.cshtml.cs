@@ -17,26 +17,26 @@ public class PublicTimeLine(ICheepService cheepService) : TimeLine(cheepService)
 
         switch (sortState)
         {
-            case "oldest": 
-            Cheeps = await _cheepService.ReadPublicMessagesbyOldest(page);
-            Count = await _cheepService.CountPublicMessages();
-            break;
+            case "oldest":
+                Cheeps = await _cheepService.ReadPublicMessagesbyOldest(page);
+                Count = await _cheepService.CountPublicMessages();
+                break;
 
             case "mostLiked":
-            Cheeps = await _cheepService.ReadPublicMessagesbyMostLiked(page);
-            Count = await _cheepService.CountPublicMessages();
-            break;
+                Cheeps = await _cheepService.ReadPublicMessagesbyMostLiked(page);
+                Count = await _cheepService.CountPublicMessages();
+                break;
 
             case "relevance":
-            Console.WriteLine("Reading by relevance as user: " + User!.Identity!.Name);
-            Cheeps = await _cheepService.ReadPublicMessagesbyMostRelevance(page, User!.Identity!.Name);
-            Count = await _cheepService.CountPublicMessages();
-            break;
+                Console.WriteLine("Reading by relevance as user: " + User!.Identity!.Name);
+                Cheeps = await _cheepService.ReadPublicMessagesbyMostRelevance(page, User!.Identity!.Name);
+                Count = await _cheepService.CountPublicMessages();
+                break;
 
-            default: 
-            Cheeps = await _cheepService.ReadPublicMessages(page);
-            Count = await _cheepService.CountPublicMessages();
-            break;
+            default:
+                Cheeps = await _cheepService.ReadPublicMessages(page);
+                Count = await _cheepService.CountPublicMessages();
+                break;
         }
 
         if (!string.IsNullOrEmpty(SearchName))

@@ -12,7 +12,7 @@
                 alt="Public timeline" 
                 id="icon"
             />
-            Public timeline by @Model.sortState
+            Public timeline
         </a>
 
         @if(SignInManager.IsSignedIn(User)){
@@ -24,16 +24,13 @@
                  />
                  My timeline
             </a>
-
-            @await Html.PartialAsync("_Sort")
-
-
         }
 
         @await Html.PartialAsync("_LoginPartial")
 
     </div>
 
+@if(SignInManager.IsSignedIn(User)){
     <div class="navigation">
         <!-- Defines the 'prev' button which will function as a way to go to the
         previous page by clicking on it-->
@@ -111,6 +108,7 @@
             </a>
         }
     </div>
+}
 </nav>
 
 <script>

@@ -17,9 +17,16 @@ public class AuthorRepository : IAuthorRepository
 
     public async Task<string> CreateAuthor(NewAuthorDTO author)
     {
-        Author newAuthor = new() { DislikedCheeps = new List<Cheep>(), LikedCheeps = new List<Cheep>(), 
-        UserName = author.Name, Email = author.Email, 
-        Cheeps = new List<Cheep>(), FollowedBy = new List<Author>(), Followers = new List<Author>()};
+        Author newAuthor = new()
+        {
+            DislikedCheeps = [],
+            LikedCheeps = [],
+            UserName = author.Name,
+            Email = author.Email,
+            Cheeps = [],
+            FollowedBy = [],
+            Followers = []
+        };
         var queryResult = await _dbContext.Authors.AddAsync(newAuthor); // does not write to the database!
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
@@ -83,7 +90,7 @@ public class AuthorRepository : IAuthorRepository
             throw new NullReferenceException("No authors were found with this name: " + userName);
         }
     }
-       public async Task<AuthorDTO> FindSpecificAuthorByEmail(string email)
+    public async Task<AuthorDTO> FindSpecificAuthorByEmail(string email)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
                 .Where(author => author.Email == email)
@@ -93,8 +100,8 @@ public class AuthorRepository : IAuthorRepository
                     Name = author.UserName!,
                     Email = author.Email!,
                 });
-                // Execute the query
-                var result = await query.ToListAsync();
+        // Execute the query
+        var result = await query.ToListAsync();
 
         if (result.Any())
         {
@@ -103,8 +110,8 @@ public class AuthorRepository : IAuthorRepository
         else
         {
             throw new NullReferenceException("No authors were found with this email");
-        }    
-        
+        }
+
     }
 
     public async Task<AuthorDTO> FindSpecificAuthorById(string id)
@@ -137,7 +144,7 @@ public class AuthorRepository : IAuthorRepository
 
 
 
- 
+
 
     public async Task<List<AuthorDTO>> GetFollowingbyId(string id)
     {
@@ -150,7 +157,7 @@ public class AuthorRepository : IAuthorRepository
         return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
     }
 
-     
+
     public async Task<List<AuthorDTO>> GetFollowedby(string userName)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
@@ -159,12 +166,14 @@ public class AuthorRepository : IAuthorRepository
         // Execute the query
         var result = await query.ToListAsync();
 
-        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();    }
-    
-    public async Task<List<AuthorDTO>> GetFollowedbybyId(string id){
-         var query = _dbContext.Authors.OrderBy(author => author.UserName)
-        .Where(author => author.Id == id)
-        .Select(author => author.FollowedBy);
+        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+    }
+
+    public async Task<List<AuthorDTO>> GetFollowedbybyId(string id)
+    {
+        var query = _dbContext.Authors.OrderBy(author => author.UserName)
+       .Where(author => author.Id == id)
+       .Select(author => author.FollowedBy);
         // Execute the query
         var result = await query.ToListAsync();
 
@@ -172,7 +181,7 @@ public class AuthorRepository : IAuthorRepository
     }
 
 
-    public async Task AddFollowing(string followingId, string followedId)
+    public async Task AddFollower(string followingId, string followedId)
     {
 
         Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.Id == followingId);
@@ -187,9 +196,9 @@ public class AuthorRepository : IAuthorRepository
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
         return;
     }
-    
 
-    public async Task RemoveFollowing(string followingId, string followedId)
+
+    public async Task RemoveFollower(string followingId, string followedId)
     {
 
         Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.Id == followingId);
@@ -222,8 +231,8 @@ public class AuthorRepository : IAuthorRepository
 
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
-        return;    
-    
+        return;
+
     }
 
 
@@ -237,8 +246,8 @@ public class AuthorRepository : IAuthorRepository
 
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
-        return;    
-    
+        return;
+
     }
 
 
@@ -251,13 +260,13 @@ public class AuthorRepository : IAuthorRepository
         _dbContext.Entry(author).CurrentValues.SetValues(author.FollowedBy);
 
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
-        return;     
+        return;
     }
 
-    
-    public async Task RemoveAuthor(string id)
+
+    public async Task RemoveAuthor(string userName)
     {
-        Author author = _dbContext.Authors.Single(e => e.Id == id);
+        Author author = _dbContext.Authors.Single(e => e.UserName == userName);
 
         _dbContext.Remove(author);
 
@@ -281,5 +290,5 @@ public class AuthorRepository : IAuthorRepository
         return result;
     }
 
- 
+
 }

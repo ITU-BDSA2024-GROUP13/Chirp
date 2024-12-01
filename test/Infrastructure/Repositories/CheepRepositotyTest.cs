@@ -123,7 +123,7 @@ public class CheepRepositoryTest : IDisposable
         }
     }
 
-        [Fact]
+    [Fact]
     public async void ReadPublicMessagesbyMostLiked()
     {
         using (var scope = _serviceProvider.CreateScope())
@@ -148,8 +148,8 @@ public class CheepRepositoryTest : IDisposable
                 await repo.AddLike(2, "7");
                 await repo.AddLike(2, "6");
 
-                
-                
+
+
 
                 List<CheepDTO> list = await repo.ReadPublicMessagesbyMostLiked(32, 0);
                 // Should not be larger than the take value
@@ -173,20 +173,40 @@ public class CheepRepositoryTest : IDisposable
                 var repo = new CheepRepository(context);
 
                 //659
-                await repo.CreateMessage(new NewCheepDTO { Author = "Jacqualine Gilcoine", AuthorId = "10", 
-                 Text = "Hello", Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddDays(1))});
+                await repo.CreateMessage(new NewCheepDTO
+                {
+                    Author = "Jacqualine Gilcoine",
+                    AuthorId = "10",
+                    Text = "Hello",
+                    Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddDays(1))
+                });
 
                 //660
-                await repo.CreateMessage(new NewCheepDTO { Author = "Helge", AuthorId = "11", 
-                 Text = "Hello", Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddHours(23))});
+                await repo.CreateMessage(new NewCheepDTO
+                {
+                    Author = "Helge",
+                    AuthorId = "11",
+                    Text = "Hello",
+                    Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddHours(23))
+                });
 
                 //661
-                await repo.CreateMessage(new NewCheepDTO { Author = "Adrian", AuthorId = "12", 
-                 Text = "Hello", Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddHours(23))});
-                
+                await repo.CreateMessage(new NewCheepDTO
+                {
+                    Author = "Adrian",
+                    AuthorId = "12",
+                    Text = "Hello",
+                    Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddHours(23))
+                });
+
                 //662
-                await repo.CreateMessage(new NewCheepDTO { Author = "Johnnie Calixto", AuthorId = "9", 
-                 Text = "Hello", Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow)});
+                await repo.CreateMessage(new NewCheepDTO
+                {
+                    Author = "Johnnie Calixto",
+                    AuthorId = "9",
+                    Text = "Hello",
+                    Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow)
+                });
 
 
 
@@ -207,10 +227,10 @@ public class CheepRepositoryTest : IDisposable
                 var cheepLocalLikeRatio3 = (float)Math.Log((float)cheep3.Likes, 5);
 
 
-                Assert.Equal(25, 0 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep.Timestamp)).TotalHours, 0.5 );
-                Assert.Equal(24, 0 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep2.Timestamp)).TotalHours, 0.5 );
+                Assert.Equal(25, 0 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep.Timestamp)).TotalHours, 0.5);
+                Assert.Equal(24, 0 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep2.Timestamp)).TotalHours, 0.5);
                 // cheep 661 has gotten 2 more relevance from likes
-                Assert.Equal(25, cheepLocalLikeRatio3 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep3.Timestamp) ).TotalHours, 0.5 );
+                Assert.Equal(25, cheepLocalLikeRatio3 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep3.Timestamp)).TotalHours, 0.5);
 
                 List<CheepDTO> list = await repo.ReadPublicMessagesbyRelevance(32, 0, "Helge");
                 // Should not be larger than the take value
@@ -236,7 +256,7 @@ public class CheepRepositoryTest : IDisposable
                 var authorRepo = new AuthorRepository(context);
 
                 // Adrian follows Helge
-                await authorRepo.AddFollowing("12", "11");
+                await authorRepo.AddFollower("12", "11");
 
                 List<CheepDTO> list3 = await repo.ReadPublicMessagesbyRelevance(32, 0, "Adrian");
                 // Helge message gets more relevance for Adrian
@@ -285,7 +305,7 @@ public class CheepRepositoryTest : IDisposable
         }
     }
 
-    
+
 
 
 
@@ -301,8 +321,13 @@ public class CheepRepositoryTest : IDisposable
                 bool messageCreated = false;
 
 
-                NewCheepDTO newMessage = new() { Author = "Helge", AuthorId = "11", Text = "I love group 13!", 
-                Timestamp = 12345};
+                NewCheepDTO newMessage = new()
+                {
+                    Author = "Helge",
+                    AuthorId = "11",
+                    Text = "I love group 13!",
+                    Timestamp = 12345
+                };
                 List<CheepDTO> prevList = await repo.ReadUserMessages("Helge", 32, 0);
 
 
@@ -336,7 +361,7 @@ public class CheepRepositoryTest : IDisposable
                 bool messageCreated = false;
 
 
-                UpdateCheepDTO newMessage = new() { Text = "I love group 13!"};
+                UpdateCheepDTO newMessage = new() { Text = "I love group 13!" };
                 List<CheepDTO> prevList = await repo.ReadUserMessages("Helge", 32, 0);
 
 
@@ -360,7 +385,7 @@ public class CheepRepositoryTest : IDisposable
         }
     }
 
-     [Fact]
+    [Fact]
     public async void RemoveAllMessages()
     {
         using (var scope = _serviceProvider.CreateScope())
@@ -382,7 +407,7 @@ public class CheepRepositoryTest : IDisposable
         }
     }
 
-     [Fact]
+    [Fact]
     public async void AddLike()
     {
         using (var scope = _serviceProvider.CreateScope())
@@ -436,8 +461,8 @@ public class CheepRepositoryTest : IDisposable
         }
     }
 
-    
-     [Fact]
+
+    [Fact]
     public async void RemoveAllLikes()
     {
         using (var scope = _serviceProvider.CreateScope())
@@ -474,7 +499,7 @@ public class CheepRepositoryTest : IDisposable
         }
     }
 
-     [Fact]
+    [Fact]
     public async void RemoveDislike()
     {
         using (var scope = _serviceProvider.CreateScope())
@@ -531,7 +556,7 @@ public class CheepRepositoryTest : IDisposable
         }
     }
 
-         [Fact]
+    [Fact]
     public async void RemoveAllDislikes()
     {
         using (var scope = _serviceProvider.CreateScope())

@@ -16,11 +16,13 @@ public class CheepPartialView()
     public required long Date { get; set; }
     public required int Likes { get; set; }
     public required int Dislikes { get; set; }
-    public string LikeButtonId(){
+    public string LikeButtonId()
+    {
         return Id + "like";
     }
 
-    public string DislikeButtonId(){
+    public string DislikeButtonId()
+    {
         return Id + "dislike";
     }
 
@@ -29,5 +31,5 @@ public class CheepPartialView()
         return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
     }
 
-    
+
 }

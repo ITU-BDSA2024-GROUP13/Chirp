@@ -66,11 +66,14 @@ public class CheepService : ICheepService
             Console.WriteLine("Message is too long!");
             return 0;
         }
-        try{
+        try
+        {
 
             AuthorDTO author = await FindSpecificAuthorByName(message.Author);
 
-        } catch{
+        }
+        catch
+        {
 
             NewAuthorDTO newAuthor = new() { Name = message.Author, Email = message.Author + "@mail.com" };
             await CreateAuthor(newAuthor);
@@ -81,13 +84,13 @@ public class CheepService : ICheepService
         return await _cheepRepository.CreateMessage(message);
     }
 
-        public async Task<int> CountUserAndFollowerMessages(string userName)
+    public async Task<int> CountUserAndFollowerMessages(string userName)
     {
         List<string> followers = AuthorToString(await _authorRepository.GetFollowing(userName));
 
         var list = await _cheepRepository.ReadUserAndFollowerMessages(userName, followers, int.MaxValue, 0);
         var result = list.Count;
-        return result;    
+        return result;
     }
 
     public async Task<int> CountPublicMessages()
@@ -148,7 +151,7 @@ public class CheepService : ICheepService
         return await _authorRepository.FindSpecificAuthorByName(userName);
     }
 
-     public async Task<AuthorDTO> FindSpecificAuthorByEmail(string email)
+    public async Task<AuthorDTO> FindSpecificAuthorByEmail(string email)
     {
         return await _authorRepository.FindSpecificAuthorByEmail(email);
     }
@@ -180,12 +183,12 @@ public class CheepService : ICheepService
     ///<param name="followerId"> The author who will be followed</param>
     public async Task Follow(string id, string followerId)
     {
-        await _authorRepository.AddFollowing(id, followerId);
+        await _authorRepository.AddFollower(id, followerId);
     }
 
     public async Task Unfollow(string id, string followerId)
     {
-        await _authorRepository.RemoveFollowing(id, followerId);
+        await _authorRepository.RemoveFollower(id, followerId);
     }
 
     public async Task<bool> IsFollowing(string id, string followerId)
@@ -205,7 +208,8 @@ public class CheepService : ICheepService
 
     public async Task<Boolean> HasLiked(string userName, int cheepId)
     {
-        try {
+        try
+        {
             var author = await FindSpecificAuthorByName(userName);
             var likers = await _cheepRepository.GetAllLikers(cheepId);
 
@@ -217,7 +221,9 @@ public class CheepService : ICheepService
 
             return false;
 
-        } catch (NullReferenceException e){
+        }
+        catch (NullReferenceException e)
+        {
 
             Console.WriteLine(e.Message);
             return false;
@@ -228,6 +234,21 @@ public class CheepService : ICheepService
     public async Task<List<AuthorDTO>> FindAuthors(string userName)
     {
         return await _authorRepository.FindAuthors(userName, 5);
+    }
+
+    public async Task<bool> ForgetMe(string userName)
+    {
+        try
+        {
+            await _cheepRepository.RemoveCheepsFromUser(userName);
+            await _authorRepository.RemoveAuthor(userName); // issue with removing author
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return false;
+        }
     }
 
     public async Task AddLike(int cheepId, string authorId)
@@ -244,7 +265,7 @@ public class CheepService : ICheepService
 
     public async Task AddDislike(int cheepId, string authorId)
     {
-        
+
         await _cheepRepository.AddDisLike(cheepId, authorId);
         await _cheepRepository.RemoveLike(cheepId, authorId);
     }
@@ -256,7 +277,8 @@ public class CheepService : ICheepService
 
     public async Task<bool> HasDisliked(string userName, int cheepId)
     {
-        try {
+        try
+        {
             var author = await FindSpecificAuthorByName(userName);
             var likers = await _cheepRepository.GetAllDislikers(cheepId);
 
@@ -267,10 +289,12 @@ public class CheepService : ICheepService
             }
             return false;
 
-        } catch (NullReferenceException e){
+        }
+        catch (NullReferenceException e)
+        {
             Console.WriteLine(e.Message);
             return false;
-        }    
+        }
     }
 
 }

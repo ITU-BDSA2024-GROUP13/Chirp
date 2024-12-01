@@ -20,20 +20,21 @@ public interface ICheepRepository
 
     public Task UpdateMessage(UpdateCheepDTO alteredMessage, int id);
 
-    public  Task AddLike(int cheepId, string authorId);
+    public Task AddLike(int cheepId, string authorId);
 
-    public  Task AddDisLike(int cheepId, string authorId);
+    public Task AddDisLike(int cheepId, string authorId);
 
-    public  Task<List<AuthorDTO>> GetAllLikers(int cheepId);
-    public  Task<List<AuthorDTO>> GetAllDislikers(int cheepId);
+    public Task<List<AuthorDTO>> GetAllLikers(int cheepId);
 
-    public  Task RemoveLike(int cheepId, string authorId);
+    public Task<List<AuthorDTO>> GetAllDislikers(int cheepId);
 
-    public  Task RemoveDislike(int cheepId, string authorId);
+    public Task RemoveLike(int cheepId, string authorId);
 
-    public  Task RemoveAllLikes(int cheepId);
+    public Task RemoveDislike(int cheepId, string authorId);
 
-    public  Task RemoveAllDislikes(int cheepId);
+    public Task RemoveAllLikes(int cheepId);
+
+    public Task RemoveAllDislikes(int cheepId);
 
     public Task<int> FollowerPoints(string follower, string userName);
     public Task<double> RelevancePoints(string follower, string userName, double likeRatio, DateTime timeStamp);
@@ -42,6 +43,5 @@ public interface ICheepRepository
     public Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, List<string> followers, int takeValue, int skipValue);
 
     public Task RemoveCheepsFromUser(string userName);
-
 
 }

@@ -1,0 +1,106 @@
+@page "/users/{author}/mypage"
+@using Chirp.Core.Entities
+@model Chirp.Web.models.MyPage
+@inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
+@using Chirp.Web.models;
+
+@{
+    ViewData["Title"] = "Chirp!";
+    Layout = "./Shared/_Layout.cshtml";
+    var author = @Model.AuthorDTO;
+}
+
+@await Html.PartialAsync("_Nav")
+
+<h2>Your private information</h2>
+
+<div class="mypage-outer">
+    <div class="mypage-Identifiers">
+            <div>Name</div>
+            <div>Email</div>        
+        </div>
+
+    <div class="mypage-variables">
+        <div>@author.Name</div>
+        <div>@author.Email</div>
+    </div>
+</div>
+
+<button id="forgetme" data-author="@Model.AuthorDTO.Name">Forget me</button>
+
+<div class="confirmForgetMe" id="confirmForgetMe">
+    <p>Are you sure?</p>
+    <div class="confirmButtons">
+        <button id="forgetMeNo">No</button>
+        <button id="forgetMeYes">Yes</button>
+    </div>
+</div>
+
+<h3>All your personal tweets</h3>
+@if(SignInManager.IsSignedIn(User))
+{
+    @if (Model.MyCheeps.Count > 0)
+    {
+        @foreach (var cheep in Model.MyCheeps)
+        {
+            @await Html.PartialAsync("_Cheep", new CheepPartialView {
+                Id = cheep.Id,
+                Author= cheep.Author,
+                Body= cheep.Text,
+                Date= cheep.Timestamp,
+                Likes = cheep.Likes,
+                Dislikes = cheep.Dislikes,
+                isLiked = await @Model.HasLiked(User!.Identity!.Name!, cheep.Id),
+                isDisliked = await @Model.HasDisliked(User!.Identity!.Name!, cheep.Id)
+            })
+        } 
+    } else
+    {
+        <em>You have no cheeps so far.</em>
+    }
+} else
+{
+    <div>
+        <div class="cheep-item">
+
+            <p class="cheep-body"> Log in to experience new ideas on Chirp. </p>
+        </div>
+    </div>
+}
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const forgetme = document.getElementById("forgetme")
+        const confirmationNo = document.getElementById("forgetMeNo")
+        const confirmationYes = document.getElementById("forgetMeYes")
+
+        confirmationYes.addEventListener("click", () => forgetMe(forgetMe))
+        confirmationNo.addEventListener("click", () => toggleVisibilityById("confirmForgetMe"))
+        forgetme.addEventListener("click", () => toggleVisibilityById("confirmForgetMe"))
+    })
+
+    function forgetMe(forgetMe){
+        const dataAuthor = forgetme.getAttribute("data-author")
+        const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        fetch(window.location.href + (window.location.href.includes("?") ? "&handler=forgetme" : "?handler=forgetme"), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "RequestVerificationToken": antiforgeryToken
+            },
+            body: JSON.stringify({ 
+                userName: dataAuthor
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            window.location = location.origin
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    }
+</script>

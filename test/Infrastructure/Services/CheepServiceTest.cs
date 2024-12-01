@@ -118,27 +118,47 @@ public class CheepServiceTest : IDisposable
     {
         using (var scope = _serviceProvider.CreateScope())
         {
-            
+
             var context = scope.ServiceProvider.GetService<CheepDBContext>();
             _cheepRepository = new CheepRepository(context);
             _authorRepository = new AuthorRepository(context);
             _cheepService = new CheepService(_cheepRepository, _authorRepository);
 
             //659
-            await _cheepRepository.CreateMessage(new NewCheepDTO { Author = "Jacqualine Gilcoine", AuthorId = "10", 
-                Text = "Hello", Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddDays(1))});
+            await _cheepRepository.CreateMessage(new NewCheepDTO
+            {
+                Author = "Jacqualine Gilcoine",
+                AuthorId = "10",
+                Text = "Hello",
+                Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddDays(1))
+            });
 
             //660
-            await _cheepRepository.CreateMessage(new NewCheepDTO { Author = "Helge", AuthorId = "11", 
-                Text = "Hello", Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddHours(23))});
+            await _cheepRepository.CreateMessage(new NewCheepDTO
+            {
+                Author = "Helge",
+                AuthorId = "11",
+                Text = "Hello",
+                Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddHours(23))
+            });
 
             //661
-            await _cheepRepository.CreateMessage(new NewCheepDTO { Author = "Adrian", AuthorId = "12", 
-                Text = "Hello", Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddHours(23))});
-            
+            await _cheepRepository.CreateMessage(new NewCheepDTO
+            {
+                Author = "Adrian",
+                AuthorId = "12",
+                Text = "Hello",
+                Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow.AddHours(23))
+            });
+
             //662
-            await _cheepRepository.CreateMessage(new NewCheepDTO { Author = "Johnnie Calixto", AuthorId = "9", 
-                Text = "Hello", Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow)});
+            await _cheepRepository.CreateMessage(new NewCheepDTO
+            {
+                Author = "Johnnie Calixto",
+                AuthorId = "9",
+                Text = "Hello",
+                Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow)
+            });
 
 
 
@@ -158,10 +178,10 @@ public class CheepServiceTest : IDisposable
 
             var cheepLocalLikeRatio3 = (float)Math.Log((float)cheep3.Likes, 5);
 
-            Assert.Equal(25, 0 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep.Timestamp)).TotalHours, 0.5 );
-            Assert.Equal(24, 0 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep2.Timestamp)).TotalHours, 0.5 );
+            Assert.Equal(25, 0 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep.Timestamp)).TotalHours, 0.5);
+            Assert.Equal(24, 0 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep2.Timestamp)).TotalHours, 0.5);
             // cheep 661 has gotten 2 more relevance from likes
-            Assert.Equal(25, cheepLocalLikeRatio3 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep3.Timestamp) ).TotalHours, 0.5 );
+            Assert.Equal(25, cheepLocalLikeRatio3 - (DateTime.UtcNow - HelperFunctions.FromUnixTimeToDateTime(cheep3.Timestamp)).TotalHours, 0.5);
 
 
             List<CheepDTO> list = await _cheepService.ReadPublicMessagesbyMostRelevance(0, "Helge");
@@ -172,7 +192,7 @@ public class CheepServiceTest : IDisposable
             Assert.Equal("12", list[0].AuthorId);
             Assert.Equal("10", list[1].AuthorId);
             Assert.Equal("11", list[2].AuthorId);
-            
+
             await _cheepRepository.RemoveLike(661, "10");
             await _cheepRepository.RemoveLike(661, "11");
             await _cheepRepository.RemoveLike(661, "9");
@@ -188,9 +208,9 @@ public class CheepServiceTest : IDisposable
 
 
             // Adrian follows Helge
-            await _authorRepository.AddFollowing("12", "11");
+            await _authorRepository.AddFollower("12", "11");
             List<CheepDTO> list3 = await _cheepService.ReadPublicMessagesbyMostRelevance(0, "Adrian");
-            
+
             // Helge message gets more relevance for Adrian
             Assert.Equal("11", list3[0].AuthorId);
             Assert.Equal("10", list3[1].AuthorId);
@@ -251,8 +271,13 @@ public class CheepServiceTest : IDisposable
 
             List<CheepDTO> prevList = await _cheepService.ReadUserMessages("Helge", 0);
 
-            NewCheepDTO newMessage = new() { Author = "Helge", AuthorId = "11", Text = "I love group 13!", Timestamp = 12345, 
-             };
+            NewCheepDTO newMessage = new()
+            {
+                Author = "Helge",
+                AuthorId = "11",
+                Text = "I love group 13!",
+                Timestamp = 12345,
+            };
 
             await _cheepRepository.CreateMessage(newMessage);
 
@@ -332,8 +357,13 @@ public class CheepServiceTest : IDisposable
 
             bool messageCreated = false;
 
-            NewCheepDTO newMessage = new() { Author = "Helge2", AuthorId = "13", Text = "I love group 13!", 
-            Timestamp = 12345};
+            NewCheepDTO newMessage = new()
+            {
+                Author = "Helge2",
+                AuthorId = "13",
+                Text = "I love group 13!",
+                Timestamp = 12345
+            };
 
             await _cheepService.CreateMessage(newMessage);
 
@@ -374,8 +404,13 @@ public class CheepServiceTest : IDisposable
 
             List<CheepDTO> prevList = await _cheepService.ReadUserMessages("Helg", 0);
 
-            NewCheepDTO newMessage = new() { Author = "Helg", AuthorId = "13", Text = "I love group 13!", 
-            Timestamp = 12345};
+            NewCheepDTO newMessage = new()
+            {
+                Author = "Helg",
+                AuthorId = "13",
+                Text = "I love group 13!",
+                Timestamp = 12345
+            };
 
             await _cheepService.CreateMessage(newMessage);
 
@@ -615,7 +650,7 @@ public class CheepServiceTest : IDisposable
         }
     }
 
-     [Fact]
+    [Fact]
     public async void FindAuthors()
     {
         using (var scope = _serviceProvider.CreateScope())
@@ -638,7 +673,7 @@ public class CheepServiceTest : IDisposable
         }
     }
 
-     [Fact]
+    [Fact]
     public async void CreateAuthor()
     {
         using (var scope = _serviceProvider.CreateScope())
@@ -675,7 +710,7 @@ public class CheepServiceTest : IDisposable
         }
     }
 
-     [Fact]
+    [Fact]
     public async void FindSpecificAuthorById()
     {
         using (var scope = _serviceProvider.CreateScope())
@@ -724,7 +759,7 @@ public class CheepServiceTest : IDisposable
             bool messageCreated = false;
 
 
-            UpdateCheepDTO newMessage = new() { Text = "I love group 13!"};
+            UpdateCheepDTO newMessage = new() { Text = "I love group 13!" };
             List<CheepDTO> prevList = await _cheepService.ReadUserMessages("Helge", 0);
 
 
@@ -768,8 +803,8 @@ public class CheepServiceTest : IDisposable
 
 
 
-            List<CheepDTO> cheeps =  await _cheepService.ReadUserMessages("Helge", 0);
-            CheepDTO cheep =  await _cheepService.FindSpecificCheepbyId(656);
+            List<CheepDTO> cheeps = await _cheepService.ReadUserMessages("Helge", 0);
+            CheepDTO cheep = await _cheepService.FindSpecificCheepbyId(656);
 
 
             Assert.Equal(2, cheeps[0].Likes);
@@ -796,13 +831,13 @@ public class CheepServiceTest : IDisposable
             await _cheepService.RemoveLike(656, "11");
 
 
-            List<CheepDTO> cheeps =  await _cheepService.ReadUserMessages("Helge", 0);
+            List<CheepDTO> cheeps = await _cheepService.ReadUserMessages("Helge", 0);
 
             Assert.Equal(0, cheeps[0].Likes);
         }
     }
 
-        [Fact]
+    [Fact]
     public async void HasLiked()
     {
         using (var scope = _serviceProvider.CreateScope())
@@ -825,7 +860,7 @@ public class CheepServiceTest : IDisposable
 
             await _cheepService.RemoveLike(656, "11");
             bool hasLiked3 = await _cheepService.HasLiked("Helge", 656);
-            
+
             Assert.False(hasLiked3);
 
 
@@ -851,8 +886,8 @@ public class CheepServiceTest : IDisposable
             await _cheepService.AddDislike(656, "12");
             await _cheepService.AddDislike(656, "12");
 
-            List<CheepDTO> cheeps =  await _cheepService.ReadUserMessages("Helge", 0);
-            CheepDTO cheep =  await _cheepService.FindSpecificCheepbyId(656);
+            List<CheepDTO> cheeps = await _cheepService.ReadUserMessages("Helge", 0);
+            CheepDTO cheep = await _cheepService.FindSpecificCheepbyId(656);
 
 
             Assert.Equal(2, cheeps[0].Dislikes);
@@ -860,7 +895,7 @@ public class CheepServiceTest : IDisposable
         }
     }
 
-        [Fact]
+    [Fact]
     public async void RemoveDislike()
     {
         using (var scope = _serviceProvider.CreateScope())
@@ -879,7 +914,7 @@ public class CheepServiceTest : IDisposable
             await _cheepService.RemoveDislike(656, "11");
 
 
-            List<CheepDTO> cheeps =  await _cheepService.ReadUserMessages("Helge", 0);
+            List<CheepDTO> cheeps = await _cheepService.ReadUserMessages("Helge", 0);
 
             Assert.Equal(0, cheeps[0].Dislikes);
         }
@@ -908,7 +943,7 @@ public class CheepServiceTest : IDisposable
 
             await _cheepService.RemoveLike(656, "11");
             bool HasDisliked3 = await _cheepService.HasLiked("Helge", 656);
-            
+
             Assert.False(HasDisliked3);
 
 
