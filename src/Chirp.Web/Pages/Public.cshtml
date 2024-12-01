@@ -16,7 +16,15 @@
 @await Html.PartialAsync("_Nav")
 
 
-<h2 class="name-timeline"> Public Timeline </h2>
+<h2 class="name-timeline"> Public Timeline 
+    <div class = "dropMenu">
+    <button><img src="/assets/filter.png" id= "filter"/></button>
+    <div class = "content">
+        
+    </div>
+
+    </div>
+</h2>
 
 @if(SignInManager.IsSignedIn(User)){
 

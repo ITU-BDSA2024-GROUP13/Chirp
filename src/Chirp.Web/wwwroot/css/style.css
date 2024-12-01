@@ -1,6 +1,9 @@
 h2, .name-timeline {
   padding-bottom: 5px;
   border-bottom: 2px solid #4b1515;
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
 }
 
 .tag {
@@ -21,6 +24,17 @@ h2, .name-timeline {
   width: 20px;
   height: 20px;
   padding-right: 5px;
+}
+
+#filter{
+  height: 20px;
+  cursor:pointer;
+}
+
+.dropMenu button{
+  background-color: transparent;
+  height: 20px;
+  width: 40px;
 }
 
 #navbutton{
