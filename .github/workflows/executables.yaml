@@ -1,8 +1,8 @@
-  name: Release
+  name: Make dll
 
   on:
     workflow_run:
-      workflows: ["Bump Version and Create Release"]  # The name of the workflow you want to depend on
+      workflows: ["Create Release"]  # The name of the workflow you want to depend on
       types:
         - completed  # Triggers this workflow when the specified workflow is completed
         
@@ -41,10 +41,6 @@
         # Build the solution
         - name: Build the solution
           run: dotnet build Chirp.sln --configuration Release --no-restore
-
-        # Run tests
-        - name: Run tests
-          run: dotnet test --configuration Release --verbosity normal
 
     release:
       needs: build

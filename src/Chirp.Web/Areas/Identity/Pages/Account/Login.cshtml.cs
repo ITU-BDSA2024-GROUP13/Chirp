@@ -118,11 +118,15 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true  
                 var Identity = Input.Identity;
-                if (Identity.Contains(".")){
-                    try{
-                    var authordto = await _cheepService.FindSpecificAuthorByEmail(Identity);
-                    Identity = authordto.Name;
-                    }catch (NullReferenceException e){
+                if (Identity.Contains("."))
+                {
+                    try
+                    {
+                        var authordto = await _cheepService.FindSpecificAuthorByEmail(Identity);
+                        Identity = authordto.Name;
+                    }
+                    catch (NullReferenceException e)
+                    {
                         ErrorMessage = e.Message;
 
                     }
@@ -144,9 +148,12 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    if(ErrorMessage == null){
+                    if (ErrorMessage == null)
+                    {
                         ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    } else{
+                    }
+                    else
+                    {
                         ModelState.AddModelError(string.Empty, ErrorMessage);
                     }
                     return Page();

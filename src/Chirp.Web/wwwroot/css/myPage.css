@@ -1,0 +1,41 @@
+.mypage-outer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: gray;
+    padding: 20px;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.mypage-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: gray;
+    padding: 20px;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.confirmForgetMe {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: gray;
+    padding: 20px;
+    border-radius: 20px;
+    z-index: 1001;
+    left: 50%;
+    visibility: hidden;
+    gap: 5px;
+    transform: translate(-50%, 50%);
+}
+
+#forgetMeNo {
+    border-radius: 20px;
+}
+
+#forgetMeYes {
+    border-radius: 20px;
+}
