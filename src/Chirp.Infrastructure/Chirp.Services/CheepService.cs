@@ -224,8 +224,6 @@ public class CheepService : ICheepService
         }
         catch (NullReferenceException e)
         {
-
-            Console.WriteLine(e.Message);
             return false;
         }
 
@@ -290,9 +288,8 @@ public class CheepService : ICheepService
             return false;
 
         }
-        catch (NullReferenceException e)
+        catch (NullReferenceException)
         {
-            Console.WriteLine(e.Message);
             return false;
         }
     }

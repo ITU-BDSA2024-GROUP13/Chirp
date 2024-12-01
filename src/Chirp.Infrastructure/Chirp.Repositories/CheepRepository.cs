@@ -135,14 +135,12 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
 
         var list = await query1;
 
-        //Console.WriteLine(list.Count);
 
         Dictionary<int, double> relevanceMap = new Dictionary<int, double>();
 
         foreach (var cheep in list)
         {
-            //Console.WriteLine(cheep.Id);
-            //Console.WriteLine(cheep.Author);
+
             var points = await RelevancePoints(cheep.Author!,
             userName, cheep.LocalLikeRatio, HelperFunctions.FromUnixTimeToDateTime(cheep.Timestamp));
 
@@ -297,7 +295,6 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             _totalLikes--;
             if (cheep.Likes.Any())
             {
-                Console.WriteLine("setting local like ratio");
                 cheep.LocalLikeRatio = (float)Math.Log((double)cheep.Likes.Count + 1, 5);
             }
             else
