@@ -102,7 +102,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            ReturnUrl = returnUrl;
+            ReturnUrl = "/";
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -135,7 +135,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    return LocalRedirect("/");
                 }
                 if (result.RequiresTwoFactor)
                 {

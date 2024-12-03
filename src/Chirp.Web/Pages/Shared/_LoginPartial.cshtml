@@ -5,23 +5,25 @@
 @inject UserManager<Author> UserManager
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <div class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
+  @if (SignInManager.IsSignedIn(User))
+  {
     <div class="nav-item">
-      <a class="form-inline" asp-page="/Account/Logout"
-      asp-route-returnUrl="@Url.Page("/", new { area = "" })"
-      asp-area="Identity" method="post" id = "navbutton">
-          
-          <img src = "/assets/logout.png" alt="Logout" id="Log">
-             Logout[@User!.Identity!.Name] 
-        </a>
+      <a class="form-inline" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })"
+        asp-area="Identity" method="post" id="navbutton">
+
+        <img src="/assets/logout.png" alt="Logout" id="Log">
+        Logout[@User!.Identity!.Name]
+      </a>
     </div>
-} else {
-  <div class="nav-item">
-     <a asp-area="Identity" asp-page="/Account/Login" id = "navbutton">
-     <img src = "/assets/enter.png" alt="Logout" id="Log">
-     Log in
-     
-     </a>
-  </div>
-} </div>
+  }
+  else
+  {
+    <div class="nav-item">
+      <a asp-area="Identity" asp-page="/Account/Login" id="navbutton">
+        <img src="/assets/enter.png" alt="Logout" id="Log">
+        Log in
+
+      </a>
+    </div>
+  }
+</div>
