@@ -55,11 +55,22 @@ builder.Logging.AddConsole();
 
 builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromHours(1));
 
+var ClientSecret = "";
+var ClientId = "";
+if (builder.Configuration["OAUTH_CLIENT_ID"] != null){
+    Console.WriteLine("hello!");
+    ClientSecret = builder.Configuration["secrets.OAUTH_CLIENT_SECRET"];
+    ClientId = builder.Configuration["secrets.OAUTH_CLIENT_ID"]; 
+} else {
+    ClientSecret = builder.Configuration["authentication:github:clientSecret"];
+    ClientId = builder.Configuration["authentication:github:clientId"];
+}
+
 builder.Services.AddAuthentication()
     .AddGitHub(o =>
     {
-        o.ClientId = "Ov23liXdZEY87yaZCSlR";
-        o.ClientSecret = "ddc835be6e70422f6172d53a52d6bd008a210c61";
+        o.ClientId = ClientId!;
+        o.ClientSecret = ClientSecret!;
         o.CallbackPath = "/signin-github";
         o.Scope.Add("user:email");
     });

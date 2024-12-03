@@ -32,10 +32,12 @@ h2, .name-timeline {
 }
 
 .dropMenu{
+  display: flex;
   position: relative;
 }
 
 .dropMenu button{
+  display: flex;
   background-color: transparent;
   height: 20px;
   width: 40px;
