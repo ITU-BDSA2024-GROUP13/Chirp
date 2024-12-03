@@ -48,6 +48,7 @@ numbersections: true
 >Briefly describe and illustrate the flow of activities that happen from the new creation of an issue (task description), over development, etc. until a feature is finally merged into the main branch of your repository.
 
 ![Project Board](images/project_board.png)
+Project board DATE: 03/12/24
 
 ## How to make _Chirp!_ work locally
 >There has to be some documentation on how to come from cloning your project to a running system. That is, Adrian or Helge have to know precisely what to do in which order. Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then.
