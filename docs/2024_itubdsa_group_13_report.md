@@ -16,7 +16,7 @@ numbersections: true
 <!-- 
 Provide an illustration of your domain model. Make sure that it is correct and complete. In case you are using ASP.NET Identity, make sure to illustrate that accordingly.
  -->
- 
+
 ## Architecture — In the small
 <!-- 
 Illustrate the organization of your code base. That is, illustrate which layers exist in your (onion) architecture. Make sure to illustrate which part of your code is residing in which layer.
@@ -90,6 +90,3 @@ All three LLMs were used for debugging, and ChatGPT for generation for most docu
 
 Interms of the value of there responses it varied. Sometimes, it was a smnall human error which was overseen. In other more complex cases, it required a greater understanding of the program which the LLMs, espically ChatGPT lacked. In these situations, the LLMs which are built in to text editors, GitHub CoPilot and Codium, were able to gather more information, but were still not always able to solve errors.
 This may have lead to some spirals throughout the development process and over-relying on an LLM to find a solution.
-
-
-**CHATGPT, GITHUB COPILOT, CODIUM**
