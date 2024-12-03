@@ -290,11 +290,14 @@ nav {
 .pagelist li:hover{
   background: rgba(64, 144, 205, 0.583);
 }
+.cheep-image {
+  text-align: center;
+}
 
 .cheep-image img {
   width: 100%;
-  width: auto;
-  max-height: 300px;
-  padding: 7px;
-
+  height: auto;
+  max-width: 80%;
+  display: block;
+  margin: 0 auto;
 }
