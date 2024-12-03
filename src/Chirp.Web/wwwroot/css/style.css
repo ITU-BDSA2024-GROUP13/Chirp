@@ -53,9 +53,9 @@ h2, .name-timeline {
   align-items: center;
   background-color: rgb(214, 213, 213);
   width: 100px;
-  height: 180px;
   flex-direction: column;
   flex-wrap: wrap;
+  padding: 5px;
   z-index: 10;
   right: 0px;
   border-width: 1.5px;
