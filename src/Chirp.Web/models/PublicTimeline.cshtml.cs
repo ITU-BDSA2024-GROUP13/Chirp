@@ -15,7 +15,7 @@ namespace Chirp.Web.models;
 /// <param name="cheepService">The service that handles operations related to Cheeps.</param>
 public class PublicTimeLine(ICheepService cheepService) : TimeLine(cheepService)
 {
-    
+
     /// <summary>
     /// Handles the GET request to display the public timeline with various sorting options and search functionality.
     /// </summary>
@@ -26,7 +26,7 @@ public class PublicTimeLine(ICheepService cheepService) : TimeLine(cheepService)
         int page = UpdatePage();
 
         // Switch based on the selected sorting option.
-        switch (sortState)
+        switch (SortState)
         {
             case "oldest":
                 // Load Cheeps sorted by oldest.
