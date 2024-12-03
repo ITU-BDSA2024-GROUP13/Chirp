@@ -11,8 +11,8 @@ public class CheepPartialView()
     public required int? Id { get; set; }
     public required string Author { get; set; }
     public required string Body { get; set; }
-    public required bool isLiked { get; set; }
-    public required bool isDisliked { get; set; }
+    public required bool IsLiked { get; set; }
+    public required bool IsDisliked { get; set; }
     public required long Date { get; set; }
     public required int Likes { get; set; }
     public required int Dislikes { get; set; }

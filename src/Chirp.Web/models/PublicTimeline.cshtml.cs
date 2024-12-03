@@ -13,7 +13,6 @@ public class PublicTimeLine(ICheepService cheepService) : TimeLine(cheepService)
     public async Task<ActionResult> OnGetAsync()
     {
         int page = UpdatePage();
-        Console.WriteLine("sortState: " + sortState);
 
         switch (sortState)
         {
