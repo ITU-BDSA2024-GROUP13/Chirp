@@ -225,6 +225,20 @@ nav {
 
 }
 
+footer {
+  position: fixed;
+  bottom: 90px;
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  width: 100%;
+  left: 0;
+  background-color: rgb(182, 181, 181);
+  border-bottom: 2px solid #4b1515;
+  border-top: 2px solid #4b1515;
+  z-index: 10;
+}
+
 .navigation {
   display: flex;
   flex-direction: row;
