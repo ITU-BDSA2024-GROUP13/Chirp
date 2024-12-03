@@ -72,12 +72,12 @@ jobs:
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
-          uses: azure/webapps-deploy@v3
-          with:
-            app-name: 'bdsagroup013chirprazor'
-            slot-name: 'Production'
-            package: .
-            app-settings: |
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'bdsagroup013chirprazor'
+          slot-name: 'Production'
+          package: .
+          app-settings: |
             OAUTH_CLIENT_ID=${{ secrets.OAUTH_CLIENT_ID }}
             OAUTH_CLIENT_SECRET=${{ secrets.OAUTH_CLIENT_SECRET }}
 
