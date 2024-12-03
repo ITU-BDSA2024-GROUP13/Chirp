@@ -1,12 +1,13 @@
 ---
 title: _Chirp!_ Project Report
 subtitle: ITU BDSA 2024 Group `13`
-author:
-"Alexander Hvalsøe Holst <alhh@itu.dk>
-Andreas Løvsgren Nielsen <anln@itu.dk>
-André Racraquin Birk <arbi@itu.dk>
-Peter Aksel Skak Olufsen <polu@itu.dk>
-Símun Larsson Løkke Rasmussen <simra@itu.dk>"
+author: [
+  "Alexander Hvalsøe Holst <alhh@itu.dk>",
+  "Andreas Løvsgren Nielsen <anln@itu.dk>",
+  "André Racraquin Birk <arbi@itu.dk>",
+  "Peter Aksel Skak Olufsen <polu@itu.dk>",
+  "Símun Larsson Løkke Rasmussen <simra@itu.dk>"
+]
 numbersections: true
 ---
 
