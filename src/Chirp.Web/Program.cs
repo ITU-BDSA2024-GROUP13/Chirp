@@ -18,6 +18,15 @@ if (File.Exists(@"Chat.db"))
 var allowOrigins = "_allowOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.Sources.Clear();
+
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory() + "/src/Chirp.Web")
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables(); // Include environment variables if needed
+
 builder.Services.AddAntiforgery(options => options.HeaderName = "RequestVerificationToken");
 
 builder.Services.AddCors(options =>
@@ -55,22 +64,28 @@ builder.Logging.AddConsole();
 
 builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromHours(1));
 
-var ClientSecret = "";
-var ClientId = "";
-if (builder.Configuration["OAUTH_CLIENT_ID"] != null){
-    Console.WriteLine("hello!");
-    ClientSecret = builder.Configuration["secrets.OAUTH_CLIENT_SECRET"];
-    ClientId = builder.Configuration["secrets.OAUTH_CLIENT_ID"]; 
-} else {
-    ClientSecret = builder.Configuration["authentication:github:clientSecret"];
-    ClientId = builder.Configuration["authentication:github:clientId"];
-}
+
+
+
+var ClientId = Environment.GetEnvironmentVariable("OAUTH_CLIENT_ID") ?? "Ov23liXdZEY87yaZCSlR";
+var ClientSecret = Environment.GetEnvironmentVariable("OAUTH_CLIENT_SECRET") ?? "ddc835be6e70422f6172d53a52d6bd008a210c61";
+
+
+/*var clientIdConfig = builder.Configuration["Secrets:clientID"];
+var clientSecretConfig = builder.Configuration["Secrets:clientSecret"];
+
+Console.WriteLine(clientIdConfig);
+Console.WriteLine(clientSecretConfig);
+
+var ClientId = Environment.GetEnvironmentVariable("clientIdConfig") ?? clientIdConfig;
+var ClientSecret = Environment.GetEnvironmentVariable("clientSecretConfig") ?? clientSecretConfig;
+*/
 
 builder.Services.AddAuthentication()
     .AddGitHub(o =>
     {
-        o.ClientId = ClientId!;
-        o.ClientSecret = ClientSecret!;
+        o.ClientId = ClientId;
+        o.ClientSecret = ClientSecret;
         o.CallbackPath = "/signin-github";
         o.Scope.Add("user:email");
     });
