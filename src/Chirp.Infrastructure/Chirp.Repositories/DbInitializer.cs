@@ -2,9 +2,15 @@ using System;
 using Chirp.Repositories;
 using Chirp.Core.Entities;
 
-
+/// <summary>
+/// Provides database initialization logic for seeding the Chirp application's database.
+/// </summary>
 public static class DbInitializer
 {
+    /// <summary>
+    /// Seeds the Chirp application's database with initial data if the database is empty.
+    /// </summary>
+    /// <param name="chirpContext">The database context used to access the database.</param>
     public static void SeedDatabase(CheepDBContext chirpContext)
     {
         if (!(chirpContext.Authors.Any() && chirpContext.Cheeps.Any()))

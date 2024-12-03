@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Chirp.Core.DTO;
 using Chirp.Core.Entities;
-using System.ComponentModel;
-using Humanizer;
 
 namespace Chirp.Repositories;
 
@@ -38,7 +36,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         {
             Id = cheep.CheepId,
             AuthorId = cheep.AuthorId,
-            Author = cheep.Author.UserName!,
+            Author = cheep.Author!.UserName!,
             Text = cheep.Text,
             Timestamp = ((DateTimeOffset)cheep.TimeStamp).ToUnixTimeMilliseconds(),
             Likes = cheep.Likes.Count,
@@ -61,7 +59,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         {
             Id = message.CheepId,
             AuthorId = message.AuthorId,
-            Author = message.Author.UserName!,
+            Author = message.Author!.UserName!,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
             Likes = message.Likes.Count,
@@ -83,7 +81,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         {
             Id = message.CheepId,
             AuthorId = message.AuthorId,
-            Author = message.Author.UserName!,
+            Author = message.Author!.UserName!,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
             Likes = message.Likes.Count,
@@ -107,7 +105,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         {
             Id = message.CheepId,
             AuthorId = message.AuthorId,
-            Author = message.Author.UserName!,
+            Author = message.Author!.UserName!,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
             Likes = message.Likes.Count,
@@ -126,7 +124,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         .Select(message => new CheepDTOWithLikeRatio
         {
             Id = message.CheepId,
-            Author = message.Author.UserName!,
+            Author = message.Author!.UserName!,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
             Dislikes = message.Dislikes.Count,
             LocalLikeRatio = message.LocalLikeRatio
@@ -155,7 +153,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         {
             Id = message.CheepId,
             AuthorId = message.AuthorId,
-            Author = message.Author.UserName!,
+            Author = message.Author!.UserName!,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
             Likes = message.Likes.Count,
@@ -205,14 +203,14 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     {
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(message => message.TimeStamp)
-        .Where(message => message.Author.UserName == userName)
+        .Where(message => message.Author!.UserName == userName)
         .Skip(skipValue)
         .Take(takeValue)
         .Select(message => new CheepDTO
         {
             Id = message.CheepId,
             AuthorId = message.AuthorId,
-            Author = message.Author.UserName!,
+            Author = message.Author!.UserName!,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
             Likes = message.Likes.Count,
@@ -228,14 +226,14 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     {
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).OrderByDescending(message => message.TimeStamp)
-        .Where(message => message.Author.UserName == userName || followers.Contains(message.Author.UserName!))
+        .Where(message => message.Author!.UserName == userName || followers.Contains(message.Author.UserName!))
         .Skip(skipValue)
         .Take(takeValue)
         .Select(message => new CheepDTO
         {
             Id = message.CheepId,
             AuthorId = message.AuthorId,
-            Author = message.Author.UserName!,
+            Author = message.Author!.UserName!,
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
             Likes = message.Likes.Count,
@@ -346,7 +344,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     public async Task RemoveCheepsFromUser(string userName)
     {
 
-        var cheeps = _dbContext.Cheeps.Where(c => c.Author.UserName == userName);
+        var cheeps = _dbContext.Cheeps.Where(c => c.Author!.UserName == userName);
         _dbContext.RemoveRange(cheeps);
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
         return;
