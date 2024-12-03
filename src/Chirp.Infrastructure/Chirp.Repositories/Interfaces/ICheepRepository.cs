@@ -36,10 +36,8 @@ public interface ICheepRepository
 
     public Task RemoveAllDislikes(int cheepId);
 
-    public Task<int> FollowerPoints(string follower, string userName);
     public Task<double> RelevancePoints(int cheepid, string follower, string userName, double likeRatio, DateTime timeStamp, bool follows, bool disliked);
 
-    public Task<int> DislikePoints(string userName, int cheepId);
     public Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, List<string> followers, int takeValue, int skipValue);
 
     public Task RemoveCheepsFromUser(string userName);

@@ -204,41 +204,6 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         + dislikedPoints;
     }
 
-    public async Task<int> DislikePoints(string userName, int cheepId)
-    {
-        var author = await GetAllDislikers(cheepId);
-
-
-        if (author.Any())
-        {
-            foreach (var a in author)
-            {
-                if (a.Name == userName)
-                    return 24;
-            }
-        }
-        return 0;
-    }
-
-    public async Task<int> FollowerPoints(string follower, string userName)
-    {
-
-        var query = _dbContext.Authors
-        .Where(author => author.UserName!.Equals(userName))
-        .Select(author => author.Followers);
-        // Execute the query
-        var result = await query.ToListAsync();
-        if (result.Any())
-        {
-            foreach (var a in result[0])
-            {
-                if (a.UserName == follower)
-                    return 24;
-            }
-        }
-        return 0;
-    }
-
     public async Task<List<CheepDTO>> ReadUserMessages(string userName, int takeValue, int skipValue)
     {
         // Formulate the query - will be translated to SQL by EF Core
