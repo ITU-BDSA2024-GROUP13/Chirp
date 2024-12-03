@@ -1,19 +1,28 @@
 using Microsoft.EntityFrameworkCore;
 using Chirp.Core.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using NuGet.Protocol.Plugins;
-
 
 namespace Chirp.Repositories;
-public class CheepDBContext : IdentityDbContext<Author>
+
+/// <summary>
+/// Represents the database context for the Chirp application, providing access to the Authors and Cheeps tables.
+/// </summary>
+public class CheepDBContext(DbContextOptions<CheepDBContext> options) : IdentityDbContext<Author>(options)
 {
-
-    public CheepDBContext(DbContextOptions<CheepDBContext> options) : base(options) { }
-
+    /// <summary>
+    /// Gets or sets the Authors table in the database.
+    /// </summary>
     public required DbSet<Author> Authors { get; set; }
 
+    /// <summary>
+    /// Gets or sets the Cheeps table in the database.
+    /// </summary>
     public required DbSet<Cheep> Cheeps { get; set; }
-
+    
+    /// <summary>
+    /// Configures the database connection and options.
+    /// </summary>
+    /// <param name="optionsBuilder">The options builder to configure the context.</param>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -21,6 +30,11 @@ public class CheepDBContext : IdentityDbContext<Author>
             optionsBuilder.UseSqlite("Data Source=Chat.db");
         }
     }
+
+    /// <summary>
+    /// Configures the entity relationships and model properties for the context.
+    /// </summary>
+    /// <param name="modelBuilder">The model builder to configure the database schema.</param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

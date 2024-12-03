@@ -20,7 +20,7 @@
 {
 
     <h2 class="name-timeline">
-    Public Timeline - @Model.sortState
+    Public Timeline - @Model.SortState
     <div class="dropMenu">
         <button><img src="/assets/filter.png" id="filter" /></button>
         <div class="content">
@@ -34,17 +34,16 @@
     {
         @foreach (var cheep in Model.Cheeps)
         {
-            @await Html.PartialAsync("_Cheep", new CheepPartialView
-{
-    Id = cheep.Id,
-    Author = cheep.Author,
-    Body = cheep.Text,
-    Date = cheep.Timestamp,
-    Likes = cheep.Likes,
-    Dislikes = cheep.Dislikes,
-    isLiked = await @Model.HasLiked(User!.Identity!.Name!, cheep.Id),
-    isDisliked = await @Model.HasDisliked(User!.Identity!.Name!, cheep.Id)
-})
+            @await Html.PartialAsync("_Cheep", new CheepPartialView {
+                Id = cheep.Id,
+                Author = cheep.Author,
+                Body = cheep.Text,
+                Date = cheep.Timestamp,
+                Likes = cheep.Likes,
+                Dislikes = cheep.Dislikes,
+                IsLiked = await @Model.HasLiked(User!.Identity!.Name!, cheep.Id),
+                IsDisliked = await @Model.HasDisliked(User!.Identity!.Name!, cheep.Id)
+            })
         }
     }
     else

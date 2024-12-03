@@ -8,7 +8,7 @@
         <span class="cheep-date"> &mdash; @Model.ToDateTime(Model.Date) </span>
 
         <div class="LikeButtons">
-            @if (@Model.isLiked)
+            @if (@Model.IsLiked)
             {
                 <button class="current" id="@Model.LikeButtonId()" type="submit" asp-handler="Like">
                     Like
@@ -21,7 +21,7 @@
                 </button>
             }
 
-            @if (@Model.isDisliked)
+            @if (@Model.IsDisliked)
             {
                 <button class="current" id="@Model.DislikeButtonId()" type="submit" asp-handler="Dislike">
                     Dislike
