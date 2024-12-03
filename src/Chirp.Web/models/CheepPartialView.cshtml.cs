@@ -46,6 +46,11 @@ public class CheepPartialView
     public required int Dislikes { get; set; }
 
     /// <summary>
+    /// Gets or sets the URL of the image associated with the Cheep.
+    /// </summary>
+public string? ImageUrl { get; set; }
+
+    /// <summary>
     /// Generates the HTML ID for the like button based on the Cheep's ID.
     /// </summary>
     /// <returns>A string representing the ID of the like button.</returns>

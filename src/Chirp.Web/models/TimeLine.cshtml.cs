@@ -114,6 +114,18 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
             return BadRequest("PostString cannot be null.");
         }
 
+        string? imageUrl = null;
+    if (postRequest.ImageFile != null && postRequest.ImageFile.Length > 0)
+    {
+        var filePath = Path.Combine("wwwroot", "uploads", Guid.NewGuid() + Path.GetExtension(postRequest.ImageFile.FileName));
+        Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await postRequest.ImageFile.CopyToAsync(stream);
+        }
+        imageUrl = "/uploads/" + Path.GetFileName(filePath); // Relative URL
+    }
+
         var author = await _cheepService.FindSpecificAuthorByName(postRequest.PostName);
 
         await _cheepService.CreateMessage(new NewCheepDTO
@@ -122,6 +134,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
             Text = postRequest.PostString,
             Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow),
             AuthorId = author.Id!,
+            ImageUrl = imageUrl
         });
 
         return new JsonResult(new { success = true, message = "PostString successfully processed" });
@@ -254,7 +267,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
     {
         public required string PostString { get; set; }
         public required string PostName { get; set; }
-
+        public IFormFile? ImageFile { get; set; } // New property
     }
 
     public class SearchRequest

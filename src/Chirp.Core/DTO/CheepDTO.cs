@@ -15,6 +15,8 @@ public class CheepDTO
     public required int Likes { get; set; }
 
     public required int Dislikes { get; set; }
+
+    public string? ImageUrl { get; set; }
 }
 
 public class NewCheepDTO
@@ -30,6 +32,8 @@ public class NewCheepDTO
     public int Likes { get; set; } = 0;
 
     public int Dislikes { get; set; } = 0;
+
+    public string? ImageUrl { get; set; }
 }
 
 public class UpdateCheepDTO
@@ -45,5 +49,5 @@ public class CheepDTOWithLikeRatio
     public required int Dislikes { get; set; }
     public required float LocalLikeRatio { get; set; }
 
-
+    public string? ImageUrl { get; set; }
 }

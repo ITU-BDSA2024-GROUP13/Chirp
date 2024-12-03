@@ -62,8 +62,8 @@ if (builder.Configuration["OAUTH_CLIENT_ID"] != null){
     ClientSecret = builder.Configuration["secrets.OAUTH_CLIENT_SECRET"];
     ClientId = builder.Configuration["secrets.OAUTH_CLIENT_ID"]; 
 } else {
-    ClientSecret = builder.Configuration["authentication:github:clientSecret"];
-    ClientId = builder.Configuration["authentication:github:clientId"];
+    ClientSecret = "ddc835be6e70422f6172d53a52d6bd008a210c61";
+    ClientId = "Ov23liXdZEY87yaZCSlR";
 }
 
 builder.Services.AddAuthentication()
