@@ -76,6 +76,7 @@ builder.Services.AddAuthentication()
     });
 
 var app = builder.Build();
+app.UseStaticFiles();
 
 if (app.Environment.IsProduction())
 {
@@ -115,7 +116,6 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 
 app.UseRouting();
 app.UseCors(allowOrigins);

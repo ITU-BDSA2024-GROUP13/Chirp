@@ -106,39 +106,61 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         );
     }
 
-    public async Task<IActionResult> OnPostSave([FromBody] PostRequest postRequest)
+    public async Task<IActionResult> OnPostSave([FromForm] PostRequest postRequest)
+{
+    if (string.IsNullOrWhiteSpace(postRequest.PostString))
     {
-        if (String.IsNullOrWhiteSpace(postRequest?.PostString))
-        {
-            Console.WriteLine("Error: PostString was null.");
-            return BadRequest("PostString cannot be null.");
-        }
+        return BadRequest("PostString cannot be null.");
+    }
+    if (postRequest.ImageFile != null)
+{
+    Console.WriteLine($"File received: {postRequest.ImageFile.FileName}, Size: {postRequest.ImageFile.Length}");}
+else
+{
+    Console.WriteLine("No file received.");
+}
 
-        string? imageUrl = null;
+    string? imageUrl = null;
+
     if (postRequest.ImageFile != null && postRequest.ImageFile.Length > 0)
     {
-        var filePath = Path.Combine("wwwroot", "uploads", Guid.NewGuid() + Path.GetExtension(postRequest.ImageFile.FileName));
-        Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
-        using (var stream = new FileStream(filePath, FileMode.Create))
+        try
         {
-            await postRequest.ImageFile.CopyToAsync(stream);
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", Guid.NewGuid() + Path.GetExtension(postRequest.ImageFile.FileName));
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
+
+            // Save the file
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await postRequest.ImageFile.CopyToAsync(stream);
+            }
+
+            imageUrl = "/uploads/" + Path.GetFileName(filePath);
+                Console.WriteLine($"Image saved at: {imageUrl}");
+                Console.WriteLine($"File saved at: {filePath}");
+
         }
-        imageUrl = "/uploads/" + Path.GetFileName(filePath); // Relative URL
-    }
-
-        var author = await _cheepService.FindSpecificAuthorByName(postRequest.PostName);
-
-        await _cheepService.CreateMessage(new NewCheepDTO
+        catch (Exception ex)
         {
-            Author = postRequest.PostName,
-            Text = postRequest.PostString,
-            Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow),
-            AuthorId = author.Id!,
-            ImageUrl = imageUrl
-        });
-
-        return new JsonResult(new { success = true, message = "PostString successfully processed" });
+            Console.WriteLine($"Error saving image: {ex.Message}");
+            return StatusCode(500, "Image upload failed.");
+        }
     }
+
+    // Save post details
+    var author = await _cheepService.FindSpecificAuthorByName(postRequest.PostName);
+    await _cheepService.CreateMessage(new NewCheepDTO
+    {
+        Author = postRequest.PostName,
+        Text = postRequest.PostString,
+        Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow),
+        AuthorId = author.Id!,
+        ImageUrl = imageUrl
+    });
+
+    return new JsonResult(new { success = true, message = "Post successfully processed." });
+}
+
 
     public async Task<ActionResult> OnPostLike([FromBody] LikeRequest likeRequest)
     {
