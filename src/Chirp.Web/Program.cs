@@ -20,14 +20,6 @@ var allowOrigins = "_allowOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.Sources.Clear();
-
-builder.Configuration
-    .SetBasePath(Directory.GetCurrentDirectory())
-    //.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    //.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
-    .AddUserSecrets(Assembly.GetExecutingAssembly(), true); // Adds the secrets to the builder.Configuration.
-
 builder.Services.AddAntiforgery(options => options.HeaderName = "RequestVerificationToken");
 
 builder.Services.AddCors(options =>
