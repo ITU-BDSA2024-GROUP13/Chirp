@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using AspNet.Security.OAuth.GitHub;
 using Chirp.Web;
 using Chirp.Core.Entities;
+using System.Reflection;
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8604 // Dereference of a possibly null reference.
@@ -18,6 +19,15 @@ if (File.Exists(@"Chat.db"))
 var allowOrigins = "_allowOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.Sources.Clear();
+
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    //.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    //.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddUserSecrets(Assembly.GetExecutingAssembly(), true); // Adds the secrets to the builder.Configuration.
+
 builder.Services.AddAntiforgery(options => options.HeaderName = "RequestVerificationToken");
 
 builder.Services.AddCors(options =>
@@ -55,22 +65,12 @@ builder.Logging.AddConsole();
 
 builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromHours(1));
 
-var ClientSecret = "";
-var ClientId = "";
-if (builder.Configuration["OAUTH_CLIENT_ID"] != null){
-    Console.WriteLine("hello!");
-    ClientSecret = builder.Configuration["secrets.OAUTH_CLIENT_SECRET"];
-    ClientId = builder.Configuration["secrets.OAUTH_CLIENT_ID"]; 
-} else {
-    ClientSecret = builder.Configuration["authentication:github:clientSecret"];
-    ClientId = builder.Configuration["authentication:github:clientId"];
-}
 
 builder.Services.AddAuthentication()
     .AddGitHub(o =>
     {
-        o.ClientId = ClientId!;
-        o.ClientSecret = ClientSecret!;
+        o.ClientId = builder.Configuration["OAUTH_CLIENT_CLIENTID"] ?? throw new NullReferenceException("ClientId cannot be null");
+        o.ClientSecret = builder.Configuration["OAUTH_CLIENT_SECRET"] ?? throw new NullReferenceException("ClientSecret cannot be null");
         o.CallbackPath = "/signin-github";
         o.Scope.Add("user:email");
     });
