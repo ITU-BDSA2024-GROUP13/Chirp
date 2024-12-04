@@ -1,6 +1,7 @@
 <form class="cheep-post-form" id="post" enctype="multipart/form-data">
-    <input type="text" id="post-input" placeholder="What's on your mind?" />
-    <input type="file" id="post-image" accept="image/*" />
+    <input type="text" id="post-input" >
+        <input type="file" id="post-image" accept="image/*" />
+    </input>
 
     <div class="post-placeholder" id="post-placeholder">What's on your mind?</div>
 </form>
@@ -67,7 +68,6 @@
         } else { // When input loses focus
             div.style.top = "60px";
             div.style.color = "rgba(75, 21, 21, 0.37)";
-            input.value = "";
         }
     }
 </script>
