@@ -127,32 +127,8 @@ public interface ICheepRepository
     /// <returns>A task representing the asynchronous operation.</returns>
     public Task RemoveAllDislikes(int cheepId);
 
-    /// <summary>
-    /// Calculates the follower points for a specific follower and user.
-    /// </summary>
-    /// <param name="follower">The ID of the follower.</param>
-    /// <param name="userName">The username of the user for whom the follower points are calculated.</param>
-    /// <returns>A task representing the asynchronous operation, with the result being the follower points.</returns>
-    public Task<int> FollowerPoints(string follower, string userName);
+    public Task<double> RelevancePoints(int cheepid, string follower, string userName, double likeRatio, DateTime timeStamp, bool follows, bool disliked);
 
-    /// <summary>
-    /// Calculates the relevance points for a specific follower and user.
-    /// </summary>
-    /// <param name="follower">The ID of the follower.</param>
-    /// <param name="userName">The username of the user for whom the relevance points are calculated.</param>
-    /// <param name="likeRatio">The like ratio for the cheep.</param>
-    /// <param name="timeStamp">The timestamp of the cheep.</param>
-    /// <returns>A task representing the asynchronous operation, with the result being the relevance points.</returns>
-    public Task<double> RelevancePoints(string follower, string userName, double likeRatio, DateTime timeStamp);
-
-    /// <summary>
-    /// Retrieves a list of cheeps from a user and their followers.
-    /// </summary>
-    /// <param name="userName">The username of the user whose and their followers' cheeps to retrieve.</param>
-    /// <param name="followers">The list of follower usernames.</param>
-    /// <param name="takeValue">The number of cheeps to take.</param>
-    /// <param name="skipValue">The number of cheeps to skip (used for pagination).</param>
-    /// <returns>A task representing the asynchronous operation, with a list of cheeps from the user and their followers.</returns>
     public Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, List<string> followers, int takeValue, int skipValue);
 
     /// <summary>

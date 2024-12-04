@@ -104,10 +104,16 @@ footer {
     display: flex;
     position: fixed;
     flex-direction: row-reverse;
-    width: 100%;
+    right: 0;
+    width: 160px;
     bottom: 0;
     z-index: 100;
+    background-color: rgb(182, 181, 181);
+    border-bottom: 2px solid #4b1515;
+    border-left: 2px solid #4b1515;
+    border-top: 2px solid #4b1515;
 }
+
 
 .footer-button {
     display: flex;

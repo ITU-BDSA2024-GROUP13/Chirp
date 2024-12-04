@@ -349,7 +349,7 @@ public class AuthorRepositoryTest : IDisposable
             {
                 var repo = new AuthorRepository(context);
 
-                await repo.RemoveAuthor("11");
+                await repo.RemoveAuthor("Helge");
 
                 await Assert.ThrowsAsync<NullReferenceException>(async () => await repo.FindSpecificAuthorByName("Helge"));
             }

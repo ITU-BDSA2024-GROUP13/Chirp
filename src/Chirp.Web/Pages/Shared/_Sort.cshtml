@@ -1,13 +1,15 @@
 
+<button id="mostLiked" type="submit" asp-handler="Sort">
+     mostLiked
+</button>
 <button id="relevance" type="submit" asp-handler="Sort">
      relevance
 </button>
-
+<button id="newest" type="submit" asp-handler="Sort">
+     newest
+</button>
 <button id="oldest" type="submit" asp-handler="Sort">
      oldest
-</button>
-<button id="mostLiked" type="submit" asp-handler="Sort">
-     mostLiked
 </button>
  <script>
             document.getElementById("relevance").addEventListener("click", () => {
@@ -50,6 +52,29 @@
                     .then(data => {
                         console.log("success:", data["success"])
                         location.href = '@ViewData["Location"]?page=@Model.CurrentPage&sort=oldest'
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+
+                    })
+            })
+             document.getElementById("newest").addEventListener("click", () => {
+                const antiforgeryToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Sort" : "?handler=Sort"), {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "RequestVerificationToken": antiforgeryToken
+                    },
+                    body: JSON.stringify({
+                        SortString: "default"
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("success:", data["success"])
+                        location.href = '@ViewData["Location"]?page=@Model.CurrentPage&sort=default'
                     })
                     .catch(error => {
                         console.error("Error:", error);
