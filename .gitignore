@@ -14,7 +14,7 @@
 **/myapp/
 **/data/
 **/*.db*
-**/uploads
+**/uploads/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
