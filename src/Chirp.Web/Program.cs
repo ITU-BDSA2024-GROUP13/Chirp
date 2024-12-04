@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using AspNet.Security.OAuth.GitHub;
 using Chirp.Web;
 using Chirp.Core.Entities;
+using System.Reflection;
 
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
 #pragma warning disable CS8604 // Dereference of a possibly null reference.
@@ -20,13 +21,13 @@ var allowOrigins = "_allowOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.Sources.Clear();
-/*
+
 builder.Configuration
-    .SetBasePath(Directory.GetCurrentDirectory() + "/src/Chirp.Web")
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
-    .AddEnvironmentVariables(); // Include environment variables if needed
-*/
+    .SetBasePath(Directory.GetCurrentDirectory())
+    //.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    //.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+    .AddUserSecrets(Assembly.GetExecutingAssembly(), true); // Adds the secrets to the builder.Configuration.
+
 builder.Services.AddAntiforgery(options => options.HeaderName = "RequestVerificationToken");
 
 builder.Services.AddCors(options =>
@@ -65,16 +66,11 @@ builder.Logging.AddConsole();
 builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromHours(1));
 
 
-
-
-var ClientId = builder.Configuration["OAUTH_CLIENT_CLIENTID"] ?? throw new NullReferenceException("ClientId cannot be null");
-var ClientSecret = builder.Configuration["OAUTH_CLIENT_SECRET"] ?? throw new NullReferenceException("ClientSecret cannot be null");
-
 builder.Services.AddAuthentication()
     .AddGitHub(o =>
     {
-        o.ClientId = ClientId;
-        o.ClientSecret = ClientSecret;
+        o.ClientId = builder.Configuration["OAUTH_CLIENT_CLIENTID"] ?? throw new NullReferenceException("ClientId cannot be null");
+        o.ClientSecret = builder.Configuration["OAUTH_CLIENT_SECRET"] ?? throw new NullReferenceException("ClientSecret cannot be null");
         o.CallbackPath = "/signin-github";
         o.Scope.Add("user:email");
     });
