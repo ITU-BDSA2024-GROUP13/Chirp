@@ -7,8 +7,7 @@
         <p class="cheep-body"> @Model.Body </p>
         
 
-        <p>Image URL: @Model.ImageUrl</p> <!-- For debugging -->
-        <!-- Display Image if ImageUrl is not null or empty -->
+        
         @if (!string.IsNullOrEmpty(Model.ImageUrl))
         {
             <div class="cheep-image">
@@ -17,8 +16,10 @@
         }
         @if (string.IsNullOrEmpty(Model.ImageUrl))
         {
+            <div class="cheep-content">
             <div class="cheep-image">
-                <img src="/uploads/1fa3bfe7-b920-4b15-bbf7-f5c360fa3cf8.jpg" alt="Cheep Image" />
+                <img src="/uploads/frog.jPg" alt="Cheep Image" />
+            </div>
             </div>
         }
         <span class="cheep-date"> &mdash; @Model.ToDateTime(Model.Date) </span>
