@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Chirp.Core.DTO;
 using Chirp.Core.Entities;
+using System.ComponentModel;
+using Humanizer;
+using System.Diagnostics;
 
 namespace Chirp.Repositories;
 
@@ -95,6 +98,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
 
     public async Task<List<CheepDTO>> ReadPublicMessagesbyMostLiked(int takeValue, int skipValue)
     {
+        Stopwatch watch = new Stopwatch();
+        watch.Start();
         // Formulate the query - will be translated to SQL by EF Core
         var query = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes)
         .OrderByDescending(message => message.Likes.Count)
@@ -114,20 +119,28 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         // Execute the query
         var result = await query.ToListAsync();
 
+        watch.Stop();
+        Console.WriteLine(watch.Elapsed.Milliseconds);
+
         return result;
     }
 
     public async Task<List<CheepDTO>> ReadPublicMessagesbyRelevance(int takeValue, int skipValue, string userName)
     {
 
-        var query1 = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes)
-        .Select(message => new CheepDTOWithLikeRatio
+        var author = _dbContext.Authors.Single(e => e.UserName == userName);
+
+        var query1 = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).Include(p => p.Author.FollowedBy)
+        .Select(message => new CheepDTOForRelevance
         {
             Id = message.CheepId,
             Author = message.Author!.UserName!,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
             Dislikes = message.Dislikes.Count,
-            LocalLikeRatio = message.LocalLikeRatio
+            LocalLikeRatio = message.LocalLikeRatio, 
+            isFollowing = message.Author.FollowedBy.Contains(author),
+            isDisliked = message.Dislikes.Contains(author)
+
         })
         .ToListAsync();
 
@@ -139,8 +152,9 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         foreach (var cheep in list)
         {
 
-            var points = await RelevancePoints(cheep.Author!,
-            userName, cheep.LocalLikeRatio, HelperFunctions.FromUnixTimeToDateTime(cheep.Timestamp));
+            var points = await RelevancePoints(cheep.Id, cheep.Author!,
+            userName, cheep.LocalLikeRatio, HelperFunctions.FromUnixTimeToDateTime(cheep.Timestamp),
+            cheep.isFollowing, cheep.isDisliked);
 
             relevanceMap.Add(cheep.Id, points);
         }
@@ -173,30 +187,21 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     }
 
 
-    public async Task<double> RelevancePoints(string follower, string userName, double likeRatio, DateTime timeStamp)
+    public async Task<double> RelevancePoints(int cheepid, string follower, string userName, double likeRatio, DateTime timeStamp, 
+    bool follows, bool disliked)
     {
-
-        return likeRatio - (DateTime.UtcNow - timeStamp).TotalHours + (await FollowerPoints(follower, userName));
-
-    }
-
-    public async Task<int> FollowerPoints(string follower, string userName)
-    {
-
-        var query = _dbContext.Authors.OrderBy(author => author.UserName)
-        .Where(author => author.UserName!.Equals(userName))
-        .Select(author => author.Followers);
-        // Execute the query
-        var result = await query.ToListAsync();
-        if (result.Any())
-        {
-            foreach (var a in result[0])
-            {
-                if (a.UserName == follower)
-                    return 24;
-            }
+        var followsPoints = 0;
+        var dislikedPoints = 0;
+        if (follows){
+            followsPoints = 24;
         }
-        return 0;
+        if (disliked){
+            dislikedPoints = -24;
+        }
+
+        return likeRatio - (DateTime.UtcNow - timeStamp).TotalHours 
+        + followsPoints
+        + dislikedPoints;
     }
 
     public async Task<List<CheepDTO>> ReadUserMessages(string userName, int takeValue, int skipValue)
