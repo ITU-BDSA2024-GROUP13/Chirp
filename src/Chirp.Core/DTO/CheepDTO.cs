@@ -52,7 +52,4 @@ public class CheepDTOForRelevance
 
     public required bool isDisliked { get; set; }
 
-
-
-    public string? ImageUrl { get; set; }
 }

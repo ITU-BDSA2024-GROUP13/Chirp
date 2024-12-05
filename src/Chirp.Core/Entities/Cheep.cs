@@ -53,4 +53,8 @@ public class Cheep
     /// Represents a navigation property for the author entity.
     /// </summary>
     public Author? Author { get; set; }
+
+
+    public string? Image { get; set; }
+
 }
