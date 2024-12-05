@@ -19,9 +19,14 @@
                 </div>
 
                 @if(SignInManager.IsSignedIn(User)){
-                    <a class = "settings" asp-area="Identity" asp-page="/Account/Manage/Index">
-                        <img src="/assets/settings.png" id="settingIcon" />
-                    </a>
+                    <div class = "PB">
+                        <img src="/assets/PB.png" id="icon" />
+
+                        <div class = "content">
+
+
+                        </div>
+                    </div>
                 }
             </header>
 

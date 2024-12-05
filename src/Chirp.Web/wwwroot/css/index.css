@@ -46,7 +46,7 @@ header {
     z-index: 10;
 }
 
-.settings{
+.PB{
     display: flex;
     justify-content: center;
     align-items: center;
