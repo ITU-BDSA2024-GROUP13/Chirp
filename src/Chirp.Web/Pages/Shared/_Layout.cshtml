@@ -7,46 +7,54 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    @Html.AntiForgeryToken()
-    @await Html.PartialAsync("_Imports")
+@Html.AntiForgeryToken()
+@await Html.PartialAsync("_Imports")
 
-    <body>
-        <div class="title">
-            <header>
-                <div class="brand-container">
-                    <img src="/assets/icon1.png" onclick = "window.location = '/'" class = "brand" id="icon" alt="Icon1" />
-                    <h1 class="brand" id="name">Chirp!</h1>
-                </div>
+<body>
+    <div class="title">
+        <header>
+            <div class="brand-container">
+                <img src="/assets/icon1.png" onclick="window.location = '/'" class="brand" id="icon" alt="Icon1" />
+                <h1 class="brand" id="name">Chirp!</h1>
+            </div>
 
-                @if(SignInManager.IsSignedIn(User)){
-                    <div class = "PB">
-                        <img src="/assets/PB.png" id="icon" />
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <div class="PB">
+                    <img src="/assets/PB.png" id="icon" />
 
-                        <div class = "content">
+                    <div class="content">
+                        <a onclick='window.location = location.origin + "/users/@User!.Identity!.Name/mypage"'>
+                            My Page <img src="/assets/information.png" id="settingIcon" />
+                        </a>
 
+                        <a asp-area="Identity" asp-page="/Account/Manage/Index">
+                            Settings <img src="/assets/settings.png" id="settingIcon" />
+                        </a>
 
-                        </div>
                     </div>
-                }
-            </header>
+                </div>
+            }
+        </header>
 
-        </div>
-        
-        <main class="cheep-container">
-            @RenderBody()
-        </main>
+    </div>
+
+    <main class="cheep-container">
+        @RenderBody()
+    </main>
 
 
-        @if(SignInManager.IsSignedIn(User)){
-            <footer>
-                @await Html.PartialAsync("_Post")
-                @await Html.PartialAsync("_Search")
-            </footer>
-        }
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <footer>
+            @await Html.PartialAsync("_Post")
+            @await Html.PartialAsync("_Search")
+        </footer>
+    }
 
-        <script src="~/js/main.js"></script>
+    <script src="~/js/main.js"></script>
 
-        @RenderSection("Scripts", required: false)
-    </body>
+    @RenderSection("Scripts", required: false)
+</body>
+
 </html>
-
