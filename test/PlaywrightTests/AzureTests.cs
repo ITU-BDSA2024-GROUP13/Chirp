@@ -7,6 +7,7 @@ using Microsoft.Playwright;
 using Xunit;
 using Xunit.Sdk;
 namespace PlaywrightTests;
+
 public class AzureTests : IAsyncLifetime
 {
     private IPlaywright? playwright;
