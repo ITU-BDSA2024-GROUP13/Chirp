@@ -1,6 +1,6 @@
-@page "/users/{author}/mypage/followers"
+@page "/users/{author}/mypage/followedby"
 @using Chirp.Core.Entities
-@model Chirp.Web.models.FollowerPage
+@model Chirp.Web.models.FollowedByPage
 @inject SignInManager<Author> SignInManager
 @inject UserManager<Author> UserManager
 @using Chirp.Web.models;
@@ -18,16 +18,16 @@
     <strong class="cheep-author"> <a href="/users/@User!.Identity!.Name/mypage">Go back</a> </strong>
 
     
-    <h3>Everyone you Are following</h3>
-    @if (Model.FollowingList!.Count > 0)
+    <h3>Everyone you Are followed by</h3>
+    @if (Model.FollowedList!.Count > 0)
     {
-        @foreach (var authorDTO in Model.FollowingList)
+        @foreach (var authorDTO in Model.FollowedList)
         {
             <strong class="cheep-author"> <a href="/users/@authorDTO.Name">@authorDTO.Name</a> </strong>
         } 
     } else
     {
-        <em>You are not following anyone.</em>
+        <em>You have no followers so far.</em>
     }
 } else
 {
