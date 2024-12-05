@@ -14,14 +14,6 @@
                 <img src="@Model.Image" alt="Cheep Image" />
             </div>
         }
-        @if (string.IsNullOrEmpty(Model.Image))
-        {
-            <div class="cheep-content">
-                <div class="cheep-image">
-                    <img src="/uploads/frog.jpg" alt="Cheep Image" />
-                </div>
-            </div>
-        }
         <span class="cheep-date"> &mdash; @Model.ToDateTime(Model.Date) </span>
         <div class="LikeButtons">
             @if (@Model.IsLiked)
