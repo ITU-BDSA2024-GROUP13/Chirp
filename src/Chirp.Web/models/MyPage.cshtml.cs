@@ -39,6 +39,10 @@ public class MyPage(ICheepService cheepService, SignInManager<Author> signInMana
 
     public required int Followed { get; set; }
 
+    public List<AuthorDTO>? FollowingList { get; set; }
+
+    public List<AuthorDTO>? FollowedList {get; set;}
+
     /// <summary>
     /// Handles the GET request to display the author's page and their Cheeps.
     /// </summary>
