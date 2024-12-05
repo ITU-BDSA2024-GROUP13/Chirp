@@ -16,7 +16,7 @@ public class CheepDTO
 
     public required int Dislikes { get; set; }
 
-    public string? ImageUrl { get; set; }
+    public string? Image { get; set; }
 }
 
 public class NewCheepDTO
@@ -33,7 +33,7 @@ public class NewCheepDTO
 
     public int Dislikes { get; set; } = 0;
 
-    public string? ImageUrl { get; set; }
+    public string? Image { get; set; }
 }
 
 public class UpdateCheepDTO
@@ -51,5 +51,7 @@ public class CheepDTOForRelevance
     public required bool isFollowing { get; set; }
 
     public required bool isDisliked { get; set; }
+
+    public string? Image { get; set; }
 
 }

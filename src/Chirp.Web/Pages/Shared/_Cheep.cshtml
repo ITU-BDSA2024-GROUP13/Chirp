@@ -8,13 +8,13 @@
         
 
         
-        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        @if (!string.IsNullOrEmpty(Model.Image))
         {
             <div class="cheep-image">
-                <img src="@Model.ImageUrl" alt="Cheep Image" />
+                <img src="@Model.Image" alt="Cheep Image" />
             </div>
         }
-        @if (string.IsNullOrEmpty(Model.ImageUrl))
+        @if (string.IsNullOrEmpty(Model.Image))
         {
             <div class="cheep-content">
                 <div class="cheep-image">

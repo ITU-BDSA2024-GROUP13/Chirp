@@ -106,33 +106,34 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         );
     }
 
-    public async Task<IActionResult> OnPostSave([FromForm] PostRequest postRequest)
+public async Task<IActionResult> OnPostSave([FromForm] PostRequest postRequest)
 {
     if (string.IsNullOrWhiteSpace(postRequest.PostString))
     {
         return BadRequest("PostString cannot be null.");
     }
-    if (postRequest.ImageFile != null)
-{
-    Console.WriteLine($"File received: {postRequest.ImageFile.FileName}, Size: {postRequest.ImageFile.Length}");}
-else
-{
-    Console.WriteLine("No file received.");
-}
+    if (postRequest.PostImage != null)
+    {
+    Console.WriteLine($"File received: {postRequest.PostImage.FileName}, Size: {postRequest.PostImage.Length}");
+    }
+    else
+    {
+        Console.WriteLine("No file received.");
+    }
 
     string? imageUrl = null;
 
-    if (postRequest.ImageFile != null && postRequest.ImageFile.Length > 0)
+    if (postRequest.PostImage != null && postRequest.PostImage.Length > 0)
     {
         try
         {
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", Guid.NewGuid() + Path.GetExtension(postRequest.ImageFile.FileName));
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", Guid.NewGuid() + Path.GetExtension(postRequest.PostImage.FileName));
             Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
 
             // Save the file
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
-                await postRequest.ImageFile.CopyToAsync(stream);
+                await postRequest.PostImage.CopyToAsync(stream);
             }
 
             imageUrl = "/uploads/" + Path.GetFileName(filePath);
@@ -155,7 +156,7 @@ else
         Text = postRequest.PostString,
         Timestamp = HelperFunctions.FromDateTimetoUnixTime(DateTime.UtcNow),
         AuthorId = author.Id!,
-        ImageUrl = imageUrl
+        Image = imageUrl
     });
 
     return new JsonResult(new { success = true, message = "Post successfully processed." });
@@ -289,7 +290,7 @@ else
     {
         public required string PostString { get; set; }
         public required string PostName { get; set; }
-        public IFormFile? ImageFile { get; set; } // New property
+        public IFormFile? PostImage { get; set; } // New property
     }
 
     public class SearchRequest

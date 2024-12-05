@@ -30,7 +30,7 @@
 
                 // Add image file if selected
                 if (postImage.files.length > 0) {
-                    formData.append("imageFile", postImage.files[0]);
+                    formData.append("postImage", postImage.files[0]);
                 }
 
                 fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Save" : "?handler=Save"), {

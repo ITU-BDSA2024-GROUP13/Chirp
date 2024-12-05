@@ -48,7 +48,7 @@ public class CheepPartialView
     /// <summary>
     /// Gets or sets the URL of the image associated with the Cheep.
     /// </summary>
-public string? ImageUrl { get; set; }
+    public string? Image { get; set; }
 
     /// <summary>
     /// Generates the HTML ID for the like button based on the Cheep's ID.
