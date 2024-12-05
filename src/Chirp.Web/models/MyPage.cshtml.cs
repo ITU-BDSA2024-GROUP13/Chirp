@@ -35,6 +35,9 @@ public class MyPage(ICheepService cheepService, SignInManager<Author> signInMana
     /// </summary>
     public required string Author { get; set; }
 
+    public required int Following { get; set; }
+
+    public required int Followed { get; set; }
 
     /// <summary>
     /// Handles the GET request to display the author's page and their Cheeps.
@@ -46,6 +49,8 @@ public class MyPage(ICheepService cheepService, SignInManager<Author> signInMana
         // Updates the page and retrieves the author details and posts.
         var page = UpdatePage();
         AuthorDTO = await _cheepService.FindSpecificAuthorByName(author);
+        Following = _cheepService.GetFollowers(author).Result.Count;
+        Followed = _cheepService.GetFollowedby(author).Result.Count;
         MyCheeps = await _cheepService.ReadUserMessages(author, page);
         Count = await _cheepService.CountUserMessages(author);
 
