@@ -159,8 +159,24 @@ public static class DbInitializer
                 LikedCheeps = new List<Cheep>(),
                 Followers = new List<Author>()
             };
+             var a13 = new Author()
+            {
+                Id = "13",
+                UserName = "TestName",
+                Email = "Test@gmail.com",
+                Cheeps = new List<Cheep>(),
+                PasswordHash = "AQAAAAIAAYagAAAAEAqOeK9dWJycTrfn9qds/RY+vYk/0fGD/xqg0j0YVFedT+dcHF7G2R8kjk/DAE+TOA==",
+                NormalizedUserName = "TESTNAME",
+                NormalizedEmail = "TEST@GMAIL.COM",
+                LockoutEnabled = true
+            ,
+                FollowedBy = new List<Author>(),
+                DislikedCheeps = new List<Cheep>(),
+                LikedCheeps = new List<Cheep>(),
+                Followers = new List<Author>()
+            };
 
-            var authors = new List<Author>() { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12 };
+            var authors = new List<Author>() { a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13 };
 
             var c1 = new Cheep() { Dislikes = new List<Author>(), Likes = new List<Author>(), CheepId = 1, AuthorId = a10.Id, Author = a10, Text = "They were married in Chicago, with old Smith, and was expected aboard every day; meantime, the two went past me.", TimeStamp = DateTime.Parse("2023-08-01 13:14:37") };
             var c2 = new Cheep() { Dislikes = new List<Author>(), Likes = new List<Author>(), CheepId = 2, AuthorId = a10.Id, Author = a10, Text = "And then, as he listened to all that's left o' twenty-one people.", TimeStamp = DateTime.Parse("2023-08-01 13:15:21") };

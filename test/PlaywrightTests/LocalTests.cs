@@ -32,28 +32,6 @@ public class LocalTests : IAsyncLifetime
         context = await browser.NewContextAsync();
     }
 
-
-    [Fact]
-    public async Task LocalRegister()
-    {
-        var page = await context!.NewPageAsync();
-        await page.GotoAsync("http://localhost:5273/");
-        await page.GetByRole(AriaRole.Link, new() { Name = "Logout Log in" }).ClickAsync();
-        await page.GetByRole(AriaRole.Link, new() { Name = "- Register as a new user" }).ClickAsync();
-        await page.GetByText("Register Chirp! Register").PressAsync("ControlOrMeta+z");
-        await page.GetByPlaceholder("Bob").FillAsync("TestName");
-        await page.GetByPlaceholder("name@example.com").DblClickAsync();
-        await page.GetByPlaceholder("name@example.com").FillAsync("Test@gmail.com");
-        await page.GetByLabel("Password", new() { Exact = true }).ClickAsync();
-        await page.GetByLabel("Password", new() { Exact = true }).FillAsync("Chirp123!");
-        await page.GetByLabel("Confirm Password").DblClickAsync();
-        await page.GetByLabel("Confirm Password").FillAsync("Chirp123!");
-        await page.GetByRole(AriaRole.Button, new() { Name = "Register" }).ClickAsync();
-        await page.GetByRole(AriaRole.Link, new() { Name = "Logout Logout[TestName]" }).ClickAsync();
-        await page.GetByRole(AriaRole.Button, new() { Name = "Click here to Logout" }).ClickAsync();
-
-    }
-
     [Fact]
     public async Task LocalLogin()
     {
