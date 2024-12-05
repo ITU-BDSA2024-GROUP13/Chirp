@@ -23,7 +23,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Likes = [],
             Text = message.Text,
             AuthorId = message.AuthorId,
-            TimeStamp = HelperFunctions.FromUnixTimeToDateTime(message.Timestamp)
+            TimeStamp = HelperFunctions.FromUnixTimeToDateTime(message.Timestamp),
+            Image = message.Image
         };
         var queryResult = await _dbContext.Cheeps.AddAsync(newCheep); // does not write to the database!
 

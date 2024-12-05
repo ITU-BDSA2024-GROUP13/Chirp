@@ -15,6 +15,8 @@ public class CheepDTO
     public required int Likes { get; set; }
 
     public required int Dislikes { get; set; }
+
+    public string? Image { get; set; }
 }
 
 public class NewCheepDTO
@@ -30,6 +32,8 @@ public class NewCheepDTO
     public int Likes { get; set; } = 0;
 
     public int Dislikes { get; set; } = 0;
+
+    public string? Image { get; set; }
 }
 
 public class UpdateCheepDTO
@@ -48,7 +52,6 @@ public class CheepDTOForRelevance
 
     public required bool isDisliked { get; set; }
 
-
-
+    public string? Image { get; set; }
 
 }

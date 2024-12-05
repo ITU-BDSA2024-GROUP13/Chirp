@@ -1,8 +1,9 @@
+<form class="cheep-post-form" id="post" enctype="multipart/form-data">
+    <input type="text" id="post-input" >
+        <input type="file" id="post-image" accept="image/*" />
+    </input>
 
-<form class="cheep-post-form" id="post" asp-page-handler="Save">
-    <input type="text" id="post-input">
-    
-    <div class="post-placeholder" id="post-placeholder"> What's on your mind? </div>
+    <div class="post-placeholder" id="post-placeholder">What's on your mind?</div>
 </form>
 
 <button class="footer-button" onclick="rotate()">
@@ -12,55 +13,61 @@
 <script>
     document.addEventListener("DOMContentLoaded", () => {
         const postInput = document.getElementById("post-input");
+        const postImage = document.getElementById("post-image");
 
         postInput.addEventListener("focus", () => movePostPlaceholder());
         postInput.addEventListener("blur", () => movePostPlaceholder());
 
-        postInput.addEventListener("keydown", function(event) {
+        postInput.addEventListener("keydown", function (event) {
             if (event.key === "Enter") {
                 event.preventDefault();
-                const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                const antiforgeryToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                const formData = new FormData();
+
+                formData.append("postName", '@User!.Identity!.Name');
+                formData.append("postString", postInput.value);
+
+                // Add image file if selected
+                if (postImage.files.length > 0) {
+                    formData.append("postImage", postImage.files[0]);
+                }
 
                 fetch(window.location.href + (window.location.href.includes("?") ? "&handler=Save" : "?handler=Save"), {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json",
-                        "RequestVerificationToken": antiforgeryToken
+                        "RequestVerificationToken": antiforgeryToken,
                     },
-                    body: JSON.stringify({ 
-                        postName: '@User!.Identity!.Name',
-                        postString: postInput.value,
+                    body: formData, 
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        location.reload();
                     })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    location.reload()
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                });
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
             }
         });
     });
 
-    function rotate(){
+    function rotate() {
         const img = document.getElementById("post-button");
         img.style.transform = img.style.transform === "rotate(45deg)" ? "rotate(0deg)" : "rotate(45deg)";
         toggleVisibilityById("post");
     }
 
-    function movePostPlaceholder(){
+    function movePostPlaceholder() {
         const div = document.getElementById("post-placeholder");
         const input = document.getElementById("post-input");
 
-        if (input === document.activeElement) {  // When input is focused
+        if (input === document.activeElement) { // When input is focused
             div.style.top = "4px";
             div.style.color = "rgb(75, 21, 21)";
-        } else {  // When input loses focus
+        } else { // When input loses focus
             div.style.top = "60px";
             div.style.color = "rgba(75, 21, 21, 0.37)";
-            input.value = "";
         }
-    } 
+    }
 </script>

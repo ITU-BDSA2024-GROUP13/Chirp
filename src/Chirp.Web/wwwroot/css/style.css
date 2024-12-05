@@ -292,3 +292,24 @@ nav {
 .pagelist li:hover{
   background: rgba(64, 144, 205, 0.583);
 }
+.cheep-content {
+display:flex;
+justify-content: center;
+}
+
+.cheep-image {
+  text-align: center;
+  width: 95%;
+  background-color: #bcbcbc;
+  padding: 10px;
+  border: #ffffff;
+  border-style:dotted;
+}
+
+.cheep-image img {
+  max-width: 90%;
+  object-fit: contain;
+  max-height: 500px; 
+  display: block;
+  margin: 0 auto;
+}

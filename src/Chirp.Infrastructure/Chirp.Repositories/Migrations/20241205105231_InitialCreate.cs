@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -189,7 +189,8 @@ namespace Chirp.Repositories.Migrations
                     Text = table.Column<string>(type: "TEXT", maxLength: 160, nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "TEXT", nullable: false),
                     AuthorId = table.Column<string>(type: "TEXT", nullable: false),
-                    LocalLikeRatio = table.Column<float>(type: "REAL", nullable: false)
+                    LocalLikeRatio = table.Column<float>(type: "REAL", nullable: false),
+                    Image = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -61,13 +61,14 @@ builder.Services.AddHsts(options => options.MaxAge = TimeSpan.FromHours(1));
 builder.Services.AddAuthentication()
     .AddGitHub(o =>
     {
-        o.ClientId = builder.Configuration["OAUTH_CLIENT_CLIENTID"] ?? throw new NullReferenceException("ClientId cannot be null");
-        o.ClientSecret = builder.Configuration["OAUTH_CLIENT_SECRET"] ?? throw new NullReferenceException("ClientSecret cannot be null");
+        o.ClientId = "Ov23liXdZEY87yaZCSlR";
+        o.ClientSecret = "ddc835be6e70422f6172d53a52d6bd008a210c61";
         o.CallbackPath = "/signin-github";
         o.Scope.Add("user:email");
     });
 
 var app = builder.Build();
+app.UseStaticFiles();
 
 if (app.Environment.IsProduction())
 {
@@ -107,7 +108,6 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 
 app.UseRouting();
 app.UseCors(allowOrigins);
