@@ -1,0 +1,39 @@
+@page "/users/{author}/mypage/followedby"
+@using Chirp.Core.Entities
+@model Chirp.Web.models.FollowedByPage
+@inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
+@using Chirp.Web.models;
+
+@{
+    ViewData["Title"] = "Chirp!";
+    Layout = "./Shared/_Layout.cshtml";
+}
+
+@await Html.PartialAsync("_Nav")
+
+
+@if(SignInManager.IsSignedIn(User))
+{
+    <strong class="cheep-author"> <a href="/users/@User!.Identity!.Name/mypage">Go back</a> </strong>
+
+    
+    <h3>Everyone you Are followed by</h3>
+    @if (Model.FollowedList!.Count > 0)
+    {
+        @foreach (var authorDTO in Model.FollowedList)
+        {
+            <strong class="cheep-author"> <a href="/users/@authorDTO.Name">@authorDTO.Name</a> </strong>
+        } 
+    } else
+    {
+        <em>You have no followers so far.</em>
+    }
+} else
+{
+    <div>
+        <div class="cheep-item">
+            <p class="cheep-body"> Log in to experience new ideas on Chirp. </p>
+        </div>
+    </div>
+}
