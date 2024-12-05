@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{96415C9A-2294-4FEA-BF68-5103EC0A569D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaywrightTests", "test\PlaywrightTests\PlaywrightTests.csproj", "{507B0518-9389-4F7B-8D61-184D91077B2B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaywrightTests", "testPlaywright\PlaywrightTests\PlaywrightTests.csproj", "{507B0518-9389-4F7B-8D61-184D91077B2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
