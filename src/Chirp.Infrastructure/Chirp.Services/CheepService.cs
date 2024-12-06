@@ -397,6 +397,12 @@ public class CheepService : ICheepService
         await _cheepRepository.RemoveLike(cheepId, authorId);
     }
 
+    
+    public async Task<List<AuthorDTO>> GetAllLikers(int cheepId)
+    {
+        return await _cheepRepository.GetAllLikers(cheepId);
+    }
+
     /// <summary>
     /// Adds a dislike to a specific cheep by the specified author.
     /// </summary>
