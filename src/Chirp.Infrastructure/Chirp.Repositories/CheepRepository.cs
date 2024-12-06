@@ -90,7 +90,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
             Likes = message.Likes.Count,
-            Dislikes = message.Dislikes.Count
+            Dislikes = message.Dislikes.Count,
+            Image = message.Image
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -116,7 +117,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
             Likes = message.Likes.Count,
-            Dislikes = message.Dislikes.Count
+            Dislikes = message.Dislikes.Count,
+            Image = message.Image
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -141,7 +143,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Dislikes = message.Dislikes.Count,
             LocalLikeRatio = message.LocalLikeRatio, 
             isFollowing = message.Author.FollowedBy.Contains(author),
-            isDisliked = message.Dislikes.Contains(author)
+            isDisliked = message.Dislikes.Contains(author),
+            Image = message.Image
 
         })
         .ToListAsync();
@@ -154,7 +157,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         foreach (var cheep in list)
         {
 
-            var points = await RelevancePoints(cheep.Id, cheep.Author!,
+            var points = RelevancePoints(cheep.Id, cheep.Author!,
             userName, cheep.LocalLikeRatio, HelperFunctions.FromUnixTimeToDateTime(cheep.Timestamp),
             cheep.isFollowing, cheep.isDisliked);
 
@@ -173,7 +176,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
             Likes = message.Likes.Count,
-            Dislikes = message.Dislikes.Count
+            Dislikes = message.Dislikes.Count,
+            Image = message.Image
         })
         .ToListAsync();
         // Execute the query
@@ -189,7 +193,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
     }
 
 
-    public async Task<double> RelevancePoints(int cheepid, string follower, string userName, double likeRatio, DateTime timeStamp, 
+    public double RelevancePoints(int cheepid, string follower, string userName, double likeRatio, DateTime timeStamp, 
     bool follows, bool disliked)
     {
         var followsPoints = 0;
