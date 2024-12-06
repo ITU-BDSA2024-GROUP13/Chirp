@@ -13,11 +13,11 @@ public class LikesPage(ICheepService cheepService, SignInManager<Author> signInM
     
     public List<AuthorDTO>? LikeList { get; set; }
 
-    public async Task<IActionResult> OnGetAsync(string author)
+    public async Task<IActionResult> OnGetAsync(int cheepId)
     {
         // Updates the page and retrieves the author details and posts.
         var page = UpdatePage();
-        LikeList = await _cheepService.GetFollowedby(author);
+        LikeList = await _cheepService.GetAllLikers(cheepId);
         // Update the page with new data.
         UpdatePage(page);
 
