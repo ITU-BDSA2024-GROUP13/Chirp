@@ -225,7 +225,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
             Likes = message.Likes.Count,
-            Dislikes = message.Dislikes.Count
+            Dislikes = message.Dislikes.Count,
+            Image = message.Image
 
         });
         // Execute the query
@@ -248,7 +249,8 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             Text = message.Text,
             Timestamp = ((DateTimeOffset)message.TimeStamp).ToUnixTimeMilliseconds(),
             Likes = message.Likes.Count,
-            Dislikes = message.Dislikes.Count
+            Dislikes = message.Dislikes.Count,
+            Image = message.Image
         });
         // Execute the query
         var result = await query.ToListAsync();
