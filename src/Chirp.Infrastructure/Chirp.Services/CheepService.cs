@@ -403,6 +403,11 @@ public class CheepService : ICheepService
         return await _cheepRepository.GetAllLikers(cheepId);
     }
 
+    public async Task<List<AuthorDTO>> GetAllDislikers(int cheepId)
+    {
+        return await _cheepRepository.GetAllDislikers(cheepId);
+    }
+
     /// <summary>
     /// Adds a dislike to a specific cheep by the specified author.
     /// </summary>

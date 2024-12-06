@@ -157,6 +157,8 @@ public interface ICheepService
 
     public Task<List<AuthorDTO>> GetAllLikers(int cheepId);
 
+    public Task<List<AuthorDTO>> GetAllDislikers(int cheepId);
+
 
     /// <summary>
     /// Retrieves a list of authors that a specific user follows.
