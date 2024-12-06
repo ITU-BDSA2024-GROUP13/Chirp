@@ -1099,4 +1099,49 @@ public class CheepServiceTest : IDisposable
 
         }
     }
+
+     [Fact]
+    public async void ForgetMe()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+
+            await _cheepService.Follow("11", "12");
+
+            await _cheepService.Follow("12", "11");
+
+
+            await _cheepService.AddLike(656, "11");
+            await _cheepService.AddDislike(656, "11");
+
+            await _cheepService.ForgetMe("Helge");
+            List<AuthorDTO> listFollowers = await _cheepService.GetFollowedby("Adrian");
+
+            List<CheepDTO> listCheeps = await _cheepService.ReadUserMessages("Helge", 0);
+
+            Assert.Empty(listFollowers);
+            Assert.Empty(listCheeps);
+
+            try
+            {
+                await _cheepService.GetAllLikers(656);
+                Assert.Fail();
+            }
+            catch (System.Exception) {}
+            try
+            {
+                await _cheepService.GetAllDislikers(656);
+                Assert.Fail();
+            }
+            catch (System.Exception){}
+
+        }
+
+    }
 }
