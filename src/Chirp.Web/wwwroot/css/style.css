@@ -4,6 +4,7 @@ h2, .name-timeline {
   display: flex;
   align-items: center;
   justify-content:space-between;
+  margin-bottom: 0px;
 }
 
 .tag {
@@ -58,6 +59,7 @@ h2, .name-timeline {
   padding: 5px;
   z-index: 10;
   right: 0px;
+  top: 28px;
   border-width: 1.5px;
   border-style:solid;
   border-color:rgb(60, 59, 59);
@@ -128,10 +130,12 @@ h2, .name-timeline {
   display: flex;
   flex-direction: column;
   background-color: rgba(160, 160, 160, 0.335);
-  padding: 20px;
+  padding: 15px;
   padding-bottom: 5px;
-  border-radius: 20px;
+  padding-top: 12px;
+  border-radius: 5px;
   z-index: auto;
+  font-size: 14px;
 }
 
 .cheep-item::before{
@@ -139,11 +143,11 @@ h2, .name-timeline {
   position: absolute;
   width: 30px;
   height: 30px;
-  border-top: 2px solid rgb(0, 0, 0);
-  border-left: 2px solid rgb(0, 0, 0);
+  border-top: 1.5px solid rgb(0, 0, 0);
+  border-left: 1.5px solid rgb(0, 0, 0);
   top:0px;
   left: 0px;
-  border-radius: 15px;
+  border-radius: 5px;
   border-start-end-radius: 0px;
   border-end-start-radius: 0px;
 }
@@ -153,11 +157,11 @@ h2, .name-timeline {
   position: absolute;
   width: 30px;
   height: 30px;
-  border-right: 2px solid rgb(0, 0, 0);
-  border-bottom: 2px solid rgb(0, 0, 0);
+  border-right: 1.5px solid rgb(0, 0, 0);
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.67);
   bottom:0px;
   right: 0px;
-  border-radius: 15px;
+  border-radius: 5px;
   border-end-start-radius: 0px;
   border-start-end-radius: 0px;
 }
@@ -167,9 +171,17 @@ h2, .name-timeline {
   cursor: pointer;
 }
 
+.cheep-body{
+  padding: 0px;
+  margin: 0px;
+  padding-top: 5px;
+  padding-bottom: 2px;
+}
+
 .cheep-date{
   display: flex;
   justify-content: end;
+  font-size: 13px;
   border-bottom-style: solid;
   border-color: rgba(128, 128, 128, 0.644);
 }
@@ -196,7 +208,7 @@ h2, .name-timeline {
   justify-content: center;
   align-items: center;
   width: 50px;
-  height: 30px;
+  height: 20px;
   background: rgba(190, 190, 198, 0.536);
   border-color: black;
   border-style: solid;
