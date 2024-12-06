@@ -1141,6 +1141,12 @@ public class CheepServiceTest : IDisposable
             }
             catch (System.Exception){}
 
+            try{
+                await _cheepService.ForgetMe("Helge");
+                Assert.Fail();
+            }
+            catch (System.Exception) {}
+
         }
 
     }

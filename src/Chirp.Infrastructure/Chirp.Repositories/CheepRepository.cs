@@ -281,10 +281,6 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
             {
                 cheep.LocalLikeRatio = (float)Math.Log((double)cheep.Likes.Count + 1, 5);
             }
-            else
-            {
-                cheep.LocalLikeRatio = 0;
-            }
         }
 
         _dbContext.Entry(cheep).CurrentValues.SetValues(cheep.Likes);

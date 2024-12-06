@@ -112,8 +112,7 @@ public class CheepService : ICheepService
             return 0;
         }
         try {
-            AuthorDTO author = await FindSpecificAuthorByName(message.Author);
-        } 
+            AuthorDTO author = await FindSpecificAuthorByName(message.Author);} 
         catch {
             NewAuthorDTO newAuthor = new() { Name = message.Author, Email = message.Author + "@mail.com" };
             await CreateAuthor(newAuthor);
