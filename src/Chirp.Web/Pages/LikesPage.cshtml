@@ -15,7 +15,9 @@
 
 @if(SignInManager.IsSignedIn(User))
 {
-    <strong class="cheep-author"> <a href="/">Go back</a> </strong>  
+
+<strong class="cheep-author"> <a href="javascript:void(0);" onclick="history.go(-1);">Go back</a>
+ </strong>  
     <h3>Likes</h3>
     @if (Model.LikeList!.Count > 0)
     {
