@@ -351,9 +351,6 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         }
     }
 
-
-
-
     public async Task RemoveCheepsFromUser(string userName)
     {
 
