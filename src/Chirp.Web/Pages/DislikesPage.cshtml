@@ -1,6 +1,6 @@
-@page "/{cheepId}/likes"
+@page "/{cheepId}/dislikes"
 @using Chirp.Core.Entities
-@model Chirp.Web.models.LikesPage
+@model Chirp.Web.models.DislikesPage
 @inject SignInManager<Author> SignInManager
 @inject UserManager<Author> UserManager
 @using Chirp.Web.models;
@@ -19,15 +19,15 @@
 <strong class="cheep-author"> <a href="javascript:void(0);" onclick="history.go(-1);">Go back</a>
  </strong>  
     <h3>Likes</h3>
-    @if (Model.LikeList!.Count > 0)
+    @if (Model.DislikeList!.Count > 0)
     {
-        @foreach (var authorDTO in Model.LikeList)
+        @foreach (var authorDTO in Model.DislikeList)
         {
             <strong class="cheep-author"> <a href="/users/@authorDTO.Name">@authorDTO.Name</a> </strong>
         } 
     } else
     {
-        <em>This cheep has no likes.</em>
+        <em>This cheep has no dislikes.</em>
     }
 } else
 {

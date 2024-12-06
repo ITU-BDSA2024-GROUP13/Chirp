@@ -17,7 +17,7 @@ public class DislikesPage(ICheepService cheepService, SignInManager<Author> sign
     {
         // Updates the page and retrieves the author details and posts.
         var page = UpdatePage();
-        DislikeList = await _cheepService.GetAllLikers(cheepId);
+        DislikeList = await _cheepService.GetAllDislikers(cheepId);
         // Update the page with new data.
         UpdatePage(page);
 
