@@ -134,7 +134,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
 
         var author = _dbContext.Authors.Single(e => e.UserName == userName);
 
-        var query1 = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).Include(p => p.Author.FollowedBy)
+        var query1 = _dbContext.Cheeps.Include(p => p.Likes).Include(p => p.Dislikes).Include(p => p.Author!.FollowedBy)
         .Select(message => new CheepDTOForRelevance
         {
             Id = message.CheepId,
