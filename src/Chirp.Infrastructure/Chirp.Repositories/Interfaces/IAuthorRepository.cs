@@ -108,12 +108,6 @@ public interface IAuthorRepository
     /// <returns>A task representing the asynchronous operation.</returns>
     public Task RemoveAllFollowing(string id);
 
-    /// <summary>
-    /// Removes all liked cheeps from an author.
-    /// </summary>
-    /// <param name="id">The ID of the author whose liked cheeps should be removed.</param>
-    /// <returns>A task representing the asynchronous operation.</returns>
-    public Task RemoveAllLikedCheeps(string id);
 
     /// <summary>
     /// Removes all authors who are following a specific author.

@@ -1,0 +1,39 @@
+@page "/{cheepId}/likes"
+@using Chirp.Core.Entities
+@model Chirp.Web.models.LikesPage
+@inject SignInManager<Author> SignInManager
+@inject UserManager<Author> UserManager
+@using Chirp.Web.models;
+
+@{
+    ViewData["Title"] = "Chirp!";
+    Layout = "./Shared/_Layout.cshtml";
+}
+
+@await Html.PartialAsync("_Nav")
+
+
+@if(SignInManager.IsSignedIn(User))
+{
+
+<strong class="cheep-author"> <a href="javascript:void(0);" onclick="history.go(-1);">Go back</a>
+ </strong>  
+    <h3>Likes</h3>
+    @if (Model.LikeList!.Count > 0)
+    {
+        @foreach (var authorDTO in Model.LikeList)
+        {
+            <strong class="cheep-author"> <a href="/users/@authorDTO.Name">@authorDTO.Name</a> </strong>
+        } 
+    } else
+    {
+        <em>This cheep has no likes.</em>
+    }
+} else
+{
+    <div>
+        <div class="cheep-item">
+            <p class="cheep-body"> Log in to experience new ideas on Chirp. </p>
+        </div>
+    </div>
+}

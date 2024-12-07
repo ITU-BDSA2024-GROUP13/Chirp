@@ -253,6 +253,11 @@ public class CheepRepositoryTest : IDisposable
                 Assert.Equal("10", list2[0].AuthorId);
                 Assert.Equal("11", list2[1].AuthorId);
 
+                await repo.AddDisLike(659, "11");
+                List<CheepDTO> list4 = await repo.ReadPublicMessagesbyRelevance(32, 0, "Helge");
+                // Helge message gets more relevance for Adrian
+                Assert.Equal("11", list4[0].AuthorId);
+
                 var authorRepo = new AuthorRepository(context);
 
                 // Adrian follows Helge
@@ -262,6 +267,8 @@ public class CheepRepositoryTest : IDisposable
                 // Helge message gets more relevance for Adrian
                 Assert.Equal("11", list3[0].AuthorId);
                 Assert.Equal("10", list3[1].AuthorId);
+
+
 
 
             }

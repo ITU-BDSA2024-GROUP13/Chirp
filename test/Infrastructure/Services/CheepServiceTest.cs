@@ -113,6 +113,90 @@ public class CheepServiceTest : IDisposable
 
     }
 
+     [Fact]
+    public async void ReadPublicMessagesbyOldest()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+
+            List<CheepDTO> list = await _cheepService.ReadPublicMessagesbyOldest(0);
+            string authorName = list[0].Author;
+            Boolean otherAuthor = false;
+
+            foreach (CheepDTO item in list)
+            {
+                if (!item.Author.Equals(authorName))
+                {
+                    otherAuthor = true;
+                }
+            }
+            // Should not be larger than the take value
+            Assert.False(list.Count > 32);
+            // The most recent message in the test db
+            Assert.Equal("Hello, BDSA students!", list[0].Text);
+            Assert.True(otherAuthor);
+
+        }
+
+    }
+
+    [Fact]
+    public async void ReadPublicMessagesbyMostLiked()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+            await _cheepService.AddLike(1, "11");
+            await _cheepService.AddLike(1, "10");
+            await _cheepService.AddLike(1, "9");
+            await _cheepService.AddLike(1, "8");
+            await _cheepService.AddLike(1, "7");
+            await _cheepService.AddLike(1, "6");
+            await _cheepService.AddLike(1, "5");
+
+            await _cheepService.AddLike(2, "11");
+            await _cheepService.AddLike(2, "10");
+            await _cheepService.AddLike(2, "9");
+            await _cheepService.AddLike(2, "8");
+            await _cheepService.AddLike(2, "7");
+            await _cheepService.AddLike(2, "6");
+
+            List<CheepDTO> list = await _cheepService.ReadPublicMessagesbyMostLiked(0);
+            string authorName = list[0].Author;
+            Boolean otherAuthor = false;
+
+            foreach (CheepDTO item in list)
+            {
+                if (!item.Author.Equals(authorName))
+                {
+                    otherAuthor = true;
+                }
+            }
+
+
+
+            // Should not be larger than the take value
+            Assert.False(list.Count > 32);
+            // The most recent message in the test db
+            Assert.Equal("They were married in Chicago, with old Smith, and was expected aboard every day; meantime, the two went past me.", list[0].Text);
+            Assert.Equal("And then, as he listened to all that's left o' twenty-one people.", list[1].Text);
+            Assert.True(otherAuthor);
+
+        }
+
+    }
+
     [Fact]
     public async void ReadPublicMessagesbyRelevance()
     {
@@ -863,7 +947,36 @@ public class CheepServiceTest : IDisposable
 
             Assert.False(hasLiked3);
 
+            bool noSuchAuthor = await _cheepService.HasLiked("J", 656);
+            //No exception was thrown
+            Assert.False(noSuchAuthor);
+        }
+    }
 
+    [Fact]
+    public async void GetAllLikers()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+            //Likes own cheep (is allowed)
+            await _cheepService.AddLike(656, "11");
+
+            //Other likes same cheep
+            await _cheepService.AddLike(656, "12");
+            await _cheepService.AddLike(656, "12");
+            await _cheepService.AddLike(656, "12");
+
+
+
+            List<AuthorDTO> authors = await _cheepService.GetAllLikers(656);
+            Assert.Equal(2, authors.Count);
+            Assert.Equal("Helge", authors[0].Name);
         }
     }
 
@@ -941,12 +1054,100 @@ public class CheepServiceTest : IDisposable
             Assert.True(HasDisliked);
             Assert.False(HasDisliked2);
 
-            await _cheepService.RemoveLike(656, "11");
-            bool HasDisliked3 = await _cheepService.HasLiked("Helge", 656);
+            await _cheepService.RemoveDislike(656, "11");
+            bool HasDisliked3 = await _cheepService.HasDisliked("Helge", 656);
 
             Assert.False(HasDisliked3);
 
 
+            bool noSuchAuthor = await _cheepService.HasDisliked("J", 656);
+            //No exception was thrown
+            Assert.False(noSuchAuthor);
+
         }
+    }
+
+    
+
+        [Fact]
+    public async void GetAllDislikers()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+            //Likes own cheep (is allowed)
+            await _cheepService.AddDislike(656, "11");
+
+            //Other likes same cheep
+            await _cheepService.AddDislike(656, "12");
+            await _cheepService.AddDislike(656, "12");
+            await _cheepService.AddDislike(656, "12");
+
+
+
+            List<AuthorDTO> authors = await _cheepService.GetAllDislikers(656);
+            Assert.Equal(2, authors.Count);
+            Assert.Equal("Helge", authors[0].Name);
+
+            List<AuthorDTO> authorLikes = await _cheepService.GetAllLikers(656);
+            Assert.Empty(authorLikes);
+
+        }
+    }
+
+     [Fact]
+    public async void ForgetMe()
+    {
+        using (var scope = _serviceProvider.CreateScope())
+        {
+
+            var context = scope.ServiceProvider.GetService<CheepDBContext>();
+            _cheepRepository = new CheepRepository(context);
+            _authorRepository = new AuthorRepository(context);
+            _cheepService = new CheepService(_cheepRepository, _authorRepository);
+
+
+            await _cheepService.Follow("11", "12");
+
+            await _cheepService.Follow("12", "11");
+
+
+            await _cheepService.AddLike(656, "11");
+            await _cheepService.AddDislike(656, "11");
+
+            await _cheepService.ForgetMe("Helge");
+            List<AuthorDTO> listFollowers = await _cheepService.GetFollowedby("Adrian");
+
+            List<CheepDTO> listCheeps = await _cheepService.ReadUserMessages("Helge", 0);
+
+            Assert.Empty(listFollowers);
+            Assert.Empty(listCheeps);
+
+            try
+            {
+                await _cheepService.GetAllLikers(656);
+                Assert.Fail();
+            }
+            catch (System.Exception) {}
+            try
+            {
+                await _cheepService.GetAllDislikers(656);
+                Assert.Fail();
+            }
+            catch (System.Exception){}
+
+            try{
+                await _cheepService.ForgetMe("Helge");
+                Assert.Fail();
+            }
+            catch (System.Exception) {}
+
+        }
+
     }
 }

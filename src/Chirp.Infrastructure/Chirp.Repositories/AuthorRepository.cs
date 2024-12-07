@@ -284,20 +284,6 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
     }
 
-    /// <summary>
-    /// Removes all liked cheeps from the specified author's list of liked cheeps.
-    /// </summary>
-    /// <param name="id">The ID of the author whose liked cheeps will be removed.</param>
-    public async Task RemoveAllLikedCheeps(string id)
-    {
-        Author author = _dbContext.Authors.Include(p => p.LikedCheeps).Single(e => e.Id == id);
-
-        author.LikedCheeps.Clear();
-
-        _dbContext.Entry(author).CurrentValues.SetValues(author.LikedCheeps);
-
-        await _dbContext.SaveChangesAsync(); // persist the changes in the database
-    }
 
     /// <summary>
     /// Removes all followed-by authors from the specified author's list of followed-by authors.

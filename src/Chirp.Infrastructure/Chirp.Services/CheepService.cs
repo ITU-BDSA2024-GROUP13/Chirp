@@ -112,8 +112,7 @@ public class CheepService : ICheepService
             return 0;
         }
         try {
-            AuthorDTO author = await FindSpecificAuthorByName(message.Author);
-        } 
+            AuthorDTO author = await FindSpecificAuthorByName(message.Author);} 
         catch {
             NewAuthorDTO newAuthor = new() { Name = message.Author, Email = message.Author + "@mail.com" };
             await CreateAuthor(newAuthor);
@@ -395,6 +394,17 @@ public class CheepService : ICheepService
     public async Task RemoveLike(int cheepId, string authorId)
     {
         await _cheepRepository.RemoveLike(cheepId, authorId);
+    }
+
+    
+    public async Task<List<AuthorDTO>> GetAllLikers(int cheepId)
+    {
+        return await _cheepRepository.GetAllLikers(cheepId);
+    }
+
+    public async Task<List<AuthorDTO>> GetAllDislikers(int cheepId)
+    {
+        return await _cheepRepository.GetAllDislikers(cheepId);
     }
 
     /// <summary>

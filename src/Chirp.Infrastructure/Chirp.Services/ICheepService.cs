@@ -154,6 +154,12 @@ public interface ICheepService
     /// <returns>A task representing the asynchronous operation, with a list of AuthorDTOs representing the followers.</returns>
     public Task<List<AuthorDTO>> GetFollowersbyId(string id);
 
+
+    public Task<List<AuthorDTO>> GetAllLikers(int cheepId);
+
+    public Task<List<AuthorDTO>> GetAllDislikers(int cheepId);
+
+
     /// <summary>
     /// Retrieves a list of authors that a specific user follows.
     /// </summary>

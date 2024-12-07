@@ -127,7 +127,7 @@ public interface ICheepRepository
     /// <returns>A task representing the asynchronous operation.</returns>
     public Task RemoveAllDislikes(int cheepId);
 
-    public Task<double> RelevancePoints(int cheepid, string follower, string userName, double likeRatio, DateTime timeStamp, bool follows, bool disliked);
+    public double RelevancePoints(int cheepid, string follower, string userName, double likeRatio, DateTime timeStamp, bool follows, bool disliked);
 
     public Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, List<string> followers, int takeValue, int skipValue);
 
