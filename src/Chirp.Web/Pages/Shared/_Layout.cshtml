@@ -53,6 +53,20 @@
 
     <script src="~/js/main.js"></script>
 
+    <script>
+        const currentUrl = window.location.href;
+
+        //Makes sure that the post and search doesn't appear on MyPage or Settings page
+        if(currentUrl == location.origin + "/users/@User!.Identity!.Name/mypage"
+            || currentUrl == location.origin +  "/Identity/Account/Manage"){
+           
+            const footer = document.getElementsByTagName("footer");
+            const pagelist = document.getElementsByClassName("navigation")
+            footer[0].style.display = 'none';
+            pagelist[0].style.display = 'none';
+        }   
+    </script>
+
     @RenderSection("Scripts", required: false)
 </body>
 
