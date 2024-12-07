@@ -27,11 +27,11 @@
                     Change Details
                 </button>
 
-                <button class = "forgetMe">
+                <button class="forgetMe">
                     Forget Me
                 </button>
 
-                <button class = "help">
+                <button class="Help">
                     Help
                 </button>
             </div>
@@ -106,31 +106,56 @@ else
     const content = document.getElementById('content');
 
     const defaultHTML = content.innerHTML;
-document.addEventListener('DOMContentLoaded', () => {
-    const buttons = document.querySelectorAll('button');
-    const content = document.getElementById('content');
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('button');
+        const content = document.getElementById('content');
 
-    buttons.forEach(button => {
-        button.addEventListener('click', function() {
+        buttons.forEach(button => {
+            button.addEventListener('click', function () {
 
-            buttons.forEach(btn => btn.classList.remove('activeButton'));
+                buttons.forEach(btn => btn.classList.remove('activeButton'));
 
-           
-            this.classList.add('activeButton');
 
-            
-            if (this.classList.contains('profileDetails')) {
-                content.innerHTML = defaultHTML;
-            } else if (this.classList.contains('changeDetails')) {
-                content.innerHTML = `<h3> This page is currently under construction </h3>`;
-            } else if (this.classList.contains('forgetMe')) {
-                content.innerHTML = `<h3> This page is currently under construction </h3>`;
-            } else if (this.classList.contains('Help')){
-                content.innerHTML = `<h3> This page is currently under construction </h3>`;
-            }
+                this.classList.add('activeButton');
+
+
+                if (this.classList.contains('profileDetails')) {
+                    content.innerHTML = defaultHTML;
+                } else if (this.classList.contains('changeDetails')) {
+                    content.innerHTML = `<h3> This page is currently under construction </h3>`;
+                } else if (this.classList.contains('forgetMe')) {
+                    content.innerHTML = `
+                    <h2> This page allows you to delete your account</h2>
+                    <span>Warning: By pressing forget me - and confirming the deletion of your account - all data of your account will be lost.</span>
+                    <br>
+                    <br>
+                    <span> Neither you or the Chirp company will be able to retrieve the deleted data. So be absolute sure that you want to delete your account before confirming.</span>
+                    <button id="forgetme" data-author="@Model.AuthorDTO.Name">Forget me</button>
+                    
+                    <div class="confirmForgetMe" id="confirmForgetMe">
+                        <p>Are you sure?</p>
+                        <div class="confirmButtons">
+                            <button id="forgetMeNo">No</button>
+                            <button id="forgetMeYes">Yes</button>
+                        </div>
+                    </div>`;
+                    bindForgetMeEvents();
+                } else if (this.classList.contains('Help')) {
+                    content.innerHTML = `<h3> This page is currently under construction </h3>`;
+                }
+            });
         });
     });
-});
+
+    function bindForgetMeEvents() {
+        const forgetme = document.getElementById("forgetme");
+        const confirmationNo = document.getElementById("forgetMeNo");
+        const confirmationYes = document.getElementById("forgetMeYes");
+
+        forgetme.addEventListener("click", () => toggleVisibilityById("confirmForgetMe"));
+        confirmationNo.addEventListener("click", () => toggleVisibilityById("confirmForgetMe"));
+        confirmationYes.addEventListener("click", () => forgetMe());
+    }
 </script>
 
 <!--<h2>Your private information</h2>
@@ -197,29 +222,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     else
     {
-                                                                                                                                                                                                                                        <em>You have no cheeps so far.</em>
+                                                                                                                                                                                                                                                                <em>You have no cheeps so far.</em>
     }
 }
 else
 {
-                                <div>
-                                                    <div class="cheep-item">
-                                                        <p class="cheep-body"> Log in to experience new ideas on Chirp. </p>
-                                             </div>
-                                   </div>
+                                            <div>
+                                                                <div class="cheep-item">
+                                                                    <p class="cheep-body"> Log in to experience new ideas on Chirp. </p>
+                                                         </div>
+                                               </div>
 }
-
+-->
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const forgetme = document.getElementById("forgetme")
-        const confirmationNo = document.getElementById("forgetMeNo")
-        const confirmationYes = document.getElementById("forgetMeYes")
-
-        confirmationYes.addEventListener("click", () => forgetMe(forgetMe))
-        confirmationNo.addEventListener("click", () => toggleVisibilityById("confirmForgetMe"))
-        forgetme.addEventListener("click", () => toggleVisibilityById("confirmForgetMe"))
-    })
-
     function forgetMe(forgetMe){
         const dataAuthor = forgetme.getAttribute("data-author")
         const antiforgeryToken  = document.querySelector('input[name="__RequestVerificationToken"]').value;
@@ -244,4 +259,3 @@ else
         });
     }
 </script>
---!>

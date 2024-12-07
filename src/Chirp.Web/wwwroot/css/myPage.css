@@ -103,38 +103,6 @@
     width: 46px;
 }
 
-@media only screen and ( max-width: 650px ) {
-    .ProfileNavigation{
-    width: 100px;
-    }
-
-    .profilePicture{
-        width: 100px;
-    }
-
-    #profilePicture{
-        width: 60px;
-        height: 60px;
-    }
-    
-    .MyPage {
-      width: 450px;
-    }
-
-    .email, .username, .telephone{
-        width: 200px;
-    }
-
-    .Knowledge{   
-        width: 200px;
-        margin-left: 35px;
-    }
-
-    .distinction{
-        width: 140px;
-    }
-}
-
 .mypage-outer {
     display: flex;
     justify-content: center;
@@ -169,10 +137,60 @@
     transform: translate(-50%, 50%);
 }
 
+#forgetme{
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    bottom: 30px;
+    height: 60px;
+    width: 200px;
+    background-color: rgb(210, 87, 87);
+    border-radius: 2px;
+    font-size: 20px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
 #forgetMeNo {
     border-radius: 20px;
 }
 
 #forgetMeYes {
     border-radius: 20px;
+}
+
+@media only screen and ( max-width: 650px ) {
+    .ProfileNavigation{
+    width: 100px;
+    }
+
+    .profilePicture{
+        width: 100px;
+    }
+
+    #profilePicture{
+        width: 60px;
+        height: 60px;
+    }
+    
+    .MyPage {
+      width: 450px;
+    }
+
+    .email, .username, .telephone{
+        width: 233px;
+    }
+
+    .Knowledge{   
+        width: 250px;
+        margin-left: 50px;
+    }
+
+    .distinction{
+        width: 160px;
+    }
+
+    #forgetme{
+        bottom: 0px;
+    }
 }
