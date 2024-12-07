@@ -112,13 +112,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     buttons.forEach(button => {
         button.addEventListener('click', function() {
-            // Remove active class from all buttons
+
             buttons.forEach(btn => btn.classList.remove('activeButton'));
 
-            // Add active class to the clicked button
+           
             this.classList.add('activeButton');
 
-            // Update content based on which button was clicked
+            
             if (this.classList.contains('profileDetails')) {
                 content.innerHTML = defaultHTML;
             } else if (this.classList.contains('changeDetails')) {

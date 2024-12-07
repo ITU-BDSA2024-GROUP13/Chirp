@@ -46,18 +46,15 @@
 .navigationButtons button{
     width: 100%;
     height: 84.2px;
-    border-style: solid;
-    border-color: rgba(0, 0, 0, 0.769);
-    border-width: 2px;
+    background-color: #dfdfdf;
 }
 
 .navigationButtons .activeButton {
-    border-right-color: #f0f0f0;
     background-image:
     linear-gradient(
       to right,
-      rgb(15, 198, 183),
-      #f0f0f0 15%
+      rgb(15, 198, 183) 7%,
+      #f0f0f0 7%
     );
 
 }
