@@ -1,10 +1,14 @@
+.page{
+    display: flex;
+    justify-content: center;
+}
 .MyPage{
     position: relative;
     display: inline-block;
     background-color: #f0f0f0;
     width: 650px;
     height: 500px;
-    margin: 0;
+    margin-top: 20px;
 }
 
 .profilePicture{
@@ -13,9 +17,8 @@
     margin-top: 20px;
     width: 100%;
     height: 140px;
-    border-bottom-style: solid;
-    border-color:black;
 }
+
 #profilePicture{
     width: 120px;
     height: 120px;
@@ -23,7 +26,7 @@
 
 .ProfileNavigation{
     display: inline-block;
-    background-color: grey;
+    background-color: rgb(255, 255, 255);
     width: 200px;
     height: 500px;
     flex-wrap: wrap;
@@ -37,12 +40,26 @@
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    gap: 2px;
+    gap: 1px;
 }
 
 .navigationButtons button{
     width: 100%;
-    height: 65.65px;
+    height: 84.2px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.769);
+    border-width: 2px;
+}
+
+.navigationButtons .activeButton {
+    border-right-color: #f0f0f0;
+    background-image:
+    linear-gradient(
+      to right,
+      rgb(15, 198, 183),
+      #f0f0f0 15%
+    );
+
 }
 
 .Knowledge{
@@ -85,8 +102,40 @@
     font-size: 12px;
 }
 
-.distinction span{
+.distinction a{
     width: 46px;
+}
+
+@media only screen and ( max-width: 650px ) {
+    .ProfileNavigation{
+    width: 100px;
+    }
+
+    .profilePicture{
+        width: 100px;
+    }
+
+    #profilePicture{
+        width: 60px;
+        height: 60px;
+    }
+    
+    .MyPage {
+      width: 450px;
+    }
+
+    .email, .username, .telephone{
+        width: 200px;
+    }
+
+    .Knowledge{   
+        width: 200px;
+        margin-left: 35px;
+    }
+
+    .distinction{
+        width: 140px;
+    }
 }
 
 .mypage-outer {

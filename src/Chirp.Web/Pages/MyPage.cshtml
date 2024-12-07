@@ -12,58 +12,126 @@
 }
 
 @await Html.PartialAsync("_Nav")
-<div class="MyPage">
-    <div class="ProfileNavigation">
-        <div class="profilePicture">
-            <img src="/assets/PB.png" id="profilePicture" />
-        </div>
-        <div class="navigationButtons">
-            <button>
-                Profile Details
-            </button>
+<div class="page">
+    <div class="MyPage">
+        <div class="ProfileNavigation">
+            <div class="profilePicture">
+                <img src="/assets/PB.png" id="profilePicture" />
+            </div>
+            <div class="navigationButtons">
+                <button class="profileDetails activeButton">
+                    Profile Details
+                </button>
 
-            <button>
-                My Cheeps
-            </button>
+                <button class="changeDetails">
+                    Change Details
+                </button>
 
-            <button>
-                Change Details
-            </button>
+                <button class = "forgetMe">
+                    Forget Me
+                </button>
 
-            <button>
-                Forget Me
-            </button>
-
-            <button>
-                Help
-            </button>
-        </div>
-    </div>
-
-    <div class="Knowledge">
-        Email:
-        <div class="email">@author.Email </div>
-       
-        Username:
-        <div class="username"> @author.Name </div>
-        
-        Telephone:
-        <div class="telephone"> *Function not added yet</div>
-
-
-
-        <div class = "followCount">
-            <div> @Model.Following </div>
-            <div> @Model.Followed </div>
-        </div>
-        
-        <div class = "distinction" >
-            <span>Following</span>
-            <span>Followers</span>
+                <button class = "help">
+                    Help
+                </button>
+            </div>
         </div>
 
+        <div class="Knowledge" id="content">
+            Email:
+            <div class="email">@author.Email </div>
+
+            Username:
+            <div class="username"> @author.Name </div>
+
+            Telephone:
+            <div class="telephone"> *Function not added yet</div>
+
+
+
+            <div class="followCount">
+                <div> @Model.Following </div>
+                <div> @Model.Followed </div>
+            </div>
+
+            <div class="distinction">
+                <a href="/users/@User!.Identity!.Name/mypage/followers">Following</a>
+                <a href="/users/@User!.Identity!.Name/mypage/followedby">Followers</a> </strong>
+            </div>
+
+        </div>
     </div>
 </div>
+
+<h3>All your personal tweets</h3>
+@if (SignInManager.IsSignedIn(User))
+{
+    @if (Model.MyCheeps.Count > 0)
+    {
+        @foreach (var cheep in Model.MyCheeps)
+        {
+            @await Html.PartialAsync("_Cheep", new CheepPartialView
+{
+    Id = cheep.Id,
+    Author = cheep.Author,
+    Body = cheep.Text,
+    Image = cheep.Image,
+    Date = cheep.Timestamp,
+    Likes = cheep.Likes,
+    Dislikes = cheep.Dislikes,
+    IsLiked = await @Model.HasLiked(User!.Identity!.Name!, cheep.Id),
+    IsDisliked = await @Model.HasDisliked(User!.Identity!.Name!, cheep.Id)
+})
+        }
+    }
+    else
+    {
+        <em>You have no cheeps so far.</em>
+    }
+}
+else
+{
+    <div>
+    <div class="cheep-item">
+        <p class="cheep-body"> Log in to experience new ideas on Chirp. </p>
+    </div>
+</div>
+}
+
+
+<script>
+
+    const profileDetailsButtons = document.getElementsByClassName('profileDetails');
+    const changeDetailsButtons = document.getElementsByClassName('changeDetails');
+    const content = document.getElementById('content');
+
+    const defaultHTML = content.innerHTML;
+document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('button');
+    const content = document.getElementById('content');
+
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            buttons.forEach(btn => btn.classList.remove('activeButton'));
+
+            // Add active class to the clicked button
+            this.classList.add('activeButton');
+
+            // Update content based on which button was clicked
+            if (this.classList.contains('profileDetails')) {
+                content.innerHTML = defaultHTML;
+            } else if (this.classList.contains('changeDetails')) {
+                content.innerHTML = `<h3> This page is currently under construction </h3>`;
+            } else if (this.classList.contains('forgetMe')) {
+                content.innerHTML = `<h3> This page is currently under construction </h3>`;
+            } else if (this.classList.contains('Help')){
+                content.innerHTML = `<h3> This page is currently under construction </h3>`;
+            }
+        });
+    });
+});
+</script>
 
 <!--<h2>Your private information</h2>
 
@@ -129,16 +197,16 @@
     }
     else
     {
-                                                        <em>You have no cheeps so far.</em>
+                                                                                                                                                                                                                                        <em>You have no cheeps so far.</em>
     }
 }
 else
 {
-                            <div>
-                                <div class="cheep-item">
-                                    <p class="cheep-body"> Log in to experience new ideas on Chirp. </p>
-                                </div>
-                            </div>
+                                <div>
+                                                    <div class="cheep-item">
+                                                        <p class="cheep-body"> Log in to experience new ideas on Chirp. </p>
+                                             </div>
+                                   </div>
 }
 
 <script>
