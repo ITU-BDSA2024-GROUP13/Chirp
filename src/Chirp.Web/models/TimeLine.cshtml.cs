@@ -28,9 +28,13 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
     public int DefineLastPage()
     {
+        if(Count < 1){
+            return -1;
+        } else{
         double p = Count / 32;
         int LastPage = (int)Math.Ceiling(p);
         return LastPage;
+        }
     }
 
     protected int UpdatePage(int page = 0)

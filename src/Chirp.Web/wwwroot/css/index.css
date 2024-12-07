@@ -66,9 +66,12 @@ header {
     align-items: center;
     flex-direction: column;
     flex-wrap: wrap;
-    width: 100px;
+    width: 180px;
     height: auto;
-    padding: 5px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 0px;
+    padding-right: 0px;
     z-index: 20;
     right: 0px;
     top: 50px;
@@ -78,22 +81,29 @@ header {
     background-color: rgb(214, 213, 213);
     box-shadow: -3px 3px 8px rgba(0, 0, 0, 0.693);
     display: none;
-    font-size: 10px;
+    font-size: 14px;
+    font-family:Georgia, 'Times New Roman', Times, serif;
 }
 
 .content a{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100px;
+    width: 90%;
     height: 30px;
     cursor: pointer;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.content a:hover{
+    background-color:#a9a9a9;
 }
 
 #settingIcon{
     display: flex;
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     cursor: pointer;
 }
 

@@ -30,7 +30,7 @@
 
     </div>
 
-@if(SignInManager.IsSignedIn(User)){
+@if(SignInManager.IsSignedIn(User) && Model.LastPage != -1){
     <div class="navigation">
         <!-- Defines the 'prev' button which will function as a way to go to the
         previous page by clicking on it-->
@@ -40,6 +40,10 @@
                     <img src="/assets/arrow.png" class="arrow" id="left" />
                 </button>
             </a>
+        }else{
+             <button class="nav-arrow" id = "notActive">
+                    <img src="/assets/arrow.png" class="arrow" id="left" />
+            </button>
         }
 
         <!-- Defines the 'pagelist' which will function as a way to navigate
@@ -106,6 +110,10 @@
                     <img src="/assets/arrow.png" class="arrow" id="right" />
                 </button>
             </a>
+        } else{
+            <button class="nav-arrow" id = "notActive">
+                    <img src="/assets/arrow.png" class="arrow" id="right" />
+            </button>
         }
     </div>
 }
