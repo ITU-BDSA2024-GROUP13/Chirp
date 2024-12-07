@@ -264,8 +264,8 @@ nav {
 }
 
 #notActive{
-  background-color: rgba(0, 0, 0, 0.629);
-  cursor:initial;
+  background-color: rgba(83, 83, 83, 0.629);
+  cursor: initial;
 }
 
 #left, #right {
