@@ -30,7 +30,7 @@ public class AzureTests : IAsyncLifetime
         {
             //To see what the tests "do" you can set this to false
             //and then you can see how it traverses through the website
-            Headless = false,
+            Headless = true,
         });
         context = await browser.NewContextAsync();
     }
