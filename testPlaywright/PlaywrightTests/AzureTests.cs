@@ -23,12 +23,14 @@ public class AzureTests : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
+        
         playwright = await Playwright.CreateAsync();
         browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+
         {
             //To see what the tests "do" you can set this to false
             //and then you can see how it traverses through the website
-            Headless = true,
+            Headless = false,
         });
         context = await browser.NewContextAsync();
     }
