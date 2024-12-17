@@ -1,10 +1,9 @@
-<!-- 
-State which LLM(s) were used during development of your project.
-In case you were not using any, just state so.
-In case you were using an LLM to support your development, briefly describe when and how it was applied.
-Reflect in writing to which degree the responses of the LLM were helpful.
-Discuss briefly if application of LLMs sped up your development or if the contrary was the case.
--->
+% State which LLM(s) were used during development of your project.
+% In case you were not using any, just state so.
+% In case you were using an LLM to support your development, briefly describe when and how it was applied.
+% Reflect in writing to which degree the responses of the LLM were helpful.
+% Discuss briefly if application of LLMs sped up your development or if the contrary was the case.
+
 
 The LLMs which were used throughout the developement process were: ChatGPT, GitHub CoPilot and Codium.
 
