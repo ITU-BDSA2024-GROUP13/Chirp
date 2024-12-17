@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using Chirp.Core.Entities;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Builder;
+using Xunit;
 using Xunit.Sdk;
 
 namespace Core;

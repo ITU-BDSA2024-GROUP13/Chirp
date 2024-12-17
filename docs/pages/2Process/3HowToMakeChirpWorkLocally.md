@@ -1,4 +1,4 @@
-% There has to be some documentation on how to come from cloning your project to a running system. That is, Adrian or Helge have to know precisely what to do in which order. Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then. 
+<!-- There has to be some documentation on how to come from cloning your project to a running system. That is, Adrian or Helge have to know precisely what to do in which order. Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then. -->
 
 ## Comprehensive guide to run the program locally
 
@@ -13,7 +13,7 @@ Please make sure you have all the right ***.Net 8*** dependencies installed [her
 3. Run `$ dotnet Chirp.Web.dll `  
 
 4. Look in your terminal for which port the project is listening on. e.g.  
-![alt text](../../images/image.png)
+![[../../images/localhost.png]]
 
 5. Open your browser and type `http://localhost:<port>`  
 
@@ -28,4 +28,5 @@ Please make sure you have all the right ***.Net 8*** dependencies installed [her
 4. Run the program `$ dotnet watch --project ./src/Chirp.Web`
 
 5. Look in your terminal for which port the project is listening on. e.g.  
-![alt text](../../images/image.png)
+![[../../images/localhost.png]]
+

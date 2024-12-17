@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Chirp.Core.DTO;
 using Chirp.Core.Entities;
 using Chirp.Repositories;
@@ -5,6 +7,7 @@ using Humanizer;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Xunit;
 using Xunit.Sdk;
 
 namespace Repositories;
