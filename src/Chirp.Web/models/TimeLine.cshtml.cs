@@ -3,7 +3,8 @@ namespace Chirp.Web.models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Services;
-using Chirp.Core.DTO;
+using Chirp.Core.DTO.CheepDTO;
+using Chirp.Core.DTO.AuthorDTO;
 using Chirp.Repositories;
 
 public abstract class TimeLine(ICheepService cheepService) : PageModel

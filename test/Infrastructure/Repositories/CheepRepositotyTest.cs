@@ -1,5 +1,4 @@
-using Chirp.Core.DTO;
-using Chirp.Core.Entities;
+using Chirp.Core.DTO.CheepDTO;
 using Chirp.Repositories;
 using Humanizer;
 using Microsoft.CodeAnalysis.CSharp.Syntax;

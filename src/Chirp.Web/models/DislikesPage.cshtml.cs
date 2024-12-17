@@ -1,4 +1,4 @@
-using Chirp.Core.DTO;
+using Chirp.Core.DTO.AuthorDTO;
 using Chirp.Core.Entities;
 using Chirp.Services;
 using Microsoft.AspNetCore.Identity;

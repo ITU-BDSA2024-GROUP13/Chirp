@@ -1,4 +1,4 @@
-namespace Chirp.Core.DTO;
+namespace Chirp.Core.DTO.AuthorDTO;
 
 /// <summary>
 /// This is a author data transfer object that is used to transfer author data between the client and the server.

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Chirp.Core.DTO;
 using Chirp.Core.Entities;
+using Chirp.Core.DTO.AuthorDTO;
 
 namespace Chirp.Repositories;
 

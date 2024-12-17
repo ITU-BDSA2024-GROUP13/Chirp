@@ -1,7 +1,9 @@
 namespace Chirp.Services;
 
 using Chirp.Repositories;
-using Chirp.Core.DTO;
+using Chirp.Core.DTO.CheepDTO;
+using Chirp.Core.DTO.AuthorDTO;
+
 
 public class CheepService : ICheepService
 {

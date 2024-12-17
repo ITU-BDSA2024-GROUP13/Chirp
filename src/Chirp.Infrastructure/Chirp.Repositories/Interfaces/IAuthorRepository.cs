@@ -1,5 +1,5 @@
 namespace Chirp.Repositories;
-using Chirp.Core.DTO;
+using Chirp.Core.DTO.AuthorDTO;
 
 /// <summary>
 /// Defines the repository interface for performing CRUD and query operations on authors in the Chirp application.
