@@ -2,7 +2,7 @@ namespace Chirp.Web.models;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Chirp.Services;
+using Chirp.Infrastructure.Services;
 using Chirp.Core.DTO.CheepDTO;
 using Chirp.Core.DTO.AuthorDTO;
 using Chirp.Infrastructure.Repositories;

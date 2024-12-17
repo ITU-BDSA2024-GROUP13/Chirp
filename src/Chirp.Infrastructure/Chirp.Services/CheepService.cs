@@ -1,4 +1,4 @@
-namespace Chirp.Services;
+namespace Chirp.Infrastructure.Services;
 
 using Chirp.Infrastructure.Repositories;
 using Chirp.Core.DTO.CheepDTO;

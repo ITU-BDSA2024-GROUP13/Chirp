@@ -1,7 +1,7 @@
 using Chirp.Core.DTO.CheepDTO;
 using Chirp.Core.DTO.AuthorDTO;
 using Chirp.Infrastructure.Repositories;
-using Chirp.Services;
+using Chirp.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit.Sdk;

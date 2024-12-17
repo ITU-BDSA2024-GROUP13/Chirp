@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Chirp.Core.Entities;
-using Chirp.Services;
+using Chirp.Infrastructure.Services;
 
 namespace Chirp.Web.Areas.Identity.Pages.Account
 {
