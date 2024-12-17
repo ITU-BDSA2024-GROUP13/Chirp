@@ -25,5 +25,7 @@ Please make sure you have all the right ***.Net 8*** dependencies installed [her
 
 3. Type `$ cd ./Chirp`
 
-4. Run the program `dotnet watch --project ./src/Chirp.Web`
+4. Run the program `$ dotnet watch --project ./src/Chirp.Web`
 
+5. Look in your terminal for which port the project is listening on. e.g.  
+![alt text](../../images/image.png)
