@@ -14,39 +14,38 @@ numbersections: true
 # Design and Architecture of *Chirp!*
 
 ## Domain model
-![[./pages/1DesignAndArchitectureOfChirp/1DomainModel.md]]
+\input{./pages/1DesignAndArchitectureOfChirp/1DomainModel.md}
 
 ## Architecture — In the small
-![[./pages/1DesignAndArchitectureOfChirp/2ArchitectureInTheSmall.md]]
+\input{./pages/1DesignAndArchitectureOfChirp/2ArchitectureInTheSmall.md}
 
 ## Architecture of deployed application
-![[./pages/1DesignAndArchitectureOfChirp/3ArchitectureOfDeployedApplication.md]]
+\input{./pages/1DesignAndArchitectureOfChirp/3ArchitectureOfDeployedApplication.md}
 
 ## User activities
-![[./pages/1DesignAndArchitectureOfChirp/4UserActivities.md]]
+\input{./pages/1DesignAndArchitectureOfChirp/4UserActivities.md}
 
 ## Sequence of functionality/calls trough *Chirp!*
-![[./pages/1DesignAndArchitectureOfChirp/5SequenceOfFuncAndCallsThroughChirp.md]]
+\input{./pages/1DesignAndArchitectureOfChirp/5SequenceOfFuncAndCallsThroughChirp.md}
 
 # Process
 
 ## Build, test, release, and deployment
-![[./pages/2Process/1BuildTestReleaseAndDeployment.md]]
+\input{./pages/2Process/1BuildTestReleaseAndDeployment.md}
 
 ## Team work
-![[./pages/2Process/2TeamWork.md]]
+\input{./pages/2Process/2TeamWork.md}
 
 ## How to make *Chirp!* work locally
-![[./pages/2Process/3HowToMakeChirpWorkLocally.md]]
+\input{./pages/2Process/3HowToMakeChirpWorkLocally.md}
 
 ## How to run test suite locally
-![[./pages/2Process/4HowToRunTestSuiteLocally.md]]
+\input{./pages/2Process/4HowToRunTestSuiteLocally.md}
 
 # Ethics
 
 ## License
-
-![[./pages/3Ethics/1License.md]]
+\input{./pages/3Ethics/1License.md}
 
 ## LLMs, ChatGPT, CoPilot, and others
-![[./pages/3Ethics/2LLMsChatGPTCoPilotAndOthers.md]]
+\input{./pages/3Ethics/2LLMsChatGPTCoPilotAndOthers.md}
