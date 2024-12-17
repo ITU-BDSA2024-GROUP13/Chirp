@@ -7,7 +7,10 @@
 
 The LLMs which were used throughout the developement process were: ChatGPT, GitHub CoPilot and Codium.
 
-All three LLMs were used for debugging, and ChatGPT for generation for most documentation.
+All three LLMs were used mainly for debugging. For the generation of most of the documentation, it was only ChatGPT which was used.
+
+As a rule, whenever any of the LLMs generated any code which was used, it was co-authored in the commit where that piece of code was included.
+If an LLM was used simply for sparring to find the root cause of a bug, it was not included in the co-author message.
 
 Interms of the value of there responses it varied. Sometimes, it was a smnall human error which was overseen. In other more complex cases, it required a greater understanding of the program which the LLMs, espically ChatGPT lacked. In these situations, the LLMs which are built in to text editors, GitHub CoPilot and Codium, were able to gather more information, but were still not always able to solve errors.
 This may have lead to some spirals throughout the development process and over-relying on an LLM to find a solution.
