@@ -75,6 +75,6 @@ public class CheepPartialView
     /// <returns>A DateTime representation of the Unix timestamp.</returns>
     public DateTime ToDateTime(long value)
     {
-        return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
+        return Infrastructure.Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
     }
 }

@@ -6,7 +6,7 @@ using System.ComponentModel;
 using Humanizer;
 using System.Diagnostics;
 
-namespace Chirp.Repositories;
+namespace Chirp.Infrastructure.Repositories;
 
 
 public class CheepRepository(CheepDBContext dbContext) : ICheepRepository

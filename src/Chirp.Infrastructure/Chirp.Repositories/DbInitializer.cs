@@ -1,7 +1,7 @@
 using System;
 using Chirp.Repositories;
 using Chirp.Core.Entities;
-
+namespace Chirp.Infrastructure.Repositories;
 /// <summary>
 /// Provides database initialization logic for seeding the Chirp application's database.
 /// </summary>

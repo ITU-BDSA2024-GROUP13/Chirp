@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Chirp.Repositories;
+namespace Chirp.Infrastructure.Repositories;
 
 
 /// <summary>

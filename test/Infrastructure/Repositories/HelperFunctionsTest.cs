@@ -1,4 +1,4 @@
-using Chirp.Repositories;
+using Chirp.Infrastructure.Repositories;
 
 namespace Repositories;
 

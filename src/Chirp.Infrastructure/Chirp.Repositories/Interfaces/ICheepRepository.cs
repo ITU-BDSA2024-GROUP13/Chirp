@@ -1,4 +1,4 @@
-namespace Chirp.Repositories;
+namespace Chirp.Infrastructure.Repositories;
 using Chirp.Core.DTO.CheepDTO;
 using Chirp.Core.DTO.AuthorDTO;
 

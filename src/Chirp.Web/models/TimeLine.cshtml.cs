@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Chirp.Services;
 using Chirp.Core.DTO.CheepDTO;
 using Chirp.Core.DTO.AuthorDTO;
-using Chirp.Repositories;
+using Chirp.Infrastructure.Repositories;
 
 public abstract class TimeLine(ICheepService cheepService) : PageModel
 {
@@ -75,7 +75,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
     public DateTime ToDateTime(long value)
     {
-        return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
+        return HelperFunctions.FromUnixTimeToDateTime(value);
     }
 
     public async Task<IActionResult> OnPostSearch([FromBody] SearchRequest searchRequest)
