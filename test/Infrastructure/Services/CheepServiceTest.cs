@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit.Sdk;
 
-namespace Repositories;
+namespace Chirp.Test.Infrastructure.Repositories;
 
 public class CheepServiceTest : IDisposable
 {

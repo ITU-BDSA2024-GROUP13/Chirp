@@ -1,6 +1,6 @@
 using Chirp.Infrastructure.Repositories;
 
-namespace Repositories;
+namespace Chirp.Test.Infrastructure.Repositories;
 
 public class HelperFunctionsTest
 {

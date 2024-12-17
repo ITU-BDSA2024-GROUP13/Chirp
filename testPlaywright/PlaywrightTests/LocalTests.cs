@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Playwright;
 using Xunit;
 using Xunit.Sdk;
-namespace PlaywrightTests;
+namespace Chirp.PlaywrightTests;
 
 //Local host needs to be active for these tests to work
 //(Or else the test can't redirect itself to the proper urls)

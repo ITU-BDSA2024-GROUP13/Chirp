@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow.DisposeAnalysis;
 using Microsoft.Playwright;
 using Xunit;
 using Xunit.Sdk;
-namespace PlaywrightTests;
+namespace Chirp.PlaywrightTests;
 
 public class AzureTests : IAsyncLifetime
 {
