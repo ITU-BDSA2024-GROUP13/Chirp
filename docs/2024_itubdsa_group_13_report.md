@@ -27,6 +27,20 @@ Illustrate the organization of your code base. That is, illustrate which layers 
 <!-- 
 Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other.
  -->
+* User Initiates a Request:
+
+    The user enters the application's URL in their browser.
+    This triggers the browser to send an HTTP GET request to the given endpoint
+
+* HTML, CSS, and JavaScript are Received:
+
+    The server responds with an HTML file and references to CSS (for styling) and JavaScript (for behavior).
+    These files are processed by the browser to render the application interface.
+
+* Subsequent Interactions:
+
+    When the user interacts with the page (e.g., clicking "Like" on a Cheep), JavaScript makes new HTTP requests to the server to update data or fetch more content.
+    The server processes these requests and sends updated data to the database, and returns a new view.
 
 ## User activities
 <!-- 
@@ -41,6 +55,12 @@ With a UML sequence diagram, illustrate the flow of messages and data through yo
 
 Make sure that your illustration is complete. That is, likely for many of you there will be different kinds of "calls" and responses. Some HTTP calls and responses, some calls and responses in C# and likely some more. (Note the previous sentence is vague on purpose. I want that you create a complete illustration.)
  -->
+
+* The unauthorized user sends an HTTP request to the root endpoint (/).
+* Since the user is not authorized, the system directs them to the registration/login page.
+* After registering or logging in, the user can access the public timeline.
+* The public timeline fetches Cheeps through the service from the database.
+
 # Process
 
 ## Build, test, release, and deployment
