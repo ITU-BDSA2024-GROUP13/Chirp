@@ -1,102 +1,127 @@
-<!-- Illustrate with a UML activity diagram how your Chirp! applications are build, tested, released, and deployed. That is, illustrate the flow of activities in your respective GitHub Actions workflows.
+<!-- Illustrate with a UML activity diagram how your Chirp! applications are built, tested, released, and deployed. That is, illustrate the flow of activities in your respective GitHub Actions workflows. -->
 
+<!-- Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed. -->
 
-Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed.
- -->
+# UML Activity Diagram for Chirp! Application
 
-<style>
-.uml-body{
-    display: flex;
-    text-align: start;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-}
+## Overview
 
-.uml-activity{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    font-size: larger;
-}
-</style>
+The following describes the **UML activity diagrams** representing how the Chirp! application is **built**, **tested**, **released**, and **deployed** using **GitHub Actions** workflows.
 
+The key activity of this project has been **automating mundane tasks**, which significantly decreases the accumulated workload and speeds up processes. Using **GitHub Actions**, the need for manually creating releases, generating DLLs, and deploying the service to Azure has been **eliminated**—excluding the time invested in creating these workflows.
 
-<body>
-<div class="uml-body">
-<div class="uml-activity">
+While testing with **Playwright** caused some issues on GitHub, leading to skipped testing steps in workflows, the focus has been on maintaining and ensuring workflows function correctly. Code quality was considered less critical because **Git rollbacks** can revert any problematic changes.
 
-# UML Activity Diagram
+### Key Workflow Triggers:
+1. **Primary Trigger**: Push to the `main` branch (e.g., after an accepted pull request).
+2. **Secondary Trigger**: A scheduled workflow run every **Sunday at 08:00 UTC**.
 
-<img alt="UML activity diagram" src="../../diagrams/yml.png" width="1000">
-<span>
-A key activity of this project has been on automating mundane tasks, which not only decreases the accumilated workload but also decreases the work process.
+Once the **Create Release** workflow completes, it triggers two subsequent workflows:
+- **Make DLL**
+- **Build and Deploy**
 
-Through the use of github actions, the total amount of time spent manually creating releases, making dll's and deploying the service to azure has been reduced to nil hours - excluding the time creating the actions themselves.
+---
 
-Although introducing playwright testing to the project, caused some issues on github, and therefore testing in workflows was skipped. Maintaining the workflows and ensuring they work, has been a higher priority rather than the code-quality as using git allows for roll-backs.
+## Creating a Release Workflow
 
-The primary event that triggers the `Create Release` workflow is on an accepted pull-request and the secondary event is on a Sunday at 8:00 o'clock.
+![Create Release Workflow](../../diagrams/createRelease.png)
 
-Once `Create release` has completed it triggers two other workflows, namely `Make dll` and `Build and deploy` respectively.
-</span>
-</div>
+### **Description**
+The **Create Release** workflow triggers under two conditions:
+1. **Push to `main`** branch.
+2. **Scheduled run** on **Sunday at 08:00 UTC**.
 
-<div class="uml-activity">
+### **Purpose**
+The workflow **automates the creation of a new release** by:
+- Scanning the **commit message** for keywords to determine the version bump.
+- Following the **Major.Minor.Patch** versioning convention:
+  - **Major**: Total rework of the system (e.g., switching from CLI to a web-based service).
+  - **Minor**: New features added to the existing system.
+  - **Patch**: Bug fixes, formatting changes, or refactors.
 
-### Creating a release
+If the commit message includes:
+- `Major`: The version bump will increment the **Major** version.
+- `Minor`: The version bump will increment the **Minor** version.
+- **Default**: If no keywords are detected, the version will default to a **Patch**.
 
-<img alt="UML activity diagram" src="../../diagrams/createRelease.png" width="1000">
+### **Notes**:
+- This workflow **previously contained a testing step**, but it was **removed** due to compatibility issues.
 
-<span>
+---
 
-As previously mentioned, the `Create release` workflow triggers on either a push to main or on a Sunday.  
-The purpose of this workflow has been to create a release where the version-tag gets bumped based on the commit message.  
-It follows the template of ***Major.Minor.Patch***:  
+## Making DLLs Workflow
 
-**Major**: a total rework of the system - such as switching from CLI to a web-based service.  
-**Minor**: a new feature added to the current version of the system.  
-**Patch**: bug fixes / formatting / refactors
+![Make DLL Workflow](../../diagrams/makeDLL.png)
 
-The commit-message will get scanned for the keywords *Major* or *Minor*, otherwise it will default to a patch. 
+### **Description**
+The **Make DLL** workflow builds the program and generates a **zip file** containing the `.dll` files for distribution.
 
-This workflow also previously contained a testing step, but was removed.
+### **Matrix Strategy**
+- A **matrix** is used to optimize the step, specifically the **"Process for creating a zip file with .dll"**.
+- The matrix reduces **code redundancy** and simplifies supporting multiple operating systems.
+- If additional OS platforms need to be supported in the future, the matrix makes it easy to extend the workflow.
 
-</span>
-</div>
+### **Workflow Steps**:
+1. **Build the Program**:
+   - The program is compiled to generate `.dll` files.
+2. **Create a ZIP File**:
+   - The DLLs are packaged into a zip file for easy distribution.
+3. **Attach Files to the Latest Release**:
+   - The zip file containing DLLs is appended to the **latest GitHub release** created by the **Create Release** workflow.
 
-<div class="uml-activity">
+### **Dependency**:
+- It is **crucial** that the **Create Release** workflow runs successfully before `Make DLL` starts.
+- If no new release is created, this workflow may **overwrite the files** in the most recent release.
 
-### Making dlls
+---
 
-<img alt="UML activity diagram" src="../../diagrams/makeDLL.png" width="1000">
-<span>
+## Deploying to Production Workflow
 
-`Make dll` will build the program, and create a zip-file containing the dlls.  
-The worflow uses a matrix, that optimizes a certain part of the process, specifically *Process for creating a zip-file with .dll*, to reduce code-redundency. The main concern for this is supporting multiple OS-systems - and if needed, ease of adding a new OS-system.
+![Build and Deploy Workflow](../../diagrams/BuildAndDeploy.png)
 
-Lastly all the files will the appended to the latest release, created by the `Create Release` workflow.
+### **Description**
+The **Build and Deploy** workflow is based on a **template provided by Azure** and has been modified to integrate with the **Create Release** workflow.
 
-Therefore is it crucial that the prior step to the workflow is working, as if a new release doesn't get created, `Make dll` will replace the files from the newest release.
+### **Key Modifications**:
+- The workflow waits for the **confirmation** of the **"test step"** (now deleted) from the **Create Release** workflow before proceeding.
 
-</span>
-</div>
+### **Workflow Steps**:
+1. **Setup Environment**:
+   - Sets up the .NET environment to build the application.
+2. **Build the Application**:
+   - Compiles the application for deployment.
+3. **Deploy to Azure**:
+   - The compiled application artifacts are deployed to the Azure Web App.
 
-<div class="uml-activity">
+---
 
-### Deploying to production
+## Summary of Automation Benefits
 
-<img alt="UML activity diagram" src="../../diagrams/BuildAndDeploy.png" width="1000">
-<span>
+1. **Time Savings**: 
+   - Manual tasks such as creating releases, generating DLLs, and deploying services are now fully automated.
+2. **Scalability**:
+   - The matrix strategy in the `Make DLL` workflow supports multiple operating systems efficiently.
+3. **Simplified Workflow Management**:
+   - By focusing on maintaining workflows, developers can roll back code if issues arise, ensuring stability.
 
-The base template for `Build and deploy` has been created by Azure, where it was modified to wait upon `Create Release` for the confirmation of the aforementioned *test-step*, which has been deleted.
+---
 
-</span>
-</div>
+## Diagrams
 
+1. **Main Workflow Overview**  
+   ![UML Activity Diagram](../../diagrams/yml.png)
 
-</div>
-</body>
+2. **Create Release Workflow**  
+   ![Create Release](../../diagrams/createRelease.png)
 
+3. **Make DLL Workflow**  
+   ![Make DLL](../../diagrams/makeDLL.png)
+
+4. **Build and Deploy Workflow**  
+   ![Build and Deploy](../../diagrams/BuildAndDeploy.png)
+
+---
+
+## Final Notes
+This document provides a comprehensive overview of the **GitHub Actions workflows** for the Chirp! application, highlighting automation steps, dependencies, and key modifications made to streamline the build, release, and deployment processes.
 
