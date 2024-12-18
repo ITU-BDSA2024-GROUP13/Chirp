@@ -1,0 +1,27 @@
+@startuml
+actor User
+participant "Browser (JavaScript)" as Browser
+participant "Web Server" as Server
+participant "Timeline" as Handler
+participant "CheepService" as Service
+database "Repository/Database" as DB
+
+User -> Browser : Type into Search Input
+Browser -> Browser : Trigger input event
+Browser -> Server : POST { PostString: input }
+Server -> Handler : OnPostSave()
+Handler -> Handler : Validate Input
+Handler -> Handler : Save IMG, return url
+Handler -> Service : Find Author
+Service -> DB : Query users
+DB --> Service : Return user
+Service --> Handler : Return user DTO
+Handler --> Service : Create Message
+Service --> DB: Save to DB
+DB --> Service : Acknowledge Save
+Service --> Handler : Return JSON Response
+Handler --> Server : Return JSON Response
+Server --> Browser : Return JSON Response
+Browser --> Server : Update UI
+Server --> Browser : Reload
+@enduml
