@@ -8,4 +8,16 @@ UML sequence diagrams
 \
 In the above diagram can be tracked the flow of a user signing up for (or in to) our service. 
 The user accesses the web app by navigating to any of the sites endpoints.
-Since the user is not yet authorised, they are met only with the option of logging in.
+This sends a ***HTTP GET*** request to the server.
+The user being not yet authorised, is only presented the option of logging in - by way of a HTML response.
+The user 
+\
+\
+\
+s
+```C
+Class Max
+    public static void Mark(){
+
+    }
+```
