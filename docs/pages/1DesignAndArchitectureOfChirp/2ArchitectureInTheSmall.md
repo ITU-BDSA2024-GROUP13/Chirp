@@ -40,6 +40,12 @@ The CheepService itself is also dependency injected into the application. So pag
 
 ![[../../diagrams/class-diagrams/Web.png]]
 
+The Chirp.Web package contains all the pages, as well as the startup program.
 
+The pages are made up of page models written in c sharp
+and pages in cshtml.
 
+The cshtml pages send requests to the model which can be handled by reading or writing to the databse via the application's associated service interface.
+
+The scaffolded package Area.Indetity.Page.Account is used to handle getting an identity token when logging in and managing the account using Microft.AspNet.Identity's IdentityUser.
 
