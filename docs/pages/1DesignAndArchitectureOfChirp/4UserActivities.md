@@ -45,6 +45,9 @@ A user might further investigate information within the cheep, such as accessing
 ##### My Timeline
 The user's timeline is now where the user can experience cheeps in a more customed setting, influenced by the user's "following". On the figure 1.2 it shows that by clicking on their timeline, they access another part of Chirp, which still gives the ability to read and interact with cheeps. In contrast to the public timeline, the cheeps shown in the user's timeline, are consisting of cheeps from the authors that the user has chosen to "follow". 
 ##### Post & Search
+The post & search function are both tools that further expands the user's reach into Chirp. The search function is able to search the database for authors. When searching, the user is presented with a textfield which, when filled out, will find possible search results for any given author that matches whatever is filled out in the search-field. The results of authors that are returned can be clicked by the user, which then redirects to the author's timeline. 
+
+The post function as seen on figure 1.2 has two elements; a textfield and a file button. The textfield can be filled out by the user with whatever they wish to say. By pressing the file button, the user can choose to upload a picture from their own personal computer, which will then be included in their cheep.
 
 ##### Filter
 
