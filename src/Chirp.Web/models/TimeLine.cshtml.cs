@@ -137,7 +137,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
 
 /// <summary>
-/// Sends a cheep to the database <br><\br>
+/// Sends a cheep to the database <br></br>
 /// If the cheep to send has an image attached. The program will save the image in the uploads folder.
 /// </summary>
 /// <param name="postRequest"></param>

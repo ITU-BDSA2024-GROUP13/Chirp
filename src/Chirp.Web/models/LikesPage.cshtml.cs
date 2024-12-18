@@ -6,6 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Chirp.Web.models;
 
+/// <summary>
+/// A page showcasing who has liked the cheep in question
+/// </summary>
+/// <param name="cheepService"></param>
+/// <param name="signInManager"></param>
+/// <param name="userManager"></param>
 public class LikesPage(ICheepService cheepService, SignInManager<Author> signInManager, UserManager<Author> userManager) : TimeLine(cheepService)
 {
     private readonly SignInManager<Author> _signInManager = signInManager;
