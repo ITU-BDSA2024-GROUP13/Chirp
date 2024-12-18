@@ -15,11 +15,6 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
 {
     private readonly CheepDBContext _dbContext = dbContext;
 
-    /// <summary>
-    /// Creates a new author in the database.
-    /// </summary>
-    /// <param name="author">The author details.</param>
-    /// <returns>The ID of the created author.</returns>
     public async Task<string> CreateAuthor(NewAuthorDTO author)
     {
         Author newAuthor = new()
@@ -40,11 +35,6 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
 
     }
 
-    /// <summary>
-    /// Finds authors by their username that starts with the given value.
-    /// </summary>
-    /// <param name="userName">The starting substring of the author's username.</param>
-    /// <returns>A list of <see cref="AuthorDTO"/> objects.</returns>
     public async Task<List<AuthorDTO>> FindAuthorByName(string userName)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
@@ -61,12 +51,6 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         return result;
     }
 
-    /// <summary>
-    /// Finds authors based on a partial username match.
-    /// </summary>
-    /// <param name="userName">The substring to match in the author's username.</param>
-    /// <param name="amount">The number of authors to return.</param>
-    /// <returns>A list of <see cref="AuthorDTO"/> objects.</returns>
     public async Task<List<AuthorDTO>> FindAuthors(string userName, int amount)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
@@ -84,13 +68,6 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
 
         return result;
     }
-
-    /// <summary>
-    /// Finds a specific author by their username.
-    /// </summary>
-    /// <param name="userName">The username of the author.</param>
-    /// <returns>An <see cref="AuthorDTO"/> object representing the author.</returns>
-    /// <exception cref="NullReferenceException">Thrown if no author is found with the specified username.</exception>
     public async Task<AuthorDTO> FindSpecificAuthorByName(string userName)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
@@ -113,12 +90,6 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         }
     }
 
-    /// <summary>
-    /// Finds a specific author by their email.
-    /// </summary>
-    /// <param name="email">The email of the author.</param>
-    /// <returns>An <see cref="AuthorDTO"/> object representing the author.</returns>
-    /// <exception cref="NullReferenceException">Thrown if no author is found with the specified email.</exception>
     public async Task<AuthorDTO> FindSpecificAuthorByEmail(string email)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
@@ -143,11 +114,6 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
 
     }
 
-    /// <summary>
-    /// Finds a specific author by their ID.
-    /// </summary>
-    /// <param name="id">The ID of the author.</param>
-    /// <returns>An <see cref="AuthorDTO"/> object representing the author.</returns>
     public async Task<AuthorDTO> FindSpecificAuthorById(string id)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
@@ -164,11 +130,6 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         return result[0];
     }
 
-    /// <summary>
-    /// Retrieves a list of authors who are following a specific author by username.
-    /// </summary>
-    /// <param name="userName">The username of the author whose followers are being retrieved.</param>
-    /// <returns>A list of <see cref="AuthorDTO"/> objects representing the followers.</returns>
     public async Task<List<AuthorDTO>> GetFollowing(string userName)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
@@ -180,11 +141,6 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
     }
 
-    /// <summary>
-    /// Retrieves a list of authors who are following a specific author by their ID.
-    /// </summary>
-    /// <param name="id">The ID of the author whose followers are being retrieved.</param>
-    /// <returns>A list of <see cref="AuthorDTO"/> objects representing the followers.</returns>
     public async Task<List<AuthorDTO>> GetFollowingbyId(string id)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
@@ -196,11 +152,6 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
     }
 
-    /// <summary>
-    /// Retrieves a list of authors who are followed by a specific author by username.
-    /// </summary>
-    /// <param name="userName">The username of the author whose followed authors are being retrieved.</param>
-    /// <returns>A list of <see cref="AuthorDTO"/> objects representing the followed authors.</returns>
     public async Task<List<AuthorDTO>> GetFollowedby(string userName)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
@@ -212,11 +163,6 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
     }
 
-    /// <summary>
-    /// Retrieves a list of authors who are followed by a specific author by their ID.
-    /// </summary>
-    /// <param name="id">The ID of the author whose followed authors are being retrieved.</param>
-    /// <returns>A list of <see cref="AuthorDTO"/> objects representing the followed authors.</returns>
     public async Task<List<AuthorDTO>> GetFollowedbybyId(string id)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
@@ -228,11 +174,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
     }
 
-    /// <summary>
-    /// Adds a follower to the specified author.
-    /// </summary>
-    /// <param name="followingId">The ID of the author who is following.</param>
-    /// <param name="followedId">The ID of the author being followed.</param>
+   
     public async Task AddFollower(string followingId, string followedId)
     {
         Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.Id == followingId);
@@ -245,12 +187,6 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
     }
 
-    /// <summary>
-    /// Removes a follower from the specified author.
-    /// </summary>
-    /// <param name="followingId">The ID of the author who is following.</param>
-    /// <param name="followedId">The ID of the author being unfollowed.</param>
-    /// <exception cref="InvalidDataException">Thrown if the author is not already following the specified author.</exception>
     public async Task RemoveFollower(string followingId, string followedId)
     {
         Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.Id == followingId);
@@ -269,10 +205,6 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
     }
 
-    /// <summary>
-    /// Removes all followers of the specified author.
-    /// </summary>
-    /// <param name="id">The ID of the author whose followers will be removed.</param>
     public async Task RemoveAllFollowing(string id)
     {
         Author author = _dbContext.Authors.Include(p => p.Followers).Single(e => e.Id == id);
@@ -284,11 +216,6 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
     }
 
-
-    /// <summary>
-    /// Removes all followed-by authors from the specified author's list of followed-by authors.
-    /// </summary>
-    /// <param name="id">The ID of the author whose followed-by authors will be removed.</param>
     public async Task RemoveAllFollowedby(string id)
     {
         Author author = _dbContext.Authors.Include(p => p.FollowedBy).Single(e => e.Id == id);
@@ -300,10 +227,6 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
     }
 
-    /// <summary>
-    /// Removes an author from the database.
-    /// </summary>
-    /// <param name="userName">The username of the author to be removed.</param>
     public async Task RemoveAuthor(string userName)
     {
         Author author = _dbContext.Authors.Single(e => e.UserName == userName);
@@ -313,11 +236,6 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         await _dbContext.SaveChangesAsync(); // persist the changes in the database
     }
 
-    /// <summary>
-    /// Finds authors by their email that starts with the given value.
-    /// </summary>
-    /// <param name="email">The starting substring of the author's email.</param>
-    /// <returns>A list of <see cref="AuthorDTO"/> objects.</returns>
     public async Task<List<AuthorDTO>> FindAuthorByEmail(string email)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)

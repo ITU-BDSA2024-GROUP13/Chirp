@@ -39,25 +39,26 @@ public class CheepDBContext(DbContextOptions<CheepDBContext> options) : Identity
     {
         base.OnModelCreating(modelBuilder);
 
-        // Your custom configurations for the Cheep entity
+        // The cheep has a key on cheepId
         modelBuilder.Entity<Cheep>()
             .HasKey(c => c.CheepId);
 
+        // The cheep's max length is 160 characters
         modelBuilder.Entity<Cheep>()
             .Property(c => c.Text)
             .IsRequired()
             .HasMaxLength(160);
 
-        // Your custom configurations for the Author entity
+        // The author has a key on Id
         modelBuilder.Entity<Author>()
             .HasKey(a => a.Id);
 
+        // The author generates a value on id automatically
         modelBuilder.Entity<Author>()
             .Property(f => f.Id)
             .ValueGeneratedOnAdd();
 
         //Define the relationship betwwen Author and itself (followers)
-
         modelBuilder.Entity<Author>()
             .HasMany(a => a.Followers)
             .WithMany(a => a.FollowedBy);

@@ -6,6 +6,11 @@ using Chirp.Services;
 using Chirp.Core.DTO;
 using Chirp.Repositories;
 
+/// <summary>
+/// Page model superclass for paginated timelines showing cheep boxes.
+/// Allows the timeline to like, dislike, sort, search for users and send cheeps.
+/// </summary>
+/// <param name="cheepService"></param>
 public abstract class TimeLine(ICheepService cheepService) : PageModel
 {
     protected readonly ICheepService _cheepService = cheepService;
@@ -26,6 +31,10 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         return page == 0 ? 0 : page - 1;
     }
 
+    /// <summary>
+    /// Gets the page number of the very last page of the timeline
+    /// </summary>
+    /// <returns>the last page number</returns>
     public int DefineLastPage()
     {
         if(Count < 1){
@@ -37,6 +46,11 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         }
     }
 
+    /// <summary>
+    /// Updates the pagination, and gets variables from the URL
+    /// </summary>
+    /// <param name="page"></param>
+    /// <returns></returns>
     protected int UpdatePage(int page = 0)
     {
         try
@@ -77,6 +91,12 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
     }
 
+    /// <summary>
+    /// Gets a suggestion of author, which username starts with the given input.
+    /// </summary>
+    /// <param name="searchRequest"></param>
+    /// <returns></returns>
+
     public async Task<IActionResult> OnPostSearch([FromBody] SearchRequest searchRequest)
     {
         if (String.IsNullOrWhiteSpace(searchRequest?.SearchString))
@@ -93,6 +113,11 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         });
     }
 
+    /// <summary>
+    /// Sets the sortstate of the timeline to the the state specified in the request.
+    /// </summary>
+    /// <param name="sortRequest"></param>
+    /// <returns></returns>
     public IActionResult OnPostSort([FromBody] SortRequest sortRequest)
     {
         if (String.IsNullOrWhiteSpace(sortRequest?.SortString))
@@ -109,6 +134,14 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
         }
         );
     }
+
+
+/// <summary>
+/// Sends a cheep to the database <br></br>
+/// If the cheep to send has an image attached. The program will save the image in the uploads folder.
+/// </summary>
+/// <param name="postRequest"></param>
+/// <returns></returns>
 
 public async Task<IActionResult> OnPostSave([FromForm] PostRequest postRequest)
 {
@@ -166,8 +199,14 @@ public async Task<IActionResult> OnPostSave([FromForm] PostRequest postRequest)
     return new JsonResult(new { success = true, message = "Post successfully processed." });
 }
 
-
-    public async Task<ActionResult> OnPostLike([FromBody] LikeRequest likeRequest)
+/// <summary>
+/// Adds a like to the cheep in question. <br></br>
+/// If the user has already liked, they will revert their like. <br></br>
+/// If the user has already disliked, revert the dislike.
+/// </summary>
+/// <param name="likeRequest"></param>
+/// <returns></returns>
+public async Task<ActionResult> OnPostLike([FromBody] LikeRequest likeRequest)
     {
         var user = await _cheepService.FindSpecificAuthorByName(likeRequest.Username);
         var cheep = await _cheepService.FindSpecificCheepbyId(likeRequest.cheepId);
@@ -224,6 +263,13 @@ public async Task<IActionResult> OnPostSave([FromForm] PostRequest postRequest)
         return await _cheepService.HasLiked(userName, (int)cheepId!);
     }
 
+/// <summary>
+/// Adds a dislike to the cheep in question. <br></br>
+/// If the user has already disliked, they will revert their dislike. <br></br>
+/// If the user has already liked, revert the like.
+/// </summary>
+/// <param name="dislikeRequest"></param>
+/// <returns></returns>
     public async Task<ActionResult> OnPostDislike([FromBody] DislikeRequest dislikeRequest)
     {
         var user = await _cheepService.FindSpecificAuthorByName(dislikeRequest.Username);

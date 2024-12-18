@@ -44,17 +44,19 @@ public class Cheep
 
     /// <summary>
     /// Gets or sets the local like ratio for the cheep.
-    /// This value is calculated based on likes and dislikes.
+    /// is calculated with logarithmic mathematics.
     /// </summary>
     public float LocalLikeRatio { get; set; } = 0;
 
     /// <summary>
     /// Gets or sets the author associated with the cheep.
-    /// Represents a navigation property for the author entity.
     /// </summary>
     public Author? Author { get; set; }
 
 
+    /// <summary>
+    /// Gets or sets the optional image 
+    /// </summary>
     public string? Image { get; set; }
 
 }
