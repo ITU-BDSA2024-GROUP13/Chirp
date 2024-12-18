@@ -50,6 +50,6 @@ The scaffolded package `Area.Identity.Page.Account` is used to handle getting an
 
 ![[../../diagrams/class-diagrams/onion/Onion-coloured.png]]
 
-The entire Chirp package fulfills the onion architecture. Since `Chirp.Core` does not need to refer to any of the outer layers. The same goes for the repository layer and the service layer.
+The entire Chirp package fulfills the onion architecture. Since `Chirp.Core` does not need to refer to any of the outer layers. The same goes for the repository layer and the git service layer.
 
 
