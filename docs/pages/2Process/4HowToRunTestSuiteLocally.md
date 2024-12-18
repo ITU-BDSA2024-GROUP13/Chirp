@@ -6,4 +6,10 @@ Briefly describe what kinds of tests you have in your test suites and what they 
 In order to run the test, you have to:
 
 1. **Move to the root directory of the project** `$ cd ~/Chirp`
-2. **Type `$ dotnet test`
+2. **Type** `$ dotnet test`
+
+Ensure you have Node.js
+
+`$ npm install playwright`
+
+`$ `
