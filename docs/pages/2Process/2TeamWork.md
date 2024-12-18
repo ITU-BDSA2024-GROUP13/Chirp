@@ -14,6 +14,8 @@ This issue was not a core requirement, more of a quality of life for the user.
 
 ### Process of Task to Implementation
 
+![Task to in main branch](../../images/taskToInProd.png)
+
 Once given a task description, it is formulated into an issue. Once all tasks have been made into issues, they are then distributed to one or multiple contributors, depending on the assumed size of the issue.
 
 Once the issue has been started, it is moved from the `Todo` column to the `In Progress` column. 
