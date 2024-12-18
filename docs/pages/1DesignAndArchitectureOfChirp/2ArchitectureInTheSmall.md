@@ -16,8 +16,22 @@ For the author entity, two DTO's have been made for either creating an author or
 
 ![[../../diagrams/class-diagrams/Repo.png]]
 
+The Chirp.Infrastructure.Repositories package, contains classes and interface regarding the database and classes seeding or querying the database.
+AuthorRepository and CheepRepository queries the database depending on whether Author or Cheep is the main entity.
 
-![[../../diagrams/class-diagrams/Services.png]]
+The CheepDBContext defines the databse entities and the relations between them.
+
+Both AuthorRepository, CheepRepository and CheepDBContext are dependency injected into the application.
+This ensures one and only one instance of each.
+
+The DbInitializer seeds the database with default cheeps and authors. This makes it easier to make in-memory testing.
+
+The static HelperFunctions class provides functionality to the CheepRepository. Since cheeps contain DateTime and DTO's should only store predefined types, DateTime needs to be converted to unixTime of type long and vice versa.
+
+![[../../diagrams/class-diagrams/Service.png]]
+
+
+
 
 ![[../../diagrams/class-diagrams/Web.png]]
 
