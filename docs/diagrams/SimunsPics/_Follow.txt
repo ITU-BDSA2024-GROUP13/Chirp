@@ -1,48 +1,62 @@
 @startuml
-actor User
-participant "UI" as Browser
-participant "Web Server" as Server
-participant "Timeline" as Handler
-participant "CheepService" as Service
-database "Repository/Database" as DB
+autonumber
 
-User -> Browser : Press Follow-button	
-Browser -> Server : Trigger
-Server -> Handler : Follow()
+actor AuthorA as UU
+boundary Browser as B
+control WebServer as WS
+entity UserTimeLine as PT
+control CheepService as CS
+control CheepRepository as CR
+database Database as DB
 
-Handler -> Service : Find User A
-Service -> DB : Query users
+' Step 1: User presses follow-button
+UU-> B : Press Follow-button	
+B-> B : Trigger input event
+B-> WS : POST {JSON.stringify{Username,FollowUser}}
+WS -> PT : OnPostFollow(FollowRequest)
 
-Handler -> Service : Find User B
-Service -> DB : Query users
-
-DB --> Service : Return user A
-Service --> Handler : Return user A
-
-DB --> Service : Return user B
-Service --> Handler : Return user B
-
-Handler --> Service : Is A already following B?
+' Step 2: Service finds users
+PT -> CS : Find Author A 
+PT -> CS : Find Author B 
+CS -> CR : FindSpecificAuthorByName(followRequest.Username)
+CS -> CR : FindSpecificAuthorByName(followRequest.FollowUser)
+CR -> DB : Query authors
+CR -> DB : Query authors
 |||
-alt A not already following B
-	Service --> Handler : B not followed
-	Handler --> Service : Follow B
-	Service --> DB : A follows B
-	DB --> Service : A succesfully follows B
-	Service --> Handler : A succesfully follows B
+
+' Step 3: Service gets users
+DB --> CR : Return Author A
+DB --> CR : Return Author B
+CR --> CS : Return Author<DTO> A
+CR --> CS : Return Author<DTO> B
+CS --> PT : Return Author<DTO> A
+CS --> PT : Return Author<DTO> B
+
+' Step 4: Follow/unfollow
+PT -> CS : Is A already following B?
 |||
-else         Already following
-	Service --> Handler : B followed
-	Handler --> Service : Unfollow B
-	Service --> DB : A unfollows B
-	DB --> Service : A succesfully unfollows B
-	Service --> Handler : A succesfully unfollows B
+alt Not following
+	CS --> PT : A does not follow B
+	PT -> CS : Make A follow B
+	CS -> CR : Follow (A, B)
+	CR -> DB : Save follow to DB
+|||
+else Following
+	CS --> PT : A follows B
+	PT -> CS : Unfollow B
+	CS -> CR : Unfollow (A, B)
+	CR -> DB : Remove follow from DB
 |||
 end
 
+' Step 5: Follow/unfollow was a success
+DB --> CR : (Un)Follow action succesful
+CR --> CS : Return JSON Response
+CS --> PT: Return JSON Response
+PT -> WS : Render Razor Page (UserTimeLine.cshtml)
 
-Handler --> Server : Return JSON Response
+' Step 6: New page is served
+WS --> B : Return HTML Response
+B -> UU : Display UserTimeline with changed follow/unfollow state
 
-Server --> Server : Reload UI
-Server --> Browser : Present new UI
 @enduml

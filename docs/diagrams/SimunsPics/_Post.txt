@@ -1,27 +1,46 @@
 @startuml
-actor User
-participant "Browser (JavaScript)" as Browser
-participant "Web Server" as Server
-participant "Timeline" as Handler
-participant "CheepService" as Service
-database "Repository/Database" as DB
+autonumber
 
-User -> Browser : Type into Search Input
-Browser -> Browser : Trigger input event
-Browser -> Server : POST { PostString: input }
-Server -> Handler : OnPostSave()
-Handler -> Handler : Validate Input
-Handler -> Handler : Save IMG, return url
-Handler -> Service : Find Author
-Service -> DB : Query users
-DB --> Service : Return user
-Service --> Handler : Return user DTO
-Handler --> Service : Create Message
-Service --> DB: Save to DB
-DB --> Service : Acknowledge Save
-Service --> Handler : Return JSON Response
-Handler --> Server : Return JSON Response
-Server --> Browser : Return JSON Response
-Browser --> Server : Update UI
-Server --> Browser : Reload
+actor User as UU
+boundary Browser as B
+control WebServer as WS
+entity PublicTimeLine as PT
+control CheepService as CS
+control CheepRepository as CR
+database Database as DB
+
+' Step 1: User writes a post
+UU -> B : Type into Post Input
+UU -> B : Press 'Enter'
+
+' Step 2: Post is passed to Service
+B -> B : Trigger input event
+B -> WS : POST {FormData}
+WS -> PT: OnPostSave(PostRequest)
+
+' Step 3: Post info is gathered
+PT -> PT : Validate Input
+PT -> PT : Save IMG, return url
+PT -> CS : Find Author
+CS -> CR : FindSpecificAuthorByName(postRequest.PostName)
+CR -> DB : Query users
+DB --> CR : Return Author
+CR --> CS : Return Author<DTO>
+CS --> PT: Return Author<DTO>
+
+' Step 4: Message is created
+PT -> CS : Create Message
+CS -> CR : CreateMessage(NewCheepDTO message)
+CR -> DB : Save to DB
+
+' Step 5: Post is passed to Service
+DB --> CR : Acknowledge Save
+CR --> CS : Return JSON Response
+CS --> PT: Return JSON Response
+PT -> WS : Render Razor Page (PublicTimeLine.cshtml)
+
+' Step 6: New page is served
+WS --> B : Return HTML Response
+B -> UU : Display PublicTimeline with new Cheep
+
 @enduml

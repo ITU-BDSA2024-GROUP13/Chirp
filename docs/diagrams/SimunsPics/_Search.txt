@@ -1,23 +1,35 @@
 @startuml
-actor User
-participant "Browser (JavaScript)" as Browser
-participant "Web Server" as Server
-participant "Timeline" as Handler
-participant "CheepService" as Service
-database "Repository/Database" as DB
+autonumber
 
-User -> Browser : Type into Search Input
-Browser -> Browser : Trigger input event
-Browser -> Server : POST /?handler=Search\n{ SearchString: input }
-Server -> Handler : OnPostSearch()
-Handler -> Handler : Extract SearchString
-Handler -> Service : Call SearchService(SearchString)
-Service -> DB : Query matching users
-DB --> Service : Return user list
-Service --> Handler : Return user DTOs
-Handler --> Server : Return JSON Response
-Server --> Browser : JSON { list: [...] }
-Browser -> Browser : Call showResults()
-Browser -> Browser : Create DOM Elements
-Browser -> User : Display Search Results
+actor User as UU
+boundary Browser as B
+control WebServer as WS
+entity TimeLine as PT
+control CheepService as CS
+control CheepRepository as CR
+database Database as DB
+
+' Step 1: User searches
+UU-> B: Type into Search Input
+B-> B: Trigger input event
+B-> WS: POST {SearchString:input}
+WS-> PT: OnPostSearch(SearchRequest)
+
+' Step 2: Service searches
+PT-> PT: Extract SearchString
+PT-> CS: Find Authors
+CS->CR: FindAuthors(searchRequest.SearchString)
+CR-> DB : Query matching users
+
+' Step 3: List of authors returned
+DB --> CR: Return Author list
+CR --> CS: Return Author<DTO>s
+CS --> PT: Return JSON { list: [...] }
+PT --> WS : Return JSON Response
+WS --> B: Return JSON Response
+
+' Step 4: Searches displayed
+B-> B: Call showResults()
+B-> B: Create DOM Elements
+B-> UU: Display Search Results
 @enduml

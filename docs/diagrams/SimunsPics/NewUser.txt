@@ -39,7 +39,7 @@ WS -> WS : Validate credentials
 WS --> B : Redirect to PublicTimeline (authenticated)
 
 ' Step 6: Authenticated User Requests PublicTimeline
-B -> WS : HTTP GET "/PublicTimeLine"
+B -> WS : HTTP GET "/"
 
 ' Step 7: Web Server Calls PublicTimeLine
 WS -> PT : OnGetAsync()

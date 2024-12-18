@@ -12,11 +12,14 @@ This sends a ***HTTP GET*** request to the server.
 The user being not yet authorised, is only presented the option of logging in - by way of a HTML response.
 The user 
 \
+![[../../diagrams/SimunsPics/_Search.png]]
 \
+![[../../diagrams/SimunsPics/_Follow.png]]
 \
-s
-```C
-Class Max
+![[../../diagrams/SimunsPics/_Post.png]]
+\
+```ruby
+class Max
     public static void Mark(){
 
     }

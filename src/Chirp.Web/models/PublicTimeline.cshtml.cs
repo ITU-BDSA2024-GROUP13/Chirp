@@ -24,7 +24,6 @@ public class PublicTimeLine(ICheepService cheepService) : TimeLine(cheepService)
     {
         // Get the current page for pagination.
         int page = UpdatePage();
-
         // Switch based on the selected sorting option.
         switch (SortState)
         {
