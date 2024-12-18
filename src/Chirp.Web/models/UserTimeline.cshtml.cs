@@ -43,6 +43,7 @@ public class UserTimelineModel : TimeLine
 
         return Page();
     }
+    
 
     /// <summary>
     /// Handles the POST request to follow or unfollow a user.
