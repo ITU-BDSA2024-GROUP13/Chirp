@@ -6,6 +6,6 @@ UML sequence diagrams
 
 ![[../../diagrams/SimunsPics/NewUser.png]]
 \
-In the above diagram we can track the flow of a user signing up for (or in to) our service. 
+In the above diagram can be tracked the flow of a user signing up for (or in to) our service. 
 The user accesses the web app by navigating to any of the sites endpoints.
-Since the user is not yet authorised, they are met only with the option of logging in. 
+Since the user is not yet authorised, they are met only with the option of logging in.
