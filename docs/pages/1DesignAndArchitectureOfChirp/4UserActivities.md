@@ -61,6 +61,13 @@ Thus with the filter function, the user can explore the cheeps on the website in
 </p>
 
 ##### My Page
-The "My Page" element when accessing the profile redirects the user to the user's "My Page". Within this page is most of the relevant information of the user, such as email, username and the amount of followers and amount of people that the user follows. For each follower or following the user can access a page which contains the list of people that are within this group of people. Moreover the "My Page" also has other functionalities and information, such as the "Forget Me" option, which the user can choose - when looking at the overall sitemap on figure 1 - to delete all the information about themself. The "Help" will include basic guidance on how to traverse the Chirp website, if the user finds elements confusing.
+The "My Page" element, when accessing the profile, redirects the user to the user's "My Page". Within this page is most of the relevant information of the user, such as email, username and the amount of followers and amount of people that the user follows. For each follower or following the user can access a page which contains the list of people that are within this group of people. Moreover the "My Page" also has other functionalities and information, such as the "Forget Me" option, which the user can choose - when looking at the overall sitemap on figure 1 - to delete all the information about themself. The "Help" will include basic guidance on how to traverse the Chirp website, if the user finds elements confusing.
 
 ##### Settings
+If the user wishes to explore a more detailed overview of their account data, they can explore the "Settings".
+By looking at figure 1.3 the "Settings" contain a variety of additional options than the user's "My Page".
+By looking at the profile the user can - as with the "My Page" - look at their account's registered username, but also register a telephone number if the user chooses to - that way the Chirp company can reach out more personally to the user. Other elements such as "Password", gives the user the ability to change their password. 
+If the user wanted to link up an external login to their user, they can navigate to "External Logins" where they're able to link their github account to their Chirp account.
+If the user wishes additional safety measures for their account, they can navigate to the 2-factor authentication, which will allow the user to link an authentication app, which will add a layer of security when logging in with their account information.
+The "Personal Data" is an option the user can choose, if they wish to download the data of their Chirp profile to their own computer.
+
