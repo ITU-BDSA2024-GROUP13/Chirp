@@ -25,6 +25,8 @@ B -> UU : Display empty Timeline with login button
 ' Step 3: User accesses login
 UU -> B : Click Login (Access login endpoint (/login))
 B -> WS : HTTP GET "/login"
+WS -> PT : OnGetAsync()
+PT -> WS : Render Razor Page (Login.cshtml)
 WS --> B : Return HTML Response
 B -> UU : Display Registration page
 
