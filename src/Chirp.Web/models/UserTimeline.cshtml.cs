@@ -55,12 +55,14 @@ public class UserTimelineModel : TimeLine
         var user = await _cheepService.FindSpecificAuthorByName(followRequest.Username);
         var follower = await _cheepService.FindSpecificAuthorByName(followRequest.FollowUser);
 
+        var uId = user.Id!;
+        var fId = follower.Id!;
         try
         {
             // Determine whether to follow or unfollow based on the current state.
-            var followSuccess = await IsFollowing(followRequest.Username, followRequest.FollowUser)
-                ? await UnFollow(user.Id!, follower.Id!)
-                : await Follow(user.Id!, follower.Id!);
+            var followSuccess = await IsFollowing(uId, fId)
+                ? await UnFollow(uId, fId)
+                : await Follow(uId, fId);
 
             // Return success or failure message.
             return new JsonResult(new
@@ -87,9 +89,7 @@ public class UserTimelineModel : TimeLine
     /// <returns>A task that resolves to a boolean indicating the follow status.</returns>
     public async Task<bool> IsFollowing(string userId, string followerId)
     {
-        var user = await _cheepService.FindSpecificAuthorByName(userId);
-        var follower = await _cheepService.FindSpecificAuthorByName(followerId);
-        return await _cheepService.IsFollowing(user.Id!, follower.Id!);
+        return await _cheepService.IsFollowing(userId!, followerId!);
     }
 
     /// <summary>
