@@ -1,6 +1,6 @@
-namespace Chirp.Services;
-
-using Chirp.Core.DTO;
+namespace Chirp.Infrastructure.Services;
+using Chirp.Core.DTO.CheepDTO;
+using Chirp.Core.DTO.AuthorDTO;
 
 public interface ICheepService
 {

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Chirp.Core.DTO;
 using Chirp.Core.Entities;
+using Chirp.Core.DTO.AuthorDTO;
 
-namespace Chirp.Repositories;
+namespace Chirp.Infrastructure.Repositories;
 
 /// <summary>
 /// Repository class for managing Author data in the database.

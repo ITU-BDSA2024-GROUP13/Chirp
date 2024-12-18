@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Chirp.Services;
-using Chirp.Core.DTO;
+using Chirp.Infrastructure.Services;
+using Chirp.Core.DTO.CheepDTO;
+using Chirp.Core.DTO.AuthorDTO;
 using System.Threading.Tasks;
 
 namespace Chirp.Web.models;

@@ -1,7 +1,7 @@
 namespace Chirp.Web.models;
 
 using Microsoft.AspNetCore.Mvc;
-using Chirp.Services;
+using Chirp.Infrastructure.Services;
 using System.Threading.Tasks;
 
 /// <summary>

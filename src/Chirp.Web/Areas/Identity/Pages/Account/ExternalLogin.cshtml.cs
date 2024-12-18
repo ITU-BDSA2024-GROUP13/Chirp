@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using Chirp.Services;
+using Chirp.Infrastructure.Services;
 using Chirp.Core.DTO;
 using Chirp.Core.Entities;
 
