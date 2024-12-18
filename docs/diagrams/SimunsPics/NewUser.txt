@@ -25,6 +25,8 @@ B -> UU : Display empty Timeline with login button
 ' Step 3: User accesses login
 UU -> B : Click Login (Access login endpoint (/login))
 B -> WS : HTTP GET "/login"
+WS -> PT : OnGetAsync()
+PT -> WS : Render Razor Page (Login.cshtml)
 WS --> B : Return HTML Response
 B -> UU : Display Registration page
 
@@ -44,17 +46,21 @@ WS -> PT : OnGetAsync()
 
 ' Step 8: PublicTimeLine Requests Cheeps from Service
 PT -> CS : ReadPublicMessages(page)
-CS -> CR : ReadPublicMessages(page)
-CR -> DB : Query public Cheeps
-DB --> CR : Return List of Cheeps
-CR --> CS : Return List<CheepDTO>
-CS --> PT : Return List<CheepDTO>
-
 PT -> CS : CountPublicMessages()
+
+CS -> CR : ReadPublicMessages(page)
 CS -> CR : CountPublicMessages()
+
+CR -> DB : Query public Cheeps
 CR -> DB : Query total Cheeps count
+|||
+DB --> CR : Return List of Cheeps
 DB --> CR : Return count
+
+CR --> CS : Return List<CheepDTO>
 CR --> CS : Return count
+
+CS --> PT : Return List<CheepDTO>
 CS --> PT : Return message count
 
 ' Step 9: PublicTimeLine Prepares View
