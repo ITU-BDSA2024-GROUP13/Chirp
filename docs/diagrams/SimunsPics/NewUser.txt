@@ -6,6 +6,7 @@ boundary Browser as B
 control WebServer as WS
 entity PublicTimeLine as PT
 control CheepService as CS
+control CheepRepository as CR
 database Database as DB
 
 ' Step 1: Unauthorized User Requests Root Endpoint
@@ -14,37 +15,49 @@ B -> WS : HTTP GET "/"
 
 ' Step 2: Web Server Checks Authorization
 WS -> WS : Check if user is authorized
-WS --> B : Redirect to Login/Register Page
 
-' Step 3: User Registers or Logs In
+' Step 3: Display empty apge
+WS -> PT : OnGetAsync()
+PT -> WS : Render Razor Page (PublicTimeLine.cshtml)
+WS --> B : Return HTML Response
+B -> UU : Display empty Timeline with login button
+
+' Step 3: User accesses login
+UU -> B : Click Login (Access login endpoint (/login))
+B -> WS : HTTP GET "/login"
+WS --> B : Return HTML Response
+B -> UU : Display Registration page
+
+' Step 4: User Registers or Logs In
 UU -> B : Submit credentials (registration/login)
 B -> WS : HTTP POST "/login"
 
-' Step 4: Web Server Authenticates User
+' Step 5: Web Server Authenticates User
 WS -> WS : Validate credentials
 WS --> B : Redirect to PublicTimeline (authenticated)
 
-
-
-' Step 5: Authenticated User Requests PublicTimeline
-UU -> B : Access "/PublicTimeLine"
+' Step 6: Authenticated User Requests PublicTimeline
 B -> WS : HTTP GET "/PublicTimeLine"
 
-' Step 6: Web Server Calls PublicTimeLine
+' Step 7: Web Server Calls PublicTimeLine
 WS -> PT : OnGetAsync()
 
-' Step 7: PublicTimeLine Requests Cheeps from Service
+' Step 8: PublicTimeLine Requests Cheeps from Service
 PT -> CS : ReadPublicMessages(page)
-CS -> DB : Query public Cheeps
-DB --> CS : Return List of Cheeps
+CS -> CR : ReadPublicMessages(page)
+CR -> DB : Query public Cheeps
+DB --> CR : Return List of Cheeps
+CR --> CS : Return List<CheepDTO>
 CS --> PT : Return List<CheepDTO>
 
 PT -> CS : CountPublicMessages()
-CS -> DB : Query total Cheeps count
-DB --> CS : Return count
+CS -> CR : CountPublicMessages()
+CR -> DB : Query total Cheeps count
+DB --> CR : Return count
+CR --> CS : Return count
 CS --> PT : Return message count
 
-' Step 8: PublicTimeLine Prepares View
+' Step 9: PublicTimeLine Prepares View
 PT -> WS : Render Razor Page (PublicTimeLine.cshtml)
 WS --> B : Return HTML Response
 
