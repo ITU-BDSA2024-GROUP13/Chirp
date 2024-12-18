@@ -1,0 +1,48 @@
+@startuml
+actor User
+participant "UI" as Browser
+participant "Web Server" as Server
+participant "Timeline" as Handler
+participant "CheepService" as Service
+database "Repository/Database" as DB
+
+User -> Browser : Press Follow-button	
+Browser -> Server : Trigger
+Server -> Handler : Follow()
+
+Handler -> Service : Find User A
+Service -> DB : Query users
+
+Handler -> Service : Find User B
+Service -> DB : Query users
+
+DB --> Service : Return user A
+Service --> Handler : Return user A
+
+DB --> Service : Return user B
+Service --> Handler : Return user B
+
+Handler --> Service : Is A already following B?
+|||
+alt A not already following B
+	Service --> Handler : B not followed
+	Handler --> Service : Follow B
+	Service --> DB : A follows B
+	DB --> Service : A succesfully follows B
+	Service --> Handler : A succesfully follows B
+|||
+else         Already following
+	Service --> Handler : B followed
+	Handler --> Service : Unfollow B
+	Service --> DB : A unfollows B
+	DB --> Service : A succesfully unfollows B
+	Service --> Handler : A succesfully unfollows B
+|||
+end
+
+
+Handler --> Server : Return JSON Response
+
+Server --> Server : Reload UI
+Server --> Browser : Present new UI
+@enduml

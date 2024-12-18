@@ -1,0 +1,29 @@
+@startuml
+left to right direction
+skinparam cloudColor LightBlue
+skinparam databaseColor LightGreen
+
+' User Component
+actor "User" as U
+node "Client" {
+    U --> [Browser]
+    [Browser] --> [HTML/CSS/JavaScript]
+}
+
+' Server Component
+cloud "Azure App Service" {
+    [Web Server]
+    [Application Logic]
+}
+
+database "Database" as DB
+
+' Communication
+U --> [Browser] : Enters URL / Interacts
+[Browser] -down-> [Web Server] : HTTP(S) Requests
+[Web Server] -up-> [Browser] : HTTP(S) Responses (HTML/CSS/JS)
+[Web Server] --> [Application Logic] : Route Requests
+[Application Logic] --> DB : Query/Update Data
+DB --> [Application Logic] : Return Data
+
+@enduml
