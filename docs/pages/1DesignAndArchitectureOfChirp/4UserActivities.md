@@ -32,7 +32,7 @@ As shown in figure 1.1 to log in to the website a user must write the email and 
 However if a user doesn't have an account, the user might access the register-page, where the user is asked to enter their email, username and password. If the information (username & email) doesn't already exist within the database, the user will be registered as a new user and be given access to the main page. If the information already exists, the person will be given an error message, informing the user, that that information is already "taken" and cannot be used.
 
 ### Logged in
-*When a user is logged in, they truly have full accessibility to the website, which includes both functions and content. Most of the interactability is present on the main page, where all the public content, cheeps, and functionalities, filter, post and search, is available. References to the websites structure, will be directed towards the illustration in figure 1.2*
+*When a user is logged in, they truly have full accessibility to the website, which includes both functions and content. Most of the interactability is present on the main page, where all the public content, cheeps, and functionalities, filter, post and search, is available. References to the websites structure in this chapter, will be directed towards the illustration in figure 1.2*
 ![Current Project Board](../../diagrams/Decision_tree_1.2.png)
 <p style="text-align: center;">
     <b>Figure 1.2: Logged in</b>
@@ -50,8 +50,16 @@ The post & search function are both tools that further expands the user's reach 
 The post function as seen on figure 1.2 has two elements; a textfield and a file button. The textfield can be filled out by the user with whatever they wish to say. By pressing the file button, the user can choose to upload a picture from their own personal computer, which will then be included in their cheep.
 
 ##### Filter
-
+The filter gives the option to explore more diverse outlooks on the cheeps. As seen on figure 1.2 a user can choose to check out popular cheeps by pressing the option "MostLiked". This will filter the cheeps in a descending order with the most liked cheep being at the top. Other options such as "Newest" or "Oldest" will order the cheeps based on time. The "Relevance" option in the filter will give you a order based on time, however the cheeps shown, will be "relevant" - which means that it will be cheeps from authors you follow, or cheeps that you've liked. 
+Thus with the filter function, the user can explore the cheeps on the website in a much more varied order.
 
 #### Profile
+*The previous chapters have been about the user interacting with other users on the website - likes, follows, filters, search etc. However to really explore the user's account and their own information, the user can look at their "profile" picture. This includes the user's "My Page" and "Settings". References to the websites structure in this chapter, will MOSTLY be directed towards the illustration in figure 1.3*
+![Current Project Board](../../diagrams/Decision_tree_1.3.png)
+<p style="text-align: center;">
+    <b>Figure 1.3: Profile</b>
+</p>
+
 ##### My Page
+
 ##### Settings
