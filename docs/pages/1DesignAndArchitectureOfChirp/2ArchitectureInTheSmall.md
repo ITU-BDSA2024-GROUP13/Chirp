@@ -49,3 +49,8 @@ The cshtml pages send requests to the model which can be handled by reading or w
 
 The scaffolded package Area.Indetity.Page.Account is used to handle getting an identity token when logging in and managing the account using Microft.AspNet.Identity's IdentityUser.
 
+![[../../diagrams/class-diagrams/onion/Onion-coloured.png]]
+
+The entire Chirp package fulfills the onion architecture. Since Chirp.Core does not need to refer to any of the out layers. The same goes for repository layer and service layer.
+
+
