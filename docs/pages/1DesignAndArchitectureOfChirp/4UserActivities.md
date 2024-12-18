@@ -54,12 +54,13 @@ The filter gives the option to explore more diverse outlooks on the cheeps. As s
 Thus with the filter function, the user can explore the cheeps on the website in a much more varied order.
 
 #### Profile
-*The previous chapters have been about the user interacting with other users on the website - likes, follows, filters, search etc. However to really explore the user's account and their own information, the user can look at their "profile" picture. This includes the user's "My Page" and "Settings". References to the websites structure in this chapter, will MOSTLY be directed towards the illustration in figure 1.3*
+*The previous chapters have been about the user interacting with other users on the website - likes, follows, filters, search etc. However to really explore the user's account and their own information, the user can look at their "profile" picture. This includes the user's "My Page" and "Settings". References to the websites structure in this chapter, will mostly be directed towards the illustration in figure 1.3*
 ![Current Project Board](../../diagrams/Decision_tree_1.3.png)
 <p style="text-align: center;">
     <b>Figure 1.3: Profile</b>
 </p>
 
 ##### My Page
+The "My Page" element when accessing the profile redirects the user to the user's "My Page". Within this page is most of the relevant information of the user, such as email, username and the amount of followers and amount of people that the user follows. For each follower or following the user can access a page which contains the list of people that are within this group of people. Moreover the "My Page" also has other functionalities and information, such as the "Forget Me" option, which the user can choose - when looking at the overall sitemap on figure 1 - to delete all the information about themself. The "Help" will include basic guidance on how to traverse the Chirp website, if the user finds elements confusing.
 
 ##### Settings
