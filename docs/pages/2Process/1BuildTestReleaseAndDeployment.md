@@ -122,6 +122,4 @@ The **Build and Deploy** workflow is based on a **template provided by Azure** a
 
 ---
 
-## Final Notes
-This document provides a comprehensive overview of the **GitHub Actions workflows** for the Chirp! application, highlighting automation steps, dependencies, and key modifications made to streamline the build, release, and deployment processes.
 

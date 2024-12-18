@@ -1,0 +1,73 @@
+@startuml
+autonumber
+
+actor User as UU
+boundary Browser as B
+control WebServer as WS
+entity PublicTimeLine as PT
+control CheepService as CS
+control CheepRepository as CR
+database Database as DB
+
+' Step 1: Unauthorized User Requests Root Endpoint
+UU -> B : Access root endpoint (/)
+B -> WS : HTTP GET "/"
+
+' Step 2: Web Server Checks Authorization
+WS -> WS : Check if user is authorized
+
+' Step 3: Display empty apge
+WS -> PT : OnGetAsync()
+PT -> WS : Render Razor Page (PublicTimeLine.cshtml)
+WS --> B : Return HTML Response
+B -> UU : Display empty Timeline with login button
+
+' Step 3: User accesses login
+UU -> B : Click Login (Access login endpoint (/login))
+B -> WS : HTTP GET "/login"
+WS -> PT : OnGetAsync()
+PT -> WS : Render Razor Page (Login.cshtml)
+WS --> B : Return HTML Response
+B -> UU : Display Registration page
+
+' Step 4: User Registers or Logs In
+UU -> B : Submit credentials (registration/login)
+B -> WS : HTTP POST "/login"
+
+' Step 5: Web Server Authenticates User
+WS -> WS : Validate credentials
+WS --> B : Redirect to PublicTimeline (authenticated)
+
+' Step 6: Authenticated User Requests PublicTimeline
+B -> WS : HTTP GET "/"
+
+' Step 7: Web Server Calls PublicTimeLine
+WS -> PT : OnGetAsync()
+
+' Step 8: PublicTimeLine Requests Cheeps from Service
+PT -> CS : ReadPublicMessages(page)
+PT -> CS : CountPublicMessages()
+
+CS -> CR : ReadPublicMessages(page)
+CS -> CR : CountPublicMessages()
+
+CR -> DB : Query public Cheeps
+CR -> DB : Query total Cheeps count
+|||
+DB --> CR : Return List of Cheeps
+DB --> CR : Return count
+
+CR --> CS : Return List<CheepDTO>
+CR --> CS : Return count
+
+CS --> PT : Return List<CheepDTO>
+CS --> PT : Return message count
+
+' Step 9: PublicTimeLine Prepares View
+PT -> WS : Render Razor Page (PublicTimeLine.cshtml)
+WS --> B : Return HTML Response
+
+' Step 9: Browser Displays Public Timeline
+B -> UU : Display PublicTimeline with Cheeps
+
+@enduml

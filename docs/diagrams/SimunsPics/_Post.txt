@@ -1,0 +1,46 @@
+@startuml
+autonumber
+
+actor User as UU
+boundary Browser as B
+control WebServer as WS
+entity PublicTimeLine as PT
+control CheepService as CS
+control CheepRepository as CR
+database Database as DB
+
+' Step 1: User writes a post
+UU -> B : Type into Post Input
+UU -> B : Press 'Enter'
+
+' Step 2: Post is passed to Service
+B -> B : Trigger input event
+B -> WS : POST {FormData}
+WS -> PT: OnPostSave(PostRequest)
+
+' Step 3: Post info is gathered
+PT -> PT : Validate Input
+PT -> PT : Save IMG, return url
+PT -> CS : Find Author
+CS -> CR : FindSpecificAuthorByName(postRequest.PostName)
+CR -> DB : Query users
+DB --> CR : Return Author
+CR --> CS : Return Author<DTO>
+CS --> PT: Return Author<DTO>
+
+' Step 4: Message is created
+PT -> CS : Create Message
+CS -> CR : CreateMessage(NewCheepDTO message)
+CR -> DB : Save to DB
+
+' Step 5: Post is passed to Service
+DB --> CR : Acknowledge Save
+CR --> CS : Return JSON Response
+CS --> PT: Return JSON Response
+PT -> WS : Render Razor Page (PublicTimeLine.cshtml)
+
+' Step 6: New page is served
+WS --> B : Return HTML Response
+B -> UU : Display PublicTimeline with new Cheep
+
+@enduml

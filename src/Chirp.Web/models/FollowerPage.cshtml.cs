@@ -6,6 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Chirp.Web.models;
 
+/// <summary>
+/// Page model over information regarding a list of author the user is following
+/// </summary>
+/// <param name="cheepService"></param>
+/// <param name="signInManager"></param>
+/// <param name="userManager"></param>
 public class FollowerPage(ICheepService cheepService, SignInManager<Author> signInManager, UserManager<Author> userManager) : TimeLine(cheepService)
 {
     private readonly SignInManager<Author> _signInManager = signInManager;

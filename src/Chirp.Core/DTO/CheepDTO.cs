@@ -1,6 +1,9 @@
 namespace Chirp.Core.DTO;
 
 
+/// <summary>
+/// Data transfer object for cheeps. Used when reading cheeps from the database
+/// </summary>
 public class CheepDTO
 {
     public required int Id { get; set; }
@@ -19,6 +22,9 @@ public class CheepDTO
     public string? Image { get; set; }
 }
 
+/// <summary>
+/// Data transfer object for new cheeps.
+/// </summary>
 public class NewCheepDTO
 {
     public required long Timestamp { get; set; }
@@ -36,11 +42,17 @@ public class NewCheepDTO
     public string? Image { get; set; }
 }
 
+/// <summary>
+/// Data transfer object for cheeps, whenever someone wants to edit their text.
+/// </summary>
 public class UpdateCheepDTO
 {
     public required string Text { get; set; }
 }
 
+/// <summary>
+/// Data transfer object for cheeps, when handling the relevance algorithm
+/// </summary>
 public class CheepDTOForRelevance
 {
     public required int Id { get; set; }
@@ -51,7 +63,6 @@ public class CheepDTOForRelevance
     public required bool isFollowing { get; set; }
 
     public required bool isDisliked { get; set; }
-
     public string? Image { get; set; }
 
 }

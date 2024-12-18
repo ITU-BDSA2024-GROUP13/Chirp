@@ -1,0 +1,62 @@
+@startuml
+autonumber
+
+actor AuthorA as UU
+boundary Browser as B
+control WebServer as WS
+entity UserTimeLine as PT
+control CheepService as CS
+control CheepRepository as CR
+database Database as DB
+
+' Step 1: User presses follow-button
+UU-> B : Press Follow-button	
+B-> B : Trigger input event
+B-> WS : POST {JSON.stringify{Username,FollowUser}}
+WS -> PT : OnPostFollow(FollowRequest)
+
+' Step 2: Service finds users
+PT -> CS : Find Author A 
+PT -> CS : Find Author B 
+CS -> CR : FindSpecificAuthorByName(followRequest.Username)
+CS -> CR : FindSpecificAuthorByName(followRequest.FollowUser)
+CR -> DB : Query authors
+CR -> DB : Query authors
+|||
+
+' Step 3: Service gets users
+DB --> CR : Return Author A
+DB --> CR : Return Author B
+CR --> CS : Return Author<DTO> A
+CR --> CS : Return Author<DTO> B
+CS --> PT : Return Author<DTO> A
+CS --> PT : Return Author<DTO> B
+
+' Step 4: Follow/unfollow
+PT -> CS : Is A already following B?
+|||
+alt Not following
+	CS --> PT : A does not follow B
+	PT -> CS : Make A follow B
+	CS -> CR : Follow (A, B)
+	CR -> DB : Save follow to DB
+|||
+else Following
+	CS --> PT : A follows B
+	PT -> CS : Unfollow B
+	CS -> CR : Unfollow (A, B)
+	CR -> DB : Remove follow from DB
+|||
+end
+
+' Step 5: Follow/unfollow was a success
+DB --> CR : (Un)Follow action succesful
+CR --> CS : Return JSON Response
+CS --> PT: Return JSON Response
+PT -> WS : Render Razor Page (UserTimeLine.cshtml)
+
+' Step 6: New page is served
+WS --> B : Return HTML Response
+B -> UU : Display UserTimeline with changed follow/unfollow state
+
+@enduml
