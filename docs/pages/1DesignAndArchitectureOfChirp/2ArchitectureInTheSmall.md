@@ -30,7 +30,12 @@ The static HelperFunctions class provides functionality to the CheepRepository. 
 
 ![[../../diagrams/class-diagrams/Service.png]]
 
+The Chirp.Services package contains the CheepService class, which directly communicates with the page models.
 
+The service transacts data between the page models and indirectly the database via the repositories.
+
+CheepService contains the dependency injected IAuthorRepository and ICheepRepository.
+The CheepService itself is also dependency injected into the application. So page models refer to the same service, which refers to the same repositories, which refer to the same database.
 
 
 ![[../../diagrams/class-diagrams/Web.png]]
