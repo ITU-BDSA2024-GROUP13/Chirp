@@ -2,8 +2,8 @@ namespace Chirp.Repositories;
 using Chirp.Core.DTO;
 
 /// <summary>
-/// Defines the repository interface for performing CRUD and query operations on authors in the Chirp application.
-/// Provides methods for managing authors, followers, and relationships between them.
+/// Defines the repository interface for query operations on authors in the Chirp application.
+/// Provides methods for managing authors, and their associated relationships.
 /// </summary>
 public interface IAuthorRepository
 {

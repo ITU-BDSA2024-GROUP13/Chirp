@@ -1,6 +1,10 @@
 namespace Chirp.Repositories;
 using Chirp.Core.DTO;
 
+/// <summary>
+/// Defines the repository interface for query operations on cheeps in the Chirp application.
+/// Provides methods for managing cheeps, and their associated relationships.
+/// </summary>
 public interface ICheepRepository
 {
     /// <summary>
@@ -43,6 +47,11 @@ public interface ICheepRepository
 
     /// <summary>
     /// Retrieves a list of public cheeps, sorted by relevance to the given user, with pagination.
+    /// Sorted by a point system based on total likes, timestamp,
+    /// and whether the user follows the author or has disliked the cheep in question. <br></br>
+    /// A cheep that is followed by the user, gets 24 hours of relevance. <br></br>
+    /// A cheep that is disliked by the user, subtracts 24 hours of relevance. <br></br>
+    /// All cheeps gets Log_5((total likes + 1) hours of relevance.
     /// </summary>
     /// <param name="takeValue">The number of cheeps to take.</param>
     /// <param name="skipValue">The number of cheeps to skip (used for pagination).</param>
@@ -127,8 +136,24 @@ public interface ICheepRepository
     /// <returns>A task representing the asynchronous operation.</returns>
     public Task RemoveAllDislikes(int cheepId);
 
+    /// <summary>
+    /// Calculates the hours of relevance a cheep receives when sorting for relevance
+    /// </summary>
+    /// <param name="cheepid">The Id of the cheep</param>
+    /// <param name="timeStamp">The current time gets subtracted by the timestamp. To determine relevance by time</param>
+    /// <param name="follows">Whether the user follows the author of the cheep</param>
+    /// <param name="disliked">Whether the user disliked the cheep</param>
+    /// <returns></returns>
     public double RelevancePoints(int cheepid, string follower, string userName, double likeRatio, DateTime timeStamp, bool follows, bool disliked);
 
+    /// <summary>
+    /// Reads all user and followers messages for the private timeline
+    /// </summary>
+    /// <param name="userName">The name of the user</param>
+    /// <param name="followers">The author, which the user follows</param>
+    /// <param name="takeValue">The amount of cheeps to take</param>
+    /// <param name="skipValue">The amount of cheeps to skip</param>
+    /// <returns></returns>
     public Task<List<CheepDTO>> ReadUserAndFollowerMessages(string userName, List<string> followers, int takeValue, int skipValue);
 
     /// <summary>
