@@ -22,15 +22,32 @@ The sitemap on figure 1*, contains all/most of the traversal possibilities for a
 </p>
 
 #### Github login/register
-When a user enters the website, they will be met by the front page, however without content. To access the content, the user must press the "Log in" button, which will lead them to the "Log in"-page. From here the user might choose to use an external login to access the website. By using the external login 
+When a user enters the website, they will be met by the front page, however without content. To access the content, the user must press the "Log in" button, which will lead them to the "Log in"-page. From here the user might choose to use an external login to access the website. By using the external login, they use the GitHub Authorization process, which gives the website a token, that gives the website access to the information about the github user. 
 
-#### Normal register/login
+If the user exists within the database, the user is simply logged in and is now able to access the main page with all of it's functionalities. If a user doesn't exist, the user's "Github User ID" as the username and register them as a new user.
+
+#### Normal login/register
+As shown in figure 1.1 to log in to the website a user must write the email and password of their account, and if they don't exist in the database, an error message will be sent back to inform the user, that the log in process failed. If however it succeeds, the user will be given access to the main page.
+
+However if a user doesn't have an account, the user might access the register-page, where the user is asked to enter their email, username and password. If the information (username & email) doesn't already exist within the database, the user will be registered as a new user and be given access to the main page. If the information already exists, the person will be given an error message, informing the user, that that information is already "taken" and cannot be used.
 
 ### Logged in
+*When a user is logged in, they truly have full accessibility to the website, which includes both functions and content. Most of the interactability is present on the main page, where all the public content, cheeps, and functionalities, filter, post and search, is available. References to the websites structure, will be directed towards the illustration in figure 1.2*
+![Current Project Board](../../diagrams/Decision_tree_1.2.png)
+<p style="text-align: center;">
+    <b>Figure 1.2: Logged in</b>
+</p>
+
 #### Main page
-##### Post & Search
-##### Filter
+##### Cheeps
+Cheeps are the cornerstone of the website, and contain whatever a user decides to share with the rest of the Chirp audience. As seen on the figure 1.2 under "Cheeps" a user can read and actively give approval or dissaproval to the cheeps, by liking or disliking depending on their opinion of said cheep.
+A user might further investigate information within the cheep, such as accessing the author's timeline from their cheep, and also see who, other than themself, has like or disliked the cheep. 
 ##### My Timeline
+The user's timeline is now where the user can experience cheeps in a more customed setting, influenced by the user's "following". On the figure 1.2 it shows that by clicking on their timeline, they access another part of Chirp, which still gives the ability to read and interact with cheeps. In contrast to the public timeline, the cheeps shown in the user's timeline, are consisting of cheeps from the authors that the user has chosen to "follow". 
+##### Post & Search
+
+##### Filter
+
 
 #### Profile
 ##### My Page
