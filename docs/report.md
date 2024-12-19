@@ -101,7 +101,7 @@ The entire `Chirp` package fulfills the *onion architecture*. Since ***Chirp.Cor
 <!-- Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other. -->
 
 ![New User](./diagrams/SimunsPics/AppArch.png)
-<img src="./diagrams/SimunsPics/AppArch.png" alt="New User" style="max-width: 100%; height: auto; display: block; margin: auto;">
+
 
 \
 This diagram illustrates the *architecture of the Chirp application* as well as the interaction between its key components. The system is divided into three main layers: *the Client, the Server, and the Database*, all hosted within the *Azure* environment.
@@ -130,11 +130,7 @@ The sitemap in figure 1.4.1, contains most of the traversal possibilities for a 
 ### Logged out
 When a user is logged out, they do not have the same accessibility as a user who is logged in. Their access is very limited, and it only allows the user to log in or register. Any references to the websites structure in this chapter, will be directed towards the illustration in figure *1.4.2*
 
-<img src="./diagrams/Decision_tree_1.1.png" style="max-width: 50%; height: auto; display: block; margin: auto;">
-<p style="text-align: center;">
-    <b>Figure 1.4.2: Logged out</b>
-</p>
-</img>
+
 
 #### Github login/register
 When a user enters the website, they will see the front page without content. To view any content, the user must press the "Log in" button, which will lead them to the "Log in"-page. From here the user can choose to use an external login to access the website. The external login uses the *GitHub Authorization* process giving the website a token, which allows the website to access the information about the *github user*.  
@@ -170,7 +166,6 @@ As seen in *figure 1.4.3* a user can choose to check out popular *Cheeps* by pre
 To explore the user's account and their own information, the user can click on their profile picture. This displays a new page with the user's *My Page* and *Settings*. References to the websites structure in this section, will be directed towards the illustration in figure *1.4.4*
 
 ![Profile](./diagrams/Decision_tree_1.3.png)
-<img src="./diagrams/Decision_tree_1.3.png" style="max-width: 50%; height: auto; display: block; margin: auto;">
 
 
 ##### My Page
@@ -191,7 +186,7 @@ Make sure that your illustration is complete. That is, likely for many of you th
 
 
 ![New User](./diagrams/SimunsPics/NewUser.png)
-<img src="./diagrams/SimunsPics/NewUser.png" alt="New User" style="max-width: 100%; height: auto; display: block; margin: auto;">
+
 
 \
 The diagram above illustrates the flow of a user signing up or in to the Cheep service. 
@@ -208,7 +203,7 @@ Once the database returns the list of *Cheeps* and the count, the information is
 ## Sequence of functionality/calls through *Chirp!*
 
 ![Post Cheep](./diagrams/SimunsPics/_Post.png)
-<img src="./diagrams/SimunsPics/_Post.png" alt="Post Cheep" style="max-width: 80%; height: auto; display: block; margin: auto;">
+
 
 When posting a cheep, a user would initiate the following flow.
 Typing a post into the input field and pressing "Enter," the browser triggers an event to process the input. This sends an `HTTP POST` request with the form data to the web server. The server invokes the `OnPostSave()` method in the `PublicTimeLine` component to handle the post submission.
@@ -223,7 +218,7 @@ Finally, the server renders the updated `PublicTimeLine.cshtml` Razor page, incl
 \
 
 ![Search](./diagrams/SimunsPics/_Search.png)
-<img src="./diagrams/SimunsPics/_Search.png" alt="Search" style="max-width: 80%; height: auto; display: block; margin: auto;">
+
 \
 When using the search functionality, the browser triggers an input event for each keystroke, as the user types into the search input field. This sends an `HTTP POST` request to the web server, containing the current search string. The server calls the `OnPostSearch()` method in the `TimeLine` component to handle the search.
 
@@ -234,7 +229,7 @@ Upon receiving the response, the browser dynamically calls the `showResults()` f
 \
 \
 ![Follow Action](./diagrams/SimunsPics/_Follow.png)
-<img src="./diagrams/SimunsPics/_Follow.png" alt="Follow Action" style="max-width: 80%; height: auto;display: block; margin: auto;">
+
 \
 When a user presses the *follow button* on an *authors page*, the browser triggers an input event and sends an `HTTP POST` request to the web server, containing the usernames of the follower and the followee. The server invokes the `OnPostFollow()` method in the `UserTimeLine` component to handle the follow and unfollow actions.
 
