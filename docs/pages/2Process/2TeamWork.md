@@ -22,4 +22,4 @@ Once the work on an issue has begun, the issue is moved from the `Todo` column t
 
 When the assigned contributors have decided that the requirements for the issue has been met, they create a pull request and move it into the `In Review` column. This allows other developers to read and review the pull request. Once there are no conflicts, the pull request is then accepted and the issue is moved into the `In Prod` column.
 
-The given code which satisfies the original task has now been merged into main. 
+The given code which satisfies the original task has now been merged into the **main** branch.

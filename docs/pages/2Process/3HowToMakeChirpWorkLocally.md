@@ -30,3 +30,6 @@ Please make sure you have all the right ***.Net 8*** dependencies installed [her
 5. Look in your terminal for which port the project is listening on. e.g.  
 ![[../../images/localhost.png]]
 
+6. Open your browser and type `http://localhost:<port>`  
+
+

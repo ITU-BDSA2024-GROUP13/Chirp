@@ -13,7 +13,7 @@ The key activity of this project has been **automating mundane tasks**, which si
 While testing with **Playwright** caused some issues on GitHub, leading to skipped testing steps in workflows, the focus has been on maintaining and ensuring workflows function correctly. Code quality was considered less critical because **Git rollbacks** can revert any problematic changes.
 
 ### Key Workflow Triggers:
-1. **Primary Trigger**: Push to the `main` branch (e.g., after an accepted pull request).
+1. **Primary Trigger**: Push to the **main** branch (e.g., after an accepted pull request).
 2. **Secondary Trigger**: A scheduled workflow run every **Sunday at 08:00 UTC**.
 
 Once the **Create Release** workflow completes, it triggers two subsequent workflows:

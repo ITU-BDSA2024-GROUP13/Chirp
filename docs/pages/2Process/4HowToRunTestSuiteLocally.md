@@ -5,11 +5,12 @@ Briefly describe what kinds of tests you have in your test suites and what they 
 
 ![[../../images/Test_coverage.png]]
 
-The `test` package tests the content in `infrastructure` and `core` using unit tests and integration tests.
+The ***test*** package tests all the ***infrastructure*** and ***core*** using unit tests and integration tests.
+
 The `web` package is tested via end-to-end tests using Playwright. Playwright does not provide code coverage.
 
 
-In order to run the `infrastructure` and `core` tests:
+In order to run the ***infrastructure*** and ***core*** tests:
 
 go to the `Chirp\test` folder in your terminal.
 
@@ -17,7 +18,7 @@ Write `dotnet test` in your terminal to run all tests except Playwright tests.
 
 If you want to see code coverage. Run `dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=lcov.info`
 
-This should cover three modules: `Chirp.Core`, `Chirp.Repositories` and `Chirp.Services`.
+This should cover three packages: ***Chirp.Core***, ***Chirp.Repositories*** and ***Chirp.Services***.
 
 In order to run the Playwright test, you have to:
 
@@ -26,13 +27,12 @@ Make sure you have Node.js and npm (Node Package Manager) installed and/or updat
 You can install Node.js from their website [Node.js](https://nodejs.org/en).
 
 
-
 1. **update npm in a powershell terminal at the root of your pc** 
 ```bash
 $ npm install -g npm
 ```
 
-2. **verify you have them installed**
+2. **Verify you have them installed**
 ```bash
 $ node -v
 $ npm -v
@@ -67,24 +67,24 @@ Once playwright is correctly installed you can go to the root folder of Chirp an
 
 ## Test suites
 
-There are 8 test suites each focusing on different aspects of the solution. Following the **onion-architecture** allows the tests to focus on each layer individually using testing types such as *unit tests*, isolate a chain of method calls for *Integration testing* and *End-to-End Testing (E2E) testing*.
+There are 8 test suites each focusing on different aspects of the solution. Following the **onion-architecture** allows the tests to focus on each layer individually using testing types such as *unit tests*, isolate a chain of method calls for *Integration testing* and *End-to-End (E2E) Testing*.
 
 | Test File                                                                | Unit Tests | Integration Tests | E2E Tests |
 |--------------------------------------------------------------------------|------------|-------------------|-----------|
-| [AuthorTest.cs](#authortests-authortests)                                | yes        | no                | no        |
-| [AuthorRepositoryTests.cs](#authorrepositorytests-authorrepositorytests) | yes        | yes               | no        |
-| [CheepDBContextTest.cs](#cheepdbcontexttest-cheepdbcontexttest)          | no         | yes               | no        |
-| [CheepRepositoryTests.cs](#cheeprepositorytests-cheeprepositorytests)    | yes        | yes               | no        |
-| [HelperFunctionsTests.cs](#helperfunctionstests-helperfunctionstests)    | yes        | no                | no        |
-| [CheepServiceTest.cs](#cheepservicetest-cheepservicetest)                | yes        | yes               | no        |
-| [AzureTests.cs](#azuretests-azuretests)                                  | no         | no                | yes       |
-| [LocalTests.cs](#localtests-localtests)                                  | no         | no                | yes       |
+| [AuthorTest.cs](#authortests)                                | yes        | no                | no        |
+| [AuthorRepositoryTests.cs](#authorrepositorytests) | yes        | yes               | no        |
+| [CheepDBContextTest.cs](#cheepdbcontexttest)          | no         | yes               | no        |
+| [CheepRepositoryTests.cs](#cheeprepositorytests)    | yes        | yes               | no        |
+| [HelperFunctionsTests.cs](#helperfunctionstests)    | yes        | no                | no        |
+| [CheepServiceTest.cs](#cheepservicetest)                | yes        | yes               | no        |
+| [AzureTests.cs](#azuretests)                                  | no         | no                | yes       |
+| [LocalTests.cs](#localtests)                                  | no         | no                | yes       |
 
 Tabel 1: List of the test suites and their types of testing
 
 ## What is tested?
 
-#### AuthorTests {#AuthorTests}
+#### AuthorTests
 >Focus: Validation of the Author datatype and its behavior.
 
 ##### Types of Testing
@@ -92,7 +92,7 @@ Tabel 1: List of the test suites and their types of testing
 - Property validations on the behavior of the `Author` datatype such as its required fields.
 
 
-#### AuthorRepositoryTests {#AuthorRepositoryTests}
+#### AuthorRepositoryTests
 >Focus: Verifying the behavior of the repository pattern for Author.
 
 ##### Types of Testing
@@ -102,7 +102,7 @@ Tabel 1: List of the test suites and their types of testing
 **Integration Tests:**
 - Tests that validate repository methods against an in-memory database
 
-#### CheepDBContextTest {#CheepDBContextTest}
+#### CheepDBContextTest
 >Focus: Validating the setup and functionality of the database context.
 
 ##### Types of Testing
@@ -114,7 +114,7 @@ Tabel 1: List of the test suites and their types of testing
 - Seeding the database correctly.
 - Validating migrations and Schema enforcements.
 
-#### CheepRepositoryTests {#CheepRepositoryTests}
+#### CheepRepositoryTests
 >Focus: Validating repository methods for managing Cheep entities.
 
 ##### Types of Testing
@@ -124,7 +124,7 @@ Tabel 1: List of the test suites and their types of testing
 **Integration Test:**
 - Tests repository functionality against an a seeded mock database to ensure correctness with real data structures.
 
-#### HelperFunctionsTests {#HelperFunctionsTests}
+#### HelperFunctionsTests
 >Focus: Testing utility methods and reusable logic across the application.
 
 ##### Types of Testing
@@ -135,7 +135,7 @@ Tabel 1: List of the test suites and their types of testing
 - Converting a unix-timestamp to a date in string.
 - Ensuring correct date formatting.
 
-#### CheepServiceTest {#CheepServiceTest}
+#### CheepServiceTest
 >Focus: Testing the business logic for cheeps at the service level.
 
 ##### Types of Testing
@@ -149,7 +149,7 @@ Tabel 1: List of the test suites and their types of testing
 **Integration Tests:**
 - Test the interaction of the `CheepService` with the repository and database.
 
-#### AzureTests {#AzureTests}
+#### AzureTests
 >Focus: End-to-end testing (E2E) on a live Azure-hosted application.
 
 ##### Types of Testing
@@ -161,7 +161,7 @@ Tabel 1: List of the test suites and their types of testing
 - `LoginChanges`
 - `LogOut`
 
-#### LocalTests {#LocalTests}
+#### LocalTests
 >Focus: Testing the application on a local development server.
 
 ##### Types of Testing

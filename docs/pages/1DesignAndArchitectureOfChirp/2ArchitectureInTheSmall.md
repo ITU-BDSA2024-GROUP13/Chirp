@@ -16,8 +16,9 @@ For the `Author`, two `DTO`'s have been made for either creating an author or to
 
 ![[../../diagrams/class-diagrams/Repo.png]]
 
-The `Chirp.Infrastructure.Repositories` package, contains classes and interfaces regarding the database and classes which seed or query the database.
-`AuthorRepository` and `CheepRepository` queries the database depending on whether Author or Cheep is the main entity.
+The ***Chirp.Infrastructure.Repositories*** package, contains *classes* and *interfaces* regarding the database and *classes* which seed or query the database.
+
+`AuthorRepository` and `CheepRepository` queries the database depending on whether `Author` or `Cheep` is the main entity.
 
 The `CheepDBContext` defines the database *entities* and the relations between them.
 
@@ -30,27 +31,29 @@ The static class `HelperFunctions` provides functionality to the `CheepRepositor
 
 ![[../../diagrams/class-diagrams/Service.png]]
 
-The `Chirp.Services` package contains the `CheepService` class, which directly communicates with the page models.
+The ***Chirp.Services*** package contains the `CheepService` class, which directly communicates with the page models.
 
-The service transacts data between the page models and indirectly the database using the repositories.
+The service transacts data between the *page models* and indirectly the database using the *repositories*.
 
 `CheepService` contains the dependency injected `IAuthorRepository` and `ICheepRepository`.
+
 The `CheepService` itself is also dependency, injected into the application. Page models refer to the same service, which refers to the same repositories, which refer to the same database.
 
 
 ![[../../diagrams/class-diagrams/Web.png]]
 
-The `Chirp.Web` package contains all the pages, as well as the startup program.
+The ***Chirp.Web*** package contains all the pages, as well as the startup program.
 
 The pages are made up of page models written in `C#` and the pages in `cshtml`.
 
-The `cshtml` pages send requests to the model which are handled by reading or writing to the database using the application's associated service interface.
+The `cshtml` pages send requests to the model which are handled by reading or writing to the database using the application's associated *service interface*.
 
-The scaffolded package `Area.Identity.Page.Account` is used to handle getting an identity token when logging in and managing the account using `Microsoft.AspNet.Identity`'s IdentityUser.
+The scaffolded package ***Area.Identity.Page.Account*** is used to handle getting an identity token when logging in and managing the account using ***Microsoft.AspNet.Identity***'s IdentityUser.
 
 ![[../../diagrams/class-diagrams/onion/Onion-coloured.png]]
 
-The entire `Chirp` package fulfills the onion architecture. Since `Chirp.Core` does not need to refer to any of the outer layers. The same goes for the repository layer and the service layer.
+
+The entire `Chirp` package fulfills the *onion architecture*. Since ***Chirp.Core*** does not need to refer to any of the outer layers. The same goes for the *repository layer* and the *service layer*.
 
 
 
