@@ -21,8 +21,8 @@ cloud "Azure App Service" {
 
 ' Communication
 U --> [Browser] : Enters URL / Interacts
-[Browser] -down-> [Web Server] : HTTP(S) Requests
-[Web Server] -up-> [Browser] : HTTP(S) Responses (HTML/CSS/JS)
+[Browser] -down-> [Web Server] : HTTP Requests
+[Web Server] -up-> [Browser] : HTTP Responses (HTML/CSS/JS)
 [Web Server] --> [Application Logic] : Route Requests
 [Application Logic] --> DB : Query/Update Data
 DB --> [Application Logic] : Return Data
