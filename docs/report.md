@@ -124,7 +124,7 @@ When it comes to *webdevelopment*, the overall *userexperience* and functionalit
 The sitemap in figure 1, contains most of the traversal possibilities for a user, when logged in and logged out, to illustrate the user's accessibility in different parts of the website and the general structure of the website. 
 *- Notice: To understand the elements in the sitemap, it is recomended to first have a general understanding of the definitions of colors and arrows in the bottom part of figure 1.*
 
-![Current Project Board](../../diagrams/Decision_tree.png)
+![Current Project Board](./diagrams/Decision_tree.png)
 <p style="text-align: center;">
     <b>Figure 1: sitemap</b>
 </p>
@@ -134,7 +134,7 @@ The sitemap in figure 1, contains most of the traversal possibilities for a user
 ### Logged out
 When a user is logged out, they do not have the same accessibility as a user who is logged in. Their access is very limited, and it only allows the user to log in or register. Any references to the websites structure in this chapter, will be directed towards the illustration in figure *1.1*
 
-<img src="../../diagrams/Decision_tree_1.1.png" style="max-width: 50%; height: auto; display: block; margin: auto;">
+<img src="./diagrams/Decision_tree_1.1.png" style="max-width: 50%; height: auto; display: block; margin: auto;">
 <p style="text-align: center;">
     <b>Figure 1.1: Logged out</b>
 </p>
@@ -152,7 +152,7 @@ However if a user does not have an account, the user can access the register-pag
 
 ### Logged in
 When a user is logged in,y have full authorization to the website, which includes both functions and content. Most of the interactability is present on the front page. References to the websites structure in this section, will be directed towards the illustration in figure *1.2*
-![Current Project Board](../../diagrams/Decision_tree_1.2.png)
+![Current Project Board](./diagrams/Decision_tree_1.2.png)
 <p style="text-align: center;">
     <b>Figure 1.2: Logged in</b>
 </p>
@@ -274,7 +274,7 @@ Once the **Create Release** workflow completes, it triggers two subsequent workf
 
 ## Creating a Release Workflow
 
-![Create Release Workflow](../../diagrams/createRelease.png)
+![Create Release Workflow](./diagrams/createRelease.png)
 
 ### **Description**
 The **Create Release** workflow triggers under two conditions:
@@ -372,13 +372,144 @@ The **Build and Deploy** workflow is based on a **template provided by Azure** a
 
 ---
 
+# Process
+
+## Build, test, release, and deployment
+<!-- Illustrate with a UML activity diagram how your Chirp! applications are built, tested, released, and deployed. That is, illustrate the flow of activities in your respective GitHub Actions workflows. -->
+
+<!-- Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed. -->
+
+# UML Activity Diagram for Chirp! Application
+
+## Overview
+
+The following describes the **UML activity diagrams** representing how the Chirp! application is **built**, **tested**, **released**, and **deployed** using **GitHub Actions** workflows.
+
+The key activity of this project has been **automating mundane tasks**, which significantly decreases the accumulated workload and speeds up processes. Using **GitHub Actions**, the need for manually creating releases, generating DLLs, and deploying the service to Azure has been **eliminated**—excluding the time invested in creating these workflows.
+
+While testing with **Playwright** caused some issues on GitHub, leading to skipped testing steps in workflows, the focus has been on maintaining and ensuring workflows function correctly. Code quality was considered less critical because **Git rollbacks** can revert any problematic changes.
+
+### Key Workflow Triggers:
+1. **Primary Trigger**: Push to the **main** branch (e.g., after an accepted pull request).
+2. **Secondary Trigger**: A scheduled workflow run every **Sunday at 08:00 UTC**.
+
+Once the **Create Release** workflow completes, it triggers two subsequent workflows:
+- **Make DLL**
+- **Build and Deploy**
+
+---
+
+## Creating a Release Workflow
+
+![Create Release Workflow](./diagrams/createRelease.png)
+
+### **Description**
+The **Create Release** workflow triggers under two conditions:
+1. **Push to `main`** branch.
+2. **Scheduled run** on **Sunday at 08:00 UTC**.
+
+### **Purpose**
+The workflow **automates the creation of a new release** by:
+- Scanning the **commit message** for keywords to determine the version bump.
+- Following the **Major.Minor.Patch** versioning convention:
+  - **Major**: Total rework of the system (e.g., switching from CLI to a web-based service).
+  - **Minor**: New features added to the existing system.
+  - **Patch**: Bug fixes, formatting changes, or refactors.
+
+If the commit message includes:
+- `Major`: The version bump will increment the **Major** version.
+- `Minor`: The version bump will increment the **Minor** version.
+- **Default**: If no keywords are detected, the version will default to a **Patch**.
+
+### **Notes**:
+- This workflow **previously contained a testing step**, but it was **removed** due to compatibility issues.
+
+---
+
+## Making DLLs Workflow
+
+![Make DLL Workflow](./diagrams/makeDLL.png)
+
+### **Description**
+The **Make DLL** workflow builds the program and generates a **zip file** containing the `.dll` files for distribution.
+
+### **Matrix Strategy**
+- A **matrix** is used to optimize the step, specifically the **"Process for creating a zip file with .dll"**.
+- The matrix reduces **code redundancy** and simplifies supporting multiple operating systems.
+- If additional OS platforms need to be supported in the future, the matrix makes it easy to extend the workflow.
+
+### **Workflow Steps**:
+1. **Build the Program**:
+   - The program is compiled to generate `.dll` files.
+2. **Create a ZIP File**:
+   - The DLLs are packaged into a zip file for easy distribution.
+3. **Attach Files to the Latest Release**:
+   - The zip file containing DLLs is appended to the **latest GitHub release** created by the **Create Release** workflow.
+
+### **Dependency**:
+- It is **crucial** that the **Create Release** workflow runs successfully before `Make DLL` starts.
+- If no new release is created, this workflow may **overwrite the files** in the most recent release.
+
+---
+
+## Deploying to Production Workflow
+
+![Build and Deploy Workflow](./diagrams/BuildAndDeploy.png)
+
+### **Description**
+The **Build and Deploy** workflow is based on a **template provided by Azure** and has been modified to integrate with the **Create Release** workflow.
+
+### **Key Modifications**:
+- The workflow waits for the **confirmation** of the **"test step"** (now deleted) from the **Create Release** workflow before proceeding.
+
+### **Workflow Steps**:
+1. **Setup Environment**:
+   - Sets up the .NET environment to build the application.
+2. **Build the Application**:
+   - Compiles the application for deployment.
+3. **Deploy to Azure**:
+   - The compiled application artifacts are deployed to the Azure Web App.
+
+---
+
+## Summary of Automation Benefits
+
+1. **Time Savings**: 
+   - Manual tasks such as creating releases, generating DLLs, and deploying services are now fully automated.
+2. **Scalability**:
+   - The matrix strategy in the `Make DLL` workflow supports multiple operating systems efficiently.
+3. **Simplified Workflow Management**:
+   - By focusing on maintaining workflows, developers can roll back code if issues arise, ensuring stability.
+
+---
+
+## Diagrams
+
+1. **Main Workflow Overview**  
+   ![UML Activity Diagram](./diagrams/yml.png)
+
+2. **Create Release Workflow**  
+   ![Create Release](./diagrams/createRelease.png)
+
+3. **Make DLL Workflow**  
+   ![Make DLL](./diagrams/makeDLL.png)
+
+4. **Build and Deploy Workflow**  
+   ![Build and Deploy](./diagrams/BuildAndDeploy.png)
+
+---
+
+
+
+
+## Team work
 <!-- Show a screenshot of your project board right before hand-in. Briefly describe which tasks are still unresolved, i.e., which features are missing from your applications or which functionality is incomplete.
 
 Briefly describe and illustrate the flow of activities that happen from the new creation of an issue (task description), over development, etc. until a feature is finally merged into the main branch of your repository. -->
 
 ### Project Board
 
-![Current Project Board](../../images/project_board.png)
+![Current Project Board](./images/project_board.png)
 
 <!--! last updated the 17 december -->
 
@@ -388,7 +519,7 @@ This issue was not a requirement, but instead an idea for extending the search f
 
 ### Process of Task to Implementation
 
-![Task to in main branch](../../images/taskToInProd.png)
+![Task to in main branch](./images/taskToInProd.png)
 
 Once given a task description, it is formulated into an issue. Once all tasks have been formulated into issues, they are then distributed to one or multiple contributors, depending on the assumed size of the issue.
 
@@ -397,24 +528,251 @@ Once the work on an issue has begun, the issue is moved from the `Todo` column t
 When the assigned contributors have decided that the requirements for the issue has been met, they create a pull request and move it into the `In Review` column. This allows other developers to read and review the pull request. Once there are no conflicts, the pull request is then accepted and the issue is moved into the `In Prod` column.
 
 The given code which satisfies the original task has now been merged into the **main** branch.
-# Process
 
-## Build, test, release, and deployment
-![[./pages/2Process/1BuildTestReleaseAndDeployment.md]]
-
-## Team work
-![[./pages/2Process/2TeamWork.md]]
 
 ## How to make *Chirp!* work locally
-![[./pages/2Process/3HowToMakeChirpWorkLocally.md]]
+<!-- There has to be some documentation on how to come from cloning your project to a running system. That is, Adrian or Helge have to know precisely what to do in which order. Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then. -->
+
+## Comprehensive guide to run the program locally
+
+Please make sure you have all the right ***.Net 8*** dependencies installed [here](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).
+
+### How to start the project on localhost via releases
+
+1. Download the newest release for your operating system [here](https://github.com/ITU-BDSA2024-GROUP13/Chirp/releases).  
+
+2. Unzip the file, and navigate to the folder.  
+
+3. Run `$ dotnet Chirp.Web.dll `  
+
+4. Look in your terminal for which port the project is listening on. e.g.  
+![[./images/localhost.png]]
+
+5. Open your browser and type `http://localhost:<port>`  
+
+### How to start the project via cloning the repository
+
+1. Open your terminal and type `$ cd`
+
+2. Clone the repository and type `$ git clone https://github.com/ITU-BDSA2024-GROUP13/Chirp.git`
+
+3. Type `$ cd ./Chirp`
+
+4. Run the program `$ dotnet watch --project ./src/Chirp.Web`
+
+5. Look in your terminal for which port the project is listening on. e.g.  
+![[./images/localhost.png]]
+
+6. Open your browser and type `http://localhost:<port>`  
+
+
 
 ## How to run test suite locally
-![[./pages/2Process/4HowToRunTestSuiteLocally.md]]
+<!-- List all necessary steps that Adrian or Helge have to perform to execute your test suites. Here, you can assume that we already cloned your repository in the step above.
+
+Briefly describe what kinds of tests you have in your test suites and what they are testing.-->
+
+
+![[./images/Test_coverage.png]]
+
+The ***test*** package tests all the ***infrastructure*** and ***core*** using unit tests and integration tests.
+
+The `web` package is tested via end-to-end tests using Playwright. Playwright does not provide code coverage.
+
+
+In order to run the ***infrastructure*** and ***core*** tests:
+
+go to the `Chirp\test` folder in your terminal.
+
+Write `dotnet test` in your terminal to run all tests except Playwright tests. 
+
+If you want to see code coverage. Run `dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=lcov.info`
+
+This should cover three packages: ***Chirp.Core***, ***Chirp.Repositories*** and ***Chirp.Services***.
+
+In order to run the Playwright test, you have to:
+
+#### Install the right dependencies
+Make sure you have Node.js and npm (Node Package Manager) installed and/or updated.
+You can install Node.js from their website [Node.js](https://nodejs.org/en).
+
+
+1. **update npm in a powershell terminal at the root of your pc** 
+```bash
+$ npm install -g npm
+```
+
+2. **Verify you have them installed**
+```bash
+$ node -v
+$ npm -v
+```
+
+3. **Install playwright package**
+```bash
+$ npm install -g playwright
+```
+
+4. **Move to Playwright folder**
+```bash
+$ cd ./testPlaywright/PlaywrightTests
+```
+
+5. **Install the Playwright Script**
+```bash
+$ pwsh .\bin\Debug\net8.0\playwright.ps1 install
+```
+
+6. ***In a new terminal*, start a server on the root folder in `Chirp`**
+```bash
+$ dotnet watch --project ./src/Chirp.Web
+```
+
+7. ***In the first terminal***
+```bash
+$ dotnet test
+```
+
+Once playwright is correctly installed you can go to the root folder of Chirp and write `dotnet test`. This will run all tests in the project.
+
+## Test suites
+
+There are 8 test suites each focusing on different aspects of the solution. Following the **onion-architecture** allows the tests to focus on each layer individually using testing types such as *unit tests*, isolate a chain of method calls for *Integration testing* and *End-to-End (E2E) Testing*.
+
+| Test File                                                                | Unit Tests | Integration Tests | E2E Tests |
+|--------------------------------------------------------------------------|------------|-------------------|-----------|
+| [AuthorTest.cs](#authortests)                                | yes        | no                | no        |
+| [AuthorRepositoryTests.cs](#authorrepositorytests) | yes        | yes               | no        |
+| [CheepDBContextTest.cs](#cheepdbcontexttest)          | no         | yes               | no        |
+| [CheepRepositoryTests.cs](#cheeprepositorytests)    | yes        | yes               | no        |
+| [HelperFunctionsTests.cs](#helperfunctionstests)    | yes        | no                | no        |
+| [CheepServiceTest.cs](#cheepservicetest)                | yes        | yes               | no        |
+| [AzureTests.cs](#azuretests)                                  | no         | no                | yes       |
+| [LocalTests.cs](#localtests)                                  | no         | no                | yes       |
+
+Tabel 1: List of the test suites and their types of testing
+
+## What is tested?
+
+#### AuthorTests
+>Focus: Validation of the Author datatype and its behavior.
+
+##### Types of Testing
+**Unit tests:**
+- Property validations on the behavior of the `Author` datatype such as its required fields.
+
+
+#### AuthorRepositoryTests
+>Focus: Verifying the behavior of the repository pattern for Author.
+
+##### Types of Testing
+**Unit Tests:**
+- Tests focused on individual repository methods like adding, retrieving updating and deleting authors.
+
+**Integration Tests:**
+- Tests that validate repository methods against an in-memory database
+
+#### CheepDBContextTest
+>Focus: Validating the setup and functionality of the database context.
+
+##### Types of Testing
+**Integration Tests:**
+- Tests that involve actual database interactions, such as adding, retrieving updating and deleting authors, seeding and relationship checks.
+
+*Examples:*
+- Testing `CheepDBContext` initialization.
+- Seeding the database correctly.
+- Validating migrations and Schema enforcements.
+
+#### CheepRepositoryTests
+>Focus: Validating repository methods for managing Cheep entities.
+
+##### Types of Testing
+**Unit Tests:**
+- Focused on verifying the behavior of repository methods like querying, filtering, or updating cheeps.
+
+**Integration Test:**
+- Tests repository functionality against an a seeded mock database to ensure correctness with real data structures.
+
+#### HelperFunctionsTests
+>Focus: Testing utility methods and reusable logic across the application.
+
+##### Types of Testing
+**Unit Tests:**
+- Validates individual utility functions for correctness.
+
+*Examples:*
+- Converting a unix-timestamp to a date in string.
+- Ensuring correct date formatting.
+
+#### CheepServiceTest
+>Focus: Testing the business logic for cheeps at the service level.
+
+##### Types of Testing
+**Unit Tests:**
+- Focus on the correctness of service methods with mocked dependencies.
+
+*Examples:*
+- Input validation.
+- Business rules (e.g., maximum length)
+
+**Integration Tests:**
+- Test the interaction of the `CheepService` with the repository and database.
+
+#### AzureTests
+>Focus: End-to-end testing (E2E) on a live Azure-hosted application.
+
+##### Types of Testing
+**E2E Tests:**
+- These validate the full application behavior in a live Azure environment, including user login, navigation, and interaction with web elements.
+
+*Examples:*
+- `LoginTest`
+- `LoginChanges`
+- `LogOut`
+
+#### LocalTests
+>Focus: Testing the application on a local development server.
+
+##### Types of Testing
+**E2E Tests:**
+- Simulates user interactions with the application through Playwright.
+
+*Examples:*
+- `LocalLogin`
+- `LocalLoginChanges`
+- `LocalLogOut`
+- `LocalShowingCheeps`
+- `LocalNavItems`
+
+
+
+
+
 
 # Ethics
 
 ## License
-![[./pages/3Ethics/1License.md]]
-
+This project is licensed under the **MIT license**. 
+The **MIT license** was chosen on the basis that all of the other libraries used in this project are also under the **MIT license**, or are other open-sourced projects.
+Moreover, this project was solely made for academic purposes. Therefore, if any of this code would aid any others, although unlikely, there would be no reason to prohibit it.
 ## LLMs, ChatGPT, CoPilot, and others
-![[./pages/3Ethics/2LLMsChatGPTCoPilotAndOthers.md]]
+<!-- State which LLM(s) were used during development of your project.
+In case you were not using any, just state so.
+In case you were using an LLM to support your development, briefly describe when and how it was applied.
+Reflect in writing to which degree the responses of the LLM were helpful.
+Discuss briefly if application of LLMs sped up your development or if the contrary was the case. -->
+
+
+The *Large Language Models* (LLMs) which were used throughout the development process were: **ChatGPT**, **GitHub CoPilot** and **Codium**.
+
+
+All three LLMs were used primarily for debugging. 
+For the generation of most of the documentation, it was only **ChatGPT** which was used.
+
+As a rule, whenever any of the LLMs generated any code which was used, it was co-authored in the commit where that piece of code was included.
+If an LLM was used simply for sparring to find the root cause of a bug, it was not included in the co-author message, unless it provided code to solve the bug.
+
+In terms of the value of their responses, it varied. Sometimes, it was a small human error which was overseen, and the LLM helped discover it.
+In other more complex cases, it required a greater understanding of the program which the LLMs, especially **ChatGPT** lacked. In these situations, the LLMs which are built in to the text editors, **GitHub** **CoPilot** and **Codium**, were able to gather more information, but were still not always able to solve errors.
+This may have lead to some spirals throughout the development process, of over-relying on an LLM to find a solution, taking a longer time to solve the problem.
