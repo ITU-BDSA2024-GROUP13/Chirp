@@ -53,9 +53,5 @@ The scaffolded package `Area.Identity.Page.Account` is used to handle getting an
 The entire `Chirp` package fulfills the onion architecture. Since `Chirp.Core` does not need to refer to any of the outer layers. The same goes for the repository layer and the git service layer.
 
 
-![[../../images/Test_coverage.png]]
-
-The `test` package tests all the `infrastructure` and `core` using unit tests and integration tests.
-The `web` package is tested via end-to-end tests using Playwright. Playwright does not provide code coverage.
 
 

@@ -2,7 +2,24 @@
 
 Briefly describe what kinds of tests you have in your test suites and what they are testing.-->
 
-In order to run the test, you have to:
+
+![[../../images/Test_coverage.png]]
+
+The `test` package tests all the `infrastructure` and `core` using unit tests and integration tests.
+The `web` package is tested via end-to-end tests using Playwright. Playwright does not provide code coverage.
+
+
+In order to run the `infrastructure` and `core` tests:
+
+go to the `Chirp\test` folder in your terminal.
+
+Write `dotnet test` in your terminal to run all tests except Playwright tests. 
+
+If you want to see code coverage. Run `dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=lcov.info`
+
+
+
+In order to run the Playwright test, you have to:
 
 #### Install the right dependencies
 Ensure you have Node.js and npm (Node Package Manager) installed and/or updated.
@@ -153,3 +170,7 @@ Tabel 1: List of the test suites and their types of testing
 - `LocalLogOut`
 - `LocalShowingCheeps`
 - `LocalNavItems`
+
+
+
+
