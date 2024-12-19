@@ -118,7 +118,7 @@ The entire `Chirp` package fulfills the *onion architecture*. Since ***Chirp.Cor
 
 <!-- Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other. -->
 
-
+![New User](./diagrams/SimunsPics/AppArch.png)
 <img src="./diagrams/SimunsPics/AppArch.png" alt="New User" style="max-width: 100%; height: auto; display: block; margin: auto;">
 <p style="text-align: center;">
     <b>Figure 1.3.1: New User</b>
@@ -156,11 +156,8 @@ The sitemap in figure 1.4.1, contains most of the traversal possibilities for a 
 ### Logged out
 When a user is logged out, they do not have the same accessibility as a user who is logged in. Their access is very limited, and it only allows the user to log in or register. Any references to the websites structure in this chapter, will be directed towards the illustration in figure *1.4.2*
 
-<img src="./diagrams/Decision_tree_1.1.png" style="max-width: 50%; height: auto; display: block; margin: auto;">
-<p style="text-align: center;">
-    <b>Figure 1.4.2: Logged out</b>
-</p>
-</img>
+
+![Logged Out](./diagrams/Decision_tree_1.1.png)
 
 #### Github login/register
 When a user enters the website, they will see the front page without content. To view any content, the user must press the "Log in" button, which will lead them to the "Log in"-page. From here the user can choose to use an external login to access the website. The external login uses the *GitHub Authorization* process giving the website a token, which allows the website to access the information about the *github user*.  
@@ -198,6 +195,7 @@ As seen in *figure 1.4.3* a user can choose to check out popular *Cheeps* by pre
 #### Profile
 To explore the user's account and their own information, the user can click on their profile picture. This displays a new page with the user's *My Page* and *Settings*. References to the websites structure in this section, will be directed towards the illustration in figure *1.4.4*
 
+![Profile](./diagrams/Decision_tree_1.3.png)
 <img src="./diagrams/Decision_tree_1.3.png" style="max-width: 50%; height: auto; display: block; margin: auto;">
 <p style="text-align: center;">
     <b>Figure 1.4.4: Profile</b>
@@ -219,6 +217,8 @@ Make sure that your illustration is complete. That is, likely for many of you th
 
 ### Flow of new user
 
+
+![New User](./diagrams/SimunsPics/NewUser.png)
 <img src="./diagrams/SimunsPics/NewUser.png" alt="New User" style="max-width: 100%; height: auto; display: block; margin: auto;">
 <p style="text-align: center;">
     <b>Figure 1.5.1: New User</b>
@@ -237,6 +237,8 @@ As an authenticated user, the browser sends another `HTTP GET` request to the ro
 
 Once the database returns the list of *Cheeps* and the count, the information is passed back to the *service* and *controller layers* to the `PublicTimeLine` component. The Razor page is rendered with the retrieved *Cheeps*, and an `HTML` response is returned to the browser. The user's browser then displays the fully rendered public timeline with the fetched *Cheeps*.\
 ## Sequence of functionality/calls through *Chirp!*
+
+![Post Cheep](./diagrams/SimunsPics/_Post.png)
 <img src="./diagrams/SimunsPics/_Post.png" alt="Post Cheep" style="max-width: 80%; height: auto; display: block; margin: auto;">
 <p style="text-align: center;">
     <b>Figure 1.5.2: Post Cheep</b>
@@ -253,6 +255,8 @@ Finally, the server renders the updated `PublicTimeLine.cshtml` Razor page, incl
 \
 \
 \
+
+![Search](./diagrams/SimunsPics/_Search.png)
 <img src="./diagrams/SimunsPics/_Search.png" alt="Search" style="max-width: 80%; height: auto; display: block; margin: auto;">
 <p style="text-align: center;">
     <b>Figure 1.5.3: Search</b>
@@ -266,6 +270,7 @@ Upon receiving the response, the browser dynamically calls the `showResults()` f
 \
 \
 \
+![Follow Action](./diagrams/SimunsPics/_Follow.png)
 <img src="./diagrams/SimunsPics/_Follow.png" alt="Follow Action" style="max-width: 80%; height: auto;display: block; margin: auto;">
 <p style="text-align: center;">
     <b>Figure 1.5.4: Follow Action</b>
