@@ -140,7 +140,11 @@ public static class DbInitializer
                 Id = "11",
                 UserName = "Helge",
                 Email = "ropf@itu.dk",
-                Cheeps = new List<Cheep>()
+                Cheeps = new List<Cheep>(),
+                NormalizedEmail = "ROPF@ITU.DK",
+                NormalizedUserName = "HELGE",
+                PasswordHash = "AQAAAAIAAYagAAAAEG294dlSCqXPINLT6h4PouqlMAqy4E2ycQxDxS47Zrh4BwtCLQNTDVuIklfhStVrsg==",
+                LockoutEnabled = true
             ,
                 FollowedBy = new List<Author>(),
                 DislikedCheeps = new List<Cheep>(),
