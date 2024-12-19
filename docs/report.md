@@ -14,6 +14,9 @@ geometry:
 - left=30mm 
 - right=30mm
 toc: true
+header-includes:
+ - \usepackage{float}
+ - \floatplacement{figure}{H}
 ---
 
 # Design and Architecture of *Chirp!*
@@ -97,7 +100,7 @@ The entire `Chirp` package fulfills the *onion architecture*. Since ***Chirp.Cor
 
 <!-- Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other. -->
 
-
+![New User](./diagrams/SimunsPics/AppArch.png)
 <img src="./diagrams/SimunsPics/AppArch.png" alt="New User" style="max-width: 100%; height: auto; display: block; margin: auto;">
 
 \
@@ -128,6 +131,9 @@ The sitemap in figure 1.4.1, contains most of the traversal possibilities for a 
 When a user is logged out, they do not have the same accessibility as a user who is logged in. Their access is very limited, and it only allows the user to log in or register. Any references to the websites structure in this chapter, will be directed towards the illustration in figure *1.4.2*
 
 <img src="./diagrams/Decision_tree_1.1.png" style="max-width: 50%; height: auto; display: block; margin: auto;">
+<p style="text-align: center;">
+    <b>Figure 1.4.2: Logged out</b>
+</p>
 </img>
 
 #### Github login/register
@@ -163,6 +169,7 @@ As seen in *figure 1.4.3* a user can choose to check out popular *Cheeps* by pre
 #### Profile
 To explore the user's account and their own information, the user can click on their profile picture. This displays a new page with the user's *My Page* and *Settings*. References to the websites structure in this section, will be directed towards the illustration in figure *1.4.4*
 
+![Profile](./diagrams/Decision_tree_1.3.png)
 <img src="./diagrams/Decision_tree_1.3.png" style="max-width: 50%; height: auto; display: block; margin: auto;">
 
 
@@ -182,6 +189,8 @@ Make sure that your illustration is complete. That is, likely for many of you th
 
 ### Flow of new user
 
+
+![New User](./diagrams/SimunsPics/NewUser.png)
 <img src="./diagrams/SimunsPics/NewUser.png" alt="New User" style="max-width: 100%; height: auto; display: block; margin: auto;">
 
 \
@@ -197,6 +206,8 @@ As an authenticated user, the browser sends another `HTTP GET` request to the ro
 
 Once the database returns the list of *Cheeps* and the count, the information is passed back to the *service* and *controller layers* to the `PublicTimeLine` component. The Razor page is rendered with the retrieved *Cheeps*, and an `HTML` response is returned to the browser. The user's browser then displays the fully rendered public timeline with the fetched *Cheeps*.\
 ## Sequence of functionality/calls through *Chirp!*
+
+![Post Cheep](./diagrams/SimunsPics/_Post.png)
 <img src="./diagrams/SimunsPics/_Post.png" alt="Post Cheep" style="max-width: 80%; height: auto; display: block; margin: auto;">
 
 When posting a cheep, a user would initiate the following flow.
@@ -210,6 +221,8 @@ Finally, the server renders the updated `PublicTimeLine.cshtml` Razor page, incl
 \
 \
 \
+
+![Search](./diagrams/SimunsPics/_Search.png)
 <img src="./diagrams/SimunsPics/_Search.png" alt="Search" style="max-width: 80%; height: auto; display: block; margin: auto;">
 \
 When using the search functionality, the browser triggers an input event for each keystroke, as the user types into the search input field. This sends an `HTTP POST` request to the web server, containing the current search string. The server calls the `OnPostSearch()` method in the `TimeLine` component to handle the search.
@@ -220,6 +233,7 @@ Upon receiving the response, the browser dynamically calls the `showResults()` f
 \
 \
 \
+![Follow Action](./diagrams/SimunsPics/_Follow.png)
 <img src="./diagrams/SimunsPics/_Follow.png" alt="Follow Action" style="max-width: 80%; height: auto;display: block; margin: auto;">
 \
 When a user presses the *follow button* on an *authors page*, the browser triggers an input event and sends an `HTTP POST` request to the web server, containing the usernames of the follower and the followee. The server invokes the `OnPostFollow()` method in the `UserTimeLine` component to handle the follow and unfollow actions.
