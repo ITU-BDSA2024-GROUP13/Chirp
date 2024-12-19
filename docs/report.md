@@ -14,6 +14,9 @@ geometry:
 - left=30mm 
 - right=30mm
 toc: true
+header-includes:
+ - \usepackage{float}
+ - \floatplacement{figure}{H}
 ---
 
 # Design and Architecture of *Chirp!*
