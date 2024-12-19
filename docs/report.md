@@ -95,8 +95,11 @@ The scaffolded package ***Area.Identity.Page.Account*** is used to handle gettin
 
 ![Onion Architecture](./diagrams/class-diagrams/onion/Onion-coloured.png)
 
+
+
 The entire `Chirp` package fulfills the *onion architecture*. Since ***Chirp.Core*** does not need to refer to any of the outer layers. The same goes for the *repository layer* and the *service layer*.
 
+## Architecture of Deployed Application
 
 <!-- Illustrate the architecture of your deployed application. Remember, you developed a client-server application. Illustrate the server component and to where it is deployed, illustrate a client component, and show how these communicate with each other. -->
 
@@ -119,7 +122,7 @@ The database returns the required information, which is processed and formatted 
 
 % Make sure that the illustrations are in line with the actual behavior of your application. -->
 
-# Useractivity 
+## Useractivity 
 When it comes to *web-development*, the overall *user-experience* and functionality of the website is crucial. Giving the user access to the functions of the website while also maintaining the safety of the website, can end up being one of the more important aspects of *web-development*.
 
 The sitemap in figure *8*, contains most of the traversal possibilities for a user, when logged in and logged out, to illustrate the user's accessibility in different parts of the website and the general structure of the website. 
@@ -248,9 +251,11 @@ Upon a successful follow or unfollow, a response is propagated back through the 
 
 <!-- Describe the illustration briefly, i.e., how your application is built, tested, released, and deployed. -->
 
-# UML Activity Diagram for Chirp! Application
+# Process
 
-## Overview
+## UML Activity Diagram for Chirp! Application
+
+### Overview
 
 The following describes the **UML activity diagrams** representing how the Chirp! application is **built**, **tested**, **released**, and **deployed** using **GitHub Actions** workflows.
 
@@ -258,7 +263,7 @@ The key activity of this project has been **automating mundane tasks**, which si
 
 While testing with **Playwright** caused some issues on GitHub, leading to skipped testing steps in workflows, the focus has been on maintaining and ensuring workflows function correctly. Code quality was considered less critical because **Git rollbacks** can revert any problematic changes.
 
-### Key Workflow Triggers:
+#### Key Workflow Triggers:
 1. **Primary Trigger**: Push to the **main** branch (e.g., after an accepted pull request).
 2. **Secondary Trigger**: A scheduled workflow run every **Sunday at 08:00 UTC**.
 
@@ -267,16 +272,16 @@ Once the **Create Release** workflow completes, it triggers two subsequent workf
 - **Build and Deploy**
 
 
-## Creating a Release Workflow
+### Creating a Release Workflow
 
 ![Create Release Workflow](./diagrams/createRelease.png)
 
-### **Description**
+#### **Description**
 The **Create Release** workflow triggers under two conditions:
 1. **Push to `main`** branch.
 2. **Scheduled run** on **Sunday at 08:00 UTC**.
 
-### **Purpose**
+#### **Purpose**
 The workflow **automates the creation of a new release** by:
 - Scanning the **commit message** for keywords to determine the version bump.
 - Following the **Major.Minor.Patch** versioning convention:
@@ -289,24 +294,24 @@ If the commit message includes:
 - `Minor`: The version bump will increment the **Minor** version.
 - **Default**: If no keywords are detected, the version will default to a **Patch**.
 
-### **Notes**:
+#### **Notes**:
 - This workflow **previously contained a testing step**, but it was **removed** due to compatibility issues.
 
 
-## Making DLLs Workflow
+### Making DLLs Workflow
 
 ![Make DLL Workflow](./diagrams/makeDLL.png)
 
 
-### **Description**
+#### **Description**
 The **Make DLL** workflow builds the program and generates a **zip file** containing the `.dll` files for distribution.
 
-### **Matrix Strategy**
+#### **Matrix Strategy**
 - A **matrix** is used to optimize the step, specifically the **"Process for creating a zip file with .dll"**.
 - The matrix reduces **code redundancy** and simplifies supporting multiple operating systems.
 - If additional OS platforms need to be supported in the future, the matrix makes it easy to extend the workflow.
 
-### **Workflow Steps**:
+#### **Workflow Steps**:
 1. **Build the Program**:
    - The program is compiled to generate `.dll` files.
 2. **Create a ZIP File**:
@@ -314,22 +319,22 @@ The **Make DLL** workflow builds the program and generates a **zip file** contai
 3. **Attach Files to the Latest Release**:
    - The zip file containing DLLs is appended to the **latest GitHub release** created by the **Create Release** workflow.
 
-### **Dependency**:
+#### **Dependency**:
 - It is **crucial** that the **Create Release** workflow runs successfully before `Make DLL` starts.
 - If no new release is created, this workflow may **overwrite the files** in the most recent release.
 
 
-## Deploying to Production Workflow
+### Deploying to Production Workflow
 
 ![Build and Deploy Workflow](./diagrams/BuildAndDeploy.png)
 
-### **Description**
+#### **Description**
 The **Build and Deploy** workflow is based on a **template provided by Azure** and has been modified to integrate with the **Create Release** workflow.
 
-### **Key Modifications**:
+#### **Key Modifications**:
 - The workflow waits for the **confirmation** of the **"test step"** (now deleted) from the **Create Release** workflow before proceeding.
 
-### **Workflow Steps**:
+#### **Workflow Steps**:
 1. **Setup Environment**:
    - Sets up the .NET environment to build the application.
 2. **Build the Application**:
@@ -338,7 +343,7 @@ The **Build and Deploy** workflow is based on a **template provided by Azure** a
    - The compiled application artifacts are deployed to the Azure Web App.
 
 
-## Summary of Automation Benefits
+### Summary of Automation Benefits
 
 1. **Time Savings**: 
    - Manual tasks such as creating releases, generating DLLs, and deploying services are now fully automated.
@@ -479,7 +484,7 @@ $ dotnet test
 
 Once playwright is correctly installed you can go to the root folder of Chirp and write `dotnet test`. This will run all tests in the project.
 
-## Test suites
+### Test suites
 
 There are 8 test suites each focusing on different aspects of the solution. Following the **onion-architecture** allows the tests to focus on each layer individually using testing types such as *unit tests*, isolate a chain of method calls for *Integration testing* and *End-to-End (E2E) Testing*.
 
@@ -494,9 +499,9 @@ There are 8 test suites each focusing on different aspects of the solution. Foll
 | [AzureTests.cs](#azuretests)                                  | no         | no                | yes       |
 | [LocalTests.cs](#localtests)                                  | no         | no                | yes       |
 
-Tabel 1: List of the test suites and their types of testing
+Table 1: List of the test suites and their types of testing
 
-## What is tested?
+### What is tested?
 
 #### AuthorTests
 >Focus: Validation of the Author datatype and its behavior.
