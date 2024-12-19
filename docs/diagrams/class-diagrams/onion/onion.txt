@@ -1,0 +1,230 @@
+@startuml
+skinparam backgroundColor transparent
+skinparam linetype ortho
+!pragma useIntermediatePackages false
+top to bottom direction
+
+
+package "Chirp.Core.Entities" {
+  
+  class Author {
+  
+  }
+  
+  class Cheep {
+  
+  }
+  
+  Author -- Cheep
+
+}
+
+
+
+package Microsoft.AspNetCore.Identity{
+
+    class IdentityUser {
+    }
+}
+    
+package "Microsoft.AspNetCore.Identity.IdentityUser#"{
+
+    class IdentityDbContext<TUser> {
+  }
+}
+
+
+package Chirp.Core.DTO.AuthorDTO{
+  class AuthorDTO {
+  }
+  class NewAuthorDTO {
+  }
+}
+
+package Chirp.Core.DTO.CheepDTO{
+
+  class CheepDTO {
+  }
+  
+  class NewCheepDTO {
+  
+  }
+  
+  
+  class UpdateCheepDTO {
+  }
+  class CheepDTOForRelevance {
+  
+  }
+
+}
+
+
+
+
+package "Chirp.Infrastructure.Repositories"{
+
+
+  interface IAuthorRepository{
+  }
+  
+  class AuthorRepository {
+  }
+  
+  class CheepRepository {
+  }
+  
+  interface ICheepRepository {
+  }
+  
+  AuthorRepository .up.|> IAuthorRepository
+  CheepRepository .up.|> ICheepRepository
+  
+  class CheepDBContext{
+
+  }
+  
+  class DBInitializer{
+  }
+  
+  static class HelperFunctions{
+     
+  }
+   
+}
+
+
+CheepRepository ..> HelperFunctions
+CheepRepository ..> CheepDBContext
+AuthorRepository ..> CheepDBContext
+
+package "Chirp.Infrastructure.Services"{
+
+    interface ICheepService{
+    }
+    
+    class CheepService {
+    }
+    
+    CheepService ..|> ICheepService
+    
+}
+
+package Chirp.Core.DTO{}
+
+package Chirp.Core.Entities{}
+
+
+package Chirp.Web{
+
+  class Program{
+  }
+  
+}
+
+package Chirp.Infrastructure{}
+
+package Chirp.Web.Areas.Identity.Page.Account{
+  
+  class ExternalLogin{}
+  
+  class Login{}
+  
+  class Register{}
+  
+  class Logout{}
+}
+
+package Chirp.Web.Areas.Identity.Page.Account.Manage
+{
+
+}
+
+package Chirp.Web.Models{
+
+  class TimeLine{
+  }
+  
+  class PublicTimeline{
+
+  }
+  
+  class UserTimeline{
+  }
+  
+  class CheepPartialView{
+  }
+  
+  class MyPage {
+  }
+  
+  class DislikesPage{
+  }
+  
+  class LikesPage{
+  }
+  
+    
+  class FollowerPage{
+  }
+  
+  class FollowedByPage{
+  
+  }
+  
+  UserTimeline --|> TimeLine
+  PublicTimeline --|> TimeLine
+  MyPage --|> TimeLine
+  
+  TimeLine ..> CheepPartialView
+  
+  MyPage ..> FollowedByPage
+  MyPage ..> FollowerPage
+  
+  CheepPartialView ..> LikesPage
+  CheepPartialView ..> DislikesPage
+}
+Chirp.Web.Models ..> Chirp.Web.Areas.Identity.Page.Account
+
+package Chirp.Web.Models.Pages{
+}
+
+package Chirp.Web.Models.Pages.Shared{  
+}
+
+
+package Chirp.Test{
+  
+
+}
+
+package Chirp.Test.Infrastructure.Services{
+}
+
+package Chirp.Test.Infrastructure.Repositories{
+}
+
+package Chirp.Test.Core{
+}
+
+
+package Chirp.Test.Web{
+}
+
+
+
+Chirp.Web ..> Chirp.Infrastructure.Services
+Chirp.Core --|> Microsoft.AspNetCore.Identity
+Chirp.Infrastructure.Services ..> Chirp.Infrastructure.Repositories
+Chirp.Infrastructure.Repositories ..> Chirp.Core
+
+Chirp.Test.Core ..> Chirp.Core
+Chirp.Test.Infrastructure.Repositories ..> Chirp.Infrastructure.Repositories
+Chirp.Test.Infrastructure.Services ..> Chirp.Infrastructure.Services
+Chirp.Test.Web ..> Chirp.Web
+
+
+
+
+
+@enduml

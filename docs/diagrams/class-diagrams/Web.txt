@@ -1,0 +1,178 @@
+@startuml
+skinparam linetype ortho
+!pragma useIntermediatePackages false
+left to right direction
+
+
+package Chirp.Web{
+
+  class Program{
+     + allowOrigins: string
+     + builder: WebApplicationBuilder
+     + clientId: string
+     + clientSecret: string
+     + app: WebApplication
+  }
+  note right of Program
+  Repositories and CheepService are dependecy injected during startup
+  end note
+  
+}
+
+package Chirp.Infrastructure{}
+
+
+Program ..> Chirp.Infrastructure
+
+
+package Chirp.Web.Areas.Identity.Page.Account{
+  
+  class ExternalLogin{}
+  
+  class Login{}
+  
+  class Register{}
+  
+  class Logout{}
+}
+
+package Chirp.Web.Areas.Identity.Page.Account.Manage
+{
+  note as N1
+    Pages for managing account
+  end note
+
+}
+
+package Chirp.Web.Models{
+
+  class TimeLine{
+    
+      # _cheepService: ICheepService
+      + Cheeps: List<CheepDTO>
+      + Authors: List<AuthorDTO>
+      + Count: int 
+      + NextPage: int
+      + PreviousPage: int 
+      + CurrentPage: int
+      + LastPage: int 
+      + SearchName: string 
+      + SearchQuery: List<AuthorDTO>
+      + SortState: string
+      + DefinePreviousPage(int page): int
+      + DefineLastPage(): int
+      # UpdatePage(int page): int
+      + ToDateTime(long value): DateTime
+      + OnPostSearch(SearchRequest): Task<IActionResult>
+      + OnPostSort(SortRequest): IActionResult
+      + OnPostSave(PostRequest): Task<IActionResult>
+      + OnPostLike(LikeRequest): Task<IActionResult>
+      + LikeCheep(string userId, int cheepId): Task<bool>
+      + UnLike(string userId, int cheepId): Task<bool>
+      + HasLiked(string userName, int cheepId)
+      + OnPostDislike(DislikeRequest): Task<ActionResult>
+      + DislikeCheep(string userId, int cheepId): Task<bool>
+      + UnDislike(string userId, int cheepId): Task<bool>
+      + HasDisliked(string userId, int cheepId): Task<bool>
+  }
+  
+  class PublicTimeline{
+
+  }
+  
+  class UserTimeline{
+      OnPostFollow(FollowRequest): Task<ActionResult>
+      IsFollowing(string userId, string followerId): Task<bool>
+      Follow(string userId, string followerId): Task<bool>
+      UnFollow(string userId, string followerId): Task<bool>
+  }
+  
+  class CheepPartialView{
+      + Id: int
+      + Author: string
+      + Body: string
+      + IsLiked: bool
+      + IsDisliked: bool
+      + Date: long 
+      + Likes: int 
+      + Dislikes: int 
+      + Image: string 
+      + LikeButtonId(): string
+      + DislikeButtonId(): string
+      + ToDateTime(long value): DateTime
+  
+  }
+  
+  class MyPage {
+      - _signInManager: SignInManager<Author>
+      - _userManager: UserManager<Author>
+      + MyCheeps: List<List<CheepDTO>>
+      + AuthorDTO: AuthorDTO
+      + Author: string
+      + Following: int
+      + Followed: int
+      + OnPostForgetMe([FromBody] ForgetMeRequest): Task<ActionResult>
+  }
+  
+  class DislikesPage{
+      - _signInManager: SignInManager<Author>
+      - _userManager: UserManager<Author>
+      + DislikeList: List<AuthorDTO>
+
+  }
+  
+  class LikesPage{
+      - _signInManager: SignInManager<Author>
+      - _userManager: UserManager<Author>
+      + LikeList: List<AuthorDTO>
+  
+  }
+  
+    
+  class FollowerPage{
+      - _signInManager: SignInManager<Author>
+      - _userManager: UserManager<Author>
+      + FollowingList: List<AuthorDTO>
+
+  }
+  
+  class FollowedByPage{
+      - _signInManager: SignInManager<Author>
+      - _userManager: UserManager<Author>
+      + FollowedList: List<AuthorDTO>
+  
+  }
+  
+  UserTimeline --|> TimeLine
+  PublicTimeline --|> TimeLine
+  MyPage --|> TimeLine
+  
+  TimeLine ..> CheepPartialView
+  
+  MyPage ..> FollowedByPage
+  MyPage ..> FollowerPage
+  
+  CheepPartialView ..> LikesPage
+  CheepPartialView ..> DislikesPage
+  
+  note bottom of CheepPartialView
+  Each instance of CheepPartialView is a single cheep
+  end note
+  
+}
+Chirp.Web.Models ..> Chirp.Web.Areas.Identity.Page.Account
+
+package Chirp.Web.Models.Pages{
+}
+
+package Chirp.Web.Models.Pages.Shared{
+  note as N1
+  Partial .cshtml pages, which are used to complete pages 
+  under Chirp.Web.Models.Pages (Search- and sortbuttons, 
+  navigation, layout, etc.)
+  end note
+  
+}
+
+
+@enduml
