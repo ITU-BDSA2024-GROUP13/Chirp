@@ -260,7 +260,7 @@ While testing with **Playwright** caused some issues on GitHub, leading to skipp
 
 ### Key Workflow Triggers:
 1. **Primary Trigger**: Push to the **main** branch (e.g., after an accepted pull request).
-2. **Secondary Trigger**: A scheduled workflow run every **Sunday at 20:00 UTC**.
+2. **Secondary Trigger**: A scheduled workflow run every **Sunday at 08:00 UTC**.
 
 Once the **Create Release** workflow completes, it triggers two subsequent workflows:
 - **Make DLL**
