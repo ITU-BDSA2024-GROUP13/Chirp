@@ -6,12 +6,12 @@
 
 The `Chirp.Core` package contains the domain entities and data transfer objects, for database transactions.
 
-The `DTO`'s are split up into two groups, one for each *entity*.
-In order to obtain the SOLID principles. `DTO`'s are split up even further to strive for the single responsibility principle. Thus there is the `NewCheepDTO`, which is for sending data of new *cheeps* into the database. The default `CheepDTO` is for reading *cheeps*, for showing on the timeline.
+The `DTO`'s are split up into two groups, one for each entity.
+In order to obtain the **SOLID principles**. `DTO`'s are split up even further to strive for the single responsibility principle. Thus there is the `NewCheepDTO`, which is for sending data of new cheeps into the database. The default `CheepDTO` is for reading cheeps, for showing on the timeline.
 The `UpdateCheepDTO` is for editing existing cheeps, by changing their content.
 Lastly, there is the `CheepDTOForRelevance` which is used for the relevance sorting algorithm.
 
-For the *author* entity, two `DTO`'s have been made for either creating an *author* or to get information on the *author* from the database. 
+For the `Author`, two `DTO`'s have been made for either creating an author or to get information on the author from the database. 
 
 
 ![[../../diagrams/class-diagrams/Repo.png]]

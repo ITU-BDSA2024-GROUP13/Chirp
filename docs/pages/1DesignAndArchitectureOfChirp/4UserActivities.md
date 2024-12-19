@@ -16,7 +16,7 @@ The sitemap in figure 1, contains most of the traversal possibilities for a user
 
 
 ### Logged out
-When a user is logged out, they do not have the same accessability as a user who is logged in. Their access is very limited, and it only reaches as far as to allow the user to log in or register as a new user. The user can choose two alternatives, which are explained below. Any references to the websites structure in this chapter, will be directed towards the illustration in figure 1.1.
+When a user is logged out, they do not have the same accessibility as a user who is logged in. Their access is very limited, and it only reaches as far as to allow the user to log in or register as a new user. The user can choose two alternatives, which are explained below. Any references to the websites structure in this chapter, will be directed towards the illustration in figure 1.1.
 
 <img src="../../diagrams/Decision_tree_1.1.png" style="max-width: 50%; height: auto; display: block; margin: auto;">
 <p style="text-align: center;">

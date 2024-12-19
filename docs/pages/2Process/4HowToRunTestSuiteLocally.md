@@ -5,7 +5,7 @@ Briefly describe what kinds of tests you have in your test suites and what they 
 
 ![[../../images/Test_coverage.png]]
 
-The `test` package tests all the `infrastructure` and `core` using unit tests and integration tests.
+The `test` package tests the content in `infrastructure` and `core` using unit tests and integration tests.
 The `web` package is tested via end-to-end tests using Playwright. Playwright does not provide code coverage.
 
 
@@ -22,7 +22,7 @@ This should cover three modules: `Chirp.Core`, `Chirp.Repositories` and `Chirp.S
 In order to run the Playwright test, you have to:
 
 #### Install the right dependencies
-Ensure you have Node.js and npm (Node Package Manager) installed and/or updated.
+Make sure you have Node.js and npm (Node Package Manager) installed and/or updated.
 You can install Node.js from their website [Node.js](https://nodejs.org/en).
 
 
