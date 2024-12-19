@@ -658,6 +658,7 @@ Tabel 1: List of the test suites and their types of testing
 This project is licensed under the **MIT license**. 
 The **MIT license** was chosen on the basis that all of the other libraries used in this project are also under the **MIT license**, or are other open-sourced projects.
 Moreover, this project was solely made for academic purposes. Therefore, if any of this code would aid any others, although unlikely, there would be no reason to prohibit it.
+
 ## LLMs, ChatGPT, CoPilot, and others
 <!-- State which LLM(s) were used during development of your project.
 In case you were not using any, just state so.
