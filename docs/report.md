@@ -23,7 +23,7 @@ header-includes:
 
 ## Domain model
 
-![Diagram of Domain](./diagrams/class-diagrams/Domain.png)
+![Diagram of Domain](./diagrams/class-diagrams/Domain.png){width=50%}
 
 
 The Domain for chirp is based off of two ***Entities***, and one superclass, `IdentityUser`, which ***Author*** extends. They derive attributes such as `id`, `username`, `email` and an encrypted password.
@@ -93,7 +93,7 @@ The `cshtml` pages send requests to the model which are handled by reading or wr
 
 The scaffolded package ***Area.Identity.Page.Account*** is used to handle getting an identity token when logging in and managing the account using ***Microsoft.AspNet.Identity***'s IdentityUser.
 
-![Onion Coloured](./diagrams/class-diagrams/onion/Onion-coloured.png)
+![Onion Architecture](./diagrams/class-diagrams/onion/Onion-coloured.png)
 
 The entire `Chirp` package fulfills the *onion architecture*. Since ***Chirp.Core*** does not need to refer to any of the outer layers. The same goes for the *repository layer* and the *service layer*.
 
@@ -120,16 +120,17 @@ The database returns the required information, which is processed and formatted 
 % Make sure that the illustrations are in line with the actual behavior of your application. -->
 
 # Useractivity 
-When it comes to *webdevelopment*, the overall *userexperience* and functionality of the website is crucial. Giving the user access to the functions of the website while also maintaining the safety of the website, can end up being one of the more important aspects of *webdevelopment*.
+When it comes to *web-development*, the overall *user-experience* and functionality of the website is crucial. Giving the user access to the functions of the website while also maintaining the safety of the website, can end up being one of the more important aspects of *web-development*.
 
-The sitemap in figure 1.4.1, contains most of the traversal possibilities for a user, when logged in and logged out, to illustrate the user's accessibility in different parts of the website and the general structure of the website. 
-*- Notice: To understand the elements in the sitemap, it is recomended to first have a general understanding of the definitions of colors and arrows in the bottom part of figure 1.4.1.*
+The sitemap in figure *8*, contains most of the traversal possibilities for a user, when logged in and logged out, to illustrate the user's accessibility in different parts of the website and the general structure of the website. 
+*- Notice: To understand the elements in the sitemap, it is recommended to first have a general understanding of the definitions of colors and arrows in the bottom part of figure 8*
 
-![Current Project Board](./diagrams/Decision_tree.png)
+![Site map](./diagrams/Decision_tree.png)
 
 ### Logged out
-When a user is logged out, they do not have the same accessibility as a user who is logged in. Their access is very limited, and it only allows the user to log in or register. Any references to the websites structure in this chapter, will be directed towards the illustration in figure *1.4.2*
+When a user is logged out, they do not have the same accessibility as a user who is logged in. Their access is very limited, and it only allows the user to log in or register. Any references to the websites structure in this chapter, will be directed towards the illustration in figure *9*
 
+![Logged out](./diagrams/Decision_tree_1.1.png)
 
 
 #### Github login/register
@@ -138,17 +139,18 @@ When a user enters the website, they will see the front page without content. To
 If the user exists within the database, the user is logged in and is now able to access the application with all of its functionalities. If a user does not exist, the user's *Github User ID* becomes the username and they are registered as a new user.
 
 #### Normal login/register
-As shown in figure 1.4.2 to log in, without an external login, to the website, a user must write their email and password of their account. If they do not exist in the database, an error message will be sent back to inform the user that the log in process has failed. If it succeeds, the user will be given access.
+As shown in figure *9* to log in, without an external login, to the website, a user must write their email and password of their account. If they do not exist in the database, an error message will be sent back to inform the user that the log in process has failed. If it succeeds, the user will be given access.
 
 However if a user does not have an account, the user can access the register-page, where they are prompted to enter their email, username and password. If the information does not already exist within the database, the user will be registered as a new user and be given authentication, and be authorized to see *Cheeps* and post *Cheeps*. But should the information already exists, the person will be given an error message, informing the user that the information is already in use.
 
 ### Logged in
-When a user is logged in,y have full authorization to the website, which includes both functions and content. Most of the interactability is present on the front page. References to the websites structure in this section, will be directed towards the illustration in figure *1.4.3*
-![Current Project Board](./diagrams/Decision_tree_1.2.png)
+When a user is logged in,y have full authorization to the website, which includes both functions and content. Most of the interactability is present on the front page. References to the websites structure in this section, will be directed towards the illustration in figure *10*
+
+![Logged in](./diagrams/Decision_tree_1.2.png)
 
 #### Main page
 ##### Cheeps
-As seen in *figure 1.4.3* under *Cheeps* a user can read and then like or dislike a *Cheep*.
+As seen in figure *10* under *Cheeps* a user can read and then like or dislike a *Cheep*.
 From the *Cheep*, a user can access the *Author*'s page and timeline as well as see who liked or disliked the *Cheep*.
 
 ##### My Timeline
@@ -157,23 +159,23 @@ The user's timeline displays the user's own *Cheeps*, and the *Cheeps* posted by
 ##### Post and Search
 The search function searches the database for *Authors* When searching, the user is presented with a textfield, which will find possible search results for any given *Author* which matches the content of the search-bar. The results of *Authors* that are returned can be clicked, which redirects to the *Author*'s timeline. 
 
-The `Post` function as seen in *figure 1.4.3* has two elements; a *textfield* and a *file button*. The *textfield* can be filled out by the user. The *file button*, allows the user to choose a picture from their own computer, which will then be included in their *Cheep*, along with the text.
+The `Post` function as seen in figure *10* has two elements; a *textfield* and a *file button*. The *textfield* can be filled out by the user. The *file button*, allows the user to choose a picture from their own computer, which will then be included in their *Cheep*, along with the text.
 
 ##### Filter
-As seen in *figure 1.4.3* a user can choose to check out popular *Cheeps* by pressing the option *MostLiked*. This filters the *Cheeps* in a descending order with the most liked *Cheep* being at the top. Other options such as *Newest* or *Oldest* will order the *Cheeps* based on time. The *Relevance* option in the filter will give you a order based on time, however the *Cheeps* shown, will be *relevant* - which means *Cheeps* from the user's following and liked *Cheeps*.
+As seen in figure *10* a user can choose to check out popular *Cheeps* by pressing the option *MostLiked*. This filters the *Cheeps* in a descending order with the most liked *Cheep* being at the top. Other options such as *Newest* or *Oldest* will order the *Cheeps* based on time. The *Relevance* option in the filter will give you a order based on time, however the *Cheeps* shown, will be *relevant* - which means *Cheeps* from the user's following and liked *Cheeps*.
 
 #### Profile
-To explore the user's account and their own information, the user can click on their profile picture. This displays a new page with the user's *My Page* and *Settings*. References to the websites structure in this section, will be directed towards the illustration in figure *1.4.4*
+To explore the user's account and their own information, the user can click on their profile picture. This displays a new page with the user's *My Page* and *Settings*. References to the websites structure in this section, will be directed towards the illustration in figure *11*
 
 ![Profile](./diagrams/Decision_tree_1.3.png)
 
 
 ##### My Page
-The *My Page* element, when accessing the profile, redirects the user to the user's *My Page*. Within this page is most of the relevant information of the user, such as email, username and the amount of followers and amount of people that the user follows. The user can access a page with a list for all the users that they follow, and a list of all the users that follow them. Moreover, the *My Page* also has other functionalities and information, such as the *Forget Me* option, which the user can choose, when looking at the overall sitemap in figure *1.4.1*, to delete all their information. The *Help* includes a basic guide on how to use the **Chirp** website.
+The *My Page* element, when accessing the profile, redirects the user to the user's *My Page*. Within this page is most of the relevant information of the user, such as email, username and the amount of followers and amount of people that the user follows. The user can access a page with a list for all the users that they follow, and a list of all the users that follow them. Moreover, the *My Page* also has other functionalities and information, such as the *Forget Me* option, which the user can choose, when looking at the overall sitemap in figure *8*, to delete all their information. The *Help* includes a basic guide on how to use the **Chirp** website.
  
 ##### Settings
 The *Settings* button allows the user to see a more detailed view of their *account information*.
-By looking at figure *1.4.4* the *Settings* page contains more options than the user's *My Page*.
+By looking at figure *11* the *Settings* page contains more options than the user's *My Page*.
 On the *profile page* the user can view their account info such as the username or register a telephone number. Other elements such as *Password*, gives the user the ability to change their password. 
 If the user wanted to link an external login to their user, they can navigate to *External Logins* where they are able to link their github account to their Chirp account.
 If the user wishes additional safety measures for their account, they can navigate to the 2-factor authentication, which will allow the user to link an authentication app.
@@ -200,6 +202,7 @@ Once the user submits their credentials through the form, an `HTTP POST` request
 As an authenticated user, the browser sends another `HTTP GET` request to the root endpoint. This triggers the server to render the *PublicTimeLine.cshtml* Razor page by invoking the `OnGetAsync()` method. During this process, the PublicTimeLine component calls the `CheepService` to retrieve public messages and their count. The `CheepService`, in turn, queries the `CheepRepository`, which executes database queries to fetch the required data.
 
 Once the database returns the list of *Cheeps* and the count, the information is passed back to the *service* and *controller layers* to the `PublicTimeLine` component. The Razor page is rendered with the retrieved *Cheeps*, and an `HTML` response is returned to the browser. The user's browser then displays the fully rendered public timeline with the fetched *Cheeps*.\
+
 ## Sequence of functionality/calls through *Chirp!*
 
 ![Post Cheep](./diagrams/SimunsPics/_Post.png)
@@ -207,7 +210,7 @@ Once the database returns the list of *Cheeps* and the count, the information is
 
 When posting a cheep, a user would initiate the following flow.
 Typing a post into the input field and pressing "Enter," the browser triggers an event to process the input. This sends an `HTTP POST` request with the form data to the web server. The server invokes the `OnPostSave()` method in the `PublicTimeLine` component to handle the post submission.
-
+./diagrams/SimunsPics/AppArch.png
 Firstly, the post content is validated, and if an image is included, it is saved with a `URL`, designated to the filepath of the stored image. The `PublicTimeLine` component then interacts with the `CheepService` to locate the author of the post. The `CheepService` queries the `CheepRepository`, which fetches the author data from the database.
 
 With the author information, a new `Cheep message` is created and sent to the `CheepRepository` and is stored in the database. Once the database confirms the save, the success response propagates back through the `CheepService` and `PublicTimeLine` component.
@@ -228,6 +231,7 @@ Upon receiving the response, the browser dynamically calls the `showResults()` f
 \
 \
 \
+
 ![Follow Action](./diagrams/SimunsPics/_Follow.png)
 
 \
@@ -256,13 +260,12 @@ While testing with **Playwright** caused some issues on GitHub, leading to skipp
 
 ### Key Workflow Triggers:
 1. **Primary Trigger**: Push to the **main** branch (e.g., after an accepted pull request).
-2. **Secondary Trigger**: A scheduled workflow run every **Sunday at 08:00 UTC**.
+2. **Secondary Trigger**: A scheduled workflow run every **Sunday at 20:00 UTC**.
 
 Once the **Create Release** workflow completes, it triggers two subsequent workflows:
 - **Make DLL**
 - **Build and Deploy**
 
----
 
 ## Creating a Release Workflow
 
@@ -289,7 +292,6 @@ If the commit message includes:
 ### **Notes**:
 - This workflow **previously contained a testing step**, but it was **removed** due to compatibility issues.
 
----
 
 ## Making DLLs Workflow
 
@@ -316,7 +318,6 @@ The **Make DLL** workflow builds the program and generates a **zip file** contai
 - It is **crucial** that the **Create Release** workflow runs successfully before `Make DLL` starts.
 - If no new release is created, this workflow may **overwrite the files** in the most recent release.
 
----
 
 ## Deploying to Production Workflow
 
@@ -336,7 +337,6 @@ The **Build and Deploy** workflow is based on a **template provided by Azure** a
 3. **Deploy to Azure**:
    - The compiled application artifacts are deployed to the Azure Web App.
 
----
 
 ## Summary of Automation Benefits
 
@@ -378,7 +378,6 @@ The given code which satisfies the original task has now been merged into the **
 ## How to make *Chirp!* work locally
 <!-- There has to be some documentation on how to come from cloning your project to a running system. That is, Adrian or Helge have to know precisely what to do in which order. Likely, it is best to describe how we clone your project, which commands we have to execute, and what we are supposed to see then. -->
 
-## Comprehensive guide to run the program locally
 
 Please make sure you have all the right ***.Net 8*** dependencies installed [here](https://dotnet.microsoft.com/en-us/download/dotnet/8.0).
 
