@@ -6,17 +6,18 @@ skinparam databaseColor LightGreen
 ' User Component
 actor "User" as U
 node "Client" {
-    U --> [Browser]
-    [Browser] --> [HTML/CSS/JavaScript]
+    	[Browser] --> [Rendered Page] : Renders
+	[Rendered Page] --> [Browser] : Displays
 }
 
 ' Server Component
 cloud "Azure App Service" {
-    [Web Server]
-    [Application Logic]
+   	[Web Server]
+ 	[Application Logic]
+	database "Database" as DB
 }
 
-database "Database" as DB
+
 
 ' Communication
 U --> [Browser] : Enters URL / Interacts
