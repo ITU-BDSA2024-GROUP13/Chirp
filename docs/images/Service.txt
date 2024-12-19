@@ -1,0 +1,76 @@
+@startuml
+skinparam linetype ortho
+!pragma useIntermediatePackages false
+left to right direction
+
+
+package "Chirp.Infrastructure.Services"{
+
+    interface ICheepService{
+    
+        + FindSpecificCheepbyId(int cheepId): Task<CheepDTO>
+        + CreateMessage(NewCheepDTO newMessage): Task<int>
+        + ReadPublicMessages(int page): Task<List<CheepDTO>>
+        + ReadPublicMessagesbyOldest(int page): Task<List<CheepDTO>>
+        + ReadPublicMessagesbyMostLiked(int page): Task<List<CheepDTO>>
+        + ReadPublicMessagesbyMostRelevance(int page, string userName): Task<List<CheepDTO>>
+        + ReadUserMessages(string userName, int page): Task<List<CheepDTO>>
+        + ReadUserAndFollowerMessages(string userName, int page): Task<List<CheepDTO>>
+        + CountUserAndFollowerMessages(string userName): Task<int>
+        + CountUserMessages(string userName): Task<int>
+        + CountPublicMessages(): Task<int>
+        + UpdateMessage(UpdateCheepDTO alteredMessage, int id): Task
+        + CreateAuthor(NewAuthorDTO newMessage): Task<string>
+        + FindAuthorByName(string userName): Task<List<AuthorDTO>>
+        + FindAuthorByEmail(string email): Task<List<AuthorDTO>>
+        + FindSpecificAuthorById(string id): Task<AuthorDTO>
+        + FindSpecificAuthorByName(string userName): Task<AuthorDTO>
+        + FindSpecificAuthorByEmail(string email): Task<AuthorDTO>
+        + FindAuthors(string userName): Task<List<AuthorDTO>>
+        + GetFollowers(string userName): Task<List<AuthorDTO>>
+        + GetFollowersbyId(string id): Task<List<AuthorDTO>>
+        + GetAllLikers(int cheepId): Task<List<AuthorDTO>>
+        + GetAllDislikers(int cheepId): Task<List<AuthorDTO>>
+        + GetFollowedby(string userName): Task<List<AuthorDTO>>
+        + GetFollowedbybyId(string id): Task<List<AuthorDTO>>
+        + Follow(string id, string followerId): Task
+        + Unfollow(string id, string followerId): Task
+        + IsFollowing(string id, string followerId): Task<Boolean>
+        + ForgetMe(string userName): Task<bool>
+        + AddLike(int cheepId, string authorId): Task
+        + RemoveLike(int cheepId, string authorId): Task
+        + HasLiked(string userName, int cheepId): Task<Boolean>
+        + AddDislike(int cheepId, string authorId): Task
+        + RemoveDislike(int cheepId, string authorId): Task
+        + HasDisliked(string userName, int cheepId): Task<Boolean>
+    }
+    
+    class CheepService {
+        - _cheepRepository: ICheepRepository
+        - _authorRepository: IAuthorRepository
+    }
+    
+    CheepService ..|> ICheepService
+    
+    note top of CheepService
+    Directly serves page models with database transactions
+    end note
+    
+
+}
+
+package Chirp.Infrastructure.Repository{}
+
+package Chirp.Core.DTO{}
+
+package Chirp.Core.Entities{}
+
+
+CheepService ..> Chirp.Infrastructure.Repository
+
+CheepService ..> Chirp.Core.DTO
+
+Chirp.Infrastructure.Repository ..> Chirp.Core.DTO
+Chirp.Infrastructure.Repository ..> Chirp.Core.Entities
+
+@enduml

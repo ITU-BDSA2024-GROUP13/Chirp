@@ -1,0 +1,123 @@
+@startuml
+skinparam linetype ortho
+!pragma useIntermediatePackages false
+left to right direction
+
+package "Chirp.Infrastructure.Repositories"{
+
+
+  interface IAuthorRepository{
+      + CreateAuthor(NewAuthorDTO newMessage): Task<string>
+      + FindAuthorByName(string userName): Task<List<AuthorDTO>>
+      + FindAuthorByEmail(string email): Task<List<AuthorDTO>>
+      + FindSpecificAuthorByName(string userName): Task<AuthorDTO>
+      + FindSpecificAuthorByEmail(string email): Task<AuthorDTO>
+      + FindSpecificAuthorById(string id): Task<AuthorDTO>
+      + GetFollowing(string userName): Task<List<AuthorDTO>>
+      + GetFollowingbyId(string id): Task<List<AuthorDTO>> 
+      + GetFollowedby(string userName): Task<List<AuthorDTO>>
+      + GetFollowedbybyId(string id): Task<List<AuthorDTO>>
+      + AddFollower(string id, string followerId): Task
+      + RemoveFollower(string id, string followerId): Task
+      + FindAuthors(string userName, int amount): Task<List<AuthorDTO>>
+      + RemoveAllFollowing(string id): Task
+      + RemoveAllFollowedby(string id): Task
+      + RemoveAuthor(string id): Task
+  }
+  
+  class AuthorRepository {
+      - _dbContext: CheepDBContext
+  }
+  
+  class CheepRepository {
+      - _dbContext: CheepDBContext
+  }
+  
+  interface ICheepRepository {
+      + CreateMessage(NewCheepDTO newMessage): Task<int>
+      + FindSpecificCheepbyId(int id): Task<CheepDTO>
+      + ReadPublicMessages(int takeValue, int skipValue): Task<List<CheepDTO>>
+      + ReadPublicMessagesbyOldest(int takeValue, int skipValue): Task<List<CheepDTO>>
+      + ReadPublicMessagesbyMostLiked(int takeValue, int skipValue): Task<List<CheepDTO>>
+      + ReadPublicMessagesbyRelevance(int takeValue, int skipValue, string userName): Task<List<CheepDTO>>
+      + ReadUserMessages(string userName, int takeValue, int skipValue): Task<List<CheepDTO>>
+      + UpdateMessage(UpdateCheepDTO alteredMessage, int id): Task
+      + AddLike(int cheepId, string authorId): Task
+      + AddDisLike(int cheepId, string authorId): Task
+      + GetAllLikers(int cheepId): Task<List<AuthorDTO>>
+      + GetAllDislikers(int cheepId): Task<List<AuthorDTO>>
+      + RemoveLike(int cheepId, string authorId): Task
+      + RemoveDislike(int cheepId, string authorId): Task
+      + RemoveAllLikes(int cheepId): Task
+      + RemoveAllDislikes(int cheepId): Task
+      + RelevancePoints(int cheepid, string follower, string userName, double likeRatio, DateTime timeStamp, bool follows, bool disliked): double
+      + ReadUserAndFollowerMessages(string userName, List<string> followers, int takeValue, int skipValue): Task<List<CheepDTO>>
+      + RemoveCheepsFromUser(string userName): Task
+  }
+  
+  AuthorRepository .up.|> IAuthorRepository
+  CheepRepository .up.|> ICheepRepository
+  
+  class CheepDBContext{
+  
+      + Authors: DbSet<Author>
+      + Cheeps: DbSet<Cheep>
+  }
+  
+  class DBInitializer{
+      + SeedDatabase(CheepDBContext chirpContext): void
+  }
+  
+  static class HelperFunctions{
+      + FromUnixTimeToDateTime(long unixTime): DateTime
+      + ReformatDateTimetoDanishFormat(DateTime dateTime): string
+      + FromDateTimetoUnixTime(DateTime dateTime): long
+  }
+  
+  note top of HelperFunctions
+  Adds functionality to convert the cheep's timestamp when retrieving data
+  of type DateTime or of type long
+  end note
+  
+  
+  note bottom of DBInitializer
+  Adds default authors and cheeps in the database. 
+  end note
+  
+  note right of DBInitializer::SeedDatabase
+  Gets called during startup (The entire database restarts on every startup)
+  end note
+  
+  note bottom of CheepRepository
+  Is responsible for handling database transactions with the Cheep entity
+  end note
+  
+  note bottom of AuthorRepository
+  Is responsible for handling database transactions with the Author entity
+  end note
+}
+
+package "Microsoft.AspNetCore.Identity.IdentityUser"{
+
+    class IdentityDbContext<TUser> {
+    }
+
+}
+
+package Chirp.Core.Entities{}
+package Chirp.Core.DTO{}
+
+
+
+CheepDBContext ..> Chirp.Core.Entities
+
+CheepDBContext --|> IdentityDbContext
+
+CheepRepository ..> HelperFunctions
+CheepRepository ..> CheepDBContext
+CheepRepository ..> Chirp.Core.DTO 
+AuthorRepository ..> Chirp.Core.DTO 
+AuthorRepository ..> CheepDBContext
+
+
+@enduml
