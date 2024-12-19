@@ -5,7 +5,8 @@
 # Useractivity 
 When it comes to webdevelopment, the overall userexperience and functionality of the website is crucial. Giving the user access to the functions of the website while also maintaining the safety of the website, can end up being one of the more important aspects of webdevelopment.
 
-The sitemap in figure 1, contains most of the traversal possibilities for a user, when logged in and logged out, to illustrate the user's accessibility in different parts of the website and the general structure of the website.
+The sitemap in figure 1, contains most of the traversal possibilities for a user, when logged in and logged out, to illustrate the user's accessibility in different parts of the website and the general structure of the website. 
+*- Notice: To understand the elements in the sitemap, it is recomended to first have a general understanding of the definitions of colors and arrows in the bottom part of figure 1.*
 
 ![Current Project Board](../../diagrams/Decision_tree.png)
 <p style="text-align: center;">
@@ -15,7 +16,7 @@ The sitemap in figure 1, contains most of the traversal possibilities for a user
 
 
 ### Logged out
-When a user is logged out, they do not have the same access as a user who is logged in. The access is very limited, and it only allows the user to log in or register as a new user. The user can choose two alternatives, which are explained below. Any references to the websites structure, will be directed towards the illustration in figure 1.1.
+When a user is logged out, they do not have the same accessability as a user who is logged in. Their access is very limited, and it only reaches as far as to allow the user to log in or register as a new user. The user can choose two alternatives, which are explained below. Any references to the websites structure in this chapter, will be directed towards the illustration in figure 1.1.
 
 ![Current Project Board](../../diagrams/Decision_tree_1.1.png)
 <p style="text-align: center;">
@@ -28,7 +29,7 @@ When a user enters the website, they will see the front page without content. To
 If the user exists within the database, the user is logged in and is now able to access the application with all of its functionalities. If a user does not exist, the user's "Github User ID" becomes the username and they are registered as a new user.
 
 #### Normal login/register
-As shown in figure 1.1 to log in to the website, a user must write their email and password of their account. If they do not exist in the database, an error message will be sent back to inform the user that the log in process has failed. If it succeeds, the user will be given access.
+As shown in figure 1.1 to log in, without an external login, to the website, a user must write their email and password of their account. If they do not exist in the database, an error message will be sent back to inform the user that the log in process has failed. If it succeeds, the user will be given access.
 
 However if a user does not have an account, the user can access the register-page, where the user is asked to enter their desired email, username and password. If the information (username and email) does not already exist within the database, the user will be registered as a new user and be given access. If the information already exists, the person will be given an error message, informing the user, that the information is already in use.
 

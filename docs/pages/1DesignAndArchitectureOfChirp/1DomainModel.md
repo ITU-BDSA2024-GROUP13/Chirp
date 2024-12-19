@@ -15,5 +15,5 @@ They contain attributes, like text, an optional image, the time of posting, and 
 They contain data for which authors have liked or disliked.
 They also contain a calculated float based on their amount of likes, which is used for sorting by relevance.
 
-Additionally, a *cheep* cannot contain more than 160 characters and they can only have a single *author*.
+Additionally, the attribute `Text` in *cheep* cannot contain more than 160 characters and they can only have a single *author*.
 
