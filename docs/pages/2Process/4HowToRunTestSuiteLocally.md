@@ -6,7 +6,7 @@ In order to run the test, you have to:
 
 #### Install the right dependencies
 Ensure you have Node.js and npm (Node Package Manager) installed and/or updated.
-You install on their website, [Node.js](https://nodejs.org/en).
+You can install Node.js from their website [Node.js](https://nodejs.org/en).
 
 1. **update npm** 
 ```bash
@@ -31,22 +31,22 @@ $ cd ./testPlaywright/PlaywrightTests
 
 5. **Install the Playwright Script**
 ```bash
-$ pwsh C:\Users\andre\repos\Chirp\testPlaywright\PlaywrightTests\bin\Debug\net8.0\playwright.ps1 install
+$ pwsh .\bin\Debug\net8.0\playwright.ps1 install
 ```
 
-6. **Open a server in a new terminal**
+6. ***In a new terminal*, start a server**
 ```bash
 $ dotnet watch --project ./src/Chirp.Web
 ```
 
-7. **Move to the root directory of the project and type**
+7. ***In the first terminal*, move to the root directory of the project and type**
 ```bash
 $ dotnet test
 ```
 
 ## Test suites
 
-There are 8 test suites each focusing on different aspects of the solution. Following the **onion-architecture** allows the tests to focus on each layer individually in the *unit tests*, isolate a chain of method calls for *unittests* and a *E2E testing*.
+There are 8 test suites each focusing on different aspects of the solution. Following the **onion-architecture** allows the tests to focus on each layer individually using testing types such as *unit tests*, isolate a chain of method calls for *Integration testing* and *End-to-End Testing (E2E) testing*.
 
 | Test File                                                                | Unit Tests | Integration Tests | E2E Tests |
 |--------------------------------------------------------------------------|------------|-------------------|-----------|
