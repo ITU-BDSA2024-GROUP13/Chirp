@@ -17,7 +17,7 @@ Write `dotnet test` in your terminal to run all tests except Playwright tests.
 
 If you want to see code coverage. Run `dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=lcov.info`
 
-This should cover three modules: `Chirp.Core`, `Chirp.Repositories` and `Chirp.Services`
+This should cover three modules: `Chirp.Core`, `Chirp.Repositories` and `Chirp.Services`.
 
 In order to run the Playwright test, you have to:
 
@@ -25,7 +25,9 @@ In order to run the Playwright test, you have to:
 Ensure you have Node.js and npm (Node Package Manager) installed and/or updated.
 You can install Node.js from their website [Node.js](https://nodejs.org/en).
 
-1. **update npm** 
+
+
+1. **update npm in a powershell terminal at the root of your pc** 
 ```bash
 $ npm install -g npm
 ```
@@ -51,15 +53,17 @@ $ cd ./testPlaywright/PlaywrightTests
 $ pwsh .\bin\Debug\net8.0\playwright.ps1 install
 ```
 
-6. ***In a new terminal*, start a server**
+6. ***In a new terminal*, start a server on the root folder in `Chirp`**
 ```bash
 $ dotnet watch --project ./src/Chirp.Web
 ```
 
-7. ***In the first terminal*, move to the root directory of the project and type**
+7. ***In the first terminal***
 ```bash
 $ dotnet test
 ```
+
+Once playwright is correctly installed you can go to the root folder of Chirp and write `dotnet test`. This will run all tests in the project.
 
 ## Test suites
 
