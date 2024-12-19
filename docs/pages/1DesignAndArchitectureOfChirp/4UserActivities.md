@@ -18,10 +18,11 @@ The sitemap in figure 1, contains most of the traversal possibilities for a user
 ### Logged out
 When a user is logged out, they do not have the same accessability as a user who is logged in. Their access is very limited, and it only reaches as far as to allow the user to log in or register as a new user. The user can choose two alternatives, which are explained below. Any references to the websites structure in this chapter, will be directed towards the illustration in figure 1.1.
 
-![Current Project Board](../../diagrams/Decision_tree_1.1.png)
+<img src="../../diagrams/Decision_tree_1.1.png" style="max-width: 50%; height: auto; display: block; margin: auto;">
 <p style="text-align: center;">
     <b>Figure 1.1: Logged out</b>
 </p>
+</img>
 
 #### Github login/register
 When a user enters the website, they will see the front page without content. To access any content, the user must press the "Log in" button, which will lead them to the "Log in"-page. From here the user can choose to use an external login to access the website. The external login uses the GitHub Authorization process giving the website a token, which allows the website to access the information about the github user. 
@@ -45,7 +46,8 @@ When a user is logged in, they have full accessibility to the website, which inc
 As seen in figure 1.2 under "Cheeps" a user can read and then like or dislike a cheep.
 From the cheep, a user can access the author's page and timeline as well as see who liked or disliked the cheep.
 ##### My Timeline
-The user's timeline displays the users own cheeps, and the cheeps posted by who they follow.
+The user's timeline displays the user's own cheeps, and the cheeps posted by who they follow.
+
 ##### Post and Search
 The search function searches the database for authors. When searching, the user is presented with a textfield, which will find possible search results for any given author which matches the content of the search-bar. The results of authors that are returned can be clicked, which redirects to the author's timeline. 
 
@@ -56,7 +58,8 @@ As seen in figure 1.2 a user can choose to check out popular cheeps by pressing 
 
 #### Profile
 To explore the user's account and their own information, the user can click on their profile picture. This displays a new page with the user's *My Page* and *Settings*. References to the websites structure in this section, will be directed towards the illustration in figure 1.3
-![Current Project Board](../../diagrams/Decision_tree_1.3.png)
+
+<img src="../../diagrams/Decision_tree_1.3.png" style="max-width: 50%; height: auto; display: block; margin: auto;">
 <p style="text-align: center;">
     <b>Figure 1.3: Profile</b>
 </p>

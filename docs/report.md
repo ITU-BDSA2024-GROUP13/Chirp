@@ -9,6 +9,11 @@ author: [
   "Símun Larsson Løkke Rasmussen <simra@itu.dk>"
 ]
 numbersections: true
+papersize: a4
+geometry:
+- left=30mm 
+- right=30mm
+toc: true
 ---
 
 # Design and Architecture of *Chirp!*
