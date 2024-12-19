@@ -4,30 +4,30 @@
 
 ![[../../diagrams/class-diagrams/Core.png]]
 
-The `Chirp.Core` package contains the domain entities and data transfer objects, for database transactions.
+The `Chirp.Core` package contains the domain *entities* and data transfer objects, for database transactions.
 
-The `DTO`'s are split up into two groups, one for each entity.
-In order to obtain the **SOLID principles**. `DTO`'s are split up even further to strive for the single responsibility principle. Thus there is the `NewCheepDTO`, which is for sending data of new cheeps into the database. The default `CheepDTO` is for reading cheeps, for showing on the timeline.
-The `UpdateCheepDTO` is for editing existing cheeps, by changing their content.
+The `DTO`'s are split up into two groups, one for each *entity*.
+In order to obtain the **SOLID principles** (Single responsibility, Open/closed, Liskov substitution, Interface segregation, and Dependency inversion). `DTO`'s are split up even further to strive for the single responsibility principle. Thus there is the `NewCheepDTO`, which is for sending data of new *Cheeps* into the database. The default `CheepDTO` is for reading *Cheeps*, for showing on the timeline.
+The `UpdateCheepDTO` is for editing existing *Cheeps*, by changing their content.
 Lastly, there is the `CheepDTOForRelevance` which is used for the relevance sorting algorithm.
 
-For the `Author`, two `DTO`'s have been made for either creating an author or to get information on the author from the database. 
+For the *Author*, two `DTO`'s have been made for either creating an *Author* or to get information on the *Author* from the database. 
 
 
 ![[../../diagrams/class-diagrams/Repo.png]]
 
 The ***Chirp.Infrastructure.Repositories*** package, contains *classes* and *interfaces* regarding the database and *classes* which seed or query the database.
 
-`AuthorRepository` and `CheepRepository` queries the database depending on whether `Author` or `Cheep` is the main entity.
+`AuthorRepository` and `CheepRepository` queries the database depending on whether *Author* or *Cheep* is the main *entity*.
 
 The `CheepDBContext` defines the database *entities* and the relations between them.
 
 Both `AuthorRepository`, `CheepRepository` and `CheepDBContext` are dependency injected into the application.
 This ensures one and only one instance of each.
 
-The `DbInitializer` seeds the database with default *cheeps* and *authors*. This makes it easier to make in-memory testing.
+The `DbInitializer` seeds the database with default *Cheeps* and *Authors*. This makes it easier to make in-memory testing.
 
-The static class `HelperFunctions` provides functionality to the `CheepRepository`. Since *cheeps* contain `DateTime` and `DTO`'s should only store predefined types, `DateTime` needs to be converted to unixTime of type `long` and vice versa.
+The static class `HelperFunctions` provides functionality to the `CheepRepository`. Since *Cheeps* contain `DateTime` and `DTO`'s should only store predefined types, `DateTime` needs to be converted to unixTime of type `long` and vice versa.
 
 ![[../../diagrams/class-diagrams/Service.png]]
 
