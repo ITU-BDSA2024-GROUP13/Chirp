@@ -5,7 +5,7 @@ Reflect in writing to which degree the responses of the LLM were helpful.
 Discuss briefly if application of LLMs sped up your development or if the contrary was the case. -->
 
 
-The LLMs which were used throughout the development process were: ChatGPT, GitHub CoPilot and Codium.
+The Large Language Models (LLMs) which were used throughout the development process were: ChatGPT, GitHub CoPilot and Codium.
 
 All three LLMs were used primarily for debugging. 
 For the generation of most of the documentation, it was only ChatGPT which was used.
