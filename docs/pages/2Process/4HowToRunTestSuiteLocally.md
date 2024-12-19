@@ -17,7 +17,7 @@ Write `dotnet test` in your terminal to run all tests except Playwright tests.
 
 If you want to see code coverage. Run `dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=lcov.info`
 
-
+This should cover three modules: `Chirp.Core`, `Chirp.Repositories` and `Chirp.Services`
 
 In order to run the Playwright test, you have to:
 
