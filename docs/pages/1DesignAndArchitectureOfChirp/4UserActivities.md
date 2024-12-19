@@ -3,7 +3,7 @@
 % Make sure that the illustrations are in line with the actual behavior of your application. -->
 
 # Useractivity 
-When it comes to webdevelopment, the overall userexperience and functionality of the website is crucial. Giving the user accessability of these functions while also maintaining the safety of a website, can end up being one of the more important aspects of webdevelopment.
+When it comes to webdevelopment, the overall userexperience and functionality of the website is crucial. Giving the user access to the functions of the website while also maintaining the safety of the website, can end up being one of the more important aspects of webdevelopment.
 
 The sitemap in figure 1, contains most of the traversal possibilities for a user, when logged in and logged out, to illustrate the user's accessibility in different parts of the website and the general structure of the website.
 
