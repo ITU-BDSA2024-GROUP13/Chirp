@@ -21,9 +21,6 @@ toc: true
 ## Domain model
 
 ![Diagram of Domain](./diagrams/class-diagrams/Domain.png)
-<p style="text-align: center;">
-    <b>Figure 1.1.1: Domain model</b>
-</p>
 
 
 The Domain for chirp is based off of two ***Entities***, and one superclass, `IdentityUser`, which ***Author*** extends. They derive attributes such as `id`, `username`, `email` and an encrypted password.
@@ -48,9 +45,6 @@ Additionally, the attribute `Text` in ***Cheep*** cannot contain more than 160 c
 ### Design and architecture
 
 ![Core Diagram](./diagrams/class-diagrams/Core.png)
-<p style="text-align: center;">
-    <b>Figure 1.2.1: Core diagram</b>
-</p>
 
 The `Chirp.Core` package contains the domain ***Entities*** and data transfer objects, for database transactions.
 
@@ -62,9 +56,6 @@ Lastly, there is the `CheepDTOForRelevance` which is used for the relevance sort
 For the ***Author***, two `DTO`'s have been made for either creating an ***Author*** or to get information on the ***Author*** from the database. 
 
 ![Repo diagram](./diagrams/class-diagrams/Repo.png)
-<p style="text-align: center;">
-    <b>Figure 1.2.2: Repository diagram</b>
-</p>
 
 The ***Chirp.Infrastructure.Repositories*** package, contains *classes* and *interfaces* regarding the database and *classes* which seed or query the database.
 
@@ -80,9 +71,6 @@ The `DbInitializer` seeds the database with default ***Cheeps*** and ***Authors*
 The static class `HelperFunctions` provides functionality to the `CheepRepository`. ***Cheeps*** contain `DateTime` and `DTO`'s should only store predefined types, `DateTime` needs to be converted to unixTime of type `long` and vice versa.
 
 ![Service diagram](./diagrams/class-diagrams/Service.png)
-<p style="text-align: center;">
-    <b>Figure 1.2.3: Service diagram</b>
-</p>
 
 The ***Chirp.Services*** package contains the `CheepService` class, which directly communicates with the page models.
 
@@ -93,9 +81,6 @@ The service transacts data between the *page models* and indirectly the database
 The `CheepService` itself is also dependency, injected into the application. Page models refer to the same service, which refers to the same repositories, which refer to the same database.
 
 ![Web Diagram](./diagrams/class-diagrams/Web.png)
-<p style="text-align: center;">
-    <b>Figure 1.2.4: Web diagram</b>
-</p>
 
 The ***Chirp.Web*** package contains all the pages, as well as the startup program.
 
@@ -106,9 +91,6 @@ The `cshtml` pages send requests to the model which are handled by reading or wr
 The scaffolded package ***Area.Identity.Page.Account*** is used to handle getting an identity token when logging in and managing the account using ***Microsoft.AspNet.Identity***'s IdentityUser.
 
 ![Onion Coloured](./diagrams/class-diagrams/onion/Onion-coloured.png)
-<p style="text-align: center;">
-    <b>Figure 1.2.5: Onion architecture</b>
-</p>
 
 The entire `Chirp` package fulfills the *onion architecture*. Since ***Chirp.Core*** does not need to refer to any of the outer layers. The same goes for the *repository layer* and the *service layer*.
 
@@ -117,9 +99,6 @@ The entire `Chirp` package fulfills the *onion architecture*. Since ***Chirp.Cor
 
 
 <img src="./diagrams/SimunsPics/AppArch.png" alt="New User" style="max-width: 100%; height: auto; display: block; margin: auto;">
-<p style="text-align: center;">
-    <b>Figure 1.3.1: New User</b>
-</p>
 
 \
 This diagram illustrates the *architecture of the Chirp application* as well as the interaction between its key components. The system is divided into three main layers: *the Client, the Server, and the Database*, all hosted within the *Azure* environment.
@@ -144,19 +123,11 @@ The sitemap in figure 1.4.1, contains most of the traversal possibilities for a 
 *- Notice: To understand the elements in the sitemap, it is recomended to first have a general understanding of the definitions of colors and arrows in the bottom part of figure 1.4.1.*
 
 ![Current Project Board](./diagrams/Decision_tree.png)
-<p style="text-align: center;">
-    <b>Figure 1.4.1: sitemap</b>
-</p>
-
-
 
 ### Logged out
 When a user is logged out, they do not have the same accessibility as a user who is logged in. Their access is very limited, and it only allows the user to log in or register. Any references to the websites structure in this chapter, will be directed towards the illustration in figure *1.4.2*
 
 <img src="./diagrams/Decision_tree_1.1.png" style="max-width: 50%; height: auto; display: block; margin: auto;">
-<p style="text-align: center;">
-    <b>Figure 1.4.2: Logged out</b>
-</p>
 </img>
 
 #### Github login/register
@@ -172,9 +143,6 @@ However if a user does not have an account, the user can access the register-pag
 ### Logged in
 When a user is logged in,y have full authorization to the website, which includes both functions and content. Most of the interactability is present on the front page. References to the websites structure in this section, will be directed towards the illustration in figure *1.4.3*
 ![Current Project Board](./diagrams/Decision_tree_1.2.png)
-<p style="text-align: center;">
-    <b>Figure 1.4.3: Logged in</b>
-</p>
 
 #### Main page
 ##### Cheeps
@@ -196,9 +164,7 @@ As seen in *figure 1.4.3* a user can choose to check out popular *Cheeps* by pre
 To explore the user's account and their own information, the user can click on their profile picture. This displays a new page with the user's *My Page* and *Settings*. References to the websites structure in this section, will be directed towards the illustration in figure *1.4.4*
 
 <img src="./diagrams/Decision_tree_1.3.png" style="max-width: 50%; height: auto; display: block; margin: auto;">
-<p style="text-align: center;">
-    <b>Figure 1.4.4: Profile</b>
-</p>
+
 
 ##### My Page
 The *My Page* element, when accessing the profile, redirects the user to the user's *My Page*. Within this page is most of the relevant information of the user, such as email, username and the amount of followers and amount of people that the user follows. The user can access a page with a list for all the users that they follow, and a list of all the users that follow them. Moreover, the *My Page* also has other functionalities and information, such as the *Forget Me* option, which the user can choose, when looking at the overall sitemap in figure *1.4.1*, to delete all their information. The *Help* includes a basic guide on how to use the **Chirp** website.
@@ -217,9 +183,6 @@ Make sure that your illustration is complete. That is, likely for many of you th
 ### Flow of new user
 
 <img src="./diagrams/SimunsPics/NewUser.png" alt="New User" style="max-width: 100%; height: auto; display: block; margin: auto;">
-<p style="text-align: center;">
-    <b>Figure 1.5.1: New User</b>
-</p>
 
 \
 The diagram above illustrates the flow of a user signing up or in to the Cheep service. 
@@ -235,9 +198,6 @@ As an authenticated user, the browser sends another `HTTP GET` request to the ro
 Once the database returns the list of *Cheeps* and the count, the information is passed back to the *service* and *controller layers* to the `PublicTimeLine` component. The Razor page is rendered with the retrieved *Cheeps*, and an `HTML` response is returned to the browser. The user's browser then displays the fully rendered public timeline with the fetched *Cheeps*.\
 ## Sequence of functionality/calls through *Chirp!*
 <img src="./diagrams/SimunsPics/_Post.png" alt="Post Cheep" style="max-width: 80%; height: auto; display: block; margin: auto;">
-<p style="text-align: center;">
-    <b>Figure 1.5.2: Post Cheep</b>
-</p>
 
 When posting a cheep, a user would initiate the following flow.
 Typing a post into the input field and pressing "Enter," the browser triggers an event to process the input. This sends an `HTTP POST` request with the form data to the web server. The server invokes the `OnPostSave()` method in the `PublicTimeLine` component to handle the post submission.
@@ -251,9 +211,6 @@ Finally, the server renders the updated `PublicTimeLine.cshtml` Razor page, incl
 \
 \
 <img src="./diagrams/SimunsPics/_Search.png" alt="Search" style="max-width: 80%; height: auto; display: block; margin: auto;">
-<p style="text-align: center;">
-    <b>Figure 1.5.3: Search</b>
-</p>
 \
 When using the search functionality, the browser triggers an input event for each keystroke, as the user types into the search input field. This sends an `HTTP POST` request to the web server, containing the current search string. The server calls the `OnPostSearch()` method in the `TimeLine` component to handle the search.
 
@@ -264,9 +221,6 @@ Upon receiving the response, the browser dynamically calls the `showResults()` f
 \
 \
 <img src="./diagrams/SimunsPics/_Follow.png" alt="Follow Action" style="max-width: 80%; height: auto;display: block; margin: auto;">
-<p style="text-align: center;">
-    <b>Figure 1.5.4: Follow Action</b>
-</p>
 \
 When a user presses the *follow button* on an *authors page*, the browser triggers an input event and sends an `HTTP POST` request to the web server, containing the usernames of the follower and the followee. The server invokes the `OnPostFollow()` method in the `UserTimeLine` component to handle the follow and unfollow actions.
 
@@ -304,9 +258,6 @@ Once the **Create Release** workflow completes, it triggers two subsequent workf
 ## Creating a Release Workflow
 
 ![Create Release Workflow](./diagrams/createRelease.png)
-<p style="text-align: center;">
-    <b>Figure 2.1.1: Create release workflow</b>
-</p>
 
 ### **Description**
 The **Create Release** workflow triggers under two conditions:
@@ -334,9 +285,7 @@ If the commit message includes:
 ## Making DLLs Workflow
 
 ![Make DLL Workflow](./diagrams/makeDLL.png)
-<p style="text-align: center;">
-    <b>Figure 2.1.2: Make DLL workflow</b>
-</p>
+
 
 ### **Description**
 The **Make DLL** workflow builds the program and generates a **zip file** containing the `.dll` files for distribution.
@@ -363,9 +312,6 @@ The **Make DLL** workflow builds the program and generates a **zip file** contai
 ## Deploying to Production Workflow
 
 ![Build and Deploy Workflow](./diagrams/BuildAndDeploy.png)
-<p style="text-align: center;">
-    <b>Figure 2.1.3: Build and deploy workflow</b>
-</p>
 
 ### **Description**
 The **Build and Deploy** workflow is based on a **template provided by Azure** and has been modified to integrate with the **Create Release** workflow.
@@ -400,10 +346,6 @@ Briefly describe and illustrate the flow of activities that happen from the new 
 ### Project Board
 
 ![Current Project Board](./images/project_board.png)
-<p style="text-align: center;">
-    <b>Figure 2.2.1: Project board</b>
-</p>
-
 <!--! last updated the 17 december -->
 
 This is an image of the *project board* before submission. The only issue which is incomplete prior to submission, is the "Front-end filtering cheeps".
@@ -413,9 +355,7 @@ This issue was not a requirement, but instead an idea for extending the search f
 ### Process of Task to Implementation
 
 ![Task to in main branch](./images/taskToInProd.png)
-<p style="text-align: center;">
-    <b>Figure 2.2.2: Task to in main branch</b>
-</p>
+
 
 Once given a task description, it is formulated into an *issue*. Once all tasks have been formulated into *issues*, they are then distributed to one or multiple contributors, depending on the assumed size of the issue.
 
@@ -443,9 +383,6 @@ Please make sure you have all the right ***.Net 8*** dependencies installed [her
 
 4. Look in your terminal for which port the project is listening on. e.g.  
 ![local host](./images/localhost.png)
-<p style="text-align: center;">
-    <b>Figure 2.3.1: Local host</b>
-</p>
 
 5. Open your browser and type `http://localhost:<port>`  
 
@@ -461,9 +398,6 @@ Please make sure you have all the right ***.Net 8*** dependencies installed [her
 
 5. Look in your terminal for which port the project is listening on. e.g.  
 ![local host](./images/localhost.png)
-<p style="text-align: center;">
-    <b>Figure 2.3.2: Local host</b>
-</p>
 
 6. Open your browser and type `http://localhost:<port>`  
 
@@ -475,9 +409,6 @@ Please make sure you have all the right ***.Net 8*** dependencies installed [her
 Briefly describe what kinds of tests you have in your test suites and what they are testing.-->
 
 ![Test coverage](./images/Test_coverage.png)
-<p style="text-align: center;">
-    <b>Figure 2.4.1: Code coverage report, using coverlet</b>
-</p>
 
 
 The ***test*** package tests all the ***infrastructure*** and ***core*** using unit tests and integration tests.
