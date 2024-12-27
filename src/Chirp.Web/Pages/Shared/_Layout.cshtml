@@ -43,13 +43,6 @@
     </main>
 
 
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <footer>
-            @await Html.PartialAsync("_Post")
-            @await Html.PartialAsync("_Search")
-        </footer>
-    }
 
     <script src="~/js/main.js"></script>
 
