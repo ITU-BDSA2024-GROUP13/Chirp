@@ -3,19 +3,14 @@ namespace Chirp.Web.models;
 using Microsoft.AspNetCore.Mvc;
 using Chirp.Infrastructure.Services;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Chirp.Core.Entities;
 
 /// <summary>
 /// Represents the model for the user timeline page, supporting displaying posts and following/unfollowing users.
 /// </summary>
-public class UserTimelineModel : TimeLine
+public class UserTimelineModel(ICheepService cheepService) : TimeLine(cheepService)
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UserTimelineModel"/> class.
-    /// </summary>
-    /// <param name="cheepService">The service that handles Cheep-related operations.</param>
-    public UserTimelineModel(ICheepService cheepService) : base(cheepService)
-    {
-    }
 
     /// <summary>
     /// Handles the GET request to display the user's timeline along with their followers' posts.
@@ -24,13 +19,23 @@ public class UserTimelineModel : TimeLine
     /// <returns>An <see cref="ActionResult"/> representing the page result.</returns>
     public async Task<ActionResult> OnGetAsync(string author)
     {
+
         int page = UpdatePage();
 
-        // Fetch Cheeps from the user and their followers.
-        Cheeps = await _cheepService.ReadUserAndFollowerMessages(author, page);
+        if (User.Identity!.Name!.Equals(author)){
+            // Fetch Cheeps from the user and their followers.
+            Cheeps = await _cheepService.ReadUserAndFollowerMessages(author, page);
 
-        // Count the total messages for pagination.
-        Count = await _cheepService.CountUserAndFollowerMessages(author);
+            // Count the total messages for pagination.
+            Count = await _cheepService.CountUserAndFollowerMessages(author);
+        } else{   
+            // Fetch Cheeps from the user and their followers.
+            Cheeps = await _cheepService.ReadUserMessages(author, page);
+
+            // Count the total messages for pagination.
+            Count = await _cheepService.CountUserMessages(author);
+        }
+
 
         // If a search term is provided, find authors by name.
         if (!string.IsNullOrEmpty(SearchName))
