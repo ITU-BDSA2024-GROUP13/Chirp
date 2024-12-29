@@ -45,7 +45,11 @@
             <div class="username"> @author.Name </div>
 
             Telephone:
-            <div class="telephone"> *Function not added yet</div>
+            @if(@author.PhoneNumber == null){
+                <div class="telephone"> * Information not available - go to settings * </div>
+            } else{
+                <div class="telephone"> @author.PhoneNumber</div>
+            }
 
 
 

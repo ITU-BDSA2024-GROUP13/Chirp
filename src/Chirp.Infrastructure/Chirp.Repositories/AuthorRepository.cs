@@ -54,6 +54,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
             Id = author.Id,
             Name = author.UserName!,
             Email = author.Email!,
+            PhoneNumber = author.PhoneNumber,
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -77,6 +78,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
             Id = author.Id,
             Name = author.UserName!,
             Email = author.Email!,
+            PhoneNumber = author.PhoneNumber
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -100,6 +102,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
             Id = author.Id,
             Name = author.UserName!,
             Email = author.Email!,
+            PhoneNumber = author.PhoneNumber
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -128,6 +131,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
                     Id = author.Id,
                     Name = author.UserName!,
                     Email = author.Email!,
+                    PhoneNumber = author.PhoneNumber,
                 });
         // Execute the query
         var result = await query.ToListAsync();
@@ -157,6 +161,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
             Id = author.Id,
             Name = author.UserName!,
             Email = author.Email!,
+            PhoneNumber = author.PhoneNumber,
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -177,7 +182,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         // Execute the query
         var result = await query.ToListAsync();
 
-        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName!, PhoneNumber = i.PhoneNumber}).ToList();
     }
 
     /// <summary>
@@ -193,7 +198,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         // Execute the query
         var result = await query.ToListAsync();
 
-        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName!, PhoneNumber = i.PhoneNumber}).ToList();
     }
 
     /// <summary>
@@ -209,7 +214,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         // Execute the query
         var result = await query.ToListAsync();
 
-        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName!, PhoneNumber = i.PhoneNumber }).ToList();
     }
 
     /// <summary>
@@ -225,7 +230,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         // Execute the query
         var result = await query.ToListAsync();
 
-        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName!, PhoneNumber = i.PhoneNumber }).ToList();
     }
 
     /// <summary>
@@ -327,6 +332,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
             Id = author.Id,
             Name = author.UserName!,
             Email = author.Email!,
+            PhoneNumber = author.PhoneNumber,
         });
         // Execute the query
         var result = await query.ToListAsync();

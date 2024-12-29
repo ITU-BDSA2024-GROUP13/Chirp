@@ -337,7 +337,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         var result = await query.ToListAsync();
         if (result.Any())
         {
-            return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+            return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName!, PhoneNumber = i.PhoneNumber }).ToList();
         }
         else
         {
@@ -379,7 +379,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         var result = await query.ToListAsync();
         if (result.Any())
         {
-            return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+            return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName!, PhoneNumber = i.PhoneNumber }).ToList();
         }
         else
         {
