@@ -122,7 +122,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
     public async Task<AuthorDTO> FindSpecificAuthorByEmail(string email)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
-                .Where(author => author.Email == email)
+                .Where(author => EF.Functions.Like(author.Email, email))
                 .Select(author => new AuthorDTO
                 {
                     Id = author.Id,
