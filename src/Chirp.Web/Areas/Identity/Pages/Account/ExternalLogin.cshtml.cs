@@ -127,6 +127,17 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
                 return LocalRedirect(returnUrl);
             }
+
+            var userEmail = info.Principal.FindFirstValue(ClaimTypes.Email);
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            if(user != null){
+                var addExternalLogin = await _userManager.AddLoginAsync(user, info);
+                if(addExternalLogin.Succeeded){
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return LocalRedirect(returnUrl);
+                }
+            }
+
             if (result.IsLockedOut)
             {
                 return RedirectToPage("./Lockout");
