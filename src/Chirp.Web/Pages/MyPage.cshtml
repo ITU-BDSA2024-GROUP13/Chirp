@@ -45,7 +45,11 @@
             <div class="username"> @author.Name </div>
 
             Telephone:
-            <div class="telephone"> *Function not added yet</div>
+            @if(@author.PhoneNumber == null){
+                <div class="telephone"> * Information not available - go to settings * </div>
+            } else{
+                <div class="telephone"> @author.PhoneNumber</div>
+            }
 
 
 
@@ -129,8 +133,8 @@ else
                     <span>Warning: By pressing forget me - and confirming the deletion of your account - all data of your account will be lost.</span>
                     <br>
                     <br>
-                    <span> Neither you or the Chirp company will be able to retrieve the deleted data. So be absolute sure that you want to delete your account before confirming.</span>
-                    <button id="forgetme" data-author="@Model.AuthorDTO.Name">Forget me</button>
+                    <span> Neither you or the Chirp company will be able to retrieve the deleted data. So be absolutely sure that you want to delete your account before confirming.</span>
+                    <button id="forgetme" data-author="@Model.AuthorDTO.Name">Forget me!</button>
                     
                     <div class="confirmForgetMe" id="confirmForgetMe">
                         <p>Are you sure?</p>
@@ -141,7 +145,28 @@ else
                     </div>`;
                     bindForgetMeEvents();
                 } else if (this.classList.contains('Help')) {
-                    content.innerHTML = `<h3> This page is currently under construction </h3>`;
+                    content.innerHTML = `
+                    <h3> How to navigate Chirp! </h3>
+                    
+                    <h4> Public timeline & Filter</h4>
+                    <p> The "Public timeline" is the place where
+                        you can witness the full experience of the
+                        Chirp! site. Here you will see all the cheeps
+                        that have been cheeped on the site.
+                        <br>
+                        The filter button lets you choose different
+                        criteria to filter the cheeps by.
+                    </p>
+
+                    <h4> My timeline </h4>
+                    <p> The "My timeline" shows all the cheeps from users
+                        that you follow. </p>
+
+                    <h4> Settings </h4>
+                    <p> The "Settings" lets you update or change
+                        information that the Chirp! site has.
+                        (Phone number, Password, External logins and Two-factor authentication)
+                    `;
                 }
             });
         });

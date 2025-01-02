@@ -1,18 +1,18 @@
 using Microsoft.EntityFrameworkCore;
-using Chirp.Core.DTO;
+using Chirp.Core.DTO.CheepDTO;
+using Chirp.Core.DTO.AuthorDTO;
 using Chirp.Core.Entities;
 using System.ComponentModel;
 using Humanizer;
 using System.Diagnostics;
 
-namespace Chirp.Repositories;
+namespace Chirp.Infrastructure.Repositories;
 
 
 public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
 {
 
     private readonly CheepDBContext _dbContext = dbContext;
-    private double _totalLikes = 0;
 
     public async Task<int> CreateMessage(NewCheepDTO message)
     {
@@ -276,7 +276,6 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         if (!cheep.Likes.Contains(author))
         {
             cheep.Likes.Add(author);
-            _totalLikes++;
             if (cheep.Likes.Any())
             {
                 cheep.LocalLikeRatio = (float)Math.Log((double)cheep.Likes.Count + 1, 5);
@@ -299,7 +298,6 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         if (cheep.Likes.Contains(author))
         {
             cheep.Likes.Remove(author);
-            _totalLikes--;
             if (cheep.Likes.Any())
             {
                 cheep.LocalLikeRatio = (float)Math.Log((double)cheep.Likes.Count + 1, 5);
@@ -339,7 +337,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         var result = await query.ToListAsync();
         if (result.Any())
         {
-            return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+            return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName!, PhoneNumber = i.PhoneNumber }).ToList();
         }
         else
         {
@@ -381,7 +379,7 @@ public class CheepRepository(CheepDBContext dbContext) : ICheepRepository
         var result = await query.ToListAsync();
         if (result.Any())
         {
-            return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+            return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName!, PhoneNumber = i.PhoneNumber }).ToList();
         }
         else
         {

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Chirp.Core.DTO;
 using Chirp.Core.Entities;
+using Chirp.Core.DTO.AuthorDTO;
 
-namespace Chirp.Repositories;
+namespace Chirp.Infrastructure.Repositories;
 
 /// <summary>
 /// Repository class for managing Author data in the database.
@@ -44,6 +44,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
             Id = author.Id,
             Name = author.UserName!,
             Email = author.Email!,
+            PhoneNumber = author.PhoneNumber,
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -61,6 +62,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
             Id = author.Id,
             Name = author.UserName!,
             Email = author.Email!,
+            PhoneNumber = author.PhoneNumber
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -77,6 +79,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
             Id = author.Id,
             Name = author.UserName!,
             Email = author.Email!,
+            PhoneNumber = author.PhoneNumber
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -93,12 +96,13 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
     public async Task<AuthorDTO> FindSpecificAuthorByEmail(string email)
     {
         var query = _dbContext.Authors.OrderBy(author => author.UserName)
-                .Where(author => author.Email == email)
+                .Where(author => EF.Functions.Like(author.Email, email))
                 .Select(author => new AuthorDTO
                 {
                     Id = author.Id,
                     Name = author.UserName!,
                     Email = author.Email!,
+                    PhoneNumber = author.PhoneNumber,
                 });
         // Execute the query
         var result = await query.ToListAsync();
@@ -123,6 +127,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
             Id = author.Id,
             Name = author.UserName!,
             Email = author.Email!,
+            PhoneNumber = author.PhoneNumber,
         });
         // Execute the query
         var result = await query.ToListAsync();
@@ -138,7 +143,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         // Execute the query
         var result = await query.ToListAsync();
 
-        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName!, PhoneNumber = i.PhoneNumber}).ToList();
     }
 
     public async Task<List<AuthorDTO>> GetFollowingbyId(string id)
@@ -149,7 +154,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         // Execute the query
         var result = await query.ToListAsync();
 
-        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName!, PhoneNumber = i.PhoneNumber}).ToList();
     }
 
     public async Task<List<AuthorDTO>> GetFollowedby(string userName)
@@ -160,7 +165,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         // Execute the query
         var result = await query.ToListAsync();
 
-        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName!, PhoneNumber = i.PhoneNumber }).ToList();
     }
 
     public async Task<List<AuthorDTO>> GetFollowedbybyId(string id)
@@ -171,7 +176,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
         // Execute the query
         var result = await query.ToListAsync();
 
-        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName! }).ToList();
+        return result[0].Select(i => new AuthorDTO() { Id = i.Id, Email = i.Email!, Name = i.UserName!, PhoneNumber = i.PhoneNumber }).ToList();
     }
 
    
@@ -245,6 +250,7 @@ public class AuthorRepository(CheepDBContext dbContext) : IAuthorRepository
             Id = author.Id,
             Name = author.UserName!,
             Email = author.Email!,
+            PhoneNumber = author.PhoneNumber,
         });
         // Execute the query
         var result = await query.ToListAsync();

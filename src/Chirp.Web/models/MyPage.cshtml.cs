@@ -1,6 +1,7 @@
-using Chirp.Core.DTO;
+using Chirp.Core.DTO.CheepDTO;
+using Chirp.Core.DTO.AuthorDTO;
 using Chirp.Core.Entities;
-using Chirp.Services;
+using Chirp.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,18 +31,12 @@ public class MyPage(ICheepService cheepService, SignInManager<Author> signInMana
     /// </summary>
     public required AuthorDTO AuthorDTO { get; set; }
 
-    /// <summary>
-    /// Gets or sets the username of the author whose page is being viewed.
-    /// </summary>
-    public required string Author { get; set; }
 
     public required int Following { get; set; }
 
     public required int Followed { get; set; }
 
-    public List<AuthorDTO>? FollowingList { get; set; }
 
-    public List<AuthorDTO>? FollowedList {get; set;}
 
     /// <summary>
     /// Handles the GET request to display the author's page and their Cheeps.

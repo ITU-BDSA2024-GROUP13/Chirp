@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Chirp.Core.DTO;
-using Chirp.Core.Entities;
-using Chirp.Repositories;
-using Chirp.Services;
+using Chirp.Core.DTO.CheepDTO;
+using Chirp.Core.DTO.AuthorDTO;
+using Chirp.Infrastructure.Repositories;
+using Chirp.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit;
 using Xunit.Sdk;
 
-namespace Repositories;
+namespace Chirp.Test.Infrastructure.Repositories;
 
 public class CheepServiceTest : IDisposable
 {

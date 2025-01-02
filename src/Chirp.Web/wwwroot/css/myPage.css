@@ -11,6 +11,16 @@
     margin-top: 20px;
 }
 
+h4 {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    padding: 0;
+}
+
+p{
+    margin: 0;
+    padding: 0;
+}
 .profilePicture{
     display: flex;
     justify-content: center;

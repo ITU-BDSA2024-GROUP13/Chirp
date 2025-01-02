@@ -2,9 +2,10 @@ namespace Chirp.Web.models;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Chirp.Services;
-using Chirp.Core.DTO;
-using Chirp.Repositories;
+using Chirp.Infrastructure.Services;
+using Chirp.Core.DTO.CheepDTO;
+using Chirp.Core.DTO.AuthorDTO;
+using Chirp.Infrastructure.Repositories;
 
 /// <summary>
 /// Page model superclass for paginated timelines showing cheep boxes.
@@ -88,7 +89,7 @@ public abstract class TimeLine(ICheepService cheepService) : PageModel
 
     public DateTime ToDateTime(long value)
     {
-        return Repositories.HelperFunctions.FromUnixTimeToDateTime(value);
+        return HelperFunctions.FromUnixTimeToDateTime(value);
     }
 
     /// <summary>

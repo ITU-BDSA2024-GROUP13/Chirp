@@ -1,5 +1,6 @@
-namespace Chirp.Repositories;
-using Chirp.Core.DTO;
+namespace Chirp.Infrastructure.Repositories;
+using Chirp.Core.DTO.CheepDTO;
+using Chirp.Core.DTO.AuthorDTO;
 
 /// <summary>
 /// Defines the repository interface for query operations on cheeps in the Chirp application.

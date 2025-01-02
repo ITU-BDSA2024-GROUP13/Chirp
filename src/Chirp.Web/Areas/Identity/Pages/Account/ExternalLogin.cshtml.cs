@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using Chirp.Services;
+using Chirp.Infrastructure.Services;
 using Chirp.Core.DTO;
 using Chirp.Core.Entities;
 
@@ -37,6 +37,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
 
 
         public string email;
+        public string name;
 
         public ExternalLoginModel(
             SignInManager<Author> signInManager,
@@ -92,9 +93,6 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
 
-            [Required]
-            [MaxLength(20)]
-            public string Name { get; set; }
         }
 
         public IActionResult OnGet() => RedirectToPage("./Login");
@@ -164,6 +162,12 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                     email = info.Principal.FindFirstValue(ClaimTypes.Email);
                 }
 
+                if(info.Principal.HasClaim(c=> c.Type == ClaimTypes.Name))
+                {
+
+                    name = info.Principal.FindFirstValue(ClaimTypes.Name); 
+                }
+
                 var existingUser = await _userManager.FindByEmailAsync(email);
                 if (existingUser != null)
                 {
@@ -173,7 +177,7 @@ namespace Chirp.Web.Areas.Identity.Pages.Account
                 }
 
 
-                await _userStore.SetUserNameAsync(user, Input.Name, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, name, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, email, CancellationToken.None);
 
                 var result = await _userManager.CreateAsync(user);

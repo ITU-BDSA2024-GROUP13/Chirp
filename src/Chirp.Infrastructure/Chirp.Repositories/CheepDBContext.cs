@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Chirp.Core.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace Chirp.Repositories;
+namespace Chirp.Infrastructure.Repositories;
 
 /// <summary>
 /// Represents the database context for the Chirp application, providing access to the Authors and Cheeps tables.

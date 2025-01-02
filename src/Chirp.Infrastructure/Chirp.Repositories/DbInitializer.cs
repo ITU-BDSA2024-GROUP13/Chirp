@@ -1,7 +1,7 @@
 using System;
 using Chirp.Repositories;
 using Chirp.Core.Entities;
-
+namespace Chirp.Infrastructure.Repositories;
 /// <summary>
 /// Provides database initialization logic for seeding the Chirp application's database.
 /// </summary>
@@ -140,7 +140,11 @@ public static class DbInitializer
                 Id = "11",
                 UserName = "Helge",
                 Email = "ropf@itu.dk",
-                Cheeps = new List<Cheep>()
+                Cheeps = new List<Cheep>(),
+                NormalizedEmail = "ROPF@ITU.DK",
+                NormalizedUserName = "HELGE",
+                PasswordHash = "AQAAAAIAAYagAAAAEG294dlSCqXPINLT6h4PouqlMAqy4E2ycQxDxS47Zrh4BwtCLQNTDVuIklfhStVrsg==",
+                LockoutEnabled = true
             ,
                 FollowedBy = new List<Author>(),
                 DislikedCheeps = new List<Cheep>(),
@@ -152,7 +156,11 @@ public static class DbInitializer
                 Id = "12",
                 UserName = "Adrian",
                 Email = "adho@itu.dk",
-                Cheeps = new List<Cheep>()
+                Cheeps = new List<Cheep>(),
+                PasswordHash = "AQAAAAIAAYagAAAAEDFkhaeH6oBHReGLCQo//pjcUjJ2yLHym6lMQwmBaeYKpo5esXAZMfPErUsaD1dZ/g==",
+                NormalizedUserName = "ADRIAN",
+                NormalizedEmail = "ADHO@ITU.DK",
+                LockoutEnabled = true
             ,
                 FollowedBy = new List<Author>(),
                 DislikedCheeps = new List<Cheep>(),
